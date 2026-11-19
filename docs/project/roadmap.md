@@ -18,7 +18,8 @@ to one slow piece but to a chain where each step waits for the previous one (mea
 The game's big submit only reaches the back end at the end of its frame, and the GPU cannot start until it is
 recorded, so recording is on the critical path: every millisecond saved there is a millisecond off the frame, down to
 ~21 ms, where the GPU (busy ~20 ms) takes over. Spreading the same CPU work over more threads does not help by
-itself; recording with less CPU does. Already done: recordings reused across frames (−4.3 ms), recording overlapped
+itself; recording with less CPU does. Tried and dropped: reusing a draw's recording across frames (same image, but
++4.3 ms of CPU a frame: the draws that repeat are already the cheap ones). Already done: recording overlapped
 with the game (−2.4 ms), submits on their own thread (−1.2 to −1.6 ms), the shadow copies off the replay thread
 (−0.8 ms), the replay thread on its own core (−1.1 ms), dynamic state recorded only when it changes (idea from
 totk-pc-recomp, MIT; −10.6 % recorder instructions on Steam Deck; no measurable frame-time change). Next:
@@ -35,6 +36,11 @@ totk-pc-recomp, MIT; −10.6 % recorder instructions on Steam Deck; no measurabl
   it on and off, and its binds made ~20 % more descriptor work (sets are allocated) (16/11/2026); left for slower CPUs.
 - **Recording in parallel**: chunks of a submit on several threads; today they fight over the texture lock, which has
   to be split first.
+- **The fence's completion work**: before the game is released for the next frame, the completion thread writes back
+  what the GPU wrote into guest memory (`merge_back`, `MKW_WB_CENSUS`): 2.6 ms of a 2-player race frame on an
+  i7-14700F. Compared 64 bytes at a time with AVX2 (`MKW_MERGE_SIMD`), 1.5-1.7 ms, and the waiters released 1.0 ms
+  sooner (in-run A/B and its inverted twin, 18/11/2026; the frame −0.5 ms, at the 60 fps cap). Left: the 1-4 MiB
+  ranges the GPU leaves alone (~0.5 ms a frame of `memcmp`), and the rest could run on other threads.
 - **The kernel's global lock**: waits by address are done (−1.3 ms\*); the rest of the lock remains.
 - **Hybrid CPUs** (`MKW_FAST_CORES`, #490 by @AngeloAscheri): on Linux the frame's threads stay on the fast cores
   and background work (pipeline builds, prewarming, video) on all of them; on an i7-14700F at a fixed 60 fps, races

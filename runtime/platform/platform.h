@@ -143,6 +143,7 @@ int plat_mutex_trylock(PlatMutex *m);     // 1 when acquired
 void plat_mutex_unlock(PlatMutex *m);
 int plat_lock_report(int holds, char *buf, int size);   // MKW_LOCK_PROF=1: the locks waited on (holds, Linux only: kept
                                                        // while a thread slept on them) longest since the last call
+uint64_t plat_lock_waited_ns(void);   // MKW_LOCK_PROF=1: this thread's lock waits so far, summed (0 off)
 void plat_mutex_lock_shared(PlatMutex *m);
 int plat_mutex_trylock_shared(PlatMutex *m);   // 1 when acquired
 void plat_mutex_unlock_shared(PlatMutex *m);
@@ -218,6 +219,11 @@ int plat_mem_commit(uint64_t addr, size_t n);             // read-write pages in
 int plat_mem_decommit(uint64_t addr, uint64_t n);          // contents dropped: committed again, the pages read zero
 int plat_mem_protect(uint64_t addr, uint64_t n, int prot); // committed pages only; 1 on success
 int plat_mem_replace_anon(uint64_t addr, uint64_t n);      // fresh read-write pages over a range (Linux); 1 on success
+// A label for an anonymous range in /proc/self/smaps ("[anon:NAME]", Linux), so a memory census (tools/run/memwatch.py)
+// tells the game's memory, the runtime's and the driver's apart; a no-op elsewhere or on failure.
+void plat_mem_name(const void *p, size_t n, const char *name);
+// Bytes of the page-aligned range [p, p+n) in RAM now (mincore, Linux); -1 where it cannot be told. For diagnostics.
+int64_t plat_mem_resident(const void *p, size_t n);
 // Writes n bytes at addr through the page protection (committed pages of a reservation, even inaccessible ones), as the
 // kernel would; no fault reaches the hooks. 1 on success; 0 where the platform cannot (Windows).
 int plat_mem_poke(uint64_t addr, const void *src, size_t n);

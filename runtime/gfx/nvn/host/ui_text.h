@@ -25,6 +25,7 @@ typedef enum {
     UI_MENU_WINDOW_SIZE, UI_MENU_WINDOW_SIZE_DESC,
     UI_MENU_RESOLUTION, UI_MENU_RESOLUTION_DESC, UI_MENU_RESOLUTION_ORIGINAL,
     UI_MENU_ASPECT, UI_MENU_ASPECT_DESC, UI_MENU_ASPECT_WINDOW,
+    UI_MENU_HUD_POSITION, UI_MENU_HUD_POSITION_DESC, UI_MENU_HUD_POSITION_16X9, UI_MENU_HUD_POSITION_EDGES,
     UI_MENU_QUALITY, UI_MENU_QUALITY_DESC, UI_MENU_QUALITY_CUSTOM,
     UI_MENU_PRESENT, UI_MENU_PRESENT_DESC, UI_MENU_PRESENT_MAILBOX, UI_MENU_PRESENT_VSYNC, UI_MENU_PRESENT_IMMEDIATE,
     UI_MENU_PRESENT_IN_USE,   // "in use: %s" under the value when the swapchain got another mode than the setting
@@ -33,6 +34,7 @@ typedef enum {
     UI_PERF_LINE_FPS,
     UI_PERF_LINE_FPS_FG,   // the same with frame generation on: game frames / frames shown
     UI_MENU_FPS, UI_MENU_FPS_DESC, UI_MENU_FPS_AUTO,
+    UI_MENU_LOGIC_HZ, UI_MENU_LOGIC_HZ_DESC,   // values: 60 Hz..240 Hz
     UI_MENU_FRAMEGEN, UI_MENU_FRAMEGEN_DESC,   // values: UI_MENU_PERF_OFF, UI_MENU_FPS_AUTO, 2x..4x
     UI_MENU_FRAMEGEN_UNEVEN, UI_MENU_VRR, UI_MENU_VRR_DESC,
     UI_MENU_LOW_LATENCY, UI_MENU_LOW_LATENCY_DESC,
@@ -263,7 +265,13 @@ typedef enum {
     // the setup's copies found in the usual places (launcher.cpp found_copies): the list's title, the line while it
     // looks, and the kind of a loose copy
     UI_LAUNCH_FOUND, UI_LAUNCH_FOUND_SEARCHING, UI_LAUNCH_FOUND_FOLDER,
-    UI_MENU_LAST_ID = UI_LAUNCH_FOUND_FOLDER,
+    // no GPU here can run the game (launcher.cpp gpu_bad, vk_gpu_check.h): the warning, then one line per GPU: OLD "%s:
+    // ... %s ..." (name, what its driver offers), EXT "%s ... %s ... %s" (name, what it offers, the missing extension),
+    // QUEUE and SKIPPED "%s" (name), SOFTWARE "... %s ..." (the CPU renderer's name); NO_DRIVER with no Vulkan at all;
+    // HELP what to install (HELP_WIN on Windows, where Mesa and the Linux releases mean nothing)
+    UI_LAUNCH_GPU_NONE, UI_LAUNCH_GPU_OLD, UI_LAUNCH_GPU_EXT, UI_LAUNCH_GPU_QUEUE, UI_LAUNCH_GPU_SKIPPED,
+    UI_LAUNCH_GPU_SOFTWARE, UI_LAUNCH_GPU_NO_DRIVER, UI_LAUNCH_GPU_HELP, UI_LAUNCH_GPU_HELP_WIN,
+    UI_MENU_LAST_ID = UI_LAUNCH_GPU_HELP_WIN,
     UI_TEXT_COUNT
 } UiTextId;
 

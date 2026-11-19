@@ -11,6 +11,7 @@
 //   tex ADDR             textures whose storage or pool-bound Vulkan image covers ADDR (0: every image larger than its storage)
 //   mem ADDR SIZE PATH   SIZE bytes of guest memory at ADDR to PATH (what a CPU-written texture holds)
 //   frame                the present count
+//   threads              each guest thread's wait and guest return addresses (kernel_diag.c), for a hung run
 //   trim [MiB]           frees that much (1024) as an allocation failure would: released textures, idle mirrored ones
 //                        (vk_mem_relieve), with the vram line before and after
 //   vram                 the "mem: vram" line now: what holds device-local memory (vk_mem_log.c, MKW_VRAM_LOG)
@@ -63,6 +64,8 @@ void ctl_run(char *line) {
         snprintf(d, sizeof d, "%s", arg);
         rt_log(vk_dump_rearm(d, ubo, luts, logn) ? "ctl: dump %s queued at frame %llu" : "ctl: dump %s refused: one is pending (frame %llu)",
                d, (unsigned long long)frame);
+    } else if (!strcmp(cmd, "threads")) {
+        kern_dump_threads();
     } else if (!strcmp(cmd, "flight")) {
         if (!flight_on) rt_log("ctl: flight refused: MKW_FLIGHT is off");
         else flight_request(), rt_log("ctl: flight queued at frame %llu", (unsigned long long)frame);

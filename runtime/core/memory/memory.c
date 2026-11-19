@@ -412,6 +412,9 @@ uint64_t mem_runtime_alloc(uint64_t size, const char *what) {
         return 0;
     }
     commit(a, size, what);
+    char name[64];
+    snprintf(name, sizeof name, "mkw rt %s", what);
+    plat_mem_name((void *)(uintptr_t)a, size, name);
     runtime_top = a;
     plat_mutex_unlock(&lock);
     rt_log("mem: %s: %#llx bytes of the runtime's own at %#llx, above the game's heap", what,
@@ -485,6 +488,14 @@ void mem_init(void) {
         .pool = pool ? strtoull(pool, NULL, 0) : DEFAULT_POOL,
     };
     if (!L.pool) rt_fatal("memory: MKW_APP_POOL is 0");
+    // Labels for the memory census (plat_mem_name): the block first, its stack and heap over it.
+    static const char *const names[] = {"modules", "kernel", "hostfn", "other", "stack", "heap", "alias"};
+    const RtRange where[] = {{mods_lo, mods_hi - mods_lo}, L.kernel, L.hostfn, {low, LOW_SIZE}, L.stack, L.heap, L.alias};
+    for (int i = 0; i < 7; i++) {
+        char name[32];
+        snprintf(name, sizeof name, "mkw guest %s", names[i]);
+        plat_mem_name((void *)(uintptr_t)where[i].base, where[i].size, name);
+    }
 #ifdef _WIN32
     const char *lz = cfg_get("MKW_LAZY_COMMIT");
     lazy = !lz || atoi(lz) != 0;

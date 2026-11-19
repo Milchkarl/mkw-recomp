@@ -17,7 +17,8 @@
 
 // ---- logging and results
 void rt_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));   // "[host] <msg>\n" to the log, one write
-// The log is stderr plus, in a game run whose stderr is not a file, logs\mkw.log in the game folder (main.c log_open).
+// The log is stderr plus, in a game run whose stderr is not a file, logs\mkw.log in the game folder (main.c log_open);
+// the start screen writes logs\launcher.log there.
 // rt_logf and rt_log_raw write to both without the prefix and the newline: crash reports, fatal errors, guest output.
 void rt_logf(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 void rt_vlogf(const char *fmt, va_list ap);
@@ -270,6 +271,7 @@ void kern_host_left(void *thread);                         // back at depth 0 wi
 void kern_core_diag_frame(uint64_t frame, uint64_t interval_ns);   // perf_present, every present (also logs the
                                                            // asynchronous preemption counters)
 void kern_sched_report(uint64_t frame);                    // MKW_TRACE=sched: per-thread time split, on present
+void kern_dump_threads(void);                              // ctl threads: each guest thread's wait and return addresses
 uint32_t kern_handle_new(int kind, void *obj);             // kind: KERN_TMEM (svc.c)
 void *kern_handle_get(uint32_t h, int kind);
 void kern_handle_close(uint32_t h);                        // CloseHandle from the host side, any thread; fatal on a
@@ -308,6 +310,8 @@ void rt_shot_request(const char *path);                    // the next presented
 void gfx_aspect_set(float a);  // gfx_present.c, from patches.c: MKW_ASPECT's width / height when wider than 16:9, else 0
 int ov_movie_playing(void);  // ov_codec.c: a full-screen movie (1280 wide or more) gave a frame in the last half second
 uint64_t frame_step_ticks(void);                           // game time since the first present in 60 Hz ticks (input scripts)
+int frame_logic_hz(void);                                  // game.c MKW_LOGIC_HZ: game steps and vsync ticks a second (60)
+void frame_logic_hz_60(void);                              // patches.c: the version has no logichz set, 60 whatever it says
 // In-launch A/B measurement: MKW_AB=<seconds> splits the world clock (frame_step_world_us) into blocks of that much
 // game time in the order A B B A (repeated; B A A B with MKW_AB_INVERT=1); rt_ab() is 1 in the B blocks, 0 in A
 // blocks, before the world clock and without MKW_AB. rt_knob(name, def) reads the switch MKW_<name> once per call
@@ -319,9 +323,10 @@ int rt_knob(const char *name, const char *def);
 #define RT_KNOB_ON(mode) ((mode) == 2 ? rt_ab() : (mode))
 extern volatile uint64_t nvn_timestamp_last; // nvn_ext.c: the counter timestamp the game read last (ticks)
 void frame_step_present(uint64_t display_ns, int interval); // nvnQueuePresentTexture: the frame's display time and
-                                                           // present interval (60 Hz ticks)
-int frame_present_interval(void);   // the interval of the game's last present (1-4), any thread: frame generation's rate
-// MKW_FPS=auto (fps_auto.c): the present interval 1-4 from each frame's measured time, with hysteresis
+                                                           // present interval (vsync ticks of MKW_LOGIC_HZ)
+int frame_present_interval(void);   // the interval of the game's last present (1-8), any thread: frame generation's rate
+// MKW_FPS=auto (fps_auto.c): the present interval from each frame's measured time, with hysteresis: in vsync ticks of
+// hz (MKW_LOGIC_HZ; 0 is 60), 1 to FPS_AUTO_MAX * hz / 60 (15 fps at any rate)
 #define FPS_AUTO_MAX 4
 #define FPS_AUTO_HIST 120
 typedef struct {
@@ -330,6 +335,7 @@ typedef struct {
     int iv, downed;
     double stall_ms;   // how long the frames have been slower than any interval holds (fps_auto.c)
     int fits;          // the last frames before it fitted the interval
+    int hz;            // the vsync rate the interval counts in, 0: 60 (set after fps_auto_reset)
 } FpsAuto;
 void fps_auto_reset(FpsAuto *a);                           // interval 1, no history
 int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame's game measure and real period in,
@@ -337,6 +343,7 @@ int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame'
 int probe_discord(void);                                   // discord_probe.c: Rich Presence against the local Discord
 int probe_dsu(void);                                       // dsu_probe.c: the DSU motion client against a fake server
 int probe_fps(void);                                       // fps_probe.c: the controller on synthetic frame times
+int probe_merge(void);                                     // merge_probe.c: the shadow write-back's two implementations
 void lat_input_read(void);                                 // vk_latency.c MKW_LATENCY: the game read the controller
 void lat_game_present(uint64_t slot);                      // ... and presented the frame shown at slot (pacer, ns)
 void lat_mark(const char *what);                           // ... a frame event, logged in MKW_PROBE's window
@@ -349,6 +356,7 @@ void frame_rate_init(uint64_t patch_page);                 // and point the fram
 void race_scene_host(uint64_t patch_page);                 // race_scene.c: register its host function (patches.c)
 void race_scene_init(uint64_t patch_page);                 // point the race nodes' start slots at it (after seqwatch)
 int race_scene_on(void);                                   // the game is in a race (game.c: 20 and 15 fps only there)
+int race_scene_time_trial(void);                           // in time trial (game.c: MKW_LOGIC_HZ back to 60 there)
 // ---- boot (boot.c, main.c)
 typedef struct { const char *exefs, *romfs, *profile; int boot; double seconds; const char *shot, *gpu, *profile_base; } RtConfig;
                                                            // profile: the player's folder (core/base/players.h);
