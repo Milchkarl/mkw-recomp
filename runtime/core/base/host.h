@@ -112,6 +112,7 @@ uint64_t hostfn_register(const char *name, GuestFn fn);    // synthetic address;
                                                            // (name, fn) pair returns the same address
 GuestFn hostfn_override(const char *name);                 // NULL if none
 GuestFn hostfn_observer(const char *name);                 // NULL if none
+GuestFn hostfn_stock(const char *name);                    // the runtime's own handler (linked override/observer)
 void hostfn_add_override(const char *name, GuestFn fn);    // an override outside the linker table (probes); before
                                                            // ldr_load
 const char *hostfn_name(uint64_t addr);                    // name registered at a synthetic address, NULL if none
@@ -334,6 +335,7 @@ void fps_auto_reset(FpsAuto *a);                           // interval 1, no his
 int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame's game measure and real period in,
                                                                      // the interval to use out
 int probe_discord(void);                                   // discord_probe.c: Rich Presence against the local Discord
+int probe_dsu(void);                                       // dsu_probe.c: the DSU motion client against a fake server
 int probe_fps(void);                                       // fps_probe.c: the controller on synthetic frame times
 void lat_input_read(void);                                 // vk_latency.c MKW_LATENCY: the game read the controller
 void lat_game_present(uint64_t slot);                      // ... and presented the frame shown at slot (pacer, ns)
@@ -363,6 +365,7 @@ void rt_boot(void);                                        // boot.c
 // process exit code.
 int probe_cfg(void);                                       // cfg_probe.c
 int probe_loader(void), probe_kernel(void), probe_audio(void), probe_services(void), probe_fs(void);
+int probe_plugin(void);                                    // plugin_probe.c
 int probe_gfx_abi(void);                                   // gfx_abi_probe.c
 int probe_vkdevice(void);                                 // vk_device.c
 int probe_nvn(void), probe_nvn_tex(void);                  // nvn_probe.c, nvn_tex_probe.c
@@ -370,5 +373,7 @@ int probe_window(void);                                    // gfx_window_probe.c
 int probe_vkmem(void), probe_vkexec(void), probe_astc(void);                 // tex_probe.c, vk_exec_probe.c, astc_probe.c
 int probe_texpre(void);                                    // texpre_probe.c: GPU BC7 against bc7enc on game textures
 int probe_framegen(void);                                  // fg_probe.c: frame generation on two pictures
+int probe_gpu_clocks(void);                                // clk_probe.c: the GPU clock after idle gaps (MKW_GPU_CLOCKS)
 
 int vk_texpre_encode(void);                                  // vk_texpre.c: --texpre (BC7 of the recorded ASTC textures)
+int vk_pipeline_prewarm_main(void);                          // vk_pipe_pairs.c: --prewarm (setup's warm step, no game)

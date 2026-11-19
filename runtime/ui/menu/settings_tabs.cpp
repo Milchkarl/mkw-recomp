@@ -111,8 +111,9 @@ static void row_game_lang(void) {
         {"nl", UI_MENU_LANGNAME_NL}, {"pt", UI_MENU_LANGNAME_PT}, {"pt-BR", UI_MENU_LANGNAME_PT_BR},
         {"ru", UI_MENU_LANGNAME_RU},
         {"zh-CN", UI_MENU_LANGNAME_ZH_HANS}, {"zh-TW", UI_MENU_LANGNAME_ZH_HANT}, {"ko", UI_MENU_LANGNAME_KO},
-        // ours, rebuilt over the game's Spanish (tools/i18n/game_texts.py)
+        // ours, rebuilt over the game's Spanish and British English (tools/i18n/game_texts.py)
         {"ca", UI_MENU_LANGNAME_CA}, {"gl", UI_MENU_LANGNAME_GL}, {"eu", UI_MENU_LANGNAME_EU},
+        {"tr", UI_MENU_LANGNAME_TR},
         // added by updates (Polish 1.5.0, Thai 1.7.0): listed only when this copy of the game ships them
         {"pl", UI_MENU_LANGNAME_PL}, {"th", UI_MENU_LANGNAME_TH},
     };
@@ -326,9 +327,9 @@ static void tab_graphics(float scale) {
         opt_choice_list("MKW_FPS", UI_MENU_FPS, vals, names, 5, UI_MENU_FPS_DESC);
     }
     {   // frames made between the game's (gfx/vk/device/vk_framegen.c), live
-        static const char *const vals[] = {"off", "auto", "2", "3", "4"};
-        const char *names[5] = {menu_text(UI_MENU_PERF_OFF), menu_text(UI_MENU_FPS_AUTO), "2x", "3x", "4x"};
-        opt_choice_list("MKW_FRAMEGEN", UI_MENU_FRAMEGEN, vals, names, 5, UI_MENU_FRAMEGEN_DESC);
+        static const char *const vals[] = {"off", "auto", "2", "3", "4", "120"};
+        const char *names[6] = {menu_text(UI_MENU_PERF_OFF), menu_text(UI_MENU_FPS_AUTO), "2x", "3x", "4x", "120 fps"};
+        opt_choice_list("MKW_FRAMEGEN", UI_MENU_FRAMEGEN, vals, names, 6, UI_MENU_FRAMEGEN_DESC);
         if (vk_fg_uneven()) opt_text(UI_MENU_FRAMEGEN_UNEVEN, true);   // a fixed factor that judders on this screen
     }
     opt_toggle("MKW_VRR", UI_MENU_VRR, UI_MENU_VRR_DESC);   // gfx/vk/device/vk_framegen.c fits, live
@@ -371,18 +372,47 @@ static const char *button_icons_note(void) {
     return note;
 }
 
+// Each player's controller and its battery (input/input_power.c), over the settings (discussion #516).
+static void pad_rows(void) {
+    if (!input_gamepads_running()) return;   // the start screen shows them on its main page (launcher.cpp pad_row)
+    opt_group(UI_MENU_PADS);
+    int shown = 0;
+    for (int p = 0; p < INPUT_MAX_PLAYERS; p++) {
+        InputPower w;
+        if (input_pad_power(p, &w) == INPUT_POWER_NONE) continue;
+        char id[16], label[128], value[64];
+        snprintf(id, sizeof id, "##pad%d", p + 1);
+        snprintf(label, sizeof label, menu_text(UI_MENU_PAD_PLAYER), p + 1, w.name);
+        opt_info(id, label, input_power_text(&w, value, sizeof value), UI_MENU_PAD_BATTERY_DESC);
+        shown++;
+    }
+    if (!shown) opt_text(UI_MENU_PADS_NONE);
+}
+
+// Under the Menu shortcut description while Guide is picked: Steam's overlay opens on it too (as does the
+// Xbox Game Bar on Windows), so the game may never see it.
+static const char *shortcut_guide_note(void) {
+    if (strcmp(cfg_value("MKW_MENU_SHORTCUT"), "guide")) return nullptr;
+    return menu_text(UI_MENU_SHORTCUT_STEAM_NOTE);
+}
+
 static void tab_controls(float scale) {
     opt_begin("##controls", scale);
+    pad_rows();
     static const UiTextId layout[] = {UI_MENU_PAD_LAYOUT_AUTO, UI_MENU_PAD_LAYOUT_NINTENDO, UI_MENU_PAD_LAYOUT_XBOX};
     opt_choice("MKW_PAD_LAYOUT", UI_MENU_PAD_LAYOUT, layout, 3, UI_MENU_PAD_LAYOUT_DESC, pad_layout_note());
     static const UiTextId icons[] = {UI_MENU_AUTO, UI_MENU_ICONS_NINTENDO, UI_MENU_ICONS_XBOX, UI_MENU_ICONS_PLAYSTATION,
                                      UI_MENU_ICONS_KEYBOARD};
     opt_choice("MKW_BUTTON_ICONS", UI_MENU_BUTTON_ICONS, icons, 5, UI_MENU_BUTTON_ICONS_DESC, button_icons_note());
+    static const UiTextId shortcut[] = {UI_MENU_SHORTCUT_MINUS_PLUS, UI_MENU_SHORTCUT_GUIDE};
+    opt_choice("MKW_MENU_SHORTCUT", UI_MENU_MENU_SHORTCUT, shortcut, 2, UI_MENU_MENU_SHORTCUT_DESC, nullptr,
+               shortcut_guide_note());
     opt_toggle("MKW_MOTION", UI_MENU_MOTION, UI_MENU_MOTION_DESC);
     opt_slider("MKW_RUMBLE_STRENGTH", UI_MENU_RUMBLE_STRENGTH, 0, 300, UI_MENU_RUMBLE_STRENGTH_DESC, 10, "%.0f %%");
     opt_slider("MKW_RUMBLE_CURVE", UI_MENU_RUMBLE_CURVE, 0.2f, 1.5f, UI_MENU_RUMBLE_CURVE_DESC, 0.05f, "%.2f");
     opt_toggle("MKW_RUMBLE_TRIGGERS", UI_MENU_RUMBLE_TRIGGERS, UI_MENU_RUMBLE_TRIGGERS_DESC);
     opt_toggle("MKW_SWITCH2", UI_MENU_SWITCH2, UI_MENU_SWITCH2_DESC);   // input/switch2.c, at the next start
+    opt_toggle("MKW_DSU", UI_MENU_DSU, UI_MENU_DSU_DESC);   // input/dsu.c, live
     opt_slider("MKW_STICK_DEADZONE", UI_MENU_STICK_DEADZONE, 0, 40, UI_MENU_STICK_DEADZONE_DESC, 1, "%.0f %%");   // input.c
     opt_slider("MKW_MOUSE_SENS", UI_MENU_MOUSE_SENS, 0, 10, UI_MENU_MOUSE_SENS_DESC, 0.1f, "%.1f");
     binds_rows(scale);
@@ -406,6 +436,8 @@ static void tab_general(float scale) {
     opt_choice("MKW_MENU_LANG", UI_MENU_MENU_LANG, langs, sizeof langs / sizeof *langs, UI_MENU_MENU_LANG_DESC);
     opt_toggle("MKW_LAN", UI_MENU_LAN, UI_MENU_LAN_DESC);   // sdk/ov/ov_socket.c, the lan set of recomp/patches-mkw.txt
     opt_toggle("MKW_UPDATE_CHECK", UI_MENU_UPDATE_CHECK, UI_MENU_UPDATE_CHECK_DESC);   // ui/launcher/launcher_update.cpp
+    static const UiTextId start[] = {UI_MENU_AUTO, UI_MENU_START_ALWAYS, UI_MENU_START_SKIP};
+    opt_choice("MKW_START_SCREEN", UI_MENU_START_SCREEN, start, 3, UI_MENU_START_SCREEN_DESC);   // launcher.cpp console_start
     opt_toggle("MKW_DISCORD", UI_MENU_DISCORD, UI_MENU_DISCORD_DESC);   // core/presence/presence.c
     opt_end();
 }
@@ -589,6 +621,15 @@ void settings_select(int tab) { g_tab_request = tab; }
 
 void settings_opened(void) {
     g_focus_page = g_tab_request >= 0 ? g_tab_request : g_tab;   // the first row has the cursor
+    g_modal = false;
+}
+
+// The in-game menu opened (discussion #577): no row takes the cursor, layout_menu focuses "Continue" instead, so a
+// stray D-pad deflection on open cannot retune a setting. A pending tab request survives: tab switches in
+// settings_tabs still focus the new page's first row, and the test hook's settings_select(0) keeps its screenshots
+// on the first row.
+void settings_opened_menu(void) {
+    g_focus_page = -1;
     g_modal = false;
 }
 

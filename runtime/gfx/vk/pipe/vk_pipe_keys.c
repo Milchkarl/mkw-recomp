@@ -148,6 +148,7 @@ static void prebuild_report(void) {
 }
 
 static void pipe_worker(void *arg) {
+    plat_thread_background();   // off the frame's fast cores (MKW_FAST_CORES)
     int me = (int)(intptr_t)arg;
     plat_mutex_lock(&P.lock);
     for (;;) {
@@ -610,6 +611,7 @@ static int id_cmp(const void *x, const void *y) { return memcmp(x, y, 32); }
 
 // Builds queued prebuild jobs until the low queue is empty, beside the pipe_worker pool (same bookkeeping).
 static void warm_builder(void *arg) {
+    plat_thread_background();   // off the frame's fast cores (MKW_FAST_CORES)
     (void)arg;
     plat_mutex_lock(&P.lock);
     while (A.low) {
@@ -663,7 +665,7 @@ static int prewarm_mark(char *path, size_t cap) {
     return 1;
 }
 
-void vk_pipeline_prewarm(void) {
+static void prewarm_run(void) {
     const char *gpu = rt_config()->gpu;
     if (!A.on || (gpu && !strcmp(gpu, "null"))) return;
     if (!cfg_bool("MKW_PIPE_PREBUILD")) {   // prebuild_start logs the off case
@@ -672,12 +674,26 @@ void vk_pipeline_prewarm(void) {
     }
     double t0 = now_ms();
     K.warm = 1;
-    if (!ensure_init() || !K.file_n) {
-        rt_log("vk_pipeline: prewarm: no pipeline keys (%s)", K.path[0] ? K.path : "<none>");
+    // the boot's wait is device + pairs + records: the pack's programs load beside the device, which needs the driver
+    // from the disk (pack-boot2, 18/11/2026, file cache cold: 7.2 s of the 11.3 s wait)
+    PlatThread *pre = gfx_shader_preload_start();
+    int ok = ensure_init() && K.path[0];
+    if (ok)
+        rt_log("vk_pipeline: prewarm: device ready in %.0f ms, %.0f ms after process start", now_ms() - t0,
+               (double)plat_process_uptime_ns() / 1e6);
+    gfx_shader_preload_join(pre);
+    char mark[sizeof K.path + 16];
+    if (!ok || !prewarm_mark(mark, sizeof mark)) {
+        if (pre) gfx_shader_spirv_release();   // no prewarm reads what the preload loaded
         return;
     }
-    char mark[sizeof K.path + 16];
-    if (!prewarm_mark(mark, sizeof mark)) return;
+    pairs_prewarm();   // vk_pipe_pairs.c: every program pair of the game copy, before the records of earlier runs
+    if (!K.file_n) {
+        rt_log("vk_pipeline: prewarm: no pipeline keys (%s)", K.path);
+        plat_file_delete(mark);
+        return;
+    }
+    t0 = now_ms();
     const KeyRec *r = (const KeyRec *)K.file;
     size_t n = K.file_n, m = 0;
     uint8_t (*ids)[32] = malloc(2 * n * 32);
@@ -787,6 +803,11 @@ void vk_pipeline_prewarm(void) {
     plat_file_delete(mark);   // the boot got through: a stall above left the rest to the background, not a crash
 }
 
+void vk_pipeline_prewarm(void) {
+    prewarm_run();
+    pairs_release();   // after the records too: their shaders, drawn in earlier runs, stay
+}
+
 // ensure_init's hook: without a prewarm (MKW_PIPE_PREBUILD=0, or the device came up first elsewhere) the records
 // are not built. Caller holds no lock.
 void prebuild_start(void) {
@@ -800,8 +821,10 @@ void prebuild_start(void) {
     plat_mutex_unlock(&P.lock);
 }
 
-// A compute pipeline for cs in layout l; VK_NULL_HANDLE on failure. No lock needed (P.cache is driver-synchronised).
-static VkPipeline compute_create(const GfxShader *cs, const Layout *l) {
+// A compute pipeline for cs in layout l, with FIRST_STORE (sm86 glsl/first_store.py) set to first when not 0;
+// VK_NULL_HANDLE on failure. No lock needed (P.cache is driver-synchronised).
+#define FIRST_STORE_ID 0x7ff0u
+static VkPipeline compute_create(const GfxShader *cs, const Layout *l, uint32_t first) {
     uint64_t words;
     const uint32_t *code = gfx_shader_spirv(cs, &words);
     VkShaderModule m = make_module(code, words);
@@ -811,6 +834,9 @@ static VkPipeline compute_create(const GfxShader *cs, const Layout *l) {
                                       .stage = {.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
                                                 .stage = VK_SHADER_STAGE_COMPUTE_BIT, .module = m, .pName = "main"},
                                       .layout = l->layout};
+    VkSpecializationMapEntry fse = {FIRST_STORE_ID, 0, sizeof first};
+    VkSpecializationInfo fsi = {1, &fse, sizeof first, &first};
+    if (first) ci.stage.pSpecializationInfo = &fsi;
     pin_subgroup32(&ci.stage, &rqc, code, words);
     if (!ci.stage.pNext && vk_caps.cs_wide) {   // vk_caps.c cs_wide: Adreno's wave limit for barriers
         rqc = (VkPipelineShaderStageRequiredSubgroupSizeCreateInfo){
@@ -843,11 +869,19 @@ static Layout *compute_layout(const GfxShader *cs, Bindings *B, const char **why
     return l;
 }
 
-VkPipeline vk_pipeline_compute(const GfxShader *cs, const VkPipeInfo **info) {
+// A compute pipeline's key: zeroed first, as its padding is hashed (the prewarm's and a dispatch's must match)
+typedef struct { const GfxShader *cs; uint32_t compute; } CsKey;
+static uint64_t cs_key(CsKey *k, const GfxShader *cs, uint32_t first) {
+    memset(k, 0, sizeof *k);
+    k->cs = cs, k->compute = 1 + first;
+    return key_hash(k, sizeof *k);
+}
+
+VkPipeline vk_pipeline_compute_first(const GfxShader *cs, uint32_t first, const VkPipeInfo **info) {
     if (info) *info = NULL;
     if (!cs || !ensure_init()) return VK_NULL_HANDLE;
-    struct { const GfxShader *cs; uint32_t compute; } k = {cs, 1};
-    uint64_t h = key_hash(&k, sizeof k);
+    CsKey k;
+    uint64_t h = cs_key(&k, cs, first);
     plat_mutex_lock(&P.lock);
     Pipe *p = pipe_find(&k, sizeof k, h);
     if (p) {
@@ -859,9 +893,17 @@ VkPipeline vk_pipeline_compute(const GfxShader *cs, const VkPipeInfo **info) {
         VkPipeline pipe = VK_NULL_HANDLE;
         if (!why) {
             uint64_t p0 = perf_begin();
-            pipe = compute_create(cs, l);
+            double t0 = now_ms();
+            pipe = compute_create(cs, l, first);
             perf_end(PERF_PIPE, p0);
             if (!pipe) why = "pipeline creation failed";
+            // the dispatch waits for it: one the prewarm missed (an integer-image variant, or no pipeline-pairs.bin)
+            static uint32_t at_dispatch;
+            if (++at_dispatch <= 32 || !(at_dispatch & (at_dispatch - 1))) {
+                const uint8_t *key = gfx_shader_key(cs);
+                rt_log("vk_pipeline: compute pipeline cs %02x%02x%02x%02x (split %u) built at its dispatch in %.1f ms "
+                       "(%u so far)", key[0], key[1], key[2], key[3], first, now_ms() - t0, at_dispatch);
+            }
         }
         if (why) {
             P.stats.failures++;
@@ -877,3 +919,29 @@ VkPipeline vk_pipeline_compute(const GfxShader *cs, const VkPipeInfo **info) {
     return p->info.pipeline;
 }
 
+
+VkPipeline vk_pipeline_compute(const GfxShader *cs, const VkPipeInfo **info) { return vk_pipeline_compute_first(cs, 0, info); }
+
+// The prewarm's compute pipeline (vk_pipe_pairs.c): as vk_pipeline_compute_first, with the driver's build outside
+// P.lock so the prewarm's threads build in parallel. Until 18/11/2026 no compute pipeline was built before the game:
+// each was made on the drawing thread at its first dispatch, which waited for it. 0 when it could not be built.
+// Caller holds P.lock (released during the build).
+int vk_pipeline_compute_warm(const GfxShader *cs, uint32_t first) {
+    CsKey k;
+    uint64_t h = cs_key(&k, cs, first);
+    if (pipe_find(&k, sizeof k, h)) return 1;
+    const char *why = NULL;
+    Bindings B = {0};
+    Layout *l = compute_layout(cs, &B, &why);
+    if (why) return 0;
+    plat_mutex_unlock(&P.lock);
+    VkPipeline pipe = compute_create(cs, l, first);
+    plat_mutex_lock(&P.lock);
+    if (!pipe) return 0;
+    if (pipe_find(&k, sizeof k, h)) {   // a dispatch built it while the lock was free
+        vkDestroyPipeline(P.device, pipe, NULL);
+        return 1;
+    }
+    P.stats.compute++;
+    return pipe_add(&k, sizeof k, h, pipe, l, &B, VK_PIPELINE_BIND_POINT_COMPUTE, 0) != NULL;
+}

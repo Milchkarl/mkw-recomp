@@ -52,6 +52,10 @@ jobs:
         run: uv run tools/build/sysroot.py
       - name: Runtime and launcher
         run: uv run tools/build/build.py --dist --runtime-only --sysroot build/sysroot
+      - uses: actions/cache@v6
+        with:
+          path: build/dist/dl/llvm-*
+          key: llvm-clang-${{ github.job }}-${{ hashFiles('tools/build/llvm_clang.py') }}
       - name: Setup tools
         run: uv run tools/build/dist.py --target linux
       - name: AppImage
@@ -106,7 +110,7 @@ jobs:
     container: archlinux:latest
     steps:
       - name: Tools
-        run: pacman -Syu --noconfirm --needed git ccache ninja cmake binutils uv python
+        run: pacman -Syu --noconfirm --needed git ccache ninja cmake binutils uv python 7zip
       - uses: actions/checkout@v7
       - name: ccache in the checkout, kept between runs (build.py compiles through it when installed)
         run: echo "CCACHE_DIR=$PWD/.ccache" >> "$GITHUB_ENV"
@@ -129,6 +133,10 @@ jobs:
         run: uv run tools/build/windeps.py
       - name: mkw.exe
         run: uv run tools/build/build.py --target windows --dist --runtime-only
+      - uses: actions/cache@v6
+        with:
+          path: build/dist/dl/llvm-*
+          key: llvm-clang-${{ github.job }}-${{ hashFiles('tools/build/llvm_clang.py') }}
       - name: Setup tools
         run: uv run tools/build/dist.py --target windows
       - name: Zip
@@ -145,15 +153,26 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write  # the provenance below
+      attestations: write
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
-      - name: Notes (docs/release-template.md with the version's section of CHANGELOG.md)
+      - name: Notes (docs/project/release-template.md with the version's section of CHANGELOG.md)
         run: uv run tools/build/notes.py --version "${GITHUB_REF_NAME#v}" --out notes.md
       - uses: actions/download-artifact@v8
         with:
           path: release
           merge-multiple: true
+      # an antivirus that flags mkw.exe by its behaviour (#541: one engine of 70) cannot tell our build from another:
+      # with this, `gh attestation verify mkw.exe --repo adriadam10/mkw-recomp` says it came from this workflow
+      - name: mkw.exe out of the zip, attested on its own
+        run: unzip -j release/*-windows-x64.zip mkw-recomp/mkw.exe -d exe
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            release/*
+            exe/mkw.exe
       - name: GitHub release
         env:
           GH_TOKEN: ${{ github.token }}

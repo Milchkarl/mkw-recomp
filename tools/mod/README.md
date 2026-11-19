@@ -2,7 +2,8 @@
 
 Mod import and merging for the start screen's Mods page (`runtime/ui/launcher/mods.cpp` runs these
 tools the way `launcher_setup.cpp` runs `tools/prepare/prepare.py`: the package's Python, one event
-per line).
+per line). The importer emits UTF-8 on its stdout/stderr pipes on every platform, so Unicode names and paths
+reach the launcher intact.
 
 | File | What it is |
 |---|---|
@@ -21,9 +22,11 @@ Timer/
 ├── mod.json
 ├── romfs/            optional: overlays the game's RomFS
 │   └── Layout/...    (import.py writes romfs/manifest.tsv itself)
-└── exefs/            optional: the original Switch patches, for Switch/emulator use
-    ├── <build id>.ips
-    └── <build id>.pchtxt
+├── exefs/            optional: the original Switch patches, for Switch/emulator use
+│   ├── <build id>.ips
+│   └── <build id>.pchtxt
+└── plugin/           optional: native libraries (.so, .dll) the runtime loads with the mod on
+                      (runtime/plugin/mkw_plugin.h; mod.json "has_plugin", and the page warns)
 ```
 
 ```json
@@ -88,4 +91,4 @@ Rules the generate enforces (`recomp/patches.py`, `recomp/gen.py`):
 
 `gen.py --mods DIR` (default: the `mods/` beside `--exefs`) merges every mod's patches into the generated table, so the game's own tables stay the game's own. An exefs mod without patches is refused at import rather than imported and then doing nothing.
 
-Porting an exefs mod is reading its `.pchtxt` and turning each entry into a `site` (or a `span`), then checking the words against the game build the port targets. `tools/analisis/disasm.py` and `q.py` give the surrounding code when an entry needs rewriting into an equivalent that is not a branch.
+Porting an exefs mod is reading its `.pchtxt` and turning each entry into a `site` (or a `span`), then checking the words against the game build the port targets. `tools/analisis/bin/disasm.py` and `q.py` give the surrounding code when an entry needs rewriting into an equivalent that is not a branch.

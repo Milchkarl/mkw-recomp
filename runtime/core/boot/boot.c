@@ -17,6 +17,7 @@
 #include "nvn_api.h"
 #include "vk.h"
 #include "platform/platform.h"
+#include "plugin.h"
 #include "presence.h"
 #include "version.h"
 
@@ -178,8 +179,14 @@ void rt_write_png(const char *path, const uint8_t *rgba, uint32_t w, uint32_t h)
     }
     uint32_t ad = b << 16 | a;
     z[zn++] = (uint8_t)(ad >> 24), z[zn++] = (uint8_t)(ad >> 16), z[zn++] = (uint8_t)(ad >> 8), z[zn++] = (uint8_t)ad;
+    // A diagnostic picture (ctl shot, dump, replay) to a missing folder only loses that picture, not the run
+    // (wi425c, 17/11/2026: a shot into a deleted folder ended a 2-minute run)
     FILE *f = fopen(path, "wb");
-    if (!f) rt_fatal("boot: cannot write %s", path);
+    if (!f) {
+        rt_log("png: cannot write %s", path);
+        free(z), free(raw);
+        return;
+    }
     static const uint8_t sig[8] = {0x89, 'P', 'N', 'G', 13, 10, 26, 10};
     uint8_t ihdr[13] = {(uint8_t)(w >> 24), (uint8_t)(w >> 16), (uint8_t)(w >> 8), (uint8_t)w,
                         (uint8_t)(h >> 24), (uint8_t)(h >> 16), (uint8_t)(h >> 8), (uint8_t)h, 8, 6, 0, 0, 0};
@@ -187,7 +194,7 @@ void rt_write_png(const char *path, const uint8_t *rgba, uint32_t w, uint32_t h)
     png_chunk(f, "IHDR", ihdr, 13);
     png_chunk(f, "IDAT", z, (uint32_t)zn);
     png_chunk(f, "IEND", NULL, 0);
-    if (fclose(f)) rt_fatal("boot: cannot write %s", path);
+    if (fclose(f)) rt_log("png: cannot write %s", path);
     free(z);
     free(raw);
 }
@@ -348,6 +355,7 @@ static void guest_main(Cpu *c) {
 }
 
 static void prewarm_main(void *arg) {
+    plat_thread_background();   // off the frame's fast cores (MKW_FAST_CORES)
     (void)arg;
     vk_pipeline_prewarm();
     return;
@@ -371,6 +379,7 @@ void rt_boot(void) {
     if (!rt_config()->shot) vk_pipeline_async_enable();   // a --shot image must not depend on build timing
     // Shaders and pipelines recorded in earlier runs are made ready while the modules load; the guest waits for them.
     PlatThread *warm = plat_thread_new(prewarm_main, NULL, "prewarm");
+    plugins_load();   // the enabled mods' native plugins: their overrides by name go in before the loader binds
     ldr_load(rt_config()->exefs);
     rt_patches_init();
     seqwatch_init();
@@ -379,7 +388,9 @@ void rt_boot(void) {
     cb_addr[0] = hostfn_register("<rtld loader_ready>", cb_loader_ready);
     cb_addr[1] = hostfn_register("<rtld module_inits>", cb_module_inits);
     cb_addr[2] = hostfn_register("<rtld module_finis>", cb_module_finis);
+    plugins_game_loaded();   // their overrides by address go in before the dispatch table is built
     hostfn_seal();
+    plugins_started();
     uint64_t held = plat_now_ms();
     if (warm) plat_thread_join(warm);
     else vk_pipeline_prewarm();

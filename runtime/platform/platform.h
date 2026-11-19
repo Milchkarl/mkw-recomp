@@ -44,6 +44,11 @@ uint64_t plat_cpu_core_of(int cpu);
 // efficiency class on Windows. Every processor when they are all alike or it cannot tell; 0 when unknown.
 uint64_t plat_cpu_fast(void);
 int plat_process_affinity(uint64_t mask);   // every thread of the process to the processors in mask; 1 on success
+// Called by a thread doing background work (pipeline builds, prewarming, video decoding): plat_process_affinity leaves
+// it, and the threads it starts with plat_thread_new, on every processor the process had at start, so a hybrid CPU's
+// efficiency cores keep that work while the frame's threads stay on the fast ones (vk_backend.c replay_core). Linux
+// only; on Windows the process mask bounds every thread, so it does nothing there.
+void plat_thread_background(void);
 
 // Interrupting a thread (kernel.c's asynchronous preemption). A thread makes its own handle; another thread stops it
 // wherever it runs, reads where it is, may send it elsewhere, and lets it go on. While it is stopped the caller must not
@@ -328,6 +333,9 @@ static inline int64_t plat_ftell64(FILE *f) { return (int64_t)ftello(f); }
 #endif
 void plat_file_delete(const char *path);
 int64_t plat_file_size(const char *path);                 // bytes of a file, -1 when missing or unreadable
+// Last write time of a file or a directory in the OS's units (as PlatFileId.write_time), only to compare two paths of
+// one volume; 0 when missing. A directory's moves when an entry in it is created, renamed or removed.
+uint64_t plat_path_write_time(const char *path);
 int plat_file_set_readonly(const char *path, int on);     // sets or clears the read-only attribute; 1 on success
 // An exclusive lock on path (created if missing), held until the process ends: 1 taken, 0 when another process holds
 // it, -1 when the file cannot be opened. The OS drops it when the process dies, however it dies.
@@ -453,4 +461,6 @@ void plat_mem_info(float *used_mb, float *total_mb, float *proc_mb);
 // This process's memory in bytes: resident (the working set) and private (Windows: committed private bytes; Linux: the
 // resident anonymous pages). 0 when unknown.
 void plat_process_memory(uint64_t *resident, uint64_t *private_bytes);
+// Hands the C heap's free pages back to the system after a large release of small blocks.
+void plat_heap_trim(void);
 
