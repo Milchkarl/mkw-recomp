@@ -5,9 +5,6 @@ name: Archive
 # the Wayback Machine, so the project outlives a takedown or a suspended account (Hookshot, 13/11/2026).
 # Needs the IA_ACCESS_KEY_ID and IA_SECRET_ACCESS_KEY secrets (archive.org/account/s3.php).
 on:
-  schedule:
-    - cron: "41 3 * * *"
-  # By hand: the first run saves every page (hours 100000, max 1000: one every 12 s, about an hour)
   workflow_dispatch:
     inputs:
       hours:

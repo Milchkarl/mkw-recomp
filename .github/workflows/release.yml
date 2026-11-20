@@ -6,8 +6,6 @@ name: Release
 # packages on Linux and Windows; v0.1.0 and v0.1.1 went out with a setup nobody had run (#1).
 # workflow_dispatch builds both and keeps them as run artifacts only.
 on:
-  push:
-    tags: ["v*"]
   workflow_dispatch:
 
 permissions:

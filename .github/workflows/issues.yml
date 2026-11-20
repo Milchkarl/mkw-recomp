@@ -6,15 +6,6 @@ name: Issue moderation
 # (once a day ran hours late and left issues open days past their limit, 14/11/2026); a published release closes the
 # fixed-next-release ones.
 on:
-  issues:
-    types: [opened, edited, reopened]
-  issue_comment:
-    types: [created]
-  release:
-    types: [published]
-  schedule:
-    - cron: "17 */6 * * *"
-  # By hand: the daily sweep, every open issue as if new (backlog) or one issue; dry run prints without acting
   workflow_dispatch:
     inputs:
       task:

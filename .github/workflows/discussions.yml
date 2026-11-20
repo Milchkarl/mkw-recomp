@@ -4,11 +4,6 @@ name: Discussion moderation
 # the issue of their known error) and questions the FAQ answers (tools/github/topics.toml) answered, both closed; their
 # author's reply reopens them. Of the first 59 discussions, 13 were bug reports and 20 repeated questions (17/11/2026).
 on:
-  discussion:
-    types: [created]
-  discussion_comment:
-    types: [created]
-  # By hand: every open discussion as if new (backlog) or one; dry run prints without acting
   workflow_dispatch:
     inputs:
       task:

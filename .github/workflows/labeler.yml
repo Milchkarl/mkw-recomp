@@ -3,9 +3,7 @@ name: Issue labels
 # A new issue gets the labels its form answers name (.github/labeler.yml): players cannot set labels themselves. Only
 # on opened, and without sync-labels, so labels set by hand at triage stay.
 on:
-  issues:
-    types: [opened]
-
+  workflow_dispatch:
 permissions:
   issues: write
   contents: read
