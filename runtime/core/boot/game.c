@@ -14,6 +14,7 @@
 // fps_auto.c's 3 or 4 below that in a race; auto_want), 60, 30, 20, 15, or game (the game's own choice, 1-2: the
 // console's, for A/B).
 #include <stdatomic.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "cfg.h"

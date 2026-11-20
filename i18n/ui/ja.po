@@ -562,6 +562,63 @@ msgstr ""
 "「自動」は、ディスプレイがHDRのとき（Windowsでは、設定 > システム > ディスプレイ > "
 "HDRを使う）、本体と同じくゲーム自体のHDR映像を表示します。明るさはシステムのHDR設定に従います。「OFF」は常に通常の映像を表示します。すぐに反映されます。"
 
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr "HDRトーンマッピング"
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, "
+"which never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and "
+"colour grade, with highlights that roll off smoothly up to the display's peak. Applies after a "
+"restart, as do peak and paper white changes while it is on."
+msgstr ""
+"HDR でシーンの明るさをディスプレイに合わせる方法です。Vanilla はゲーム本来のカーブで、ペーパーホワイトの 1.5 倍を超えません。PsychoV35 は RenoDX "
+"のもので、中間調と色調はそのまま、ハイライトがディスプレイのピークまで滑らかに伸びます。再起動後に反映され、有効な間はピークとペーパーホワイトの変更も同様です。"
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr "PsychoV35"
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr "必要なプログラムはセットアップで作られます。追加するにはゲームをもう一度セットアップしてください（アップデートでも行われます）。"
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr "PsychoV35 トーンマッピングのときのみ有効です。Vanilla ではコンソールと同じく、ディスプレイ自身の値を使います。"
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr "HDR ピーク輝度"
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies at "
+"once."
+msgstr "ゲームが描画する最大の明るさです。自動は Windows が報告するディスプレイのピークを使います。すぐに反映されます。"
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr "HDR ペーパーホワイト"
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr ""
+"メニューの白やシーンの中間調の明るさです。自動は Windows の SDR コンテンツの明るさを使いますが、ゲームには明るすぎることがよくあります。HDR の基準は 203 "
+"ニトです。値を下げるとハイライトの余裕が増えます。すぐに反映されます。"
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr "%s ニト"
+
 msgctxt "UI_MENU_SHARPNESS"
 msgid "FSR sharpness"
 msgstr "FSRのシャープネス"
@@ -2268,6 +2325,23 @@ msgctxt "UI_GB_ERROR"
 msgid "GameBanana did not answer: %s"
 msgstr "GameBananaから応答がありませんでした: %s"
 
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr "コンテンツレーティング: %s"
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr "NSFW MOD"
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr "ぼかす"
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr "表示"
+
 #. Under an installed mod that replaces the game's graphics settings archive (general_format).
 msgctxt "UI_MOD_WARN_GRAPHICS"
 msgid ""
@@ -2295,6 +2369,16 @@ msgid ""
 "Native plugin: runs its own program on your computer alongside the game. Enable it only if you "
 "trust where it comes from"
 msgstr "ネイティブプラグイン：ゲームと一緒にあなたのコンピューターで独自のプログラムを実行します。入手元を信頼できる場合のみ有効にしてください"
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr "オプション"
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
+msgstr "このModにはオプションがありません"
 
 msgctxt "UI_MOD_CODE_REBUILD"
 msgid "code: turning it on or off builds the game code again before you play (a few minutes)"
@@ -2545,6 +2629,18 @@ msgctxt "UI_TOOLS_STEAM_RESTART"
 msgid "Added: restart Steam to see it"
 msgstr "追加しました。Steam を再起動すると表示されます"
 
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr "Steam プロフィールを %d/%d 件更新しました"
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr "Steam プロフィールを %d/%d 件更新しました。ショートカットを表示するには Steam を再起動してください。"
+
 #. Why Add to Steam failed.
 msgctxt "UI_TOOLS_STEAM_NONE"
 msgid "Steam is not installed for this user"
@@ -2570,6 +2666,11 @@ msgstr "今すぐ確認"
 msgctxt "UI_TOOLS_CHECKING"
 msgid "Checking for a new version..."
 msgstr "新しいバージョンを確認中..."
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
+msgstr "最新の状態です。"
 
 #. Tools page row: %s is the version before the last update.
 #. printf format: keep every %... conversion, in the same order.

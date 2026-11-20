@@ -12,9 +12,10 @@ Usage: gamebanana.py --cache DIR browse [--page N] [--sort downloads|new|likes]
        gamebanana.py --cache DIR download MOD_ID FILE_ID DEST_DIR
        gamebanana.py --cache DIR images URL...      preview pictures into DIR/img (only images.gamebanana.com)
   Lines on stdout, one event each, tab-separated (fields hold no tab; a text's line breaks are written \\n):
-    mod ID NAME AUTHOR LIKES VIEWS CATEGORY URL THUMB   a list or search row (THUMB: its small picture's URL)
+    mod ID NAME AUTHOR LIKES VIEWS CATEGORY URL THUMB VIS RATED   a list or search row (VIS: show, warn or
+                           hide, the content rating's visibility; RATED: 1 when GameBanana marks the mod)
     page N TOTAL           after the rows: this page and how many mods the query has
-    info ID NAME AUTHOR LICENSE URL VERSION          a mod's page, then its
+    info ID NAME AUTHOR LICENSE URL VERSION VIS RATINGS   a mod's page, then its
     text TEXT              description (plain text) and one line per file:
     file ID NAME SIZE SCAN NOTE
     image URL FULL         its preview pictures (the authors' own screenshots, shown from GameBanana): 530 pixels
@@ -29,11 +30,15 @@ Usage: gamebanana.py --cache DIR browse [--page N] [--sort downloads|new|likes]
 import argparse
 import hashlib
 import html
+import http.client
 import json
 import os
+import queue
 import re
+import socket
 import sys
 import tempfile
+import threading
 import time
 import urllib.parse
 import urllib.request
@@ -44,6 +49,76 @@ API = "https://gamebanana.com/apiv11"
 USER_AGENT = "mkw-recomp (+https://github.com/adriadam10/mkw-recomp)"
 TTL, PER_MINUTE, PER_PAGE = 600, 60, 20
 SORTS = {"downloads": "Generic_MostDownloaded", "new": "Generic_Newest", "likes": "Generic_MostLiked"}
+
+
+def _race_create_connection(address, timeout=socket._GLOBAL_DEFAULT_TIMEOUT, source_address=None):
+    """socket.create_connection with every resolved address at once, staggered (Happy Eyeballs): CPython tries them
+    one after another with the full timeout each, which stalls for tens of seconds when IPv6 is blackholed but IPv4
+    answers (or the reverse). The first connection wins and the losers are closed; when all fail, the error comes
+    as soon as the last one has."""
+    host, port = address
+    addrs = socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)
+    if len(addrs) < 2:
+        return socket.create_connection(address, timeout, source_address)
+    results: queue.Queue = queue.Queue()
+    lock = threading.Lock()
+    won = []
+
+    def attempt(family, kind, proto, addr):
+        sock = None
+        try:
+            sock = socket.socket(family, kind, proto)
+            if timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
+                sock.settimeout(timeout)
+            if source_address:
+                sock.bind(source_address)
+            sock.connect(addr)
+        except OSError as e:
+            if sock:
+                sock.close()
+            results.put(e)
+            return
+        with lock:
+            first = not won
+            won.append(sock)
+        if first:
+            results.put(sock)
+        else:
+            sock.close()
+
+    deadline = None if timeout in (None, socket._GLOBAL_DEFAULT_TIMEOUT) else time.monotonic() + timeout
+    started = failed = 0
+    last: OSError | None = None
+    while failed < len(addrs):
+        if started < len(addrs):
+            family, kind, proto, _, addr = addrs[started]
+            threading.Thread(target=attempt, args=(family, kind, proto, addr), daemon=True).start()
+            started += 1
+        wait = 0.25 if started < len(addrs) else None
+        if wait is None and deadline is not None:
+            wait = max(deadline - time.monotonic(), 0)
+        try:
+            got = results.get(timeout=wait)
+        except queue.Empty:
+            if started < len(addrs):
+                continue
+            raise TimeoutError(f"connecting to {host}:{port} timed out") from last
+        if isinstance(got, OSError):
+            failed, last = failed + 1, got
+            continue
+        return got
+    raise last or OSError(f"no address of {host}:{port} answered")
+
+
+_orig_init = http.client.HTTPConnection.__init__
+
+
+def _init(self, *args, **kwargs):
+    _orig_init(self, *args, **kwargs)
+    self._create_connection = _race_create_connection   # connect() keeps its TCP_NODELAY and its proxy tunnel
+
+
+http.client.HTTPConnection.__init__ = _init
 
 
 def field(v) -> str:
@@ -111,6 +186,7 @@ def row(r: dict) -> dict:
     return {"id": r["_idRow"], "name": r.get("_sName", ""), "author": (r.get("_aSubmitter") or {}).get("_sName", ""),
             "likes": r.get("_nLikeCount", 0), "views": r.get("_nViewCount", 0), "date": r.get("_tsDateAdded", 0),
             "category": (r.get("_aRootCategory") or {}).get("_sName", ""), "thumb": thumb,
+            "vis": r.get("_sInitialVisibility", "show") or "show", "rated": 1 if r.get("_bHasContentRatings") else 0,
             "url": r.get("_sProfileUrl", f"https://gamebanana.com/mods/{r['_idRow']}")}
 
 
@@ -118,7 +194,8 @@ def listing(cache: Path, data: dict, page: int) -> int:
     for r in data.get("_aRecords", []):
         if r.get("_sModelName", "Mod") == "Mod":
             m = row(r)
-            say("mod", m["id"], m["name"], m["author"], m["likes"], m["views"], m["category"], m["url"], m["thumb"])
+            say("mod", m["id"], m["name"], m["author"], m["likes"], m["views"], m["category"], m["url"], m["thumb"],
+            m["vis"], m["rated"])
     say("page", page, (data.get("_aMetadata") or {}).get("_nRecordCount", 0))
     return 0
 
@@ -133,10 +210,11 @@ def info(cache: Path, mod_id: int) -> dict:
              for f in p.get("_aFiles") or []]
     shots = [(f"{i['_sBaseUrl']}/{i.get('_sFile530') or i['_sFile']}", f"{i['_sBaseUrl']}/{i['_sFile']}")
              for i in ((p.get("_aPreviewMedia") or {}).get("_aImages") or [])[:6]]
+    ratings = ", ".join((p.get("_aContentRatings") or {}).values())
     return {"id": mod_id, "name": p.get("_sName", ""), "images": shots, "author": (p.get("_aSubmitter") or {}).get("_sName", ""),
             "text": plain(p.get("_sText"), 1500), "license": license_text(p.get("_sLicense")),
             "url": p.get("_sProfileUrl", f"https://gamebanana.com/mods/{mod_id}"), "version": p.get("_sVersion", ""),
-            "files": files}
+            "vis": p.get("_sInitialVisibility", "show") or "show", "ratings": ratings, "files": files}
 
 
 def download(cache: Path, mod_id: int, file_id: int, dest: Path) -> int:
@@ -232,7 +310,7 @@ def main() -> int:
             return listing(args.cache, get_json(args.cache, "Util/Search/Results", q), args.page)
         if args.cmd == "info":
             m = info(args.cache, args.mod_id)
-            say("info", m["id"], m["name"], m["author"], m["license"], m["url"], m["version"])
+            say("info", m["id"], m["name"], m["author"], m["license"], m["url"], m["version"], m["vis"], m["ratings"])
             say("text", m["text"])
             for f in m["files"]:
                 say("file", f["id"], f["name"], f["size"], f["scan"], f["note"])

@@ -218,6 +218,9 @@ void *plat_mem_alloc(size_t n);
 int plat_mem_commit(uint64_t addr, size_t n);             // read-write pages inside a reserved range; 1 on success
 int plat_mem_decommit(uint64_t addr, uint64_t n);          // contents dropped: committed again, the pages read zero
 int plat_mem_protect(uint64_t addr, uint64_t n, int prot); // committed pages only; 1 on success
+// Committed pages' contents dropped from RAM, their state and protection kept: they read zero when made accessible
+// again (Linux, MADV_DONTNEED). 1 on success; 0 where the platform cannot (Windows, for now).
+int plat_mem_drop(uint64_t addr, uint64_t n);
 int plat_mem_replace_anon(uint64_t addr, uint64_t n);      // fresh read-write pages over a range (Linux); 1 on success
 // A label for an anonymous range in /proc/self/smaps ("[anon:NAME]", Linux), so a memory census (tools/run/memwatch.py)
 // tells the game's memory, the runtime's and the driver's apart; a no-op elsewhere or on failure.
@@ -364,6 +367,9 @@ void plat_file_close(PlatFile *f);
 // Bytes read at off (0 at or past the end of the file), -1 on an I/O error, -2 when the OS refused to write into buf
 // (a read-only page).
 int64_t plat_file_pread(PlatFile *f, void *buf, uint32_t n, uint64_t off);
+// A read-write file of the runtime's own in dir, gone when the process ends however it ends (Linux: never linked);
+// NULL where the platform cannot (Windows, for now). For pages taken out of RAM (core/memory/memory_spill.c).
+PlatFile *plat_file_scratch(const char *dir);
 // What changes when the file is replaced or written: its volume, file id, size, last write and creation (on Linux,
 // status change) times in the OS's units. 0 on failure.
 typedef struct { uint64_t volume, file_id, size, write_time, create_time; } PlatFileId;
@@ -469,4 +475,6 @@ void plat_mem_info(float *used_mb, float *total_mb, float *proc_mb);
 void plat_process_memory(uint64_t *resident, uint64_t *private_bytes);
 // Hands the C heap's free pages back to the system after a large release of small blocks.
 void plat_heap_trim(void);
+// The C heap in bytes: in use, free inside it, and what it has mapped (all arenas); 0 when unknown (Windows).
+void plat_heap_stats(uint64_t *in_use, uint64_t *free_bytes, uint64_t *mapped);
 

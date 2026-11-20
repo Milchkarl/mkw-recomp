@@ -20,6 +20,8 @@ const OvNvState *ov_nv_state(void);                        // ov_gfx.c
 void gfx_window_start(void);                               // window thread, Vulkan device, swapchain; idempotent
 void gfx_window_early(void);                               // the window at boot, black until the first image
 void gfx_vsync_bind(uint64_t system_event);                // nn::vi vsync event; signalled at 60 Hz
+float gfx_hdr_headroom(void);   // peak over paper white for the RenoDX programs (gfx_hdr.c); 0: unknown
+int gfx_rdx_patch(uint32_t *w, uint64_t n, uint32_t id, float v);   // a RenoDX program's constant (gfx_rdx.c)
 int gfx_hdr_output(uint16_t *peak, uint16_t *white);       // 1: the window shows HDR10 (peak, paper white nits)
 void gfx_hdr_to_srgb8(const uint8_t *in, uint8_t *out, size_t px, int a2r);   // 10-bit PQ to sRGB bytes at paper white
 int gfx_window_focused(void);
@@ -140,6 +142,9 @@ typedef struct {
     void (*write_texels)(const tex_t *t, const view_t *v, const NVNcopyRegion *r, const uint8_t *src, uint64_t row, uint64_t img);
     void (*guest_written)(uint64_t addr, uint64_t size);   // host wrote pool storage (3.2)
     void (*guest_read)(uint64_t addr, uint64_t size);      // the CPU reads pool storage: GPU-written texels go there first
+    // Optional (NULL: guest_written alone). The host rewrote the storage at addr on purpose (a plugin's native image,
+    // nvn2.c): textures there take its bytes again even where the GPU rendered into them before.
+    void (*host_rewrote)(uint64_t addr, uint64_t size);
     // The CPU waited for fence: small render targets and pitch textures written by work up to it go to their storage
     // (vk_texture.c vk_texture_write_back_small).
     void (*cpu_synced)(uint64_t fence);

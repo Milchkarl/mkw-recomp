@@ -606,6 +606,70 @@ msgstr ""
 "> Ekran > Użyj HDR), tak jak konsola; jego jasność zależy od ustawień HDR systemu. Wył. zawsze "
 "pokazuje obraz standardowy. Działa od razu."
 
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr "Mapowanie tonów HDR"
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, "
+"which never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and "
+"colour grade, with highlights that roll off smoothly up to the display's peak. Applies after a "
+"restart, as do peak and paper white changes while it is on."
+msgstr ""
+"Jak jasność sceny jest dopasowywana do wyświetlacza w HDR. Vanilla to własna krzywa gry, która "
+"nigdy nie przekracza 1,5-krotności bieli papieru. PsychoV35 to krzywa z RenoDX: te same półtony i "
+"gradacja kolorów, a światła płynnie narastają aż do szczytu jasności wyświetlacza. Działa po "
+"ponownym uruchomieniu, podobnie jak zmiany szczytu jasności i bieli papieru, gdy jest włączona."
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr "PsychoV35"
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr ""
+"Jego programy tworzy konfiguracja. Skonfiguruj grę ponownie (robi to aktualizacja), aby je dodać."
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr ""
+"Tylko z mapowaniem tonów PsychoV35. Vanilla używa własnych wartości wyświetlacza, tak jak konsola."
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr "Maks. jasność HDR"
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies at "
+"once."
+msgstr ""
+"Najjaśniejszy poziom, jaki rysuje gra. Automatycznie używa szczytu jasności wyświetlacza "
+"zgłaszanego przez Windows. Działa od razu."
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr "Biel papieru HDR"
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr ""
+"Jak jasna jest biel menu i półtony sceny. Automatycznie używa jasności treści SDR z Windows, "
+"często znacznie wyższej, niż potrzebuje gra; 203 nity to odniesienie HDR. Niższe wartości "
+"zostawiają więcej miejsca światłom. Działa od razu."
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr "%s nitów"
+
 msgctxt "UI_MENU_SHARPNESS"
 msgid "FSR sharpness"
 msgstr "Ostrość FSR"
@@ -2361,6 +2425,23 @@ msgctxt "UI_GB_ERROR"
 msgid "GameBanana did not answer: %s"
 msgstr "GameBanana nie odpowiedziało: %s"
 
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr "Ocena treści: %s"
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr "Mody NSFW"
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr "Zamazać"
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr "Pokaż"
+
 #. Under an installed mod that replaces the game's graphics settings archive (general_format).
 msgctxt "UI_MOD_WARN_GRAPHICS"
 msgid ""
@@ -2392,6 +2473,16 @@ msgid ""
 msgstr ""
 "Natywna wtyczka: uruchamia własny program na twoim komputerze obok gry. Włącz ją tylko, jeśli "
 "ufasz jej źródłu"
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr "Opcje"
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
+msgstr "Ten mod nie ma opcji"
 
 msgctxt "UI_MOD_CODE_REBUILD"
 msgid "code: turning it on or off builds the game code again before you play (a few minutes)"
@@ -2645,6 +2736,18 @@ msgctxt "UI_TOOLS_STEAM_RESTART"
 msgid "Added: restart Steam to see it"
 msgstr "Dodano: uruchom ponownie Steama, żeby to zobaczyć"
 
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr "Zaktualizowano %d z %d profili Steam"
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr "Zaktualizowano %d z %d profili Steam. Uruchom Steam ponownie, aby zobaczyć skrót."
+
 #. Why Add to Steam failed.
 msgctxt "UI_TOOLS_STEAM_NONE"
 msgid "Steam is not installed for this user"
@@ -2670,6 +2773,11 @@ msgstr "Sprawdź teraz"
 msgctxt "UI_TOOLS_CHECKING"
 msgid "Checking for a new version..."
 msgstr "Szukanie nowej wersji..."
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
+msgstr "Masz najnowszą wersję."
 
 #. Tools page row: %s is the version before the last update.
 #. printf format: keep every %... conversion, in the same order.

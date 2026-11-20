@@ -231,6 +231,8 @@ void plat_process_memory(uint64_t *resident, uint64_t *private_bytes) {
 
 void plat_heap_trim(void) { _heapmin(); }
 
+void plat_heap_stats(uint64_t *in_use, uint64_t *free_bytes, uint64_t *mapped) { *in_use = *free_bytes = *mapped = 0; }
+
 // Placed maps are Linux-only (vk_memory.c placed_pool): nothing to undo here.
 int plat_mem_replace_anon(uint64_t addr, uint64_t n) { (void)addr, (void)n; return 0; }
 void plat_mem_name(const void *p, size_t n, const char *name) { (void)p, (void)n, (void)name; }

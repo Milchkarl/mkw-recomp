@@ -547,6 +547,59 @@ msgid ""
 "always shows the standard picture. Applies at once."
 msgstr ""
 
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr ""
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, which "
+"never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and colour "
+"grade, with highlights that roll off smoothly up to the display's peak. Applies after a restart, "
+"as do peak and paper white changes while it is on."
+msgstr ""
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr ""
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr ""
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr ""
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr ""
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr ""
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies "
+"at once."
+msgstr ""
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr ""
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr ""
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr ""
+
 msgctxt "UI_MENU_SHARPNESS"
 msgid "FSR sharpness"
 msgstr ""
@@ -2222,6 +2275,23 @@ msgctxt "UI_GB_ERROR"
 msgid "GameBanana did not answer: %s"
 msgstr ""
 
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr ""
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr ""
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr ""
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr ""
+
 #. Under an installed mod that replaces the game's graphics settings archive (general_format).
 msgctxt "UI_MOD_WARN_GRAPHICS"
 msgid "Changes the game's graphics settings: the port's own settings (resolution, quality) go on top, so this mod may do less than on a console, look worse or misbehave"
@@ -2239,6 +2309,16 @@ msgstr ""
 #. Under a mod that changes the game's code (its .ips): the game code is built with it.
 msgctxt "UI_MOD_PLUGIN"
 msgid "Native plugin: runs its own program on your computer alongside the game. Enable it only if you trust where it comes from"
+msgstr ""
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr ""
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
 msgstr ""
 
 msgctxt "UI_MOD_CODE_REBUILD"
@@ -2488,6 +2568,18 @@ msgctxt "UI_TOOLS_STEAM_RESTART"
 msgid "Added: restart Steam to see it"
 msgstr ""
 
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr ""
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr ""
+
 #. Why Add to Steam failed.
 msgctxt "UI_TOOLS_STEAM_NONE"
 msgid "Steam is not installed for this user"
@@ -2512,6 +2604,11 @@ msgstr ""
 #. While the check runs.
 msgctxt "UI_TOOLS_CHECKING"
 msgid "Checking for a new version..."
+msgstr ""
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
 msgstr ""
 
 #. Tools page row: %s is the version before the last update.

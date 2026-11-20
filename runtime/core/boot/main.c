@@ -124,7 +124,7 @@ static const char *log_name_own(void) {
 
 // Opens the log file for a game run or the start screen (game = 1) and writes the buffered lines to it; anything else
 // drops them. Runs on the main thread before the boot starts other threads.
-static void log_open(int game) {
+static void log_open(int game, const char *own) {
     char dir[PLAT_PATH_MAX * 3], from[PLAT_PATH_MAX * 3 + 16], to[PLAT_PATH_MAX * 3 + 16];
     char *cut = NULL;
     if (game && !plat_stderr_path(dir, sizeof dir) && *cfg_game_dir()) {
@@ -137,7 +137,6 @@ static void log_open(int game) {
         // A run that is not the player's (the setup's warm-up, tools/prepare/prepare.py) names its own file and leaves
         // mkw.log and its rotation alone: else updating pushed the player's crash out of mkw.log, the file a report
         // attaches and the start screen reads (#437, 16/11/2026: the attached mkw.log was the 0.1.12 warm-up)
-        const char *own = log_name_own();
         if (own) {
             snprintf(g_log_path, sizeof g_log_path, "%s/%s.log", dir, own);
         } else {
@@ -512,7 +511,7 @@ static int usage(const char *argv0) {
     fprintf(stderr, "usage: %s [--exefs DIR] [--romfs DIR|FILE.nup|FILE.nx] [--nup FILE] [--profile DIR] [--mod NAME]... [--launcher | --play | --selftest | --probe-loader | --probe-plugin | "
                     "--probe-cfg | --probe-kernel | --probe-audio | --probe-services | --probe-fs | --probe-gfx-abi | "
                     "--probe-nvn | --probe-nvn-tex | --probe-window | --probe-vkmem | "
-                    "--probe-vkexec | --probe-astc | --probe-framegen | --probe-gpu-clocks | --probe-fps | --probe-merge | --probe-discord | --probe-dsu | --probe-texpre | --texpre | --prewarm | --boot |--seconds S [--shot PNG]]\n", argv0);
+                    "--probe-vkexec | --probe-astc | --probe-framegen | --probe-gpu-clocks | --probe-fps | --probe-merge | --probe-spill | --probe-discord | --probe-dsu | --probe-texpre | --texpre | --prewarm | --boot |--seconds S [--shot PNG]]\n", argv0);
     return 2;
 }
 
@@ -551,6 +550,20 @@ static void portable_paths(RtConfig *c) {
     }
 }
 
+// name is one of the comma-separated entries of list (spaces around an entry ignored, as plugins_load reads it)
+static int mods_list_has(const char *list, const char *name) {
+    size_t n = strlen(name);
+    for (const char *s = list; *s;) {
+        const char *end = strchr(s, ','), *next = end ? end + 1 : s + strlen(s);
+        if (!end) end = next;
+        while (s < end && (*s == ' ' || *s == '\t')) s++;
+        while (end > s && (end[-1] == ' ' || end[-1] == '\t')) end--;
+        if ((size_t)(end - s) == n && !memcmp(s, name, n)) return 1;
+        s = next;
+    }
+    return 0;
+}
+
 // The start screen (ui/launcher/launcher.cpp) comes first in the player's build (no linked game code) on a plain start, and in
 // build/mkw with --launcher. --play, MKW_NO_LAUNCHER=1 or any other mode skip it; Play runs the process again with
 // MKW_LAUNCHED=1, so the game claims its address space in a fresh process (and on Windows the window's libraries are
@@ -586,10 +599,9 @@ static int run_launcher(int argc, char **argv) {
     cfg_init();   // mkw.ini: the settings pages read and write it
     // logs/launcher.log, with the crash handler: a start screen that stopped before its window showed left nothing on
     // disk, as the game's mkw.log only opens in the game's own process (#634, 19/11/2026: "didnt find any log"). Its
-    // own name, so it leaves mkw.log, the last game run's, to the notice that reads it; dropped before Play's restart.
-    int own = !log_name_own();
-    if (own) plat_setenv("MKW_LOG_NAME", "launcher");
-    log_open(1);
+    // own name leaves mkw.log for the last-run notice. Keep the default local so relaunches cannot inherit it.
+    const char *log_name = log_name_own();
+    log_open(1, log_name ? log_name : "launcher");
     plat_crash_hook(crash_handler);
     // the Mods page merges against the same romfs the game will boot: argv wins, else MKW_ROMFS / mkw.ini,
     // else the selected installation, else the baked-in default
@@ -619,7 +631,6 @@ static int run_launcher(int argc, char **argv) {
         if (!strcmp(argv[i], "--gb-install")) launcher_gb_install(argv[i + 1]);
     if (launcher_run() != LAUNCHER_PLAY) return 0;
     plat_setenv("MKW_LAUNCHED", "1");
-    if (own) plat_setenv("MKW_LOG_NAME", NULL);
     plat_reexec();
 }
 
@@ -651,7 +662,7 @@ int main(int argc, char **argv) {
     }
     // --replay DIR [options]: a capture (runtime/gfx/cap) through the back end, without the game
     if (argc >= 2 && !strcmp(argv[1], "--replay")) {
-        log_open(0);
+        log_open(0, NULL);
         return cap_replay_main(argc - 2, argv + 2);
     }
     const char *mode = NULL;
@@ -688,16 +699,28 @@ int main(int argc, char **argv) {
     }
     if (cfg.shot && !cfg.seconds) return usage(argv[0]);
     if (*extra_mods) {   // another launcher starts the game with its mod on, without touching the player's mkw.ini
+        // a --mod the player also enabled is listed once: its plugin would otherwise load twice
         const char *on = cfg_get("MKW_MODS");
         char list[4096];
-        snprintf(list, sizeof list, "%s%s%s", on && *on ? on : "", on && *on ? "," : "", extra_mods);
+        snprintf(list, sizeof list, "%s", on && *on ? on : "");
+        char extra[sizeof extra_mods];
+        snprintf(extra, sizeof extra, "%s", extra_mods);
+        for (char *m = extra, *next; m && *m; m = next) {
+            next = strchr(m, ',');
+            if (next) *next++ = 0;
+            if (*m && !mods_list_has(list, m)) {
+                size_t n = strlen(list);
+                snprintf(list + n, sizeof list - n, "%s%s", n ? "," : "", m);
+            }
+        }
         plat_setenv("MKW_MODS", list);
     }
     if (cfg.seconds && mode) return usage(argv[0]);
     // the setup's warm step (--prewarm) keeps its log too, as logs/warm.log (MKW_LOG_NAME): until 18/11/2026 it went
     // nowhere, and prepare.py drops its output, so a prewarm that failed on a player's PC left no trace. Only with its
     // own name: a --prewarm by hand must not rotate the player's mkw.log
-    log_open(!mode || (!strcmp(mode, "--prewarm") && log_name_own()));
+    const char *log_name = log_name_own();
+    log_open(!mode || (!strcmp(mode, "--prewarm") && log_name), log_name);
     // the player the launcher picked (core/base/players.h): its account and save; the lock stays on the folder
     static char player_profile[PLAT_PATH_MAX * 2];
     cfg.profile_base = cfg.profile;
@@ -727,6 +750,7 @@ int main(int argc, char **argv) {
     if (!strcmp(mode, "--probe-gpu-clocks")) return probe_gpu_clocks();
     if (!strcmp(mode, "--probe-fps")) return probe_fps();
     if (!strcmp(mode, "--probe-merge")) return probe_merge();
+    if (!strcmp(mode, "--probe-spill")) return probe_spill();
     if (!strcmp(mode, "--probe-discord")) return probe_discord();
     if (!strcmp(mode, "--probe-dsu")) return probe_dsu();
     if (!strcmp(mode, "--probe-vkdevice")) return probe_vkdevice();

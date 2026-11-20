@@ -62,6 +62,8 @@ int vk_pool_init(pool_t *p) {
     r->flags = p->flags;
     r->lo = (uintptr_t)p->mem;
     r->size = p->size;
+    r->born_ms = plat_now_ms();
+    vk_mem_spill_start();
     int ok;
     if (p->flags & NVN_MEMORY_POOL_FLAGS_VIRTUAL) {
         r->kind = POOL_VIRT;
@@ -293,7 +295,7 @@ int vk_mem_resolve(uint64_t addr, uint64_t size, VkMemSpan *out) {
         out->pool = h->pool;
         if (h->alloc) out->alloc_offset = out->offset;
         if (vk_guard_on() && h->pool) vk_guard_note(&((PoolRec *)h->pool)->use);
-        if (shadow_on && h->pool && ((PoolRec *)h->pool)->smap && !((PoolRec *)h->pool)->stouched) shadow_touch(h->pool);
+        if (shadow_live && h->pool && ((PoolRec *)h->pool)->smap && !((PoolRec *)h->pool)->stouched) shadow_touch(h->pool);
         if (race_on > 0 && h->pool && ((PoolRec *)h->pool)->smap) race_note(h->pool, addr, end);
         if (resolve_check_on()) {
             VkMemSpan s;

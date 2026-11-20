@@ -551,6 +551,61 @@ msgstr ""
 "「自动」会在显示器处于 HDR 模式时（Windows 中为 设置 > 显示 > 使用 HDR）像主机一样显示游戏自带的 HDR 画面，亮度跟随系统的 HDR "
 "设置。「OFF」则始终显示标准画面。立即生效。"
 
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr "HDR 色调映射"
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, "
+"which never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and "
+"colour grade, with highlights that roll off smoothly up to the display's peak. Applies after a "
+"restart, as do peak and paper white changes while it is on."
+msgstr ""
+"HDR 下场景亮度如何适配显示器。Vanilla 是游戏自带的曲线，不会超过纸白的 1.5 倍。PsychoV35 来自 "
+"RenoDX：中间调和调色相同，高光则平滑过渡到显示器的峰值亮度。重启后生效；开启时，峰值亮度和纸白的更改同样需要重启。"
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr "PsychoV35"
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr "其程序由安装步骤生成。请重新设置游戏（更新时会自动进行）以添加它们。"
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr "仅在使用 PsychoV35 色调映射时有效。Vanilla 与主机一样使用显示器自身的数值。"
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr "HDR 峰值亮度"
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies at "
+"once."
+msgstr "游戏绘制的最高亮度。自动使用 Windows 报告的显示器峰值。立即生效。"
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr "HDR 纸白"
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr "菜单白色和场景中间调的亮度。自动使用 Windows 的 SDR 内容亮度，通常比游戏所需亮得多；HDR 参考值为 203 尼特。数值越低，高光空间越大。立即生效。"
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr "%s 尼特"
+
 msgctxt "UI_MENU_SHARPNESS"
 msgid "FSR sharpness"
 msgstr "FSR 锐度"
@@ -2251,6 +2306,23 @@ msgctxt "UI_GB_ERROR"
 msgid "GameBanana did not answer: %s"
 msgstr "GameBanana 没有响应：%s"
 
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr "内容分级：%s"
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr "NSFW 模组"
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr "打码"
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr "显示"
+
 #. Under an installed mod that replaces the game's graphics settings archive (general_format).
 msgctxt "UI_MOD_WARN_GRAPHICS"
 msgid ""
@@ -2276,6 +2348,16 @@ msgid ""
 "Native plugin: runs its own program on your computer alongside the game. Enable it only if you "
 "trust where it comes from"
 msgstr "原生插件：会在你的电脑上与游戏一同运行它自己的程序。仅在信任其来源时启用"
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr "选项"
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
+msgstr "此模组没有选项"
 
 msgctxt "UI_MOD_CODE_REBUILD"
 msgid "code: turning it on or off builds the game code again before you play (a few minutes)"
@@ -2526,6 +2608,18 @@ msgctxt "UI_TOOLS_STEAM_RESTART"
 msgid "Added: restart Steam to see it"
 msgstr "已添加：重启 Steam 即可看到"
 
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr "已更新 %d/%d 个 Steam 用户配置"
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr "已更新 %d/%d 个 Steam 用户配置。请重启 Steam 以查看快捷方式。"
+
 #. Why Add to Steam failed.
 msgctxt "UI_TOOLS_STEAM_NONE"
 msgid "Steam is not installed for this user"
@@ -2551,6 +2645,11 @@ msgstr "立即检查"
 msgctxt "UI_TOOLS_CHECKING"
 msgid "Checking for a new version..."
 msgstr "正在检查新版本..."
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
+msgstr "已是最新版本。"
 
 #. Tools page row: %s is the version before the last update.
 #. printf format: keep every %... conversion, in the same order.

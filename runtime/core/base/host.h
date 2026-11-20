@@ -194,6 +194,13 @@ int mem_base_trap(uint64_t lo, uint64_t hi, uint64_t *bits);   // whole pages of
                                                            // bit per page trapped; 0: no trap map (Windows)
 void mem_base_release(uint64_t lo, uint64_t hi);           // the pages still trapped back to read-write, no copy
 int64_t mem_base_pages(void);                              // pages base-trapped now
+// Spilled pages (memory_spill.c, MKW_MEM_SPILL): the read-write pages of [lo, hi) with no other trap go to a file and
+// leave RAM until something touches them. Bytes spilled; 0 when off or unavailable (Windows).
+int mem_spill_on(void);
+uint64_t mem_spill(uint64_t lo, uint64_t hi);
+int64_t mem_spill_pages(void);                             // pages spilled now
+void mem_spill_stats(int64_t out[5]);                      // spilled now; totals: spilled, of them zero, filled by an
+                                                           // access, filled by a thaw
 // MKW_EARLY_READ=1 (memory_early.c, a diagnosis): the pages a submit's GPU work writes are watched from the submit
 // (fence: its value) until first touched, counting the game's touches before the GPU finished it.
 int mem_early_on(void);
@@ -344,6 +351,7 @@ int probe_discord(void);                                   // discord_probe.c: R
 int probe_dsu(void);                                       // dsu_probe.c: the DSU motion client against a fake server
 int probe_fps(void);                                       // fps_probe.c: the controller on synthetic frame times
 int probe_merge(void);                                     // merge_probe.c: the shadow write-back's two implementations
+int probe_spill(void);                                     // spill_probe.c: spilled pages back byte for byte
 void lat_input_read(void);                                 // vk_latency.c MKW_LATENCY: the game read the controller
 void lat_game_present(uint64_t slot);                      // ... and presented the frame shown at slot (pacer, ns)
 void lat_mark(const char *what);                           // ... a frame event, logged in MKW_PROBE's window

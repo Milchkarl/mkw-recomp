@@ -14,6 +14,8 @@ run, the game's memory held by NVN pools shows as "pool 0xFLAGS" (NVN memory poo
 Usage:
   uv run tools/run/memwatch.py OUT.tsv [--log build/run/NAME.log] [--every 5]   (start before or with the run)
   uv run tools/run/memwatch.py --report OUT.tsv                                 (peak and growth per zone)
+  --detail "anon unlabelled": also OUT.detail.tsv, the 12 largest mappings of that zone per sample (t, start, size,
+  rss, swap MiB, VmFlags and the mapping just below it, which tells whose an unnamed mmap is)
 OUT.tsv: one row per sample and zone (MiB): t, phase (last "seq: enter" of --log), zone, rss, pss, anon, swap; zone
 "=gpu" carries the amdgpu GTT and VRAM of the process (fdinfo) in rss/pss, "=system" MemAvailable and GPUReclaim.
 """
@@ -41,7 +43,7 @@ def zone_of(start: int, path: str) -> str:
         name = path[6:-1]
         if name.startswith("mkw "):
             return name[4:]
-        if name.startswith("glibc: malloc"):
+        if name.lstrip().startswith("glibc: malloc"):
             return "malloc"
         if "stack" in name:
             return "thread stacks"
@@ -63,19 +65,29 @@ def zone_of(start: int, path: str) -> str:
     return "file " + base
 
 
-def smaps(pid: int) -> dict[str, list[int]]:
-    """kB per zone: Rss, Pss, Anonymous, Swap."""
+def smaps(pid: int, detail: str | None = None, maps: list | None = None) -> dict[str, list[int]]:
+    """kB per zone: Rss, Pss, Anonymous, Swap. With detail, each mapping of that zone goes to maps as
+    [start, end, rss kB, swap kB, vmflags, the path of the mapping below it]."""
     out: dict[str, list[int]] = defaultdict(lambda: [0, 0, 0, 0])
-    zone = None
+    zone, cur, below = None, None, ""
     with open(f"/proc/{pid}/smaps") as f:
         for line in f:
             m = MAP_LINE.match(line)
             if m:
-                zone = zone_of(int(m[1], 16), m[3].strip())
+                path = m[3].strip()
+                zone = zone_of(int(m[1], 16), path)
+                cur = [int(m[1], 16), int(m[2], 16), 0, 0, "", below] if detail and zone == detail else None
+                if cur is not None and maps is not None:
+                    maps.append(cur)
+                below = path or below
                 continue
             key, _, rest = line.partition(":")
+            if cur is not None and key == "VmFlags":
+                cur[4] = rest.strip()
             if zone and key in FIELDS:
                 out[zone][FIELDS.index(key)] += int(rest.split()[0])
+                if cur is not None and key in ("Rss", "Swap"):
+                    cur[2 if key == "Rss" else 3] += int(rest.split()[0])
     return out
 
 
@@ -116,7 +128,7 @@ def phase_of(log: Path | None, state: dict) -> str:
     return state.get("phase", "")
 
 
-def watch(out: Path, log: Path | None, every: float) -> None:
+def watch(out: Path, log: Path | None, every: float, detail: str | None = None) -> None:
     while True:
         pids = subprocess.run(["pgrep", "-x", "mkw"], capture_output=True, text=True).stdout.split()
         if pids:
@@ -124,14 +136,24 @@ def watch(out: Path, log: Path | None, every: float) -> None:
             break
         time.sleep(0.5)
     t0, state = time.monotonic(), {}
+    det = out.with_suffix(".detail.tsv").open("w") if detail else None
+    if det:
+        det.write("t\tstart\tsize\trss\tswap\tvmflags\tbelow\n")
     with out.open("w") as f:
         f.write("t\tphase\tzone\trss\tpss\tanon\tswap\n")
         while True:
+            maps: list = []
             try:
-                zones, (gtt, vram) = smaps(pid), gpu(pid)
+                zones, (gtt, vram) = smaps(pid, detail, maps), gpu(pid)
             except FileNotFoundError, ProcessLookupError:
                 break
             t, phase = round(time.monotonic() - t0), phase_of(log, state)
+            if det:
+                for s, e, rss, swap, flags, below in sorted(maps, key=lambda x: -(x[2] + x[3]))[:12]:
+                    det.write(
+                        f"{t}\t{s:#x}\t{(e - s) / 1048576:.1f}\t{rss / 1024:.1f}\t{swap / 1024:.1f}\t{flags}\t{below}\n"
+                    )
+                det.flush()
             mib = lambda k: round(k / 1024)  # noqa: E731
             for z, v in sorted(zones.items()):
                 if v[0] or v[3]:
@@ -176,11 +198,12 @@ def main() -> None:
     ap.add_argument("--log", type=Path)
     ap.add_argument("--every", type=float, default=5)
     ap.add_argument("--report", type=Path)
+    ap.add_argument("--detail", help='a zone whose largest mappings go to OUT.detail.tsv, e.g. "anon unlabelled"')
     a = ap.parse_args()
     if a.report:
         report(a.report)
     elif a.out:
-        watch(a.out, a.log, a.every)
+        watch(a.out, a.log, a.every, a.detail)
     else:
         ap.error("OUT.tsv or --report")
 

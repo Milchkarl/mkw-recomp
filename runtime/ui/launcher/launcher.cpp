@@ -55,6 +55,7 @@
 #include "ui/launcher/launcher_update.h"
 #include "ui/launcher/mods.h"
 #include "ui/launcher/mods_browse.h"
+#include "ui/launcher/mod_page.h"
 #include "ui/menu/menu_look.h"
 #include "ui/menu/option_rows.h"
 #include "ui/menu/settings_tabs.h"
@@ -714,14 +715,21 @@ static void steam_art_draw(void) {
 
 // Add to Steam's result in words ("" while it has none): added, added with Steam to restart, or why it failed.
 static void steam_note(const ToolState &job, char *note, size_t cap, bool *failed) {
-    int users = 0, running = 0;
+    int users = 0, running = 0, skipped = 0;
     *failed = job.job == JOB_STEAM && job.phase == TOOL_FAILED;
     note[0] = 0;
-    if (job.job == JOB_STEAM && job.phase == TOOL_DONE && sscanf(job.line, "%d %d", &users, &running) == 2)
-        snprintf(note, cap, "%s", menu_text(running ? UI_TOOLS_STEAM_RESTART : UI_TOOLS_STEAM_DONE));
-    else if (*failed)
+    if (job.job == JOB_STEAM && job.phase == TOOL_DONE && sscanf(job.line, "%d %d %d", &users, &running, &skipped) >= 2) {
+        if (skipped) {
+            *failed = true;
+            snprintf(note, cap, menu_text(running ? UI_TOOLS_STEAM_PARTIAL_RESTART : UI_TOOLS_STEAM_PARTIAL),
+                     users, users + skipped);
+        } else {
+            snprintf(note, cap, "%s", menu_text(running ? UI_TOOLS_STEAM_RESTART : UI_TOOLS_STEAM_DONE));
+        }
+    } else if (*failed) {
         snprintf(note, cap, menu_text(UI_TOOLS_FAILED),
                  !strncmp(job.line, "nosteam", 7) ? menu_text(UI_TOOLS_STEAM_NONE) : job.line);
+    }
 }
 
 // The card's Add to Steam was pressed this start: the card stays, with its result, until the start screen closes.
@@ -1529,7 +1537,33 @@ static bool confirm_modal(const char *id, char *subject, size_t cap, UiTextId as
     return done;
 }
 
+// A mod's options page (mod_page.cpp), in the Mods panel: the mod's title at the right of the heading, what its
+// plugin draws, Back to the list. MKW_LAUNCHER_MOD_PAGE=<mod> opens it once (tests, shots).
+static bool page_mod_options(float w, float h) {
+    static int test_opened = 0;
+    if (!test_opened) {
+        test_opened = 1;
+        if (const char *t = getenv("MKW_LAUNCHER_MOD_PAGE")) {
+            mods_refresh(L.exe_dir);
+            const char *title = t;
+            for (int i = 0; i < mods_count(); i++)
+                if (!strcmp(mods_at(i)->name, t)) title = mods_at(i)->title;
+            mod_page_open(t, title);
+        }
+    }
+    if (!mod_page_is_open()) return false;
+    float bottom = panel_begin("##mods", UI_LAUNCH_MODS, w, h, mod_page_title());
+    ImGui::BeginChild("##mod_page_body", ImVec2(0, -bottom), ImGuiChildFlags_NavFlattened);
+    mod_page_draw(L.scale);
+    ImGui::EndChild();
+    bool leave = panel_back_row() || (back_pressed() && !ImGui::IsAnyItemActive());
+    ImGui::End();
+    if (leave) mod_page_close();
+    return true;
+}
+
 static void page_mods(float w, float h) {
+    if (page_mod_options(w, h)) return;
     float bottom = panel_begin("##mods", UI_LAUNCH_MODS, w, h);
     ImGui::BeginChild("##mods_body", ImVec2(0, -bottom), ImGuiChildFlags_NavFlattened);
     bool ready = rt_game_present();
@@ -1609,8 +1643,17 @@ static void page_mods(float w, float h) {
         ImGui::PushID(i);   // same labels every row (checkbox title can repeat too): unique IDs per row
         bool on = m->enabled;
         if (ImGui::Checkbox(m->title, &on)) mods_toggle(m->name, on);
-        ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(menu_text(UI_MOD_DELETE)).x -
-                        ImGui::GetStyle().FramePadding.x * 2);
+        // Options (a plugin's page: mod_page.cpp) and Delete at the right
+        const ImGuiStyle &rs = ImGui::GetStyle();
+        float del_w = ImGui::CalcTextSize(menu_text(UI_MOD_DELETE)).x + rs.FramePadding.x * 2;
+        float opt_w = m->has_plugin ? ImGui::CalcTextSize(menu_text(UI_MOD_OPTIONS)).x + rs.FramePadding.x * 2 +
+                                          rs.ItemSpacing.x
+                                    : 0;
+        ImGui::SameLine(ImGui::GetContentRegionAvail().x - del_w - opt_w);
+        if (m->has_plugin) {
+            if (ImGui::Button(menu_text(UI_MOD_OPTIONS))) mod_page_open(m->name, m->title);
+            ImGui::SameLine();
+        }
         bool can_delete = !delete_cooldown;
         if (!can_delete) ImGui::BeginDisabled();
         if (ImGui::Button(menu_text(UI_MOD_DELETE)))
@@ -1749,7 +1792,7 @@ static void page_mods(float w, float h) {
             ImGui::TextUnformatted(c->inner);
             ImGui::PopTextWrapPos();
             ImGui::Indent(16.0f);
-            for (int k = 0; k <= c->nmods; k++) {
+            for (int k = 0; k < c->nmods + c->has_original; k++) {
                 const char *name = k < c->nmods ? c->mods[k] : "vanilla";
                 if (k) ImGui::SameLine();
                 bool sel = !strcmp(c->winner, name);
@@ -1873,17 +1916,20 @@ static void page_tools(float w, float h) {
         tools_group(UI_TOOLS_UPDATES);
         UpdateState u = update_state();
         snprintf(text, sizeof text, menu_text(UI_TOOLS_VERSION), rt_port_version);
-        if (u.phase == UPDATE_OFFER || u.phase == UPDATE_FETCHING) snprintf(note, sizeof note, menu_text(UI_LAUNCH_UPDATE_TITLE), u.tag);
-        else snprintf(note, sizeof note, "%s", u.phase == UPDATE_CHECKING ? menu_text(UI_TOOLS_CHECKING) : "");
-        tools_row(text, note);
+        if (u.phase == UPDATE_FAILED) snprintf(note, sizeof note, menu_text(UI_TOOLS_FAILED), u.error);
+        else if (u.phase == UPDATE_CHECKING) snprintf(note, sizeof note, "%s", menu_text(UI_TOOLS_CHECKING));
+        else if (u.phase == UPDATE_CURRENT) snprintf(note, sizeof note, "%s", menu_text(UI_TOOLS_UPDATE_CURRENT));
+        else if (u.tag[0]) snprintf(note, sizeof note, menu_text(UI_LAUNCH_UPDATE_TITLE), u.tag);
+        else note[0] = 0;
+        tools_row(text, note, u.phase == UPDATE_FAILED);
         if (ImGui::Button(menu_text(UI_LAUNCH_WHATS_NEW), ImVec2(0, act_h))) {
             snprintf(note, sizeof note, "https://github.com/%s/releases", repo());
             SDL_OpenURL(note);
         }
         ImGui::SameLine();
         bool busy = u.phase == UPDATE_FETCHING || u.phase == UPDATE_READY || u.phase == UPDATE_PREPARING;
-        ImGui::BeginDisabled(u.phase == UPDATE_CHECKING || busy);
-        if (ImGui::Button(menu_text(UI_TOOLS_CHECK), ImVec2(0, act_h))) update_check_start(L.exe_dir);
+        ImGui::BeginDisabled(u.phase == UPDATE_CHECKING || u.phase == UPDATE_PREPARED || busy);
+        if (ImGui::Button(menu_text(UI_TOOLS_CHECK), ImVec2(0, act_h))) update_check_start(L.exe_dir, true);
         ImGui::EndDisabled();
         char kept[96];
         if (update_previous(L.exe_dir, kept, sizeof kept)) {
@@ -2029,14 +2075,17 @@ static int steam_console(void) { return cfg_steam_console(); }
 static int last_run_fatal(void) {
     char p[PLAT_PATH_MAX * 2];
     snprintf(p, sizeof p, "%s/logs/mkw.log", cfg_game_dir());
-    FILE *f = fopen(p, "rb");
+    PlatFile *f = plat_file_open(p);
     if (!f) return 0;
     static char tail[65536];
-    fseek(f, 0, SEEK_END);
-    long n = ftell(f), from = n > (long)sizeof tail - 1 ? n - (long)sizeof tail + 1 : 0;
-    fseek(f, from, SEEK_SET);
-    size_t got = fread(tail, 1, sizeof tail - 1, f);
-    fclose(f);
+    PlatFileId id;
+    int64_t got = 0;
+    if (plat_file_id(f, &id)) {
+        uint64_t from = id.size > sizeof tail - 1 ? id.size - (sizeof tail - 1) : 0;
+        got = plat_file_pread(f, tail, sizeof tail - 1, from);
+    }
+    plat_file_close(f);
+    if (got <= 0) return 0;
     tail[got] = 0;
     return strstr(tail, "FATAL") != nullptr || strstr(tail, "fatal signal") != nullptr;
 }
@@ -2143,7 +2192,7 @@ extern "C" int launcher_run(void) {
         // update (asking for "copy" here would copy the whole RomFS over a linked one)
         setup_start(L.exe_dir, cfg_game_dir(), nullptr, -1);
     } else if (!L.shot_at || getenv("MKW_UPDATE_AS")) {
-        update_check_start(L.exe_dir);
+        update_check_start(L.exe_dir, false);
     }
     if (!L.shot_at || getenv("MKW_LAUNCHER_LASTRUN")) lastrun_start(L.exe_dir, cfg_game_dir());
     // MKW_LAUNCHER_FIND=1 (test): the search in a shot too, as at a plain start
@@ -2188,7 +2237,10 @@ extern "C" int launcher_run(void) {
                 continue;
             }
             if (e.type == SDL_EVENT_QUIT) L.result = LAUNCHER_QUIT;
-            if (e.type == SDL_EVENT_GAMEPAD_ADDED || e.type == SDL_EVENT_GAMEPAD_REMOVED) pads_refresh();
+            if (e.type == SDL_EVENT_GAMEPAD_ADDED || e.type == SDL_EVENT_GAMEPAD_REMOVED) {
+                pads_refresh();   // the main page's own list
+                input_hotplug();   // the settings' list (input.c) follows the same event, when it is running
+            }
             if (e.type == SDL_EVENT_JOYSTICK_ADDED && !SDL_IsGamepad(e.jdevice.which)) input_wheel_map();
             if (e.type == SDL_EVENT_KEY_DOWN && e.key.scancode == SDL_SCANCODE_F11 && !e.key.repeat)
                 SDL_SetWindowFullscreen(L.win, !(SDL_GetWindowFlags(L.win) & SDL_WINDOW_FULLSCREEN));

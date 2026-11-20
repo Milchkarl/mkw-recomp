@@ -68,6 +68,7 @@ typedef struct PoolRec {
     uint8_t cap_on;                    // shadow_lock: on the capture list (vk_mem_capture.c)
     uint8_t placed;                    // POOL_IMPORT as driver memory mapped at the guest range (placed_pool): mem
     uint8_t lazy;                      // POOL_IMPORT whose GPU storage is made at its first resolve (lazy_back)
+    uint32_t born_ms;                  // plat_now_ms at vk_pool_init (vk_mem_spill.c: how long it has been there)
 } PoolRec;
 
 // vk_memory.c: the pool index
@@ -89,6 +90,9 @@ int import_pool(VkCtx *c, PoolRec *r, uint64_t addr, uint64_t size);
 int lazy_on(void);
 void lazy_back(PoolRec *r);
 void destroy_rec(VkCtx *c, PoolRec *r);
+
+// vk_mem_spill.c: MKW_MEM_SPILL's sweep thread, started at the first pool
+void vk_mem_spill_start(void);
 
 // vk_mem_gen.c: page write generations and write-watch snapshots
 #define GEN_CHUNK_SHIFT 28
@@ -122,6 +126,7 @@ void dirty_frame(uint64_t frame);
 
 // vk_mem_shadow.c: shadow storage
 extern int shadow_on, read_traps, wb_defer;
+extern int shadow_live;   // the shadow machinery runs: shadow_on, or a pool that took a shadow when its import failed
 extern int64_t s_live_n, s_live_bytes;
 int shadow_pool(VkCtx *c, PoolRec *r, uint64_t addr, uint64_t size);
 void shadow_touch(PoolRec *r);

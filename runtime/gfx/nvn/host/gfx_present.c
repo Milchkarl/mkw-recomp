@@ -25,6 +25,7 @@
 #include "hacks.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "plugin.h"
 #include "ui/menu/menu.h"
 #include "vk.h"
 #include "platform/platform.h"
@@ -66,6 +67,7 @@ void gfx_window_focus_changed(int in) {
 // done.
 void gfx_window_closed(void) {
     rt_log("gfx: window closed; exiting");
+    plugins_exit();   // the mods' goodbyes (a seat given back), before the saves finish
     fs_save_flush();
     vk_pipeline_save();
     prof_write();   // plat_exit runs no atexit handlers
@@ -579,6 +581,13 @@ static void save_capture(const char *path) {
     }
     rt_write_png(path, px, (uint32_t)g_cap_w, (uint32_t)g_cap_h);
     free(px);
+    // MKW_SCREEN_RAW=1: the swapchain's own words too (<path>.raw, 32 bits a pixel; HDR10 PQ when in HDR), to measure
+    // the nits of a picture the PNG clips at paper white
+    if (g_sc_hdr && cfg_get("MKW_SCREEN_RAW") && *cfg_get("MKW_SCREEN_RAW") == '1') {
+        char raw[600];
+        snprintf(raw, sizeof raw, "%s.raw", path);
+        plat_file_write(raw, g_cap_ptr, n);
+    }
     rt_log("gfx: swapchain shot %s (%dx%d)", path, g_cap_w, g_cap_h);
 }
 

@@ -58,7 +58,13 @@ def paths_probe(tmp_path_factory: pytest.TempPathFactory) -> Path:
         "static SetupState g_state;\nstatic void start_setup(void) {\n",
         cut(setup, "    unsigned generation =", "    SDL_UnlockMutex(g_lock);")
             .replace("SetupState{", "(SetupState){"),
-        "}\nstatic void boot_paths(int argc, char **argv) {\n",
+        "}\n",
+        cut(boot, "static const char *log_name_own(void)", "// Opens the log file"),
+        "static const char *probe_log_name;\n"
+        "static void log_open(int game, const char *name) { (void)game; probe_log_name = name; }\n"
+        "static void crash_handler(const PlatCrash *x) { (void)x; }\n"
+        "void plat_crash_hook(void (*fn)(const PlatCrash *c)) { (void)fn; }\n",
+        "static void boot_paths(int argc, char **argv) {\n",
         cut(boot, "    cfg_init();   // mkw.ini: the settings pages", "    // the players (Profiles page)"),
         "}\n",
     ]
@@ -141,6 +147,14 @@ def session(paths_probe: Path):
         yield start
         for s in opened:
             s.close()
+
+
+@pytest.mark.parametrize("override, expected_log", [(None, "launcher"), ("custom", "custom"), ("mkw", "launcher")])
+def test_launcher_log_name_does_not_change_restart_environment(session, override, expected_log):
+    env = {} if override is None else {"MKW_LOG_NAME": override}
+    s, _ = session(**env)
+    assert s.initial["log"] == expected_log
+    assert s.initial["log_env"] == (override or "")
 
 
 def package(folder: Path, original: bytes = b"synthetic original") -> Path:

@@ -286,6 +286,10 @@ void vk_mem_lost_watch(const void *pool, uint64_t addr, uint64_t size, uint32_t 
 void vk_mem_lost_log(uint64_t frame);
 void vk_mem_gpu_pending(uint64_t addr, uint64_t size);
 void vk_gpu_written(uint64_t addr, uint64_t size);
+// MKW_WB_PAR (vk_wb_par.c): fn(ctx, i) for i in [0, n) on the caller and a pool; serial when off or nested
+void vk_wb_par(int n, void (*fn)(void *, int), void *ctx);
+int vk_wb_par_threads(void);   // threads besides the caller (0: off)
+int vk_wb_par_inside(void);    // 1 on a thread running a vk_wb_par item
 uint64_t vk_merge_back_probe(int runs, int cw, uint64_t addr, uint64_t size, const uint8_t *s, const uint8_t *base,
                              uint64_t *gpu);   // --probe-merge: one write-back by either implementation (vk_mem_merge.c)
 int vk_mem_mirror_probe(uint64_t addr);   // --probe-vkexec: the pool at addr gets its mirror as on a first buffer use;
@@ -531,6 +535,7 @@ int vk_texture_read_image(const tex_t *t, const view_t *v, const NVNcopyRegion *
                           uint64_t img);            // always from the image (GPU copy, waited for); 0 on failure
 int vk_texture_cpu_stale(uint64_t addr, uint64_t size);    // a GPU-written mirrored texture there has stale storage
 uint64_t vk_texture_dirty_fence(uint64_t addr, uint64_t size);   // newest recorded writer of such a texture; 0: none
+void vk_texture_host_rewrote(uint64_t addr);   // textures at addr: the storage's bytes again over a GPU render
 void vk_texture_write_back(uint64_t addr, uint64_t size);   // writes those images back into their storage (waits)
 void vk_texture_range_gone(uint64_t lo, uint64_t size, VmaAllocation alloc);   // vk_pool_fini: drop the images there
 void vk_texture_stats(uint64_t *images, uint64_t *uploads, uint64_t *reuploads);

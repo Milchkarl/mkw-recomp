@@ -180,6 +180,8 @@ int plat_mem_decommit(uint64_t addr, uint64_t n) {
     return 1;
 }
 
+int plat_mem_drop(uint64_t addr, uint64_t n) { return madvise((void *)(uintptr_t)addr, n, MADV_DONTNEED) == 0; }
+
 int plat_mem_protect(uint64_t addr, uint64_t n, int prot) {
     int p = prot == PLAT_PROT_RW ? PROT_READ | PROT_WRITE : prot == PLAT_PROT_READ ? PROT_READ : PROT_NONE;
     if (mprotect((void *)(uintptr_t)addr, n, p)) return 0;

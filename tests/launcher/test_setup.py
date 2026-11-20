@@ -39,7 +39,43 @@ def test_cc_survives_spaces(tmp_path: Path) -> None:
 
 def run_prepare(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run([sys.executable, "-I", str(ROOT / "tools/prepare/prepare.py"), *args],
-                          capture_output=True, text=True, timeout=60)  # fmt: skip
+                          capture_output=True, text=True, encoding="utf-8", timeout=60)  # fmt: skip
+
+
+@pytest.mark.parametrize("name", ["Plain", "Café", "玩家"])
+def test_moved_source_event_uses_utf8(tmp_path: Path, name: str) -> None:
+    gone = tmp_path / name
+    state = {"version": 1, "done": {}, "source": str(gone), "romfs_mode": "link"}
+    (tmp_path / "setup-state.json").write_text(json.dumps(state), encoding="utf-8")
+    # The launcher uses -I, so model the Windows pipe's encoding inside the child.
+    driver = ("import runpy,sys; sys.stdout.reconfigure(encoding='cp1252'); "
+              "sys.argv=sys.argv[1:]; runpy.run_path(sys.argv[0],run_name='__main__')")
+    p = subprocess.run([sys.executable, "-I", "-c", driver, str(ROOT / "tools/prepare/prepare.py"),
+                        "--game", str(tmp_path)], capture_output=True, timeout=60)  # fmt: skip
+    assert p.returncode == 1
+    assert p.stdout.decode("utf-8").splitlines() == [f"error moved {gone}"]
+    assert f"error moved {gone}" in (tmp_path / "logs/setup.log").read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("state", [[], {"done": None}, {"done": {"exefs": 42}}])
+@pytest.mark.parametrize("location", ["live", "resume", "promote"])
+def test_malformed_setup_state(tmp_path: Path, state, location: str) -> None:
+    live = tmp_path / "mkwgame.dll"
+    live.write_bytes(b"played library")
+    staged = tmp_path / "setup-next"
+    staged.mkdir()
+    (staged / live.name).write_bytes(b"staged library")
+    if isinstance(state, dict):
+        state = dict(state, version=prepare.PREP_VERSION, ready=True, port="0.1.16")
+    folder = tmp_path if location == "live" else staged
+    (folder / "setup-state.json").write_text(json.dumps(state), encoding="utf-8")
+
+    args = ["--game", str(tmp_path), "--port", "0.1.16"]
+    if location == "resume":
+        args.append("--next")
+    p = run_prepare(*args)
+    assert live.read_bytes() == b"played library"
+    assert p.returncode == 2 and p.stdout.strip() == "error source no earlier setup in this folder", p.stdout + p.stderr
 
 
 @pytest.mark.parametrize("external", [False, True])
@@ -93,6 +129,22 @@ def test_keys_from_before_kept() -> None:
 def test_resume_without_earlier_setup(tmp_path: Path) -> None:
     p = run_prepare("--game", str(tmp_path / ODD))
     assert p.returncode == 2 and "error source" in p.stdout, p.stdout
+
+
+@pytest.mark.parametrize("failure", ["exit", "timeout"])
+def test_warm_failure_does_not_fail_the_setup(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], failure: str
+) -> None:
+    # 0.1.13 failed the whole setup when the prewarm's game process exited (#59, #152, #356, #404, #546, #588, #606,
+    # #609); since 0.1.14 the game builds its pipelines as it draws, and the setup finishes
+    def run(argv: list[str], **kwargs: object) -> SimpleNamespace:
+        if failure == "timeout":
+            raise prepare.subprocess.TimeoutExpired(argv, 1)
+        return SimpleNamespace(returncode=70)
+
+    monkeypatch.setattr(prepare.subprocess, "run", run)
+    prepare.warm(tmp_path / "game", tmp_path / "setup-work")  # does not raise
+    assert "left to the game" in capsys.readouterr().err
 
 
 @pytest.mark.skipif(os.name == "nt", reason="creating directory symlinks requires Windows privileges")
@@ -648,6 +700,13 @@ def test_lastrun_reads_how_the_last_game_ended() -> None:
     assert lastrun.verdict("spec.py ... args.cc.split()\n", "0.1.5", sigs) == "known 29"
     assert lastrun.verdict("[host] FATAL: SIGSEGV at host 0x1\n", "0.1.11", sigs) == "crash"
     assert lastrun.verdict("[host] frame 300\n", "0.1.11", sigs) == ""   # killed or power off: nothing to say
+    # a hang the player closed the window on is a crash; one that ended ("slow, not hung") before the close is clean
+    hang = "vk: the GPU has not finished submission 7 in 5.0 s and the driver reports no device loss\n"
+    slow = "vk: the GPU finished submission 7 after 6.2 s: it was slow, not hung\n"
+    closed = "[host] gfx: window closed; exiting\n"
+    assert lastrun.verdict(hang + closed, "0.1.11", sigs) == "crash"
+    assert lastrun.verdict(hang + slow + closed, "0.1.11", sigs) == "clean"
+    assert lastrun.verdict(slow + hang + closed, "0.1.11", sigs) == "crash"
     assert (ROOT / "tools/github/signatures.toml").is_file()
 
 

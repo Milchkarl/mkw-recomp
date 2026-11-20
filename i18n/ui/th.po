@@ -592,6 +592,68 @@ msgstr ""
 "อัตโนมัติจะแสดงภาพ HDR ของเกมเมื่อจอเปิด HDR อยู่ (บน Windows: การตั้งค่า > จอแสดงผล > ใช้ HDR) "
 "เหมือนคอนโซล ความสว่างเป็นไปตามการตั้งค่า HDR ของระบบ ปิดจะแสดงภาพมาตรฐานเสมอ มีผลทันที"
 
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr "การแมปโทน HDR"
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, "
+"which never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and "
+"colour grade, with highlights that roll off smoothly up to the display's peak. Applies after a "
+"restart, as do peak and paper white changes while it is on."
+msgstr ""
+"วิธีปรับความสว่างของฉากให้เข้ากับจอใน HDR Vanilla คือเส้นโค้งของเกมเอง ซึ่งไม่เกิน 1.5 เท่าของ "
+"paper white PsychoV35 เป็นของ RenoDX: โทนกลางและการเกรดสีเหมือนเดิม "
+"แต่ไฮไลต์จะไล่ระดับนุ่มนวลไปจนถึงความสว่างสูงสุดของจอ มีผลหลังรีสตาร์ท "
+"เช่นเดียวกับการเปลี่ยนค่าความสว่างสูงสุดและ paper white ขณะเปิดใช้"
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr "PsychoV35"
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr ""
+"โปรแกรมของตัวเลือกนี้สร้างโดยการตั้งค่าเกม ตั้งค่าเกมใหม่ (การอัปเดตจะทำให้) "
+"เพื่อเพิ่มโปรแกรมเหล่านั้น"
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr "ใช้ได้เฉพาะกับการแมปโทน PsychoV35 เท่านั้น Vanilla ใช้ค่าของจอเอง เหมือนคอนโซล"
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr "ความสว่างสูงสุด HDR"
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies at "
+"once."
+msgstr "ค่าที่สว่างที่สุดที่เกมวาด อัตโนมัติใช้ค่าสูงสุดของจอตามที่ Windows รายงาน มีผลทันที"
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr "Paper white HDR"
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr ""
+"ความสว่างของสีขาวในเมนูและโทนกลางของฉาก อัตโนมัติใช้ความสว่างเนื้อหา SDR ของ Windows "
+"ซึ่งมักสว่างกว่าที่เกมต้องการมาก 203 nits คือค่าอ้างอิงของ HDR "
+"ค่าที่ต่ำลงเหลือที่ว่างให้ไฮไลต์มากขึ้น มีผลทันที"
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr "%s นิต"
+
 msgctxt "UI_MENU_SHARPNESS"
 msgid "FSR sharpness"
 msgstr "ความคม FSR"
@@ -2332,6 +2394,23 @@ msgctxt "UI_GB_ERROR"
 msgid "GameBanana did not answer: %s"
 msgstr "GameBanana ไม่ตอบกลับ: %s"
 
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr "เรตติ้งเนื้อหา: %s"
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr "ม็อด NSFW"
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr "เซ็นเซอร์"
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr "แสดง"
+
 #. Under an installed mod that replaces the game's graphics settings archive (general_format).
 msgctxt "UI_MOD_WARN_GRAPHICS"
 msgid ""
@@ -2363,6 +2442,16 @@ msgid ""
 msgstr ""
 "ปลั๊กอินเนทีฟ: รันโปรแกรมของตัวเองบนคอมพิวเตอร์ของคุณควบคู่กับเกม "
 "เปิดใช้เฉพาะเมื่อคุณเชื่อถือแหล่งที่มา"
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr "ตัวเลือก"
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
+msgstr "ม็อดนี้ไม่มีตัวเลือก"
 
 msgctxt "UI_MOD_CODE_REBUILD"
 msgid "code: turning it on or off builds the game code again before you play (a few minutes)"
@@ -2613,6 +2702,18 @@ msgctxt "UI_TOOLS_STEAM_RESTART"
 msgid "Added: restart Steam to see it"
 msgstr "เพิ่มแล้ว รีสตาร์ต Steam เพื่อดู"
 
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr "อัปเดตโปรไฟล์ Steam แล้ว %d จาก %d"
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr "อัปเดตโปรไฟล์ Steam แล้ว %d จาก %d รีสตาร์ท Steam เพื่อดูทางลัด"
+
 #. Why Add to Steam failed.
 msgctxt "UI_TOOLS_STEAM_NONE"
 msgid "Steam is not installed for this user"
@@ -2638,6 +2739,11 @@ msgstr "ตรวจสอบตอนนี้"
 msgctxt "UI_TOOLS_CHECKING"
 msgid "Checking for a new version..."
 msgstr "กำลังตรวจสอบเวอร์ชันใหม่..."
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
+msgstr "คุณใช้เวอร์ชันล่าสุดแล้ว"
 
 #. Tools page row: %s is the version before the last update.
 #. printf format: keep every %... conversion, in the same order.
