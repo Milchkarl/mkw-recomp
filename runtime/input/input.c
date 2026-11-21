@@ -70,6 +70,17 @@ static float mouse_sens_get(void) {
 }
 
 
+static int kbm_on = -1;   // MKW_KEYBOARD_MOUSE, 0 = the keyboard and the mouse give the game no input (#663); live
+static unsigned kbm_seen;
+
+static int kbm_get(void) {
+    unsigned ver = cfg_version();
+    if (kbm_on >= 0 && ver == kbm_seen) return kbm_on;
+    kbm_seen = ver;
+    kbm_on = cfg_int("MKW_KEYBOARD_MOUSE") != 0;
+    return kbm_on;
+}
+
 // The mouse camera as a right-stick sample, held for the whole presented frame. Under `lock`.
 static void mouse_camera(int32_t out[2]) {
     static uint64_t frame = ~0ull, t0;
@@ -361,7 +372,7 @@ static void poll_merged(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx
             b = pb, sl[0] = pl[0], sl[1] = pl[1], sr[0] = pr[0], sr[1] = pr[1];
         }
         uint64_t kb = 0;
-        if (ikb_foreground()) {
+        if (ikb_foreground() && kbm_get()) {
             uint8_t down[KEY_COUNT] = {0};
             // Mouse buttons count only while the cursor is captured, and a button already held when the capture began
             // (the click that refocused the window) is ignored until it is released.
@@ -419,7 +430,7 @@ static volatile int32_t g_menu;   // the in-game menu, the same way (input_menu)
 
 int input_cursor_allowed(void) {
     const char *in = cfg_get("MKW_INPUT");
-    return g_block != 1 && g_menu != 1 && mouse_sens_get() > 0 && !(in && !strcmp(in, "none"));
+    return g_block != 1 && g_menu != 1 && mouse_sens_get() > 0 && kbm_get() && !(in && !strcmp(in, "none"));
 }
 
 void input_block(int on) {

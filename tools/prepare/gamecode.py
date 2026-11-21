@@ -52,10 +52,13 @@ def write_link_response(rsp: Path, objects: list[Path], windows_quoting: bool) -
 
 
 def cpu_level() -> str:
-    """The x86-64 level the game code is built for: v3 (AVX2, FMA, BMI2: build.py ARCH_FLAGS) or, with MKW_SETUP_CPU=v2,
-    x86-64-v2 (SSE4.2), for CPUs without AVX2 (an AMD FX, an Intel Core before Haswell). Each level has its own object
-    keys (the flags are in them)."""
-    level = os.environ.get("MKW_SETUP_CPU", "v3")
+    """The x86-64 level the game code is built for: v3 (AVX2, FMA, BMI2: build.py ARCH_FLAGS) or v2 (SSE4.2), for CPUs
+    without AVX2 (an AMD FX, an Intel Core before Haswell): MKW_SETUP_CPU=v2, or the package's own `setup/cpu-level`
+    file (the -noavx2 package, release.py), which the environment overrides. Each level has its own object keys (the
+    flags are in them)."""
+    marker = Path(__file__).resolve().parents[3] / "cpu-level"
+    packaged = marker.read_text().strip() if marker.is_file() else "v3"
+    level = os.environ.get("MKW_SETUP_CPU", packaged)
     if level not in ("v2", "v3"):
         sys.exit(f"MKW_SETUP_CPU={level}: v2 or v3")
     return level

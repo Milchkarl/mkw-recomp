@@ -24,6 +24,7 @@ extern "C" {
 #include "platform/platform.h"
 #include "sysinfo.h"
 #include "ui/menu/menu.h"
+#include "sdk/ov/ov_lanif.h"
 #include "ui_text.h"
 void rt_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 }
@@ -465,10 +466,29 @@ static void tab_controls(float scale) {
     opt_toggle("MKW_SWITCH2", UI_MENU_SWITCH2, UI_MENU_SWITCH2_DESC);   // input/switch2.c, at the next start
     opt_toggle("MKW_DSU", UI_MENU_DSU, UI_MENU_DSU_DESC);   // input/dsu.c, live
     opt_slider("MKW_STICK_DEADZONE", UI_MENU_STICK_DEADZONE, 0, 40, UI_MENU_STICK_DEADZONE_DESC, 1, "%.0f %%");   // input.c
+    opt_toggle("MKW_KEYBOARD_MOUSE", UI_MENU_KEYBOARD_MOUSE, UI_MENU_KEYBOARD_MOUSE_DESC);   // input.c, live
     opt_slider("MKW_MOUSE_SENS", UI_MENU_MOUSE_SENS, 0, 10, UI_MENU_MOUSE_SENS_DESC, 0.1f, "%.1f");
     binds_rows(scale);
     opt_end();
     binds_after_page();
+}
+
+// The network LAN play uses (MKW_LAN_IP): Automatic, then each address of a local network with its adapter's name, so
+// a player on ZeroTier or N2N picks theirs instead of writing the address in mkw.ini (#707). The list is read again
+// every two seconds (listing the adapters is slow on Windows). A set address that is not in it any more (the VPN is
+// down) stays shown as it is.
+static void row_lan_network(void) {
+    static OvLanIf ifs[16];
+    static int n;
+    static uint64_t read_at;
+    if (!read_at || plat_now_ns() - read_at > 2000000000ull) n = ov_lan_list(ifs, 16), read_at = plat_now_ns();
+    static char labels[16][80];
+    const char *vals[17] = {""}, *names[17] = {menu_text(UI_MENU_AUTO)};
+    for (int i = 0; i < n; i++) {
+        snprintf(labels[i], sizeof labels[i], "%s (%s)", ifs[i].ip, ifs[i].name);
+        vals[i + 1] = ifs[i].ip, names[i + 1] = labels[i];
+    }
+    opt_choice_list("MKW_LAN_IP", UI_MENU_LAN_NET, vals, names, n + 1, UI_MENU_LAN_NET_DESC);
 }
 
 // The languages, LAN play and the update check: the Game and Menu tabs of before, two rows each.
@@ -486,6 +506,7 @@ static void tab_general(float scale) {
     };
     opt_choice("MKW_MENU_LANG", UI_MENU_MENU_LANG, langs, sizeof langs / sizeof *langs, UI_MENU_MENU_LANG_DESC);
     opt_toggle("MKW_LAN", UI_MENU_LAN, UI_MENU_LAN_DESC);   // sdk/ov/ov_socket.c, the lan set of recomp/patches-mkw.txt
+    row_lan_network();   // sdk/ov/ov_lanaddr.c
     opt_toggle("MKW_UPDATE_CHECK", UI_MENU_UPDATE_CHECK, UI_MENU_UPDATE_CHECK_DESC);   // ui/launcher/launcher_update.cpp
     static const UiTextId start[] = {UI_MENU_AUTO, UI_MENU_START_ALWAYS, UI_MENU_START_SKIP};
     opt_choice("MKW_START_SCREEN", UI_MENU_START_SCREEN, start, 3, UI_MENU_START_SCREEN_DESC);   // launcher.cpp console_start

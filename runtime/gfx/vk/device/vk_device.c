@@ -514,13 +514,14 @@ static int create_device(void) {
     vkGetPhysicalDeviceProperties(g_vk.phys, &dp);
     const char *lim = cfg_get("MKW_GPU_MEM_LIMIT");
     char lim_ram[24];
+    VkPhysicalDeviceIDProperties id = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES};
+    VkPhysicalDeviceProperties2 p2 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, .pNext = &id};
+    vkGetPhysicalDeviceProperties2(g_vk.phys, &p2);
+    // Always asked, also on a discrete GPU: it tells the platform layer which adapter plat_gpu_process_vram_mib reads.
+    uint64_t carve = plat_gpu_vram_mib(dp.vendorID, dp.deviceID, id.deviceLUIDValid ? id.deviceLUID : NULL);
     if (!lim && dp.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) {
         float used, total = 0, proc;
         plat_mem_info(&used, &total, &proc);
-        VkPhysicalDeviceIDProperties id = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES};
-        VkPhysicalDeviceProperties2 p2 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, .pNext = &id};
-        vkGetPhysicalDeviceProperties2(g_vk.phys, &p2);
-        uint64_t carve = plat_gpu_vram_mib(dp.vendorID, dp.deviceID, id.deviceLUIDValid ? id.deviceLUID : NULL);
         snprintf(lim_ram, sizeof lim_ram, "%llu",
                  (unsigned long long)vk_default_mem_limit_mib(total > 0 ? (uint64_t)total : 0, carve));
         rt_log("vk: integrated GPU, %llu MiB carved out of RAM by the firmware: memory cap %s MiB", (unsigned long long)carve,

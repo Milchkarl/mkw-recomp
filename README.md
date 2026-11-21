@@ -137,7 +137,7 @@ Beyond the console, all optional and off (or at the console's value) by default:
   only when each frame starts) starts each frame as late as the card allows, so a press reaches the screen sooner.
 - **Graphics**: texture filtering and quality, detail distance and shadow quality above or below the console's.
 - **Sound**: 5.1 surround.
-- **Controls**: every key and button rebindable, mouse camera, Nintendo, Xbox or PlayStation button icons, motion
+- **Controls**: every key and button rebindable, mouse camera (or keyboard and mouse off, for controller players), Nintendo, Xbox or PlayStation button icons, motion
   steering, vibration strength; local multiplayer with one controller each.
   Switch 2 controllers (Pro Controller, Joy-Con, GameCube) work over Bluetooth and, on Linux, over USB; on Windows
   USB needs a one-time driver step, below. A controller whose gyro the game does not see (one in XInput mode) can

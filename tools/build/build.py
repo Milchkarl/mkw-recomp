@@ -47,6 +47,9 @@ WIN = ROOT / "build/win"  # tools/build/windeps.py
 # returns through it.
 ARCH_FLAGS = {"x86_64": ["-march=x86-64-v3"], "aarch64": ["-march=armv8.2-a+fp16+rcpc+dotprod+crc"]}
 GEN_ARCH_FLAGS = {"x86_64": [], "aarch64": ["-ffixed-x18"]}
+# --cpu noavx2 (x86-64 only): SSE4.2 without AVX2, FMA or BMI2, for an AMD FX or an Intel Core before Haswell (#82). Its own
+# object and dist folders (build/dist/<target>-noavx2); runtime/cpu/fma.c then supplies the correctly rounded fma.
+NOAVX2_FLAGS = ["-march=x86-64-v2"]
 HOST_ARCH = {"amd64": "x86_64", "x64": "x86_64", "arm64": "aarch64"}.get(platform.machine().lower(),
                                                                           platform.machine().lower())  # fmt: skip
 ARCH = HOST_ARCH if HOST_ARCH in ARCH_FLAGS else "x86_64"
@@ -87,12 +90,13 @@ def check_gen(gen: Path, exefs: Path) -> None:
                  f"`uv run recomp/gen.py --exefs {exefs}` first (only the changed chunks recompile)")
 
 
-def set_arch(arch: str) -> None:
+def set_arch(arch: str, noavx2: bool = False) -> None:
     """Builds for arch from here on (GEN_FLAGS, RT_FLAGS and game_id() follow; the lists change in place)."""
     global ARCH
     ARCH = arch
-    GEN_FLAGS[5:] = [*ARCH_FLAGS[arch], *GEN_ARCH_FLAGS[arch]]
-    RT_FLAGS[4:] = ARCH_FLAGS[arch]
+    flags = NOAVX2_FLAGS if noavx2 else ARCH_FLAGS[arch]
+    GEN_FLAGS[5:] = [*flags, *GEN_ARCH_FLAGS[arch]]
+    RT_FLAGS[4:] = flags
 
 
 # Built on Windows itself (not cross-compiled from Linux): Ninja runs each command with CreateProcess, no shell, and
@@ -178,7 +182,9 @@ def c_string(s: str) -> str:
 def game_id() -> str:
     """RT_GAME_ID: the headers the generated code is compiled against and its flags. A game code library built with
     another id is not loaded (runtime/core/boot/gamelib.c)."""
-    h = hashlib.sha256(" ".join(GEN_FLAGS).encode())
+    # the noavx2 level counts as v3: the id ties a library to the runtime's headers, and the package of each level
+    # builds its own game code (tools/prepare/gamecode.py compiles for v2 and writes the same id as a v3 build)
+    h = hashlib.sha256(" ".join(f.replace("x86-64-v2", "x86-64-v3") for f in GEN_FLAGS).encode())
     for p in sorted([*(RUNTIME / "cpu").glob("*.h"), RUNTIME / "core/boot/gamelib.h"]):
         # without CRs: Git for Windows checks out with CRLF (core.autocrlf=true), and a runtime built from such a clone
         # refused the release's mkwgame.dll of the same headers as "built for another version" (16/11/2026)
@@ -390,6 +396,8 @@ def main() -> None:
                     help="generated C dir (default: the dump's version: build/generated, build/generated-180)")
     ap.add_argument("--target", choices=("linux", "windows"), default="linux")
     ap.add_argument("--arch", choices=tuple(ARCH_FLAGS), default=ARCH, help="Linux: the CPU (default: this machine's)")
+    ap.add_argument("--cpu", choices=("v3", "noavx2"), default="v3",
+                    help="x86-64: v3 (AVX2, the default) or noavx2 (x86-64-v2: the package for CPUs without AVX2, #82)")  # fmt: skip
     ap.add_argument("--out", type=Path, help="object directory (default build/obj, build/obj-win for windows)")
     ap.add_argument(
         "--dist", action="store_true",
@@ -433,16 +441,19 @@ def main() -> None:
     target = WINDOWS if args.target == "windows" else LINUX
     if args.arch != "x86_64" and target is WINDOWS:
         ap.error("--target windows is x86_64 only")
-    set_arch(args.arch)
+    if args.cpu == "noavx2" and args.arch != "x86_64":
+        ap.error("--cpu noavx2 is x86_64 only")
+    set_arch(args.arch, args.cpu == "noavx2")
     if args.sysroot and target is WINDOWS:
         ap.error("--sysroot is for Linux")
     # zstd and xxhash.h of the sysroot sit in its usr/local (tools/build/sysroot.py), whose include clang already reads
     sys_flags = [f"--target={ARCH}-linux-gnu", f"--sysroot={args.sysroot.resolve()}"] if args.sysroot else []
     sys_ld = [*sys_flags, f"-L{args.sysroot.resolve()}/usr/local/lib"] if args.sysroot else []
     cross = ARCH != HOST_ARCH and target is LINUX  # another CPU's build: its own dist and object folders
-    dist = ROOT / "build/dist" / (args.target + (f"-{ARCH}" if cross else "")) if args.dist else None
+    nov = "-noavx2" if args.cpu == "noavx2" else ""
+    dist = ROOT / "build/dist" / (args.target + (f"-{ARCH}" if cross else "") + nov) if args.dist else None
     args.out = args.out or ROOT / ("build/obj" + ("-dist" if dist else "") + ("-win" if target is WINDOWS else "")
-                                   + (f"-{ARCH}" if cross else ""))  # fmt: skip
+                                   + (f"-{ARCH}" if cross else "") + nov)  # fmt: skip
     if HOST_WINDOWS and not shutil.which("ninja") and (MSYS2_UCRT64_BIN / "ninja.exe").is_file():
         # at the end, as windeps.py does: what PATH already has stays first
         os.environ["PATH"] = f"{os.environ['PATH']}{os.pathsep}{MSYS2_UCRT64_BIN}"

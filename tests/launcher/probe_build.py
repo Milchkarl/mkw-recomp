@@ -10,21 +10,35 @@ and each hang is written to stderr (shown in the test report) to keep counting t
 import os
 import subprocess
 import sys
+import time
 
 ATTEMPT_SECONDS = 30  # one build takes 0.5-1 s on the runners (345 timed in CI, 18/11/2026)
 ATTEMPTS = 3
 
 
+def _wait(p: subprocess.Popen, seconds: float) -> int | None:
+    """Poll instead of Popen.wait(timeout): if wait() is what never returns (the process tree is already gone),
+    poll() still sees the exit code, which tells a Python wait bug from a clang that really hangs."""
+    deadline = time.monotonic() + seconds
+    while time.monotonic() < deadline:
+        rc = p.poll()
+        if rc is not None:
+            return rc
+        time.sleep(0.05)
+    return None
+
+
 def build(cmd: list[str]) -> None:
     for attempt in range(1, ATTEMPTS + 1):
         p = subprocess.Popen(cmd)
-        try:
-            rc = p.wait(timeout=ATTEMPT_SECONDS)
-        except subprocess.TimeoutExpired:
+        rc = _wait(p, ATTEMPT_SECONDS)
+        if rc is None:
             if os.name == "nt":
                 subprocess.run(["taskkill", "/F", "/T", "/PID", str(p.pid)], capture_output=True)
             p.kill()
-            sys.stderr.write(f"probe_build: attempt {attempt} hung after {ATTEMPT_SECONDS} s: {cmd[0]}\n")
+            sys.stderr.write(
+                f"probe_build: attempt {attempt} hung after {ATTEMPT_SECONDS} s (poll() sees it alive): {cmd[0]}\n"
+            )
             continue
         if rc:
             raise subprocess.CalledProcessError(rc, cmd)

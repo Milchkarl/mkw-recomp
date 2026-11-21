@@ -693,6 +693,16 @@ msgid ""
 "the next start."
 msgstr "標題選單的本地無線遊戲變為區域網路遊戲，可與同一區域網路中的其他電腦比賽（UDP 連接埠 49152 和 35000）。只連線區域網路位址，絕不連線網際網路。下次啟動時生效。"
 
+msgctxt "UI_MENU_LAN_NET"
+msgid "LAN network"
+msgstr "區域網路"
+
+msgctxt "UI_MENU_LAN_NET_DESC"
+msgid ""
+"The network LAN play uses, for ZeroTier, N2N, Tailscale or a VPN: pick the one the other players "
+"are on. Automatic picks the best network by itself. Applies at the next start."
+msgstr "區域網路遊戲使用的網路。使用 ZeroTier、N2N、Tailscale 或 VPN 時，請選擇其他玩家所在的網路。自動會選擇最合適的。下次啟動時生效。"
+
 msgctxt "UI_MENU_VOLUME"
 msgid "Volume"
 msgstr "音量"
@@ -788,6 +798,16 @@ msgstr "Xbox（A 在下）"
 msgctxt "UI_MENU_PAD_LAYOUT_IN_USE"
 msgid "in use: %s"
 msgstr "正在使用：%s"
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE"
+msgid "Keyboard and mouse"
+msgstr "鍵盤和滑鼠"
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE_DESC"
+msgid ""
+"Off: the game ignores the keyboard and the mouse (controllers only) and the mouse cursor stays "
+"free. Esc still opens this menu."
+msgstr "關閉：遊戲忽略鍵盤和滑鼠（僅手把），滑鼠游標保持自由。按 Esc 仍可開啟此選單。"
 
 msgctxt "UI_MENU_MOUSE_SENS"
 msgid "Mouse camera sensitivity"

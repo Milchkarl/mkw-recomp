@@ -468,6 +468,9 @@ void plat_gpu_load(PlatLoad *l, float *load_pct, float *vram_used_mb);
 // its RAM), for the adapter with Vulkan's vendor and device ids (Linux: amdgpu's mem_info_vram_total) or deviceLUID
 // (Windows: DXGI's DedicatedVideoMemory). 0 when unknown.
 uint64_t plat_gpu_vram_mib(uint32_t vendor, uint32_t device, const uint8_t *luid);
+// Dedicated video memory this process uses as the OS counts it, in MiB (Windows: DXGI QueryVideoMemoryInfo, local
+// segment, for the adapter plat_gpu_vram_mib saw); 0 when unknown (Linux).
+uint64_t plat_gpu_process_vram_mib(void);
 // Physical memory in MB: in use and installed on the machine, and this process's working set.
 void plat_mem_info(float *used_mb, float *total_mb, float *proc_mb);
 // This process's memory in bytes: resident (the working set) and private (Windows: committed private bytes; Linux: the

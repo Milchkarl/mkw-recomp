@@ -4,6 +4,76 @@ Each version's section is that release's notes: `tools/build/notes.py` puts it i
 updating, known issues, reporting) for the GitHub release. A section has a summary paragraph, `### Changes` (each with
 its issue, #N), `### Tested` (what was run from the packages before publishing) and optionally `### Known issues`.
 
+## 0.1.16
+
+A package for CPUs without AVX2, a Keyboard and mouse switch and a LAN network row in the settings, less memory in a
+race on Linux and faster split-screen frames, and a long list of launcher, setup and mod fixes from outside
+contributors. New: RenoDX tone mapping for HDR by @Kendoismebutmaybenot, plugin API 2 and 3 and layered base game plus
+updates in `.nup` by @anarqz, blurred NSFW mods on GameBanana by @SavageCore. Thanks to @louisdibiasi, @anarqz,
+@SavageCore, @AngeloAscheri, @mjungnickel18 and @Kendoismebutmaybenot.
+
+### Changes
+
+- **#704 by @anarqz: the `.nup` reader takes the base game and its updates layered**, as Eglantine packs them: the
+  RomFS is read from the oldest title to the newest and the ExeFS comes whole from the newest; DLC stays out.
+- **#659 by @anarqz: plugin API 2.** A mod gets an options page, its settings per player, in-game settings tabs and
+  an `on_exit` hook.
+- **#660 by @anarqz: plugin API 3.** A plugin fills the images the game uses as native image handles.
+- **#580 by @Kendoismebutmaybenot: HDR with RenoDX PsychoV35 tone mapping**, plus peak and paper white settings. The
+  game's HDR curve stopped at 1.5x paper white (723 nits on a 1200-nit display, measured); the highlights now roll off
+  to the display's peak with the grade untouched.
+- **#686 by @SavageCore: GameBanana mods rated NSFW are blurred** unless "NSFW mods" is Show.
+- **#683 by @SavageCore: a blackholed IPv6 route no longer stalls the GameBanana requests.**
+- **#651 by @SavageCore: the start screen rescans gamepads on hotplug** in the settings.
+- **#677 by @AngeloAscheri: a pool whose host memory import fails gets a shadow copy**, not a zero buffer (#438,
+  #628).
+- **#662 by @mjungnickel18: `MKW_WB_PAR`**, an opt-in setting that writes back a fence's GPU-written ranges on several
+  threads (3-player race on an RTX 3090: -2.0 ms a frame, measured by the author).
+- **#652 by @louisdibiasi: the setup validates its saved state** before promoting a staged update.
+- **#653 by @louisdibiasi: save backup results are reported in UTF-8**, and **#672 by @louisdibiasi:** unreadable save
+  folders are reported as backup failures.
+- **#654 by @louisdibiasi: game logs stay apart after a launcher restart.**
+- **#666 by @louisdibiasi: both AppImages are restored when Undo fails.**
+- **#667 by @louisdibiasi: "Check now" works with automatic updates off.**
+- **#668 by @louisdibiasi: the setup emits its events to the launcher in UTF-8.**
+- **#669 by @louisdibiasi: crashes in Unicode installation folders are detected.**
+- **#673 by @louisdibiasi: mod merges are rebuilt when the linked RomFS changes**, and **#674 by @louisdibiasi:**
+  "Original" is only offered for conflicts with an original file.
+- **#675 by @louisdibiasi: adding Steam shortcuts reports a partial success**, and **#676 by @louisdibiasi:** the
+  selected player stays after a failed removal.
+- **#688 by @louisdibiasi: a GPU hang the player closed the window on is no longer a clean end** (#382, #206).
+- **#689 by @louisdibiasi: the setup says what a zig cache failure means** (#406).
+- **#690 by @louisdibiasi: a test that a failed or timed-out prewarm does not fail the setup** (#404, #546).
+- **A package for CPUs without AVX2 (#82, #262):** `mkw-windows-x64-noavx2.zip` runs on SSE4.2 and its setup builds
+  the game code for x86-64-v2; the AVX2 box in the README points to it.
+- **Keyboard and mouse row (#663):** off, the game ignores them and the cursor stays free.
+- **LAN network row (#707):** picks the interface LAN play uses (`MKW_LAN_IP`).
+- **RecompLauncher (#706):** `recomplauncher.json` sits at the top of the Windows zip.
+- **Less memory in a race on Linux:** textures only the runtime reads leave RAM for a file (`MKW_MEM_SPILL`, peak
+  4 637 -> 4 241 MiB in a time trial, frames no worse), and the integer shader variants keep only their words (C heap
+  820 -> 640 MiB). `MKW_MEM_SPILL=0` turns the first off.
+- **Faster split-screen frames (#610):** the chunks of one submission merge each GPU-written range back once
+  (diagnosed by @AngeloAscheri: 775 -> 1175 MiB compared per 60 frames).
+- **Descriptor set writes on the recorder thread (#643 by @andreknieriem, who reported it):** 4 players, -2 to -3 ms a
+  frame in an in-run A/B.
+- **`logs/launcher.log` (#634):** the start screen has its own log and crash handler, so a start screen that stops
+  before its window shows leaves something on disk.
+- **The launcher window opens within the display's usable area (#633):** on a 4K TV at 300 % it was cut at the
+  screen's edges.
+- **A frame of a race dumps whole (#630 by @Gag21, who reported it):** `MKW_DUMP_INFLIGHT_MIB` and
+  `MKW_DUMP_PNG_MIB` lift the dump caps.
+- **`MKW_LOGIC_HZ`:** groundwork for a game logic rate other than 60 Hz; off, with no menu row, and the time trial
+  stays at 60 Hz whatever it says.
+
+### Tested
+
+From the packages Actions built for this tag, before publishing:
+
+- The whole setup from the Linux AppImage through its `setup/` link, as the start screen runs it (12 threads, game
+  1.0.0), in about 9 minutes; its warm-up built all 13 630 shader libraries and compute pipelines (761 compute) with
+  none failed.
+- The whole setup from the Windows zip (6-thread Windows PC, game 1.0.0) in about 19 minutes.
+
 ## 0.1.15
 
 A fix for the Linux AppImage: 0.1.14's setup stopped at `check` for every player, new setups and updates alike.

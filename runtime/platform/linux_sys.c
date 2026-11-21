@@ -446,6 +446,8 @@ static void find_gpu(char *out, size_t cap) {
     closedir(d);
 }
 
+uint64_t plat_gpu_process_vram_mib(void) { return 0; }
+
 uint64_t plat_gpu_vram_mib(uint32_t vendor, uint32_t device, const uint8_t *luid) {
     (void)luid;
     uint64_t mib = 0;

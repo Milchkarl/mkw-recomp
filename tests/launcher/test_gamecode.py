@@ -119,3 +119,14 @@ def test_cpu_level(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("MKW_SETUP_CPU", "v4")
     with pytest.raises(SystemExit):
         gamecode.cpu_level()
+
+
+def test_cpu_level_from_the_package_marker(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """The -noavx2 package carries setup/cpu-level = v2 (release.py), so its setup builds for v2 with no variable; the
+    environment still wins."""
+    (tmp_path / "cpu-level").write_text("v2\n")
+    monkeypatch.setattr(gamecode, "__file__", str(tmp_path / "src" / "tools" / "prepare" / "gamecode.py"))
+    monkeypatch.delenv("MKW_SETUP_CPU", raising=False)
+    assert gamecode.cpu_level() == "v2"
+    monkeypatch.setenv("MKW_SETUP_CPU", "v3")
+    assert gamecode.cpu_level() == "v3"

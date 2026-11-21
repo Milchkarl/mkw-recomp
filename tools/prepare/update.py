@@ -46,6 +46,7 @@ ASSET_SUFFIX = {  # tools/build/release.py's names
     "linux-aarch64": "-aarch64.AppImage",
     "windows": "-windows-x64.zip",
 }
+NOAVX2_SUFFIX = {"windows": "-windows-x64-noavx2.zip"}  # the package for CPUs without AVX2 (release.py --cpu noavx2)
 CLEAN_WAIT = 20  # s
 OLD_SUFFIX = ".old"  # what the launcher renames the replaced files to (Windows: a running exe cannot be removed)
 PREVIOUS = "update-previous"  # the version an update replaced, kept for the Tools page's Undo (launcher_update.h)
@@ -100,8 +101,11 @@ def latest_asset(os_name: str) -> tuple[str, dict]:
         rel = json.load(r)
     if rel.get("draft") or rel.get("prerelease"):
         raise ValueError("the latest release is not a published one")
+    # a -noavx2 package (it carries setup/cpu-level) updates to the same kind: the normal one would not start on its CPU
+    marker = Path(__file__).resolve().parents[3] / "cpu-level"
+    suffix = NOAVX2_SUFFIX.get(os_name) if marker.is_file() and marker.read_text().strip() == "v2" else None
     for a in rel.get("assets", []):
-        if a["name"].endswith(ASSET_SUFFIX[os_name]):
+        if a["name"].endswith(suffix or ASSET_SUFFIX[os_name]):
             return rel["tag_name"], a
     raise ValueError(f"release {rel['tag_name']} has no package for {os_name}")
 

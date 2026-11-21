@@ -410,6 +410,16 @@ static void tex_pool_main(void *arg) {
     __atomic_store_n(&tex_pool, pool, __ATOMIC_RELEASE);
 }
 
+// The texture pool's blocks and what is allocated in them (0 0 without a pool): its blocks are never given back, so
+// the difference is VRAM only textures of its memory type can use (the "mem: vram" line's slack, vr1 21/11/2026).
+void vk_tex_pool_stats(uint64_t *block_bytes, uint64_t *alloc_bytes) {
+    VkCtx *c = vk_ctx();
+    VmaPool pool = __atomic_load_n(&tex_pool, __ATOMIC_ACQUIRE);
+    VmaStatistics s = {0};
+    if (c && pool) vmaGetPoolStatistics(c->vma, pool, &s);
+    *block_bytes = s.blockBytes, *alloc_bytes = s.allocationBytes;
+}
+
 void vk_tex_pool_start(void) {
     VkCtx *c = vk_ctx();
     const char *e = cfg_get("MKW_VK_TEX_POOL_MIN");

@@ -223,12 +223,21 @@ void rt_udf(Cpu *c, uint64_t pc) {
 // FMA or BMI2 (AMD FX, Intel before Haswell) the first such instruction kills the process before any log or window:
 // issue #262 (FX-8320) only saw mkw.exe not open. This runs first of all constructors (101; the others, e.g.
 // tick_scale_init's 128-bit multiply, may already use BMI2) and is itself built for the baseline x86-64.
+// The -noavx2 package (build.py --cpu noavx2, x86-64-v2) asks only for SSE4.2.
+#ifdef __AVX2__
+#define CPU_OK() (__builtin_cpu_supports("avx2") && __builtin_cpu_supports("fma") && __builtin_cpu_supports("bmi2"))
+#define CPU_MSG "This processor lacks AVX2, which this mkw-recomp package needs. Download the package whose name ends in " \
+                "-noavx2 from https://github.com/adriadam10/mkw-recomp/releases/latest (more in " \
+                "https://github.com/adriadam10/mkw-recomp/discussions/82)"
+#else
+#define CPU_OK() __builtin_cpu_supports("sse4.2")
+#define CPU_MSG "This processor lacks SSE4.2, which even the -noavx2 package of mkw-recomp needs (an AMD Phenom or an " \
+                "Intel Core 2 is too old)."
+#endif
 __attribute__((constructor(101), target("arch=x86-64"))) static void require_x86_64_v3(void) {
     __builtin_cpu_init();
-    if (__builtin_cpu_supports("avx2") && __builtin_cpu_supports("fma") && __builtin_cpu_supports("bmi2")) return;
-    const char *msg = "This processor lacks AVX2, which mkw-recomp needs for now (for example an AMD FX or an Intel "
-                      "Core older than the 4th generation). A version without it is planned: "
-                      "https://github.com/adriadam10/mkw-recomp/discussions/82";
+    if (CPU_OK()) return;
+    const char *msg = CPU_MSG;
     fprintf(stderr, "cpu: %s\n", msg);
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "mkw-recomp", msg, NULL);
     _Exit(3);

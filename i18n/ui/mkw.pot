@@ -685,6 +685,16 @@ msgid ""
 "Applies at the next start."
 msgstr ""
 
+msgctxt "UI_MENU_LAN_NET"
+msgid "LAN network"
+msgstr ""
+
+msgctxt "UI_MENU_LAN_NET_DESC"
+msgid ""
+"The network LAN play uses, for ZeroTier, N2N, Tailscale or a VPN: pick the one the other players are on. "
+"Automatic picks the best network by itself. Applies at the next start."
+msgstr ""
+
 msgctxt "UI_MENU_VOLUME"
 msgid "Volume"
 msgstr ""
@@ -777,6 +787,14 @@ msgstr ""
 #. printf format: keep every %... conversion, in the same order.
 msgctxt "UI_MENU_PAD_LAYOUT_IN_USE"
 msgid "in use: %s"
+msgstr ""
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE"
+msgid "Keyboard and mouse"
+msgstr ""
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE_DESC"
+msgid "Off: the game ignores the keyboard and the mouse (controllers only) and the mouse cursor stays free. Esc still opens this menu."
 msgstr ""
 
 msgctxt "UI_MENU_MOUSE_SENS"
