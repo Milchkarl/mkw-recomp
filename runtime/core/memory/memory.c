@@ -346,7 +346,9 @@ static void commit(uint64_t a, uint64_t n, const char *what) {
     thaw_range_locked(a, n, 3);
     int ok = !n || plat_mem_commit(a, n);
     plat_mutex_unlock(&frz_lock);
-    if (!ok) rt_fatal("memory: commit %s %#llx+%#llx failed", what, (unsigned long long)a, (unsigned long long)n);
+    if (!ok)   // Windows: RAM plus the page file used up (#467); the wiki's Troubleshooting says what to turn on
+        rt_fatal("memory: commit %s %#llx+%#llx failed (the system is out of memory: turn on the Windows page file or close "
+                 "other programs)", what, (unsigned long long)a, (unsigned long long)n);
 }
 
 // Windows (#198): the game sets an 8 GiB heap at boot and maps physical memory it touches later, and Windows charges

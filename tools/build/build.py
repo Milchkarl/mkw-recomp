@@ -53,9 +53,12 @@ NOAVX2_FLAGS = ["-march=x86-64-v2"]
 HOST_ARCH = {"amd64": "x86_64", "x64": "x86_64", "arm64": "aarch64"}.get(platform.machine().lower(),
                                                                           platform.machine().lower())  # fmt: skip
 ARCH = HOST_ARCH if HOST_ARCH in ARCH_FLAGS else "x86_64"
-GEN_FLAGS = ["-O1", "-fno-strict-aliasing", "-Wno-return-type", "-Wno-unused-label", "-fvisibility=hidden",
-             *ARCH_FLAGS[ARCH], *GEN_ARCH_FLAGS[ARCH]]  # fmt: skip
-RT_FLAGS = ["-O2", "-g", "-Wall", "-fno-strict-aliasing", *ARCH_FLAGS[ARCH]]
+GEN_BASE_FLAGS = ["-O1", "-fno-strict-aliasing", "-Wno-return-type", "-Wno-unused-label", "-fvisibility=hidden"]
+# -fdeclspec: the FFX SDK's ffx_api.h (vk_tmp_ffx.cpp) marks its entry points __declspec(dllexport) on every platform,
+# which Clang only takes off Windows with this flag (SavageCore, PR 462: Linux, clang 22)
+RT_BASE_FLAGS = ["-O2", "-g", "-Wall", "-fdeclspec", "-fno-strict-aliasing"]
+GEN_FLAGS = [*GEN_BASE_FLAGS, *ARCH_FLAGS[ARCH], *GEN_ARCH_FLAGS[ARCH]]
+RT_FLAGS = [*RT_BASE_FLAGS, *ARCH_FLAGS[ARCH]]
 sys.path.insert(0, str(ROOT / "recomp"))
 import versions  # noqa: E402  (the game version of a dump: generated dir, patches, RtGame.version)
 from versions import detect as detect_version  # noqa: E402
@@ -95,8 +98,8 @@ def set_arch(arch: str, noavx2: bool = False) -> None:
     global ARCH
     ARCH = arch
     flags = NOAVX2_FLAGS if noavx2 else ARCH_FLAGS[arch]
-    GEN_FLAGS[5:] = [*flags, *GEN_ARCH_FLAGS[arch]]
-    RT_FLAGS[4:] = flags
+    GEN_FLAGS[len(GEN_BASE_FLAGS):] = [*flags, *GEN_ARCH_FLAGS[arch]]
+    RT_FLAGS[len(RT_BASE_FLAGS):] = flags
 
 
 # Built on Windows itself (not cross-compiled from Linux): Ninja runs each command with CreateProcess, no shell, and

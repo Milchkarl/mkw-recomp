@@ -136,8 +136,7 @@ def test_resume_without_earlier_setup(tmp_path: Path) -> None:
 def test_warm_failure_does_not_fail_the_setup(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], failure: str
 ) -> None:
-    # 0.1.13 failed the whole setup when the prewarm's game process exited (#59, #152, #356, #404, #546, #588, #606,
-    # #609); since 0.1.14 the game builds its pipelines as it draws, and the setup finishes
+    # Until 17/11/2026 the prewarm ran the game for a minute and kept the keys of what its title drew.
     def run(argv: list[str], **kwargs: object) -> SimpleNamespace:
         if failure == "timeout":
             raise prepare.subprocess.TimeoutExpired(argv, 1)
@@ -513,6 +512,37 @@ def test_fetch_retries_damaged_downloads(tmp_path: Path, monkeypatch: pytest.Mon
         spec.fetch("x/pkg.zip", want, tmp_path)
 
 
+@pytest.mark.parametrize("cut", [8, 0x80 + 8, 0x80 + 0x30 + 0x40 + 3 * 24 + 16])
+def test_nup_cut_table_is_reported(tmp_path: Path, cut: int) -> None:
+    import nup
+
+    src = tmp_path / "source"
+    for name in ("exefs/main", "romfs/file"):
+        path = src / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"synthetic")
+    package = tmp_path / "cut.nup"
+    nup.pack(src, package, 0x0400C3F00006E000, 0)
+    data = package.read_bytes()
+    assert nup.Nup(package).files("romfs")
+    package.write_bytes(data[:cut])
+    with pytest.raises(ValueError, match="cut short"):
+        nup.Nup(package).files("romfs")
+
+
+def test_fastcc_falls_back_when_probe_line_is_incomplete(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import fastcc
+
+    clang = tmp_path / "clang" / ("clang.exe" if os.name == "nt" else "clang")
+    clang.parent.mkdir()
+    clang.touch()
+    monkeypatch.delenv("MKW_SETUP_CC", raising=False)
+    monkeypatch.setattr(fastcc, "version", lambda _: "clang version 22.1.8")
+    monkeypatch.setattr(fastcc.subprocess, "run", lambda *args, **kwargs: SimpleNamespace(
+        returncode=0, stderr='"-cc1"\n'))
+    assert fastcc.setup([str(tmp_path / "zig"), "cc"], tmp_path, tmp_path, [["-O1"]]) is None
+
+
 def test_nup_pack_reads_back(tmp_path: Path) -> None:
     # a loose dump packed into one .nup (nup.py pack) reads back the same through the module the setup uses
     sys.path.insert(0, str(ROOT / "tools/prepare"))
@@ -810,6 +840,9 @@ def test_lastrun_reads_how_the_last_game_ended() -> None:
     assert lastrun.verdict(hang + closed, "0.1.11", sigs) == "crash"
     assert lastrun.verdict(hang + slow + closed, "0.1.11", sigs) == "clean"
     assert lastrun.verdict(slow + hang + closed, "0.1.11", sigs) == "crash"
+    assert lastrun.verdict(closed + "[host] FATAL: SIGSEGV during shutdown\n", "0.1.11", sigs) == "crash"
+    assert lastrun.verdict(closed + "vk: device fault: Instruction pointer invalid\n", "0.1.11", sigs) == "known 22"
+    assert lastrun.verdict("[host] FATAL: earlier\n" + closed, "0.1.11", sigs) == "clean"
     assert (ROOT / "tools/github/signatures.toml").is_file()
 
 

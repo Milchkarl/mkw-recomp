@@ -17,7 +17,8 @@ to 20 ms, no complaint in its notes) is closed as `perf-data` once its log is at
 report to be four releases behind (it was two: a release a day made 63 reports "old"); an issue whose last word is
 our answer, 14 days old, is closed as `no-reply` (its author's reply reopens it).
 
-A known error closes the new issue at once as its duplicate (its author's reply reopens it). A report on a release
+A known error closes the new issue at once as its duplicate (its author's reply reopens it); with several recent logs
+attached, every one must carry it. A report on a release
 older than the newest two, quiet for 3 days, is asked to try the latest (`needs-retry`) and closed after 7 days without
 its author's reply. The sweep runs every 6 hours.
 

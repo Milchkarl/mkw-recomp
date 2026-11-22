@@ -33,13 +33,27 @@ typedef struct { uint8_t vs[32], fs[32]; uint32_t flags; } PairRec;
 typedef struct { int kind; Lib *b; Layout *l; VkPipeState s; GKey k; const GfxShader *cs; uint32_t first; } PairJob;
 
 // finished: every library built, no thread left reading SPIR-V (vk_pipeline_prewarm releases it then)
-static struct { PairJob *j; size_t n; volatile int64_t next, done, cs_failed; int no_stall, finished; } PJ;
+static struct { PairJob *j; size_t n; volatile int64_t next, done, cs_failed; int no_stall, finished, low; } PJ;
 
 // The alpha test functions the game draws with (pipeline_pairs.py: GREATER and GEQUAL in every recorded pipeline with
 // the test on), as GKey.alpha_func: VkCompareOp + 1. The reference is no part of a pipeline (spirv_alpha_test).
 static const uint8_t alpha_funcs[] = {VK_COMPARE_OP_GREATER + 1, VK_COMPARE_OP_GREATER_OR_EQUAL + 1};
 
 static int id_cmp(const void *x, const void *y) { return memcmp(x, y, 32); }
+
+// A library stays alive as a VkPipeline until the game ends: about 1 MB each on Intel ANV, 13 684 of them (#733: 26 GB
+// and the OOM killer on a 32 GB machine). Below this much free RAM (the larger of 2 GiB and 1/8 of the total) the
+// prewarm (the game's and mkw --prewarm) stops and the rest is built as the game draws.
+static int pairs_low_ram(void) {
+    float used, total, proc;
+    plat_mem_info(&used, &total, &proc);
+    if (total < 0) return 0;
+    float need = total / 8 > 2048 ? total / 8 : 2048;
+    if (total - used >= need) return 0;
+    static int logged;
+    if (!logged++) rt_log("vk_pipeline: pairs prewarm: only %.0f MB of RAM free; the rest is built as the game draws", total - used);
+    return 1;
+}
 
 static void pairs_worker(void *arg) {
     plat_thread_background();   // off the frame's fast cores (MKW_FAST_CORES)
@@ -51,6 +65,12 @@ static void pairs_worker(void *arg) {
         if (j->kind == JOB_CS) {
             if (!vk_pipeline_compute_warm(j->cs, j->first)) plat_inc64(&PJ.cs_failed);   // releases P.lock
         } else if (j->b->building && !j->b->job) {
+            if (!PJ.low && (i & 31) == 0 && pairs_low_ram()) PJ.low = 1;   // the rest is built as the game draws
+            if (PJ.low) {
+                lib_drop(j->b);
+                plat_inc64(&PJ.done);
+                continue;
+            }
             lib_build(j->b, j->kind, &j->s, &j->k, j->l);   // releases P.lock
         }
         plat_inc64(&PJ.done);

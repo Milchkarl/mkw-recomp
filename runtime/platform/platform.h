@@ -119,6 +119,9 @@ static inline uint64_t plat_scaled(PlatScale s, uint64_t t) {
     return t * s.q + (uint64_t)(((unsigned __int128)t * s.f) >> 64);
 }
 void plat_sleep_ns(uint64_t ns);          // returns no earlier than ns later; overshoot well under 1 ms
+// Frame pacing against an absolute plat_now_ns deadline: high-resolution wait, then yield across the timer's wake-up
+// margin. A deadline in the past returns immediately, so a stalled frame does not add another relative sleep.
+void plat_sleep_until_ns(uint64_t deadline);
 // Sleeps about ns on the OS's high-resolution timer without spinning: wakes up to PLAT_WAIT_LATE_NS late, never early.
 void plat_wait_ns(uint64_t ns);
 #ifdef _WIN32
@@ -275,6 +278,9 @@ typedef struct {
     uintptr_t ret;             // rip in no module: the word at rsp, the caller's return address after a wild call
 } PlatCrash;
 void plat_crash_hook(void (*fn)(const PlatCrash *c));
+// Windows: is hardware-enforced stack protection (CET shadow stacks) on for this process: 1 yes, 0 no, -1 not
+// reported (older Windows, and always on Linux). Logged at start: a silent 0xC0000409 exit was seen only on Windows.
+int plat_shadow_stack(void);
 int plat_mem_read(uint64_t addr, void *out, size_t n);    // copies n bytes, 0 instead of faulting on unmapped memory
 int plat_mem_readable(uint64_t addr, uint64_t n);         // every page of [addr, addr + n) can be read; no fault
 void *plat_aligned_alloc(size_t size, size_t align);      // free with plat_aligned_free; NULL on failure

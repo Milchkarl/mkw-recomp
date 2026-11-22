@@ -4,6 +4,69 @@ Each version's section is that release's notes: `tools/build/notes.py` puts it i
 updating, known issues, reporting) for the GitHub release. A section has a summary paragraph, `### Changes` (each with
 its issue, #N), `### Tested` (what was run from the packages before publishing) and optionally `### Known issues`.
 
+## 0.1.17
+
+**DLSS and FSR 3.1 upscaling, frame generation and NVIDIA Reflex, by @FIocker (#462).** All of it is off by default
+(the console's behaviour), so a normal install plays as before; turn it on in Graphics > Resolution in the F1 menu or
+in `mkw.ini` `[display]`. **With it on, it needs testing on your GPU:** the author tried time trials on an RTX 5080
+only, so please report what you see (ghosting, a wrong kart, flicker, stutter, a crash) with your `logs/mkw.log`.
+Also: a shadow-map skip for 3-4 player split screen and Steam Deck clocks by @andreknieriem, a fix for the vertex
+explosions on a dedicated GPU (suspected, not confirmed) by @AngeloAscheri, a shader prewarm that stops when RAM runs
+low, and a long list of setup, mod and launcher fixes from outside contributors. Thanks to @FIocker, @andreknieriem,
+@AngeloAscheri, @louisdibiasi, @anarqz and @devadobe11-pixel.
+
+### Changes
+
+- **#462 by @FIocker: DLSS and FSR 3.1 upscaling, DLSS and FSR 3.1 frame generation, NVIDIA Reflex. Off by default;
+  needs testing when on.** The 3D scene renders at a share of the screen's lines (`MKW_TEMPORAL_QUALITY`) with a
+  Halton jitter and motion vectors from the game's own camera, and DLSS (through the driver's NGX) or FSR 3.1 (AMD's
+  FidelityFX DLLs) takes the place of the game's upscale pass (or DLAA over the SMAA blend). Frame generation
+  (`MKW_FRAMEGEN`, `MKW_FG_ENGINE=flow|dlss|fsr3`) shows the made frames without the HUD and lays the real HUD back.
+  Reflex is `MKW_REFLEX=off|on|boost`. Menu rows in all 20 languages. The scene is recorded in order while the
+  upscaler is on.
+- **#644 by @andreknieriem: `MKW_SHADOW_DRAWS`**, the shadow map left out in 3-4 player split screen (auto).
+- **#645 by @andreknieriem: `MKW_GPU_CLOCKS=auto`** holds the standard pstate on the Steam Deck.
+- **#692 by @AngeloAscheri: `MKW_FPS=auto`** tries the next faster interval below 30 fps, so a CPU clocked down by
+  idle no longer pins the game there.
+- **#735 by @AngeloAscheri: the mirror's write-back is merged on the GPU, not copied whole**, for pools without a
+  shadow (the Windows default). Suspected cause of the vertex explosions and stretched triangles in #731, #679, #694
+  and #646; not confirmed, so please report if they remain.
+- **#740 by @AngeloAscheri: a GPU texture smaller than a page goes back to its storage** when only a neighbour on the
+  page was written.
+- **#710 by @AngeloAscheri: captures taken late in a session replay** (`MapVirtual` of a freed pool unmaps).
+- **#713 by @AngeloAscheri: `lift_game_diff.py`** checks every instruction shape in the game's code against Unicorn.
+- **#742 by @devadobe11-pixel: `pad_p2`** routes the first controller to player 2, for keyboard plus controller
+  local play (#160, #106, #23).
+- **#743 by @anarqz: plugin API 4**, a pad filter, the menu, the shown picture, focus and quit.
+- **#738 by @anarqz: the setup compiles under Wine and Proton**, where zig cannot use its cache.
+- **#739 by @anarqz: no SDL x11 video driver for the Windows build under Proton.**
+- **#715 by @louisdibiasi: the setup names the real zig cache folder.**
+- **#716 by @louisdibiasi: a test drops unconfirmed prewarm versions.**
+- **#717 by @louisdibiasi: mod archives that hold links are refused.**
+- **#719 by @louisdibiasi: a damaged exefs patch is reported** instead of crashing the import.
+- **#720 by @louisdibiasi: a cut mod archive no longer stops the merge.**
+- **#721 by @louisdibiasi: truncated NUP tables are reported.**
+- **#724 by @louisdibiasi: unexpected Steam shortcut structures are refused.**
+- **#725 by @louisdibiasi: crashes during launcher shutdown are reported.**
+- **#726 by @louisdibiasi: the setup falls back on an incomplete compiler probe.**
+- **#727 by @louisdibiasi: mod preview images are written atomically.**
+- **#728 by @louisdibiasi: the connection race timeout holds.**
+- **#729 by @louisdibiasi: the pre-commit checks read UTF-8 files on any code page.**
+- **The shader prewarm stops when free RAM runs low (#733):** on an Intel Arc each prewarmed shader library takes
+  about 1 MB, 13 684 of them reached 26 GB and the system killed the game; the rest is now built as the game draws.
+- **"memory: commit … failed" says what to do (#467, #745, #711):** on Windows without a page file the game could not
+  commit memory and closed; the message now says to turn the page file on, and the wiki has the steps.
+- **Breadcrumbs for the silent exit 0xC0000409 on Windows 11 (#751, #702, #698, #546, #405, #356, #59):** the log
+  now says the hardware stack protection state and when a game thread exits, to find the cause in the next logs.
+
+### Tested
+
+From the packages Actions built for this tag, before publishing:
+
+- The whole setup from the Linux AppImage through its `setup/` link (12 threads, game 1.0.0) in about 12 minutes; its
+  warm-up built all 13 630 shader libraries and compute pipelines (761 compute) with none failed.
+- The whole setup from the Windows zip (Windows PC, game 1.0.0) in about 19 minutes.
+
 ## 0.1.16
 
 A package for CPUs without AVX2, a Keyboard and mouse switch and a LAN network row in the settings, less memory in a

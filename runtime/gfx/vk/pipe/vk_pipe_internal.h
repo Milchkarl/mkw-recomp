@@ -240,6 +240,7 @@ Lib *lib_find(uint64_t h, const void *key, uint32_t size);
 Lib *lib_new(uint64_t h, const void *key, uint32_t size);
 VkPipeline lib_build(Lib *b, int kind, const VkPipeState *s, const GKey *k, Layout *l);
 void lib_steal(Lib *b);
+void lib_drop(Lib *b);   // a building entry no job will build: removed, so a later draw builds its own
 LibJob *lib_take(Lib *b);
 void lib_keys(const VkPipeState *s, const GKey *k, ViKey *v, PrKey *pk, FsKey *fk, FoKey *ok);
 VkPipeline gpl_link(const VkPipeState *s, const GKey *k, const Layout *lc, int build, int *final);

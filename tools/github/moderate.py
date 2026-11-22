@@ -242,6 +242,11 @@ class Moderator:
             if MARK.format("mods") not in said:
                 self.gh.comment(n, "mods", TEXT["mods"].format(mods=on))
         sig = classify.known_error(n, "\n".join([title, body, *(t for _, t in newest)]), ver, self.sigs)
+        # #474/#661 (21/11/2026): two attachments both named mkw.log (0.1.11 and 0.1.13) both count as the newest, and
+        # the older one's video-memory errors closed a performance report whose current log has none. With several
+        # logs, every one must carry the signature.
+        if sig and len(newest) > 1 and any(not classify.known_error(n, t, ver, [sig]) for _, t in newest):
+            sig = None
         for name, text in [] if sig else older:
             if (s := classify.known_error(n, text, ver, self.sigs)) and MARK.format("dup_older") not in said:
                 self.gh.comment(n, "dup_older", TEXT["dup_older"].format(name=name, issue=s.issue, what=s.what))

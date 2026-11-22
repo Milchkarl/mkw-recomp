@@ -343,6 +343,11 @@ typedef struct {
     double stall_ms;   // how long the frames have been slower than any interval holds (fps_auto.c)
     int fits;          // the last frames before it fitted the interval
     int hz;            // the vsync rate the interval counts in, 0: 60 (set after fps_auto_reset)
+    // trials toward a faster interval below 30 fps (fps_auto.c): the intervals that held HELD_S, frames left of the
+    // trial under way (from: the interval it left), frames until the next one and its wait in seconds
+    unsigned held, trial, trial_wait;
+    int trial_from;
+    double trial_s;
 } FpsAuto;
 void fps_auto_reset(FpsAuto *a);                           // interval 1, no history
 int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame's game measure and real period in,
@@ -389,6 +394,8 @@ int probe_window(void);                                    // gfx_window_probe.c
 int probe_vkmem(void), probe_vkexec(void), probe_astc(void);                 // tex_probe.c, vk_exec_probe.c, astc_probe.c
 int probe_texpre(void);                                    // texpre_probe.c: GPU BC7 against bc7enc on game textures
 int probe_framegen(void);                                  // fg_probe.c: frame generation on two pictures
+int probe_oflow(void);                                     // oflow_probe.c: hardware flow with a known translation
+int probe_fsr_fg(void);                                    // fsr_fg_probe.c: analytical geometry/shading motion
 int probe_gpu_clocks(void);                                // clk_probe.c: the GPU clock after idle gaps (MKW_GPU_CLOCKS)
 
 int vk_texpre_encode(void);                                  // vk_texpre.c: --texpre (BC7 of the recorded ASTC textures)

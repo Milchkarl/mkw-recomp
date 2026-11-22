@@ -4,6 +4,7 @@ The setup, the installation selector and the Add to Steam of the start screen.
 
 | File | What it checks |
 |---|---|
+| `test_mod_archive_links.py` | Mod archives with symbolic links are refused before their targets can be copied |
 | `test_beside.py` | `beside.py`: a step's progress held until the main loop reaches it, and its error raised where it is joined |
 | `test_appimage_undo.py` | The launcher's AppImage Undo swap, including each rename failure, rollback failures and a recovery file already on disk |
 | `test_mod_merge_source.py` | The mod merge cache rebuilds on a linked loose RomFS or NUP change and reuses unchanged sources |
@@ -16,6 +17,8 @@ The setup, the installation selector and the Add to Steam of the start screen.
 | `test_steam.py` | The Tools page's Add to Steam (`tools/prepare/steam.py`): the binary `shortcuts.vdf` read back as it was written (strings, ints, a 64-bit field, tags), an entry with the same executable replaced instead of doubled with the other shortcuts kept whole, a missing file created, a pid file that is not there or is not a number reading as Steam closed, Gaming Mode's library images written in their sizes (from `--art` too), replacing only its own, the icon naming the drawn one, and a shortcut it added before under another program path replaced instead of doubled, a player's own kept |
 | `test_mod_import_encoding.py` | The real mod-import CLI with cp1252 pipes: UTF-8 success, error paths, variants and argument diagnostics for ASCII, accented and Chinese names, from folders and synthetic ZIPs |
 | `test_mod_import_events.py` | Actual importer output through the production Mods-page result parser: names with spaces and Unicode, metadata-free results and error messages, without SDL or a game |
+| `test_mod_ips.py` | `tools/mod/ips.py`: IPS, IPS32 and `.pchtxt` records read, and a cut or malformed patch reported as a `PatchFailed` the import shows, not a traceback |
+| `test_mod_merge_damaged.py` | The mod merge with a SARC whose header is cut short, in the mods or the game's own file: it is served whole and the other archives still merge |
 | `test_mod_original_choice.py` | Original conflict choices with and without an original, cache migration and the production conflict reader |
 | `test_gamebanana_cache.py` | GameBanana's mod info command recovers unreadable cached JSON, reuses the repaired cache and preserves the old entry if replacement fails, using a local response fixture |
 | `test_gamebanana_eyeballs.py` | GameBanana's connections race every resolved address so a blackholed IPv6 does not stall IPv4, verified against a local server with a dead first address |
