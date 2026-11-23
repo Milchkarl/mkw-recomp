@@ -1228,6 +1228,7 @@ static void host_camera_event(Cpu *c) {
 }
 
 void zstd_patch_hosts(uint64_t page);   // ov_zstd.c
+void graphchk_hosts(uint64_t page);     // diag/graphchk.c
 
 void rt_patch_hosts(void) {
     const RtGame *g = rt_game();
@@ -1248,6 +1249,7 @@ void rt_patch_hosts(void) {
     if (g->npatch_sets) rt_register_host(g->patch_page + LOGIC_IV_HOST, host_logic_copy);
     if (g->npatch_sets) frame_rate_host(g->patch_page);
     if (g->npatch_sets) race_scene_host(g->patch_page);
+    if (g->npatch_sets) graphchk_hosts(g->patch_page);
     if (g->npatch_sets) rt_register_host(g->patch_page + CAMERA_EVENT_HOST, host_camera_event);
     if (rt_version()->camera_service) {
         camera_absent_fn = hostfn_register("camera: absent", camera_absent);

@@ -73,6 +73,7 @@ typedef struct VkCtx {
         has_astc_ldr,                       // textureCompressionASTC_LDR (enabled when reported)
         has_calibrated,                     // VK_KHR_calibrated_timestamps, with MKW_TRACE_TL=1 only
         has_emh,                            // VK_EXT_external_memory_host: pools imported when a shadow does not fit
+        has_dma_buf,                        // VK_EXT_external_memory_dma_buf: zero-copy pools (MKW_UDMABUF, Linux)
         has_placed,                         // VK_EXT_map_memory_placed with unmap-reserve: pools as driver memory
         has_colorspace,                     // VK_EXT_swapchain_colorspace (instance): HDR10 swapchains (gfx_hdr.c)
         has_hdr_metadata;                   // VK_EXT_hdr_metadata: the HDR10 swapchain's mastering metadata
@@ -203,6 +204,7 @@ void vk_present_screen_shot(const char *path);   // the next swapchain image to 
 // The window system's part of device creation (gfx_window_sdl.c): the instance
 // extensions a surface needs (their count, at most max), and whether a queue family of pd can present to it.
 int gfx_window_vk_extensions(const char **out, int max);
+const char *gfx_window_failed(void);   // why no window can open, once its thread has tried; NULL when one can
 int gfx_window_vk_presentable(VkInstance inst, VkPhysicalDevice pd, uint32_t family);
 void gfx_window_resize(int client_w, int client_h);   // programmatic resize; returns after the swapchain is rebuilt
 void gfx_vsync_bind_counter(volatile int32_t *counter);  // host-side stand-in for a bound event: incremented per tick
@@ -382,6 +384,7 @@ void vk_sparse_written(VkImage img, uint32_t level, uint32_t layer0, uint32_t la
                        uint32_t h);
 typedef struct { VkSemaphore wsem, ssem; uint64_t wait, signal; } VkSparseOrder;   // a NULL semaphore: no wait / signal
 VkSparseOrder vk_sparse_order(uint64_t fence, int binds);
+void vk_sparse_last_bind_log(void);   // at a device loss: the newest vkQueueBindSparse, its size and age (no lock)
 // Changes whenever vk_mem_resolve plus VK_MEM_USE may give another span for an address: a pool added, finalized or
 // mapped, a mirror created, refused or forgotten, a submission started.
 uint64_t vk_mem_gen(void);
@@ -534,6 +537,9 @@ uint32_t vk_texture_slot_format(int id, uint64_t *addr);   // NVN format the gam
 void vk_texture_lock(void);
 void vk_texture_unlock(void);
 const VkTexImage *vk_texture_by_id_locked(int id, view_t *view, int *has_view);
+// For a shadow slot (a depth-compare sampler): the D32_SFLOAT twin of a colour texture (vk_tex_twin.c), made and filled
+// on first use; NULL when img gets none (bound as it is)
+const VkTexImage *vk_texture_depth_twin_locked(const VkTexImage *img);
 VkSampler vk_sampler_by_id_locked(int id);
 // The slot's sampler with nearest filtering and no anisotropy: a depth texture read without a compare lands on one texel
 // on the Switch although the game binds a linear sampler, and MacNativeGames samples it the same way. VK_NULL_HANDLE
@@ -598,6 +604,9 @@ typedef struct {
     // epoch too, so submits per frame can be read). VRAM plan, 21/11/2026.
     uint64_t cls_bytes[4], cls_n[4], idle_bytes[3], idle_n[3];
     uint64_t size_bytes[3], size_n[3];   // sampled images by longest side: <512, 512-1023, >=1024
+    // Live and released entries whose memory is not device-local: VMA's AUTO_PREFER_DEVICE puts an image in the host
+    // heap once the device-local one is at MKW_GPU_MEM_LIMIT's cap, where an allocation does not fail.
+    uint64_t host_n, host_bytes;
     uint32_t epoch;
 } VkTexCensus;
 void vk_texture_census(VkTexCensus *s);
@@ -800,7 +809,8 @@ PFN_vkUpdateDescriptorSetWithTemplate vk_pipeline_update_tpl_fn(void);
 int vk_pipeline_draw_cache(void);   // MKW_DRAW_CACHE (vk_pipeline.c)
 typedef struct { uint64_t graphics, compute, failures, hits, layouts, push_layouts, dyn_over, async_built, pending_skips; } VkPipeStats;
 void vk_pipeline_stats(VkPipeStats *s);
-void vk_pipeline_save(void);               // writes the VkPipelineCache to pipeline-cache.bin next to mkw
+void vk_pipeline_save(void);               // writes the VkPipelineCache to pipeline-cache.bin next to mkw when its size
+                                           // changed since it was loaded or last written
 void vk_pipeline_autosave(void);           // vk_pipeline_save at most every 20 s, when pipelines were built since
 void vk_pipeline_shutdown(void);           // waits for background builds, saves, destroys pipelines, layouts and the
                                            // cache; before vk_shutdown

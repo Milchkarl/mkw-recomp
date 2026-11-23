@@ -93,6 +93,63 @@ static void dpm_level(const char *node, char *level, size_t n) {
     fclose(f);
 }
 
+// The power caps of the GPU's hwmon (power1_cap and power2_cap, in microwatts) against their defaults. On the Steam
+// Deck they are the APU's slow and fast PPT, which Steam's TDP limit lowers: at 8 W instead of 15 W races ran at
+// 0.34-0.82x and nothing in the log said why (#753). Logged at start and when a cap changes, read every 300 frames
+// (two small sysfs files, so the present thread does not notice).
+static struct {
+    char dir[300];   // the hwmon directory, "" when there is none
+    long cap[2];
+    unsigned frames;
+} P = {.cap = {-2, -2}};
+
+static long sys_long(const char *dir, const char *name) {
+    char path[400];
+    snprintf(path, sizeof path, "%s/%s", dir, name);
+    FILE *f = fopen(path, "r");
+    if (!f) return -1;
+    long v = -1;
+    if (fscanf(f, "%ld", &v) != 1) v = -1;
+    fclose(f);
+    return v;
+}
+
+static void power_check(void) {
+    long cap[2] = {sys_long(P.dir, "power1_cap"), sys_long(P.dir, "power2_cap")};
+    if (cap[0] == P.cap[0] && cap[1] == P.cap[1]) return;
+    P.cap[0] = cap[0], P.cap[1] = cap[1];
+    if (cap[0] < 0 && cap[1] < 0) return;
+    char text[200] = "", one[96];
+    int lowered = 0;
+    for (int i = 0; i < 2; i++) {
+        if (cap[i] < 0) continue;
+        char name[32];
+        snprintf(name, sizeof name, "power%d_cap_default", i + 1);
+        long def = sys_long(P.dir, name);
+        lowered |= def > 0 && cap[i] < def;
+        const char *sep = text[0] ? ", " : "";
+        if (def > 0) snprintf(one, sizeof one, "%spower%d %.1f W (default %.1f W)", sep, i + 1, cap[i] / 1e6, def / 1e6);
+        else snprintf(one, sizeof one, "%spower%d %.1f W", sep, i + 1, cap[i] / 1e6);
+        strncat(text, one, sizeof text - strlen(text) - 1);
+    }
+    rt_log("vk: GPU power caps: %s%s", text,
+           lowered ? ": below the default, the GPU and the CPU run slower (a TDP limit such as Steam's)" : "");
+}
+
+static void power_init(const char *node) {
+    char base[200];
+    snprintf(base, sizeof base, "/sys/class/drm/%s/device/hwmon", node);
+    DIR *d = opendir(base);
+    if (!d) return;
+    for (struct dirent *e; (e = readdir(d));)
+        if (!strncmp(e->d_name, "hwmon", 5)) {
+            snprintf(P.dir, sizeof P.dir, "%s/%s", base, e->d_name);
+            break;
+        }
+    closedir(d);
+    if (P.dir[0]) power_check();
+}
+
 static void apply(int want) {
     if (!S.ctx || want == S.set) return;
     uint32_t out = 0;
@@ -154,11 +211,6 @@ void vk_pstate_init(VkPhysicalDevice phys) {
     int discrete = p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
     int deck = strstr(p.deviceName, "VANGOGH") != NULL;   // the Steam Deck's APU, as RADV names it
     S.mode = mode_from_cfg(e, discrete, deck);
-    if (S.mode == PSTATE_NONE) {
-        rt_log("vk: GPU clocks chosen by amdgpu (MKW_GPU_CLOCKS=%s%s)", e && *e ? e : "auto",
-               discrete ? "" : ": off on an integrated GPU, whose CPU loses power to it");
-        return;
-    }
     char slot[32] = "", node[64], level[32];
     if (has_pci_bus_info(phys)) {
         VkPhysicalDevicePCIBusInfoPropertiesEXT pci = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT};
@@ -166,7 +218,14 @@ void vk_pstate_init(VkPhysicalDevice phys) {
         vkGetPhysicalDeviceProperties2(phys, &p2);
         snprintf(slot, sizeof slot, "%04x:%02x:%02x.%x", pci.pciDomain, pci.pciBus, pci.pciDevice, pci.pciFunction);
     }
-    if (!find_node(&p, slot, node)) { rt_log("vk: GPU clocks: no render node for this GPU; amdgpu chooses them"); return; }
+    int have_node = find_node(&p, slot, node);
+    if (have_node) power_init(node);
+    if (S.mode == PSTATE_NONE) {
+        rt_log("vk: GPU clocks chosen by amdgpu (MKW_GPU_CLOCKS=%s%s)", e && *e ? e : "auto",
+               discrete ? "" : ": off on an integrated GPU, whose CPU loses power to it");
+        return;
+    }
+    if (!have_node) { rt_log("vk: GPU clocks: no render node for this GPU; amdgpu chooses them"); return; }
     dpm_level(node, level, sizeof level);
     if (level[0] && strcmp(level, "auto")) {
         rt_log("vk: GPU clocks left at the level set on this PC (%s: LACT, CoreCtrl, SteamOS or by hand), not held",
@@ -184,6 +243,7 @@ void vk_pstate_init(VkPhysicalDevice phys) {
 
 void vk_pstate_frame(void) {
     if (S.mode < 0 && S.ctx) apply(rt_ab() ? PSTATE_PEAK : PSTATE_NONE);
+    if (P.dir[0] && ++P.frames % 300 == 0) power_check();
 }
 #else
 void vk_pstate_init(VkPhysicalDevice phys) { (void)phys; }

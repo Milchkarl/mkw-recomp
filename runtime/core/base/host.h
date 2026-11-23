@@ -150,9 +150,11 @@ uint32_t mem_map_physical(uint64_t a, uint64_t n);                              
 uint32_t mem_unmap_physical(uint64_t a, uint64_t n);                            // 0x2D
 int mem_info(uint32_t id, uint64_t *out);                  // GetInfo memory ids 2-7, 12-17, 21, 22, 28; 0 if not a memory id
 void *mem_kernel_alloc(uint64_t size, uint64_t align);     // zeroed, guest-visible, in the kernel region; align <= 64 KiB
-uint64_t mem_runtime_alloc(uint64_t size, const char *what);   // committed, guest-visible, write-watched memory of the
-                                                           // runtime's own above the game's heap (2 MiB multiples,
-                                                           // never freed); 0 with a log line when it does not fit
+uint64_t mem_runtime_alloc(uint64_t size, const char *what);   // guest-visible, write-watched memory of the runtime's
+                                                           // own above the game's heap (2 MiB multiples, never freed);
+                                                           // with Windows' lazy commit committed on first touch like
+                                                           // the heap: a kernel or driver user commits it first
+                                                           // (mem_commit_range); 0 with a log line when it does not fit
 uint64_t mem_written_pages(uint64_t addr, uint64_t size, uint64_t *pages, uint64_t max);
                                                            // GetWriteWatch(RESET): fills pages[] (4 KiB addresses)
                                                            // with the pages of [addr, addr+size) written since the
@@ -171,8 +173,15 @@ int mem_frozen(uint64_t a);                                // the 2 MiB region o
 void mem_thaw(uint64_t a, uint64_t n);                     // makes the frozen regions over [a, a+n) writable again;
                                                            // before a kernel write (file read) into guest memory;
                                                            // commits the range first (mem_commit_range)
-void mem_commit_range(uint64_t a, uint64_t n);             // Windows' lazy commit (MKW_LAZY_COMMIT): the game's
-                                                           // pages of [a, a+n) committed now, before something that
+void mem_io_begin(uint64_t a, uint64_t n);                 // mem_thaw, and until mem_io_end no page of the range is swapped
+void mem_io_end(uint64_t a, uint64_t n);                   // for the GPU's (mem_share): around a kernel write into it
+struct PlatShared;
+int mem_share(uint64_t lo, uint64_t hi, const struct PlatShared *s, uint64_t off);
+                                                           // the pages [lo, hi) (watched, all read-write) become s's at
+                                                           // off with their bytes kept; 0 refused, nothing changed
+void mem_commit_range(uint64_t a, uint64_t n);             // Windows' lazy commit (MKW_LAZY_COMMIT): the game's and
+                                                           // the runtime's regions' pages of [a, a+n) committed now,
+                                                           // before something that
                                                            // does not fault into the handler reads or writes them
                                                            // (the kernel, a driver import); a no-op elsewhere
 void mem_freeze_stats(uint64_t *frozen, uint64_t *freezes, uint64_t *fault_thaws, uint64_t *other_thaws);
@@ -354,8 +363,10 @@ int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame'
                                                                      // the interval to use out
 int probe_discord(void);                                   // discord_probe.c: Rich Presence against the local Discord
 int probe_dsu(void);                                       // dsu_probe.c: the DSU motion client against a fake server
+int probe_pads(void);                                      // pads_probe.c: players and their gamepads, traded (virtual gamepads)
 int probe_fps(void);                                       // fps_probe.c: the controller on synthetic frame times
 int probe_merge(void);                                     // merge_probe.c: the shadow write-back's two implementations
+int probe_share(void);                                     // share_probe.c: guest pages the GPU shares
 int probe_spill(void);                                     // spill_probe.c: spilled pages back byte for byte
 void lat_input_read(void);                                 // vk_latency.c MKW_LATENCY: the game read the controller
 void lat_game_present(uint64_t slot);                      // ... and presented the frame shown at slot (pacer, ns)

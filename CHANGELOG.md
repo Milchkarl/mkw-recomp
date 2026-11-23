@@ -4,6 +4,80 @@ Each version's section is that release's notes: `tools/build/notes.py` puts it i
 updating, known issues, reporting) for the GitHub release. A section has a summary paragraph, `### Changes` (each with
 its issue, #N), `### Tested` (what was run from the packages before publishing) and optionally `### Known issues`.
 
+## 0.1.18
+
+**A fix for the silent exit 0xC0000409 on Windows 11 right after the game starts (#751, #762, #702), and DLSS and
+FSR 3.1 libraries downloaded for you when you pick them.** Also: two players can swap controllers while the game runs
+and the startup screen opens with no controller plugged in, by @AngeloAscheri; HD haptics on a DualSense and other
+pads through RenHDrum (Windows, off by default) and many setup, mod and launcher fixes, by @louisdibiasi; the Italian
+texts that were missing, by @v4l3r10; LAN play over Hamachi and Radmin VPN. **If your game gets slower the longer you
+play (#481), please help us measure it:** play a long session with `tex_pressure = 1` and `vram_log = 1800` in
+`mkw.ini` and post your `logs/mkw.log` in #481. Thanks to @AngeloAscheri, @louisdibiasi and @v4l3r10.
+
+### Changes
+
+- **#796 by @AngeloAscheri: the Controls tab swaps two players' controllers while the game runs.**
+- **#801 by @AngeloAscheri: a window that cannot open says so, and the start screen opens with no controller
+  plugged in.**
+- **#752 by @AngeloAscheri: a colour texture in a shadow slot is sampled through a depth twin**, a validation error
+  in free roam.
+- **#760 by @AngeloAscheri: the GPU's write-backs to the game's memory run on 4 threads** by default on CPUs with 6
+  cores or more (#641).
+- **#781 by @AngeloAscheri: the memory mirror's copy list is swapped under its lock**, not read while other threads
+  add to it.
+- **#782 by @AngeloAscheri: `MKW_UDMABUF`, zero-copy memory pools on Linux** (the GPU uses the game's own pages, as
+  on the console). Off by default.
+- **#791 by @AngeloAscheri: `MKW_PASS_HAZARDS`**, no full barrier before a render pass that does not depend on what
+  came before it. Off by default.
+- **#754 by @AngeloAscheri: the roadmap's validation item** now lists three and four player split screen, a time
+  trial and free roam as checked.
+- **#803 by @louisdibiasi: HD haptics through RenHDrum (`MKW_RENHDRUM`, Windows, off by default):** with
+  `renhdrum = 1` in `[input]`, player 1's DualSense, Pro Controller, Xbox One S or Steam Controller plays the game's
+  own two-band vibration instead of two motor strengths. Turning it on downloads `renhdrum.dll` from its official
+  release.
+- **#800 by @louisdibiasi: `logs/setup.log` says whether the setup runs under Wine**, on which drive and with how much
+  free space.
+- **#771 by @louisdibiasi: rar and 7z mods unpack with Windows' own tar** when GNU tar is on the PATH.
+- **#767 by @louisdibiasi: GameBanana messages reach the start screen in UTF-8.**
+- **#768 by @louisdibiasi: the mod merge's messages reach the start screen in UTF-8.**
+- **#769 by @louisdibiasi: the update's messages reach the start screen in UTF-8.**
+- **#770 by @louisdibiasi: Add to Steam's result reaches the start screen in UTF-8.**
+- **#765 by @louisdibiasi: an invalid `MKW_SPARSE_MIB` keeps the GPU's default cap** instead of lifting it.
+- **#766 by @louisdibiasi: an invalid `MKW_GPU_MEM_LIMIT` or `MKW_VRAM_MARGIN` keeps the default caps.**
+- **#764 by @louisdibiasi: a GPU device loss with every breadcrumb finished names the newest sparse bind** in the log.
+- **#756 by @louisdibiasi: `off`, `false` and `no` count as false** for every yes/no setting.
+- **#758 by @louisdibiasi: the issue bot reads gh's output as UTF-8**, so a dry run works on Windows.
+- **#797 by @louisdibiasi: a prerelease or named release tag no longer stops the issue bot.**
+- **#798 by @louisdibiasi: the issue bot reads `signatures.toml` and `topics.toml` as UTF-8.**
+- **#772 by @louisdibiasi: the mod archive test with a lone surrogate argument** runs where argv can carry one.
+- **#799 by @louisdibiasi: a test of what the issue bot does to a new issue**, against a stand-in for gh.
+- **#792 by @v4l3r10: Italian texts for the 19 entries left empty.**
+- **#811 by @dependabot: `setup-uv` 10.4.0 in the release workflow.**
+- **#812 by @dependabot: ruff 0.17.6 for the checks.**
+- **The silent exit 0xC0000409 on Windows 11 (#751, #762, #702):** when a game thread ended, Windows' own `longjmp`
+  failed its check (fast fail 0xD) and the process closed right after "fs mount save". The game now jumps with its
+  own, restoring the registers and the CET shadow stack as Linux does.
+- **DLSS and FSR 3.1 download themselves:** on Windows, picking DLSS, FSR 3.1 or their frame generation in the
+  launcher or the F1 menu downloads the libraries from NVIDIA's and AMD's official releases (checked against their
+  sha256), and the row shows the progress. `licenses/` names each downloaded library, with NVIDIA DLSS's attribution.
+- **The issue bot recognises the access violations of #404 and #502** and links their wiki sections.
+- **A RomFS more than 1% short of its version is refused as incomplete (#784)**, instead of crashing in a race.
+- **LAN play takes Hamachi's and Radmin VPN's addresses (#807).**
+- **The setup builds the shader compiler's spec when `/tmp` is noexec (#810)**, and an empty capture says why.
+- **A recording buffer the system cannot give says it is out of memory (#749, #773).**
+- **Steam Deck: `gpu_clocks` is a known `mkw.ini` key, and the log shows the GPU's power caps (#753).**
+- **The log says that 1.0.0 keeps its 3D at 1440 lines when a higher resolution is picked (#777).**
+- **`MKW_TEX_PRESSURE` (`tex_pressure = 1`, off by default) evicts idle textures when video memory runs low (#481,
+  #747)**, and `vram_log` now shows the memory per type: the measurement asked for above.
+
+### Tested
+
+From the packages Actions built for this tag, before publishing:
+
+- The whole setup from the Linux AppImage (game 1.0.0) ran every step (generate, compile, shaders, warm-up) and ended
+  OK.
+- The whole setup from the Windows zip (Windows PC, game 1.0.0) ran every step and ended OK.
+
 ## 0.1.17
 
 **DLSS and FSR 3.1 upscaling, frame generation and NVIDIA Reflex, by @FIocker (#462).** All of it is off by default

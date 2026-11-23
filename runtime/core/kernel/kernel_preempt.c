@@ -1,6 +1,5 @@
 // Part of the kernel (kernel.c; split from it 06/11/2026, same sources and licences as its header).
 // Asynchronous preemption of virtual cores (MKW_ASYNC_PREEMPT), priority inheritance and preemption disable.
-#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

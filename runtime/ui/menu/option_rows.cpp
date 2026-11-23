@@ -316,15 +316,24 @@ bool opt_button(const char *id, UiTextId label, UiTextId desc, const char *value
     return row(id, label, desc, v) == 2;   // A or a click; left and right do nothing
 }
 
+bool opt_start_screen(void) { return g_look->quiet; }
+
+bool opt_button_text(const char *id, const char *label, UiTextId desc, const char *value) {
+    RowView v = {value ? value : "", false, false, NULL};
+    return row_text(id, label, desc, v) == 2;
+}
+
 void opt_group(UiTextId title) {
     ImGui::Dummy(ImVec2(0, 6 * g_scale));
     ImGui::TextColored(ImGui::ColorConvertU32ToFloat4(g_look->group), "%s", menu_text(title));
 }
 
-void opt_text(UiTextId text, bool warn) {
+void opt_text(UiTextId text, bool warn) { opt_text(menu_text(text), warn); }
+
+void opt_text(const char *text, bool warn) {
     ImGui::PushTextWrapPos(0);
-    if (warn) ImGui::TextColored(ImGui::ColorConvertU32ToFloat4(g_look->warn), "%s", menu_text(text));
-    else ImGui::TextUnformatted(menu_text(text));
+    if (warn) ImGui::TextColored(ImGui::ColorConvertU32ToFloat4(g_look->warn), "%s", text);
+    else ImGui::TextUnformatted(text);
     ImGui::PopTextWrapPos();
 }
 

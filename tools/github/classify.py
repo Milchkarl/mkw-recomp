@@ -46,7 +46,10 @@ SAME_AS = re.compile(r"\b(?:is|are) the same as #(\d+)", re.I)
 
 
 def vkey(tag: str) -> tuple[int, ...]:
-    return tuple(int(p) for p in tag.lstrip("v").split("."))
+    """Sort key of a release tag: its leading numbers (`v0.1.17-rc1` as 0.1.17). A tag with none ("nightly") sorts first;
+    the bot reads every published release, and a prerelease or a named tag must not stop it."""
+    m = re.match(r"v?(\d+(?:\.\d+)*)", tag)
+    return tuple(int(p) for p in m.group(1).split(".")) if m else ()
 
 
 KEEP_RELEASES = 4
@@ -159,7 +162,7 @@ class Signature:
 
 
 def load_signatures(path: Path = SIGNATURES) -> list[Signature]:
-    rows = tomllib.loads(path.read_text())["signature"]
+    rows = tomllib.loads(path.read_text(encoding="utf-8"))["signature"]
     return [
         Signature(r["issue"], tuple(s.lower() for s in r["all"]), r["what"], r.get("fixed"), r.get("wiki", ""))
         for r in rows

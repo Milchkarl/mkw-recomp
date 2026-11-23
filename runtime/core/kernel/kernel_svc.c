@@ -1,6 +1,5 @@
 // Part of the kernel (kernel.c; split from it 06/11/2026, same sources and licences as its header).
 // Synchronization objects and the thread and synchronization SVCs (kern_svc).
-#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

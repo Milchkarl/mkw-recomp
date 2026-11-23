@@ -235,3 +235,36 @@ site logichz main 15a114 b9000109 94cadb33   # str w9, [x8] (1/60) -> bl host_lo
 site logichz main 15a120 b9000509 d503201f   # str w9, [x8, #4] (1.0) -> nop
 site logichz main 15a168 b9000109 94cadb1e   # str w9, [x8] (1/60) -> bl host_logic_step (patch page + 0xde0)
 site logichz main 15a174 b9000509 d503201f   # str w9, [x8, #4] (1.0) -> nop
+# Job graph check (MKW_GRAPH_CHECK=1, a diagnostic: runtime/core/diag/graphchk.c): the fill of the ModuleSystem's
+# nested job graphs against their capacity when built, and jobs not done when one is reset, for the hang at
+# MKW_LOGIC_HZ=120. main+0x1ca594 and main+0x256417c save x30 in their frame, so the bl costs them nothing.
+set graphchk MKW_GRAPH_CHECK 0
+site graphchk main 1ca650 a94082a1 94c919dc    # ldp x1, x0, [x21, #8] (graph built) -> bl host_graph_built (patch page + 0xdc0)
+site graphchk main 2564270 aa1403e0 943ab2d0   # mov x0, x20 (graph built, before its start) -> bl host_graph_built2 (+ 0xdb0)
+site graphchk main 2564334 aa1403e0 943ab29f   # the same, second graph
+site graphchk main 1ca60c aa1503e0 94c919e5    # mov x0, x21 (before the reset main+0x1ca6d8) -> bl host_graph_reset (+ 0xda0)
+site graphchk main 256424c aa1503e0 943ab2d5   # the same
+site graphchk main 25642fc aa1503e0 943ab2a9   # the same
+# A full ring drops the job: main+0x68a88 (a job done: its successors) and main+0x1cab40 (a graph started: its roots)
+# compare the ring's fill with capacity - 6 and return without pushing. Both save x30.
+site graphchk main 68ae8 5100194a 94cea0aa     # sub w10, w10, #6 (ring 0) -> bl host_ring_w10 (+ 0xd90)
+site graphchk main 68bf4 5100194a 94cea067     # the same, ring 2
+site graphchk main 68ca0 5100194a 94cea03c     # the same, ring 1
+site graphchk main 1cabf0 51001863 94c91864    # sub w3, w3, #6 (ring 1) -> bl host_ring_w3 (+ 0xd80)
+site graphchk main 1cac50 51001863 94c9184c    # the same, ring 0
+site graphchk main 1caca0 51001863 94c91838    # the same, ring 2
+# Ring 3 ([ctx+0x58]): main+0x663e0, the worker, pushes there a job with instances left to start, with the same drop
+# when full. It saves x30.
+site graphchk main 66b5c 5100196b 94cea885     # sub w11, w11, #6 (ring 3) -> bl host_ring_w11 (+ 0xd70)
+site graphchk main 66cc4 5100196b 94cea82b     # the same
+site graphchk main 67ec8 5100196b 94cea3aa     # the same
+# Late edges (graphchk_edge.c): the predecessor's state right after an edge is pushed onto it, in the add-edge leaf
+# main+0x22612cc (it does not save x30, but the lifted ret is a C return, so the bl's x30 is never used) and in
+# main+0x13e480's loop (it saves x30).
+site graphchk main 2261324 b9402849 9446be8f   # ldr w9, [x2, #0x28] -> bl host_edge (+ 0xd60)
+site graphchk main 13e5ac b9400200 94cb49e9    # ldr w0, [x16] -> bl host_edge2 (+ 0xd50)
+# Decrements from 0 (graphchk_edge.c): the job's count right before each decrement, in the finishing job's walk
+# (main+0x663e0), the dispatch's walk of an empty job (main+0x68a88) and the gate main+0x1c7d14; all three save x30.
+site graphchk main 664d8 b9402829 94ceaa1a    # ldr w9, [x1, #0x28] -> bl host_dec_walk (+ 0xd40)
+site graphchk main 68c3c b9402829 94cea03d    # ldr w9, [x1, #0x28] -> bl host_dec_empty (+ 0xd30)
+site graphchk main 1c7d48 b9402829 94c923f6   # ldr w9, [x1, #0x28] -> bl host_dec_gate (+ 0xd20)

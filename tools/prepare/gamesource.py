@@ -17,7 +17,9 @@ from nup import Nup, is_nup
 # (prepare.py put recomp/ on the path, through build.py)
 from versions import ROMFS_PRODUCT, Version, build_id_of, detect_id, romfs_mismatch
 
-ROMFS_MARGIN = 0.95  # a few short still passes: some dumping tools skip empty files
+# Good dumps differ by a few hundred files (1.0.0: 205 660-205 781; 1.8.0: 206 202-206 411) and MKW's RomFS has no empty
+# files to skip, so 1% is margin enough; 0.95 let a 1.0.0 copy 7 089 files short through, and it crashed at boot (#784).
+ROMFS_MARGIN = 0.99
 
 
 def is_nx(path: Path) -> bool:

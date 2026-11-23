@@ -113,6 +113,31 @@ static uint64_t order_val, bind_val;
 static int binary_pending;        // MKW_SPARSE_ORDER=0: a bind signalled bind_sem for the submission being made   // last value handed out; value of the last bind (0: none yet)
 static uint64_t sparse_va;   // address space the live sparse images reserve (their memory requirements' size)
 static int64_t n_slots, n_failed, n_binds, n_images, n_blocks, n_over, n_written, n_tail_writes, n_host_blocks;
+// The newest vkQueueBindSparse (vk_sparse_last_bind_log): atomics, read at a device loss without sp_lock, which the
+// loss may be reported under (vk_sparse_order).
+static uint64_t last_bind_ns, last_bind_n;
+static int64_t last_bind_blocks, last_bind_slots;
+
+static void note_bind(int64_t blocks) {
+    __atomic_store_n(&last_bind_blocks, blocks, __ATOMIC_RELAXED);
+    __atomic_store_n(&last_bind_slots, n_slots, __ATOMIC_RELAXED);
+    __atomic_store_n(&last_bind_ns, plat_now_ns(), __ATOMIC_RELAXED);
+    __atomic_add_fetch(&last_bind_n, 1, __ATOMIC_RELEASE);
+}
+
+void vk_sparse_last_bind_log(void) {
+    uint64_t n = __atomic_load_n(&last_bind_n, __ATOMIC_ACQUIRE);
+    if (!n) {
+        rt_log("vk: sparse: no vkQueueBindSparse made yet");
+        return;
+    }
+    uint64_t at = __atomic_load_n(&last_bind_ns, __ATOMIC_RELAXED), now = plat_now_ns();
+    int64_t slots_live = __atomic_load_n(&last_bind_slots, __ATOMIC_RELAXED);
+    rt_log("vk: sparse: the newest vkQueueBindSparse (%llu made) bound %lld blocks, %lld slots (%lld MiB) live, %.1f ms "
+           "before this report", (unsigned long long)n, (long long)__atomic_load_n(&last_bind_blocks, __ATOMIC_RELAXED),
+           (long long)slots_live, (long long)(slots_live * 65536 >> 20), now > at ? (now - at) / 1e6 : 0.0);
+}
+
 static VmaAllocation *dying_tails;   // tail memory of destroyed images: freed behind the next submission
 static int ndying_tails, cdying_tails, ntail_pending;
 
@@ -135,13 +160,30 @@ static uint64_t budget_default(void) {
     return vk_default_sparse_mib(c->props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU, vram >> 20);
 }
 
+// A whole number of MiB, digits only, below 2^44 (so the shift to bytes cannot wrap). Why: atol took "abc" and "1g"
+// as 0 or 1 and "-256" as a wrapped huge value, so a typo in sparse_mib lifted the cap that keeps an over-committed
+// GPU from losing its device (#215) instead of keeping the default.
+static int parse_mib(const char *e, uint64_t *mib) {
+    uint64_t v = 0;
+    if (!*e) return 0;
+    for (; *e; e++) {
+        if (*e < '0' || *e > '9' || v >= (1ull << 40)) return 0;
+        v = v * 10 + (uint64_t)(*e - '0');
+    }
+    *mib = v;
+    return 1;
+}
+
 static uint64_t budget(void) {
     static uint64_t v;
     if (!v) {
         const char *e = cfg_get("MKW_SPARSE_MIB");
-        uint64_t mib = e && *e ? (uint64_t)atol(e) : budget_default();
+        uint64_t mib = 0;
+        int set = e && *e && parse_mib(e, &mib);
+        if (e && *e && !set) rt_log("vk: sparse: MKW_SPARSE_MIB=%s is not a whole number of MiB: default used", e);
+        if (!set) mib = budget_default();
         rt_log("vk: sparse: tile slots up to %llu MiB (MKW_SPARSE_MIB%s; 0 lifts it)", (unsigned long long)mib,
-               e && *e ? "" : " unset, from the GPU");
+               set ? "" : e && *e ? " invalid, from the GPU" : " unset, from the GPU");
         v = mib ? mib << 20 : UINT64_MAX;
     }
     return v;
@@ -533,6 +575,7 @@ static void tail_bind_now(VkCtx *c, SparseImg *s) {
                            .imageBindCount = ib.bindCount ? 1u : 0u, .pImageBinds = &ib,
                            .signalSemaphoreCount = 1, .pSignalSemaphores = &order_tl};
     VkResult r = vkQueueBindSparse(c->gfx_queue, 1, &bi, VK_NULL_HANDLE);
+    note_bind((int64_t)s->layers * s->tail_blocks);
     bind_val = sig;
     s->bind_fence = vk_sync_issued() + 2;   // the submission being recorded may have taken its wait already
     vk_queue_unlock();
@@ -851,6 +894,7 @@ VkSparseOrder vk_sparse_order(uint64_t fence, int binds) {
         uint64_t t0 = plat_now_ns();
         VkResult r = vkQueueBindSparse(c->gfx_queue, 1, &bi, VK_NULL_HANDLE);
         uint64_t dt = plat_now_ns() - t0;
+        note_bind(blocks);
         if (r != VK_SUCCESS) {
             if (r == VK_ERROR_DEVICE_LOST) vk_exec_recent_log();
             rt_fatal("vk: vkQueueBindSparse of %d binds failed (%d)", nb, (int)r);

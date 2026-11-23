@@ -58,6 +58,7 @@ PINS = {  # tool: (package path under REDIST, sha256), from NVIDIA's redistrib_1
     },
 }  # fmt: skip
 TRIES = 8  # rejected captures: 0 of 8 on Linux without ASLR, 3 of 8 on Windows (09/11/2026)
+MARK = re.compile(rb"<0x[0-9a-f]+ 0x[0-9a-f]+ \d+>")  # intercept.c's mark before each copied buffer
 PTX = """.version 8.7
 .target sm_86
 .address_size 64
@@ -154,10 +155,12 @@ def strings(data: bytes) -> str:
 
 def no_aslr() -> None:
     """nvdisasm with fixed addresses (setarch -R): the captured buffers hold pointers, and with random ones the cut text
-    came out garbled in 5 of ~17 tries, against 0 of 6 without (09/11/2026)."""
+    came out garbled in 5 of ~17 tries, against 0 of 6 without (09/11/2026). Docker's default seccomp profile refuses
+    this flag: nvdisasm then runs with ASLR, as on Windows, and the retries cover it; the child's stderr says so."""
     import ctypes
 
-    ctypes.CDLL(None).personality(0x0040000)  # ADDR_NO_RANDOMIZE
+    if ctypes.CDLL(None, use_errno=True).personality(0x0040000) == -1:  # ADDR_NO_RANDOMIZE
+        os.write(2, f"cannot turn ASLR off (personality: errno {ctypes.get_errno()})\n".encode())
 
 
 def intercept_lib(cc: list[str], work: Path, crt: Path | None) -> Path:
@@ -228,8 +231,17 @@ def inject(proc: subprocess.Popen, dll: Path) -> None:
 def run_nvdisasm(nvdisasm: Path, lib: Path, cubin: Path) -> bytes:
     if not WINDOWS:
         env = dict(os.environ, LD_PRELOAD=str(lib), OMP_NUM_THREADS="1", OMP_THREAD_LIMIT="1")
-        return subprocess.run([str(nvdisasm), str(cubin)], env=env, capture_output=True, check=True,
-                              preexec_fn=no_aslr).stdout  # fmt: skip
+        p = subprocess.run([str(nvdisasm), str(cubin)], env=env, capture_output=True, check=True,
+                           preexec_fn=no_aslr)  # fmt: skip
+        if not MARK.search(p.stdout):
+            # ld.so skips a library it cannot map ("cannot be preloaded"), and nvdisasm then prints plain SASS
+            raise OSError(
+                f"nothing was captured: the interception library did not load into nvdisasm "
+                f"({p.stderr.decode(errors='replace').strip()[-500:] or 'nvdisasm said nothing'})"
+            )
+        if p.stderr:
+            print(p.stderr.decode(errors="replace").strip(), file=sys.stderr)
+        return p.stdout
     dump = cubin.with_suffix(".capture")
     with open(dump, "wb") as f:
         p = subprocess.Popen([str(nvdisasm), str(cubin)], stdout=f, stderr=subprocess.DEVNULL, creationflags=0x4)
@@ -251,8 +263,10 @@ def capture(nvdisasm: Path, lib: Path, work: Path, out: Path) -> str:
     (issue #325)."""
     dump = run_nvdisasm(nvdisasm, lib, work / "sm_86.cubin")
     (work / "sm_86_intercept.txt").write_text(strings(dump), encoding="ascii")
-    p = subprocess.run([sys.executable, str(HERE / "funnel.py"), str(work / "sm_86_intercept.txt")],
-                       capture_output=True, text=True)  # fmt: skip
+    # funnel.py is kept as DocumentSASS has it: its "\d" strings warn on Python 3.12+, and that warning hid the real
+    # error in the report's first line (issue #810)
+    p = subprocess.run([sys.executable, "-W", "ignore::SyntaxWarning", str(HERE / "funnel.py"),
+                        str(work / "sm_86_intercept.txt")], capture_output=True, text=True)  # fmt: skip
     if p.returncode:
         return f"funnel.py: {p.stderr[-2000:]}"
     stage = work / "spec"
@@ -282,7 +296,9 @@ def capture(nvdisasm: Path, lib: Path, work: Path, out: Path) -> str:
 def build(out: Path, cache: Path, cc: list[str], crt: Path | None) -> None:
     cache.mkdir(parents=True, exist_ok=True)
     nvdisasm, ptxas = tool("nvdisasm", cache), tool("ptxas", cache)
-    with tempfile.TemporaryDirectory() as tmp:
+    # The work folder in the cache, where ptxas and nvdisasm already run: /tmp may be mounted noexec (containers), and
+    # ld.so then ignores the interception library and every capture comes out empty (issue #810).
+    with tempfile.TemporaryDirectory(dir=cache) as tmp:
         work = Path(tmp)
         (work / "k.ptx").write_text(PTX)
         subprocess.run([str(ptxas), "-arch=sm_86", str(work / "k.ptx"), "-o", str(work / "sm_86.cubin")], check=True)
@@ -294,7 +310,7 @@ def build(out: Path, cache: Path, cc: list[str], crt: Path | None) -> None:
             if not err:
                 print(f"wrote {out / 'instructions.json'}")
                 return
-            print(f"capture {attempt} of {TRIES} rejected: {err.splitlines()[0]}", file=sys.stderr)
+            print(f"capture {attempt} of {TRIES} rejected: {err.strip().splitlines()[-1]}", file=sys.stderr)
     sys.exit(err)
 
 

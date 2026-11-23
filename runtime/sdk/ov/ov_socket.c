@@ -205,9 +205,13 @@ static void addr_out(const struct sockaddr_in *h, uint8_t *b, uint32_t *len) {
 // on the internet (Nintendo's or another), whatever the game asks: any (bind), loopback, the private ranges of RFC 1918,
 // shared address space (RFC 6598, the virtual LANs of Tailscale and the like), link-local, multicast and broadcast. The
 // game's online services stay off in any case (GetAddrInfo resolves nothing, nifm reports no internet).
+// Also 25.0.0.0/8 and 26.0.0.0/8, the virtual LANs of Hamachi and Radmin VPN (#807): both hand their PCs addresses
+// from those blocks with a /8 mask and carry its broadcast. They are not private, but no game server lives in them
+// (allocated to the UK and US defence ministries), so LAN play still reaches no server on the internet.
 int ov_lan_only(uint32_t h) {   // h: the IPv4 address in host order
     return h == 0 || (h >> 24) == 127 || (h >> 24) == 10 || (h >> 20) == 0xac1 || (h >> 16) == 0xc0a8 ||
-           (h >> 22) == (100u << 2 | 1) || (h >> 16) == 0xa9fe || (h >> 28) == 0xe || h == 0xffffffffu;
+           (h >> 22) == (100u << 2 | 1) || (h >> 16) == 0xa9fe || (h >> 28) == 0xe || h == 0xffffffffu ||
+           (h >> 24) == 25 || (h >> 24) == 26;
 }
 static int lan_only(struct in_addr a) { return ov_lan_only(ntohl(a.s_addr)); }
 int ov_lan_local(uint32_t addr) { return ov_lan_only(ntohl(addr)); }

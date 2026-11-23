@@ -81,6 +81,11 @@ enum { PLAT_PRIO_IDLE = -15, PLAT_PRIO_LOWEST = -2, PLAT_PRIO_BELOW_NORMAL = -1,
 void plat_thread_priority(int prio);
 void plat_thread_set_priority(PlatThread *t, int prio);
 int plat_thread_priority_get(void);       // the calling thread's level
+// Real time for the calling thread, 1 when it got it: one thread at a time, one that works for less than its period and
+// then sleeps (100 ms without sleeping end it). Linux only (linux.c says how); elsewhere 0 and HIGHEST is the way.
+// Before the thread returns it calls plat_thread_realtime_end, for a later thread to be able to ask.
+int plat_thread_realtime(void);
+void plat_thread_realtime_end(void);
 void plat_yield(void);                    // gives the rest of the time slice to another ready thread
 static inline void plat_pause(void) {     // spin-wait hint
 #if defined(__x86_64__) || defined(_M_X64)
@@ -234,6 +239,16 @@ int64_t plat_mem_resident(const void *p, size_t n);
 // kernel would; no fault reaches the hooks. 1 on success; 0 where the platform cannot (Windows).
 int plat_mem_poke(uint64_t addr, const void *src, size_t n);
 int plat_mem_peek(void *dst, uint64_t addr, size_t n);      // reads through the protection (Linux; Windows: memcpy)
+// Memory the GPU can import as a dma-buf and that can stand in for pages of a reservation (Linux: a memfd and its
+// udmabuf; vk_mem_zc.c). dmabuf goes to the importer, which owns it; map is a read-write view kept until the close.
+typedef struct PlatShared { int memfd, dmabuf; uint8_t *map; uint64_t size; } PlatShared;
+int plat_shared_open(uint64_t size, PlatShared *s, const char **why);   // 0: not here, why says what is missing
+void plat_shared_close(PlatShared *s);   // pages still mapped by plat_mem_share keep their memory
+// The committed pages [addr, addr + n) become s's at off, read-write, with every byte as s has it: the caller copied
+// them in and kept writers away meanwhile. The write watch goes on over them with no page marked as written.
+// 1 on success; 0: nothing changed; -1: the range is lost.
+int plat_mem_share(uint64_t addr, uint64_t n, const PlatShared *s, uint64_t off);
+uint8_t *plat_mem_shared_at(uint64_t addr);   // the view of the page of addr when plat_mem_share put it there, or NULL
 int64_t plat_threads_cpu_ns_named(const char *name);   // CPU time of this process's threads so named; -1 unknown
 // A write-fault hook that runs before the others and also gets the faulting host instruction (diagnostic write
 // watches, nvn2.c MKW_GEN_WATCH); 1: handled, the write retries.
@@ -278,9 +293,10 @@ typedef struct {
     uintptr_t ret;             // rip in no module: the word at rsp, the caller's return address after a wild call
 } PlatCrash;
 void plat_crash_hook(void (*fn)(const PlatCrash *c));
-// Windows: is hardware-enforced stack protection (CET shadow stacks) on for this process: 1 yes, 0 no, -1 not
-// reported (older Windows, and always on Linux). Logged at start: a silent 0xC0000409 exit was seen only on Windows.
-int plat_shadow_stack(void);
+// Windows: the hardware-enforced stack protection (CET shadow stacks) policy of this process into *flags
+// (PROCESS_MITIGATION_USER_SHADOW_STACK_POLICY; bit 0 enabled) and 0; a Windows error code when it cannot be read;
+// -1 on Linux. Logged at start: a silent 0xC0000409 exit was seen only on Windows.
+int plat_shadow_stack(unsigned *flags);
 int plat_mem_read(uint64_t addr, void *out, size_t n);    // copies n bytes, 0 instead of faulting on unmapped memory
 int plat_mem_readable(uint64_t addr, uint64_t n);         // every page of [addr, addr + n) can be read; no fault
 void *plat_aligned_alloc(size_t size, size_t align);      // free with plat_aligned_free; NULL on failure

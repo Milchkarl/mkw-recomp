@@ -218,6 +218,13 @@ it went in.
 stb_image, AMD FidelityFX FSR 1 and Roboto. Every source, with its license and what was taken (code from MIT projects
 only; from GPL projects, ideas only): [docs/project/research.md](docs/project/research.md#sources).
 
+This product uses **NVIDIA DLSS** (Super Resolution and Frame Generation, NVIDIA DLSS SDK, © NVIDIA Corporation),
+**AMD FidelityFX Super Resolution 3.1** (© Advanced Micro Devices, MIT) and **RenHDrum** (MIT) for HD vibration. They
+are not in the package: the settings download each one from its maker's release when you pick it. NVIDIA, NVIDIA RTX
+and DLSS are trademarks of NVIDIA Corporation; this project is not sponsored or endorsed by NVIDIA or AMD. Their
+notices and licenses are in the package's `licenses/` folder
+([tools/build/THIRD_PARTY_NOTICES.txt](tools/build/THIRD_PARTY_NOTICES.txt)).
+
 Mario Kart World is © Nintendo. This project is not affiliated with or endorsed by Nintendo, contains no game code or
 assets, and does not help to obtain them.
 

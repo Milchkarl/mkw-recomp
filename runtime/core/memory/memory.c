@@ -177,7 +177,8 @@ void mem_freeze_stats(uint64_t *frozen, uint64_t *freezes, uint64_t *fault_thaws
 // and frozen regions never hold one: freeze_locked refuses a region with an inaccessible page. Under frz_lock.
 typedef struct { uint64_t lo, hi; const uint8_t *src; } TrapSrc;
 uint8_t *trapped;                     // one byte per guest page, mapped lazily; frz_lock for writes; 1 a read trap,
-                                      // 2 MKW_EARLY_READ's watch (memory_early.c)
+                                      // 2 MKW_EARLY_READ's watch (memory_early.c); NULL where traps cannot work
+                                      // (mem_trap_init: Windows)
 static TrapSrc *tsrc;                 // frz_lock: where trapped pages take their bytes from
 static int ntsrc, ctsrc;
 static int64_t ntrapped;              // frz_lock: pages trapped now
@@ -212,8 +213,14 @@ static void untrap_range_locked(uint64_t a, uint64_t n) {
 int mem_trap_init(void) {   // memory_int.h
     if (trap_ok < 0) {
         uint8_t probe;
-        trapped = plat_mem_alloc(RT_ADDRESS_LIMIT / PAGE);
-        trap_ok = trapped && plat_mem_poke((uint64_t)(uintptr_t)&probe, &probe, 1);
+        // The map only where traps work. It is one byte per page of the guest range (128 MiB): Linux maps it lazily,
+        // Windows commits it whole (plat_mem_alloc), and there plat_mem_poke cannot write through a protection, so it
+        // was 128 MiB of commit charge never set, only read as zeros by the thaw faults (census of a 1.8.0 Grand Prix
+        // on Windows, 22/11/2026: 128 MiB committed, under 1 MiB resident; the same title-screen boot with and without
+        // it, 23/11/2026: the allocation gone, private commit less the guest's 11061 -> 10933 MiB). Every reader checks
+        // trap_ok, a count of trapped pages or trapped itself.
+        if (plat_mem_poke((uint64_t)(uintptr_t)&probe, &probe, 1)) trapped = plat_mem_alloc(RT_ADDRESS_LIMIT / PAGE);
+        trap_ok = trapped != NULL;
         rt_log("mem: read traps %s", trap_ok ? "on: GPU writes reach guest memory when the game touches them"
                                              : "unavailable: GPU writes are copied back at the fence");
     }
@@ -299,6 +306,55 @@ void mem_untrap(uint64_t a, uint64_t n) {
     plat_mutex_unlock(&frz_lock);
 }
 
+// ---- pages the GPU shares (MKW_UDMABUF, gfx/vk/mem/vk_mem_zc.c)
+// A file read in flight writes its buffer from the kernel, at any time until it returns: a range it covers is not
+// swapped for another mapping meanwhile, its bytes would go to the pages that left. Under frz_lock.
+#define IO_N 64
+static struct { uint64_t lo, hi; } io[IO_N];
+static int io_lost;   // reads in flight past IO_N: no range is swapped while there are any
+
+void mem_io_begin(uint64_t a, uint64_t n) {
+    mem_commit_range(a, n);
+    plat_mutex_lock(&frz_lock);
+    thaw_range_locked(a, n, 2);
+    int i = 0;
+    while (i < IO_N && io[i].hi) i++;
+    if (i < IO_N) io[i].lo = a, io[i].hi = a + n;
+    else io_lost++;
+    plat_mutex_unlock(&frz_lock);
+}
+
+void mem_io_end(uint64_t a, uint64_t n) {
+    plat_mutex_lock(&frz_lock);
+    int i = 0;
+    while (i < IO_N && !(io[i].lo == a && io[i].hi == a + n)) i++;
+    if (i < IO_N) io[i].lo = io[i].hi = 0;
+    else io_lost--;
+    plat_mutex_unlock(&frz_lock);
+}
+
+int mem_share(uint64_t lo, uint64_t hi, const PlatShared *s, uint64_t off) {
+    if (!watched(lo, hi - lo)) return 0;
+    int ok = 0;
+    plat_mutex_lock(&frz_lock);
+    for (int i = 0; i < IO_N; i++)
+        if (io_lost || (io[i].hi > lo && io[i].lo < hi)) goto out;
+    thaw_range_locked(lo, hi - lo, 2);
+    uint64_t end;
+    if (plat_mem_state(lo, hi, &end) != PLAT_PROT_RW || end < hi) goto out;   // a hole or a guest protection
+    // Read-only while the bytes are copied: a write waits in thaw_fault on frz_lock, finds the page read-write and retries.
+    if (!plat_mem_protect(lo, hi - lo, PLAT_PROT_READ)) goto out;
+    memcpy(s->map + off, (const void *)(uintptr_t)lo, hi - lo);
+    ok = plat_mem_share(lo, hi - lo, s, off);
+    if (ok < 0) rt_fatal("memory: sharing %#llx+%#llx with the GPU lost the range", (unsigned long long)lo,
+                         (unsigned long long)(hi - lo));
+    if (!ok && !plat_mem_protect(lo, hi - lo, PLAT_PROT_RW))
+        rt_fatal("memory: %#llx+%#llx kept read-only", (unsigned long long)lo, (unsigned long long)(hi - lo));
+out:
+    plat_mutex_unlock(&frz_lock);
+    return ok;
+}
+
 void mem_hold_layout(void) { plat_mutex_lock(&frz_lock); }
 void mem_release_layout(void) { plat_mutex_unlock(&frz_lock); }
 
@@ -360,9 +416,10 @@ static void commit(uint64_t a, uint64_t n, const char *what) {
 // mem_commit_range). MKW_LAZY_COMMIT=0 commits as before.
 #define LAZY_CHUNK (2ull << 20)
 static int lazy;
+static uint64_t runtime_top;   // lock: the lowest of the runtime's own regions (mem_runtime_alloc), 0 before the first
 
 // lock held: commits the still-reserved pages of [a, a+n) that the game owns (its heap below heap_size, the mapped
-// pages of the alias region).
+// pages of the alias region) or the runtime gave it (its own regions, up to the heap block's cap).
 static void owned_commit_locked(uint64_t a, uint64_t n) {
     uint64_t e = a + n, lo, hi, end;
     lo = a > L.heap.base ? a : L.heap.base, hi = e < L.heap.base + heap_size ? e : L.heap.base + heap_size;
@@ -377,6 +434,10 @@ static void owned_commit_locked(uint64_t a, uint64_t n) {
             if (plat_mem_state(x, q, &end) == PLAT_MEM_RESERVED) commit(x, end - x, "physical memory");
         p = q;
     }
+    if (!runtime_top) return;
+    lo = a > runtime_top ? a : runtime_top, hi = e < L.heap.base + HEAP_CAP ? e : L.heap.base + HEAP_CAP;
+    for (uint64_t x = lo; x < hi; x = end)
+        if (plat_mem_state(x, hi, &end) == PLAT_MEM_RESERVED) commit(x, end - x, "the runtime's region");
 }
 
 // The platform's lazy hook (plat_mem_lazy_hook), for reads and writes: 1 when the page at a was owned and is now
@@ -403,11 +464,12 @@ void mem_commit_range(uint64_t a, uint64_t n) {
 // ---- the runtime's own regions (mem_runtime_alloc)
 // Memory the runtime gives the game beyond what the game sized itself (the render-buffer pool for larger targets,
 // patches.c): at the top of the heap block, above the application pool the game's heap can reach (SetHeapSize refuses
-// more), inside the same watched reservation, so the back end's write-watch works there as on the heap. Committed
-// now, also on Windows: the lazy commit only serves the game's own pages (owned_commit_locked). QueryMemory reports
-// it free: the game never asks there.
-static uint64_t runtime_top;
-
+// more), inside the same watched reservation, so the back end's write-watch works there as on the heap. With the lazy
+// commit (Windows) it stays reserved and is committed 2 MiB at a time on first access, as the game's own pages
+// (owned_commit_locked): 1.8.0's render-buffer pool is 184 MiB at 1440 lines, a margin for photo mode's targets, and
+// about 0.6 GB at 2160, where part of it holds the scene's own; its render targets are the GPU's (memwatch --regions at
+// the title, 1440 lines, 23/11/2026: 184 MiB committed and none of it resident, 4 MiB committed with this). Elsewhere
+// it is committed now. QueryMemory reports it free: the game never asks there.
 uint64_t mem_runtime_alloc(uint64_t size, const char *what) {
     size = align_up(size, LAZY_CHUNK);
     plat_mutex_lock(&lock);
@@ -418,7 +480,7 @@ uint64_t mem_runtime_alloc(uint64_t size, const char *what) {
         rt_log("mem: no room above the game's heap for %s (%#llx bytes)", what, (unsigned long long)size);
         return 0;
     }
-    commit(a, size, what);
+    if (!lazy) commit(a, size, what);
     char name[64];
     snprintf(name, sizeof name, "mkw rt %s", what);
     plat_mem_name((void *)(uintptr_t)a, size, name);

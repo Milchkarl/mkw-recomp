@@ -126,6 +126,15 @@ static const char *find_archive(void) {
     }
 }
 
+// 1.0.0 takes the fields but keeps its screen and scene buffers at 2560x1440 (s255e, 13/11/2026), so the 3D never
+// goes above 1440 lines there; 1.8.0 makes them 3840x2160 at 2160. #777 picked 2160 with DLAA on 1.0.0: the log said
+// "3D 2160" and DLSS got 2560x1440, and the picture looked upscaled. The log says it, as the setting cannot.
+static void note_1440_cap(const char *archive, int lines) {
+    if (lines > 1440 && strstr(archive, "Product_100"))
+        rt_log("resolution: this is MKW 1.0.0, whose 3D stays at 1440 lines at most (its buffers are 2560x1440): "
+               "%d lines need a 1.8.0 dump", lines);
+}
+
 // The overlay directory for MKW_RESOLUTION (lines, 0: the game's) and the detail distance (lod, 0: the game's), written
 // when missing; NULL when it cannot be made.
 static const char *write_overlay(int lines, uint32_t r3d, float lod) {
@@ -160,6 +169,7 @@ static const char *write_overlay(int lines, uint32_t r3d, float lod) {
         free(z);
         rt_log("resolution: %d lines (3D %u, screen %d, %s), detail distance %g: written before in %s", lines,
                (unsigned)(r3d ? r3d : lines_3d(lines)), lines, ov_handheld() ? "handheld" : "docked", (double)lod, dir);
+        note_1440_cap(archive, lines);
         return dir;
     }
     unsigned long long rn = ZSTD_getFrameContentSize(z, zn);
@@ -193,6 +203,7 @@ static const char *write_overlay(int lines, uint32_t r3d, float lod) {
     if (!ok) { rt_log("resolution: cannot write %s", dir); return NULL; }
     rt_log("resolution: %d lines (3D %u, screen %d, %s), detail distance %g: %d fields in %s", lines,
            (unsigned)(r3d ? r3d : lines_3d(lines)), lines, ov_handheld() ? "handheld" : "docked", (double)lod, changed, dir);
+    note_1440_cap(archive, lines);
     return dir;
 }
 

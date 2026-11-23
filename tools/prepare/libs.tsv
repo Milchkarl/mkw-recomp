@@ -1,0 +1,9 @@
+feature	os	file	bytes	sha256	url
+dlss	windows	nvngx_dlss.dll	58956912	d00b5b0ab29c3ca101b70c3a5ecb3a01b7ef33766a3383a28a18623083e6123e	https://raw.githubusercontent.com/NVIDIA/DLSS/v310.9.16/lib/Windows_x86_64/rel/nvngx_dlss.dll
+dlssg	windows	nvngx_dlssg.dll	7506544	8d59d49b36410dd6b62fef2503a5871d347415bd85d943fa0848563a95dd50c7	https://raw.githubusercontent.com/NVIDIA/DLSS/v310.9.16/lib/Windows_x86_64/rel/nvngx_dlssg.dll
+dlss	linux	libnvidia-ngx-dlss.so.310.9.16	59481944	30982c937afed85c96b8d313323de9a650a2eec6de1bb0f714b21750f4ce98f6	https://raw.githubusercontent.com/NVIDIA/DLSS/v310.9.16/lib/Linux_x86_64/rel/libnvidia-ngx-dlss.so.310.9.16
+dlssg	linux	libnvidia-ngx-dlssg.so.310.9.16	7391232	574839cae01c835de4d5845c36ca9cf75361f8160bd52397142c36a24e29e6f7	https://raw.githubusercontent.com/NVIDIA/DLSS/v310.9.16/lib/Linux_x86_64/rel/libnvidia-ngx-dlssg.so.310.9.16
+fsr3	windows	amd_fidelityfx_loader_vk.dll	39184	38a56a01fb3565c0757d9f5c1e4e69de4b65e5f2e5769b323b200dc1f142bab9	https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/v2.4.0/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_vk.dll
+fsr3	windows	amd_fidelityfx_upscaler_vk.dll	36135696	4a7e895af6e0b615d40a84d59eb8c2b1054ad91cdd0c739567940270d51bdab7	https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/v2.4.0/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_vk.dll
+fsr3fg	windows	amd_fidelityfx_framegeneration_vk.dll	36806928	d002dabff8c5e71eaa715fc99438cd4dc81230262a7897b16bc402efec3498b4	https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/v2.4.0/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_vk.dll
+renhdrum	windows	renhdrum.dll	823808	c6859c17ad0f9f689ffa00028ab0066454d199c25a98e3fb68f136d1d0049669	https://github.com/trzz1214/RenHDrum/releases/download/v0.5.0/renhdrum.dll

@@ -8,7 +8,6 @@
 // Cpu. The SDK's nn::os runs as lifted code; only the kernel under it is the host. Every wait hangs on one global lock
 // G with one condition variable per thread; wake order is the kernel's: lower priority value first, then first come.
 // Semantics follow the public Horizon kernel (KConditionVariable, KAddressArbiter, KSynchronization).
-#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -296,14 +295,14 @@ static void thread_finish(RtThread *t) {
     unlock();
 }
 
-// ExitThread: back to the thread start with a non-unwinding longjmp; no SEH unwinding through lifted frames.
+// ExitThread: back to the thread start with a non-unwinding jump (plat_jmp.h); no SEH unwinding through lifted frames.
 // (__builtin_setjmp is not usable: on Win64 LLVM saves the frame address, which is not rbp when the frame register
 // is offset, and the landing code then reads its locals through the wrong base.)
-// The first few exits are logged: a Windows fast fail in longjmp leaves nothing else in the log (see win32_mem.c).
+// The first few exits are logged: a Windows fast fail in ucrtbase's longjmp (0.1.17 and older) left nothing else.
 __attribute__((noreturn)) void exit_now(RtThread *t) {
     static int logged;
     if (__atomic_fetch_add(&logged, 1, __ATOMIC_RELAXED) < 3) rt_log("kernel: a guest thread exits (longjmp to its start)");
-    longjmp(t->exit_jmp, 1);
+    plat_longjmp(t->exit_jmp, 1);
 }
 
 // The calling host thread, for ap_try (MKW_ASYNC_PREEMPT) and dg_sample (MKW_CORE_DIAG).
@@ -326,7 +325,7 @@ void thread_main(void *p) {
     unlock();
     Cpu *c = t->cpu;
     c->sp = t->stack_top & ~15ull;
-    if (!setjmp(t->exit_jmp)) {
+    if (!plat_setjmp(t->exit_jmp)) {
         rt_call(c, t->entry, 1, t->arg);
         char d[128];
         rt_fatal("guest thread %#x: entry %s returned (Horizon threads end with ExitThread)", t->handle,
@@ -386,7 +385,7 @@ static void guest_main(void *p) {
     void (*fn)(Cpu *) = (void (*)(Cpu *))p;
     Cpu *c;
     kern_main_thread(&c);
-    if (!setjmp(tcur->exit_jmp)) fn(c);
+    if (!plat_setjmp(tcur->exit_jmp)) fn(c);
     thread_finish(tcur);
     return;
 }

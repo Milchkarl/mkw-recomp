@@ -22,6 +22,9 @@ Changes against the original:
   leaves a `jmp` to itself (`main+0x27ebb20`, which `spin_waits.py` does not recognise). `patches.h` carries the
   patch file's SHA-256: the sites are compiled into the C and call the runtime's host functions, so
   `tools/build/build.py` refuses generated C from another version of the file (run `gen.py` again).
+- A site whose replacement is a `bl` to the patch page: its host function may write only x0-x18. The lifted caller
+  keeps x19-x28 in C locals across a call, as AArch64 callees preserve them, so a host's write to them is lost
+  (lhz120gc1, 23/11/2026: a host that set x21 left the old value and the game crashed in frame 0).
 
 Usage: `uv run python recomp/gen.py --exefs game/exefs --jobs 8` (~2.5 min, 887 MB of C); `--out`
 and `--patches` default to the dump's version (1.0.0: `build/generated` with `patches-mkw.txt`, 1.8.0:

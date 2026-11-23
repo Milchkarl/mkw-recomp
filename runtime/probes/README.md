@@ -1,22 +1,25 @@
 # runtime/probes
 
 Self-tests of each subsystem, one command-line option each (`build/mkw --probe-…`). They come from totk-pc-recomp
-except `texpre_probe.c`, `fg_probe.c`, `fps_probe.c`, `merge_probe.c`, `spill_probe.c`, `discord_probe.c`, `clk_probe.c` and `dsu_probe.c`.
+except `texpre_probe.c`, `fg_probe.c`, `fps_probe.c`, `merge_probe.c`, `spill_probe.c`, `share_probe.c`, `discord_probe.c`, `clk_probe.c` and `dsu_probe.c`.
+except `texpre_probe.c`, `fg_probe.c`, `fps_probe.c`, `merge_probe.c`, `spill_probe.c`, `discord_probe.c`, `clk_probe.c`, `dsu_probe.c` and `pads_probe.c`.
 
 | File | Option | What it checks |
 |---|---|---|
 | `astc_probe.c` | `--probe-astc` | The compute ASTC decoder (`vk_astc.c`) against the CPU one, bit for bit, with synthetic blocks; the BC7 and BC1 re-encoders, transparent texels keeping alpha 0 exactly |
-| `audio_probe.c` | `--probe-audio` | MKW's own: the SDK's translated `nn::audio` client against the objects of `audren_sf.c`: parameter, open, 200 updates at 5 ms, device and close (formerly `--probe-ipc`) |
+| `audio_probe.c` | `--probe-audio` | MKW's own: the SDK's translated `nn::audio` client against the objects of `audren_sf.c`: parameter, open, 200 updates at 5 ms, device and close (formerly `--probe-ipc`); first, a real-time thread that never sleeps keeps the process alive (`plat_thread_realtime`, skipped without RealtimeKit) |
 | `cfg_probe.c` | `--probe-cfg` | Reading the `.ini`, environment variables and a missing file (`cfg.c`) |
 | `plugin_probe.c` | `--probe-plugin` | MKW's own: a mod's native plugin (`runtime/plugin`) loaded as at start, its override by name reached through main's PLT and chained to the runtime's handler, its override by address reached by an indirect call and running the game's original; run by `tools/plugin/probe.sh`, which builds the plugin |
 | `fg_probe.c` | `--probe-framegen` | MKW's own: frame generation's passes (`vk_framegen.c`) on two pictures in `MKW_FG_PROBE` (from `tools/imagen/fg_check.py`), the frame halfway and the vectors of each level written back, and its GPU time |
 | `discord_probe.c` | `--probe-discord` | MKW's own: Discord Rich Presence (`core/presence`) against the Discord running on this machine: connects, shows each phase a few seconds, clears it |
 | `dsu_probe.c` | `--probe-dsu` | MKW's own: the Cemuhook / DSU motion client (`input/dsu.c`) against a fake server on the loopback: the request's header and CRC, the axes and units in the Switch frame, the fusion turning a quarter turn a second, a bad CRC ignored, the samples back after the server quits and starts again, `MKW_DSU=0` live; with `MKW_DSU_SERVER` set, against that server instead |
+| `pads_probe.c` | `--probe-pads` | MKW's own: which gamepad is which player (`input/input.c`) with four virtual gamepads: each button reaches its player only, `input_pad_swap` trades two of them live, a player without one gets it, player 1 keeps the keyboard with `MKW_PAD_P2` |
 | `fps_probe.c` | `--probe-fps` | MKW's own: `MKW_FPS=auto`'s controller (`fps_auto.c`) on synthetic frame times: the interval each steady frame time settles on with no changes after, a loading hitch, a return to 60, stalls slower than any interval |
 | `oflow_probe.c` | `--probe-oflow` | Hardware optical flow on a known synthetic translation, vector sign/scale and timeline ordering (`MKW_FG_NVOF=1`), without game assets |
 | `fsr_fg_probe.c` | `--probe-fsr-fg` | Real FSR generation on an analytical moving plane, fixed object and shadow; compares geometry/image vectors (`MKW_FSR_PROBE_MV`) without assets or presentation. `MKW_FSR_PROBE_SIZE`/`FRAMES` select size and duration. Raw timing mode (`MKW_FSR_PROBE_INPUT_PREFIX`, suffixes in `FRAMES`) reads captured `vN.bin`/`zN.bin` instead; `MKW_FSR_PROBE_VECTOR=x,y` supplies a constant fractional control. Raw mode does not claim analytical quality |
 | `clk_probe.c` | `--probe-gpu-clocks` | MKW's own: whether the driver lowers the GPU's clock in the gaps the race's chain leaves it idle: a fixed compute batch after CPU gaps of 0 to 50 ms, its GPU time (and amdgpu's core clock); with the runtime's device, so `MKW_GPU_CLOCKS` applies, and `MKW_CLK_FILL` keeps the GPU busy a share of each gap |
 | `spill_probe.c` | `--probe-spill` | MKW's own (needs `MKW_MEM_SPILL`, on by default on Linux): spilled pages (`core/memory/memory_spill.c`) on 8 MiB of guest memory, every byte checked after a spill with the RAM given back, reads on one and four threads, a write into a spilled page and a thaw |
+| `share_probe.c` | `--probe-share` | MKW's own (Linux, needs `/dev/udmabuf`): guest pages swapped for ones the GPU can share (`platform/linux_share.c`, `mem_share`): bytes and write marks kept, traps, pokes and the spill over them, and no write lost while four threads write during 200 swaps |
 | `merge_probe.c` | `--probe-merge` | MKW's own: the shadow write-back by bytes (`vk_mem_merge.c`): `merge_back_runs`, the default, writes the same guest bytes as the byte loop it replaced (`MKW_MERGE_SIMD=0`), with `MKW_SHADOW_CPU_WINS` off and on, ranges inside and across pages, patterns from none changed to all; and the speed of each |
 | `gfx_abi_probe.c` | `--probe-gfx-abi` | Our objects fit in NVN's and the fields the game reads are where it expects them |
 | `gfx_window_probe.c` | `--probe-window` | Window present, vsync, focus, cursor and resize |

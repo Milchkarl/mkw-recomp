@@ -7,13 +7,14 @@ submit's copies of constant blocks.
 |---|---|
 | `vk_memory.c`, `vk_mem_internal.h` | NVN pools as Vulkan buffers: pool index, page table of virtual pools and address resolution; the header is what the `vk_mem_*.c` parts share |
 | `vk_mem_back.c` | GPU storage of each pool: placed, imported, physical in chunks, lazy |
+| `vk_mem_zc.c` | Zero-copy pools (`MKW_UDMABUF=1`, default 0, Linux): a pool's guest pages are swapped at its first GPU use for pages of a memfd arena the driver imported through udmabuf, so the game and the GPU use the same memory, with no shadow copy; a shadow where that is not possible |
 | `vk_mem_gen.c` | Write generations per page (all writes, and the CPU's alone: a GPU write reported at its fence stamps only the first, so the mirror, which holds those bytes, skips it), write-watch snapshots and frozen regions |
 | `vk_mem_shadow.c` | Shadow copies of the CPU-visible pools, synced on their own thread as the replay touches them (`MKW_SHADOW_EARLY`) |
 | `vk_mem_shadow_nc.c` | The shadow's memory type: cached, and where the driver has no cached coherent type (ANV on Meteor Lake, #283) not coherent, with explicit flush and invalidate around the CPU's copies (`MKW_SHADOW_CACHED`) |
-| `vk_mem_wback.c` | GPU writes to shadowed pools: pending from recording and written back to game memory at their fence; `MKW_WB_ORDER`: a part that rewrites a page with its write-back pending waits on the GPU for that write-back |
+| `vk_mem_wback.c` | GPU writes to shadowed pools: pending from recording and written back to game memory at their fence; `MKW_WB_ORDER`: a part that rewrites a page with its write-back pending goes to the queue once that write-back ran (the replay thread waits, `vk_sync.c`); its per-page table grows by 4 KiB leaves |
 | `vk_mem_merge.c` | Byte-wise merge of the shadow in the ranges the GPU may write (`MKW_SHADOW_MERGE`): the CPU's bytes reach the GPU and the write-back does not overwrite them |
 | `vk_mem_capture.c` | Measurement `MKW_SHADOW_SUBMIT`: what the CPU writes, snapshotted at each submit and applied to the shadow when that submit syncs (discarded) |
-| `vk_wb_par.c` | `MKW_WB_PAR=N` (default 0; `ab`): the fence's write-backs on N threads besides the completion thread: a callback's ranges shared out, and a range of 512 KiB or more in 128 KiB slices |
+| `vk_wb_par.c` | `MKW_WB_PAR=N` (default 4 with 6+ physical cores, else 0; `ab`): the fence's write-backs on N threads besides the completion thread: a callback's ranges shared out, and a range of 512 KiB or more in 128 KiB slices |
 | `vk_mem_lazy.c` | Lazy merge bases (`MKW_LAZY_BASE`): instead of copying the shadow of a large range, its game pages stay read-only and are copied only if written; `MKW_LAZY_BASE_CHECK=1` compares with the usual copy |
 | `vk_mem_lost.c` | Diagnostic `MKW_SHADOW_LOST`: CPU bytes the shadow loses per frame and indirect arguments the GPU does not see as the CPU wrote them |
 | `vk_mem_mirror.c` | VRAM mirror of the pools used as buffers (dedicated GPU) and its `verify` mode; `MKW_MIRROR_CPU_GEN` (default 1) syncs by the CPU stamps only, `MKW_MIRROR_REUP=1` counts the pages uploaded again after only the GPU wrote them |

@@ -43,6 +43,9 @@ typedef enum {
     UI_MENU_REFLEX_BOOST,
     UI_MENU_TEMPORAL, UI_MENU_TEMPORAL_DESC,     // values: off (the game's own), DLSS, FSR 3.1
     UI_MENU_NOT_AVAILABLE,                       // note under the upscaler, frame generation engine and Reflex rows
+    UI_MENU_LIB_FETCHING,                        // the same rows while their library downloads: %s name, %d percent
+    UI_MENU_LIB_FAILED,                          // the download failed: %s name, %s libs.py's message
+    UI_MENU_LIB_READY,                           // downloaded by this run: %s name
     UI_MENU_TEMPORAL_QUALITY, UI_MENU_TEMPORAL_QUALITY_DESC,
     UI_MENU_TQ_NATIVE, UI_MENU_TQ_QUALITY, UI_MENU_TQ_BALANCED, UI_MENU_TQ_PERFORMANCE, UI_MENU_TQ_ULTRA,
     UI_MENU_DLSS_PRESET, UI_MENU_DLSS_PRESET_DESC, UI_MENU_DLSS_PRESET_DEFAULT,
@@ -93,6 +96,7 @@ typedef enum {
     UI_MENU_RUMBLE_STRENGTH, UI_MENU_RUMBLE_STRENGTH_DESC,
     UI_MENU_RUMBLE_CURVE, UI_MENU_RUMBLE_CURVE_DESC,
     UI_MENU_RUMBLE_TRIGGERS, UI_MENU_RUMBLE_TRIGGERS_DESC,
+    UI_MENU_RENHDRUM, UI_MENU_RENHDRUM_DESC,     // MKW_RENHDRUM (input/renhdrum_host_win.c), Windows only
     UI_MENU_PAD_LAYOUT, UI_MENU_PAD_LAYOUT_DESC, UI_MENU_PAD_LAYOUT_AUTO, UI_MENU_PAD_LAYOUT_NINTENDO,
     UI_MENU_PAD_LAYOUT_XBOX, UI_MENU_PAD_LAYOUT_IN_USE,
     UI_MENU_KEYBOARD_MOUSE, UI_MENU_KEYBOARD_MOUSE_DESC,
@@ -118,6 +122,7 @@ typedef enum {
     UI_MENU_PADS,             // group heading over the players' rows
     UI_MENU_PAD_PLAYER,       // "Player %d: %s": the player and the controller's name
     UI_MENU_PAD_BATTERY_DESC, UI_MENU_PADS_NONE,
+    UI_MENU_PAD_MOVE_DESC,    // a controller's row that can trade places with the player before
     UI_POWER_LOW, UI_POWER_MEDIUM, UI_POWER_HIGH,   // a coarse band: a Switch 2 controller's voltage over Bluetooth, an Xbox pad's sysfs level on xone
     UI_POWER_CHARGING, UI_POWER_CHARGED, UI_POWER_WIRED, UI_POWER_UNKNOWN,
     UI_NOTICE_BATTERY_LOW,    // "Player %d's controller is running out of battery (%s)"

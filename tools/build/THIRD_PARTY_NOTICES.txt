@@ -1,0 +1,22 @@
+Third-party software used by mkw-recomp
+=======================================
+
+The libraries below are not in this package. The settings download each one, from its maker's own release and
+checked by its SHA-256, only when the player picks the option that needs it (tools/prepare/libs.tsv). Each one stays
+under its own license.
+
+NVIDIA DLSS
+  This product uses NVIDIA DLSS (Deep Learning Super Sampling): DLSS Super Resolution (nvngx_dlss) and DLSS Frame
+  Generation (nvngx_dlssg) from the NVIDIA DLSS SDK 310.9.16. Copyright (c) NVIDIA Corporation. NVIDIA, NVIDIA RTX
+  and DLSS are trademarks of NVIDIA Corporation. Licensed under the NVIDIA RTX SDK license:
+  https://github.com/NVIDIA/DLSS/blob/v310.9.16/LICENSE.txt
+  This project is not sponsored or endorsed by NVIDIA.
+
+AMD FidelityFX Super Resolution 3.1
+  The FSR 3.1 upscaler and frame generation (amd_fidelityfx_*_vk.dll) from the AMD FidelityFX SDK 2.4.0.
+  Copyright (c) Advanced Micro Devices, Inc. MIT license: FidelityFX-LICENSE.txt in this folder (the same text also
+  covers the FidelityFX shader code built into the program).
+
+RenHDrum
+  HD vibration for DualSense and other controllers (renhdrum.dll 0.5.0, https://github.com/trzz1214/RenHDrum).
+  MIT license: RenHDrum-LICENSE-MIT in this folder (it also covers RenHDrum's C bridge built into the program).

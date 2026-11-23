@@ -7,18 +7,24 @@ run them; the game's own picture and pacing stay).
 
 | Setting | Values | What it does |
 |---|---|---|
-| `temporal` | `off`, `dlss`, `fsr3` | NVIDIA DLSS Super Resolution (RTX GPUs; `nvngx_dlss.dll` next to `mkw.exe`) or AMD FSR 3.1 (any GPU; `amd_fidelityfx_loader_vk.dll` and `amd_fidelityfx_upscaler_vk.dll`, or the older `amd_fidelityfx_vk.dll`, next to `mkw.exe`) in the place of the game's own upscale. FSR 3.1 live; DLSS at the next start when the game started without it. Without a usable engine the game keeps its own resolution and the log says why |
+| `temporal` | `off`, `dlss`, `fsr3` | NVIDIA DLSS Super Resolution (RTX GPUs; `nvngx_dlss.dll`) or AMD FSR 3.1 (any GPU; `amd_fidelityfx_loader_vk.dll` and `amd_fidelityfx_upscaler_vk.dll`, or the older `amd_fidelityfx_vk.dll`) in the place of the game's own upscale. FSR 3.1 live; DLSS at the next start when the game started without it. Without a usable engine the game keeps its own resolution and the log says why |
 | `temporal_quality` | `native`, `quality`, `balanced`, `performance`, `ultra` | The share of the screen's lines the race renders at (100, 67, 58, 50, 33 %). The game renders at most 1440 lines. At the next start |
 | `dlss_preset` | `default`, `j`, `k`, `l`, `m` | DLSS's model. Live |
 | `temporal_sharpness` | `0`..`100` | FSR 3.1's sharpening. Live |
 | `cas` | `off`, `on` | AMD's contrast adaptive sharpening (CAS) of the race after DLSS, DLAA or FSR 3.1, before the HUD. Needs `temporal` on. Live |
 | `cas_sharpness` | `0`..`100` | CAS's strength. Live |
 | `framegen` | `off`, `auto`, `2`, `3`, `4`, `120` | Frames shown per game frame, or a 120 fps display target. The target and Auto respect the display, swapchain and selected engine's limit |
-| `fg_engine` | `flow`, `dlss`, `fsr3` | Who makes those frames: the port's optical flow, DLSS Frame Generation (RTX 40/50; `nvngx_dlssg.dll` next to `mkw.exe`; up to 4x on RTX 50) or FSR 3.1 frame generation (one generated frame, 2x; `amd_fidelityfx_framegeneration_vk.dll`). DLSS-G and FSR FG need `temporal` on: they use its depth and motion vectors. Live, but DLSS-G at the next start when the game started without DLSS |
+| `fg_engine` | `flow`, `dlss`, `fsr3` | Who makes those frames: the port's optical flow, DLSS Frame Generation (RTX 40/50; `nvngx_dlssg.dll`; up to 4x on RTX 50) or FSR 3.1 frame generation (one generated frame, 2x; `amd_fidelityfx_framegeneration_vk.dll`). DLSS-G and FSR FG need `temporal` on: they use its depth and motion vectors. Live, but DLSS-G at the next start when the game started without DLSS |
 | `reflex` | `off`, `on`, `boost` | NVIDIA Reflex through `VK_NV_low_latency2`. Live once the game started with it on; from off, at the next start |
 
 With `resolution = 2160` (or a window taller than 1440 lines with `temporal` on), the upscaler writes the full output
 resolution and the HUD is drawn at it too (`MKW_TEMPORAL_RETARGET=0` turns that off).
+
+The libraries are not in the package (NVIDIA's licence forbids shipping DLSS's files on their own): picking DLSS, FSR
+3.1 or their frame generation in the launcher or the in-game menu downloads them from NVIDIA's and AMD's official
+releases next to `mkw.exe` (`tools/prepare/libs.py`, the files and their sha256 in `libs.tsv`), and the option row
+shows the progress; they load at the next start. A file already there is kept, so a newer DLSS put there by hand
+stays. Only on Windows for now: the Linux build does not load DLSS or FSR yet.
 
 ## With everything off
 

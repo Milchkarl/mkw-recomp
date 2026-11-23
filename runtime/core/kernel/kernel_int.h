@@ -2,10 +2,6 @@
 // kernel_fiber.c): the thread record, the kernel lock G and what one file uses of another. Not for other files
 // (they use kernel.h or host.h).
 #pragma once
-#ifdef _WIN32
-#define __USE_MINGW_SETJMP_NON_SEH   // setjmp(b) = _setjmp(b, NULL): longjmp restores registers, no SEH unwinding
-#endif
-#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +9,7 @@
 #include "cfg.h"
 #include "host.h"
 #include "kernel.h"
+#include "platform/plat_jmp.h"
 #include "platform/platform.h"
 
 #define R_OK 0u
@@ -75,7 +72,7 @@ struct RtThread {
     uint64_t cseq;
     RtThread *cnext;
     uint8_t *tlr, *tls;
-    jmp_buf exit_jmp;          // the thread start; ExitThread longjmps to it
+    PlatJmp exit_jmp;          // the thread start; ExitThread jumps to it (plat_jmp.h: not ucrtbase's longjmp)
     // fibers
     PlatFiber *base_fiber;     // the host thread as a host fiber, after the first switch
     Fiber *fiber;              // current guest fiber, NULL on the thread's own context

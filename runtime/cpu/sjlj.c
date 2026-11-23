@@ -11,20 +11,16 @@
 // restored already, so the host jumps back to the owner's frame and the body continues at c->pc. The idea is
 // Hookshot's (GPL-3.0, docs/project/research.md); the code is ours. Every owner in MKW's main runs its work after setjmp
 // and before it returns, so the owner's own frame is enough (Hookshot also wraps owners that return first).
-#ifdef _WIN32
-#define __USE_MINGW_SETJMP_NON_SEH   // as runtime/core/kernel/kernel_int.h: longjmp restores registers, no SEH unwind
-#endif
-#include <setjmp.h>
-
 #include "cpu.h"
 #include "dispatch.h"
 #include "host.h"
+#include "platform/plat_jmp.h"
 
 typedef struct SjSlot {
     struct SjSlot *up;   // the owner below, or NULL
     uint64_t lo, hi;     // the owner's guest code [lo, hi)
     int depth;           // the thread's host depth at entry (hostfn.c), put back by a longjmp out of host calls
-    jmp_buf jb;
+    PlatJmp jb;          // plat_jmp.h: registers restored, no SEH unwind, not ucrtbase's longjmp
 } SjSlot;
 
 void rt_sj_owner(Cpu *c, GuestFn body, uint64_t lo, uint64_t hi) {
@@ -32,7 +28,7 @@ void rt_sj_owner(Cpu *c, GuestFn body, uint64_t lo, uint64_t hi) {
     c->sj = &s;
     // Both returns run the body: first from the entry, after a longjmp from the setjmp's return address. c and body
     // are not written after setjmp, so their values survive the longjmp.
-    setjmp(s.jb);
+    plat_setjmp(s.jb);
     body(c);
     c->sj = s.up;
 }
@@ -49,6 +45,6 @@ void rt_sj_resume(Cpu *c) {
         }
         c->sj = s;   // owners above it are gone, as their guest frames are
         if (c->thread) *kern_host_depth(c->thread) = s->depth;
-        longjmp(s->jb, 1);
+        plat_longjmp(s->jb, 1);
     }
 }

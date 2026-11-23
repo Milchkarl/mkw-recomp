@@ -1,6 +1,5 @@
 // Part of the kernel (kernel.c; split from it 06/11/2026, same sources and licences as its header).
 // The six virtual cores: the gate guest threads hold while they run guest code, spin waits and checkpoints.
-#include <setjmp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

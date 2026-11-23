@@ -165,8 +165,12 @@ static void log_open(int game, const char *own) {
     // commit no release has tells a report from a build with local changes (#88 on 11/11/2026: a log line of a
     // transcoder that is in no commit)
     rt_log("log: %s (MKW Recomp %s)", g_log_path, rt_port_version);
-    int ss = plat_shadow_stack();   // Windows 0xC0000409/0xD exits: is hardware stack protection on (platform.h)
-    if (ss >= 0) rt_log("host: hardware stack protection %s for this process", ss ? "ON" : "off");
+    unsigned ssf = 0;   // Windows 0xC0000409/0xD exits: is hardware stack protection on (platform.h)
+    int ss = plat_shadow_stack(&ssf);
+    if (ss == 0)
+        rt_log("host: hardware stack protection %s for this process (flags 0x%x: strict %u, context IP check %u)",
+               ssf & 1 ? "ON" : "off", ssf, (ssf >> 4) & 1, (ssf >> 2) & 1);
+    else if (ss > 0) rt_log("host: hardware stack protection unknown (GetProcessMitigationPolicy error %d)", ss);
 }
 
 static void parse_trace(void) {
@@ -524,7 +528,7 @@ static int usage(const char *argv0) {
     fprintf(stderr, "usage: %s [--exefs DIR] [--romfs DIR|FILE.nup|FILE.nx] [--nup FILE] [--profile DIR] [--mod NAME]... [--launcher | --play | --selftest | --probe-loader | --probe-plugin | "
                     "--probe-cfg | --probe-kernel | --probe-audio | --probe-services | --probe-fs | --probe-gfx-abi | "
                     "--probe-nvn | --probe-nvn-tex | --probe-window | --probe-vkmem | "
-                    "--probe-vkexec | --probe-astc | --probe-framegen | --probe-gpu-clocks | --probe-fps | --probe-oflow | --probe-fsr-fg | --probe-merge | --probe-spill | --probe-discord | --probe-dsu | --probe-texpre | --texpre | --prewarm | --boot |--seconds S [--shot PNG]]\n", argv0);
+                    "--probe-vkexec | --probe-astc | --probe-framegen | --probe-gpu-clocks | --probe-fps | --probe-oflow | --probe-fsr-fg | --probe-merge | --probe-spill | --probe-share | --probe-discord | --probe-dsu | --probe-texpre | --texpre | --prewarm | --boot |--seconds S [--shot PNG]]\n", argv0);
     return 2;
 }
 
@@ -642,7 +646,8 @@ static int run_launcher(int argc, char **argv) {
     if (exefs) launcher_set_exefs(exefs);
     for (int i = 1; i + 1 < argc; i++)
         if (!strcmp(argv[i], "--gb-install")) launcher_gb_install(argv[i + 1]);
-    if (launcher_run() != LAUNCHER_PLAY) return 0;
+    int r = launcher_run();
+    if (r != LAUNCHER_PLAY) return r == LAUNCHER_FAILED ? 70 : 0;   // 70 as rt_fatal's
     plat_setenv("MKW_LAUNCHED", "1");
     plat_reexec();
 }
@@ -766,8 +771,10 @@ int main(int argc, char **argv) {
     if (!strcmp(mode, "--probe-fsr-fg")) return probe_fsr_fg();
     if (!strcmp(mode, "--probe-merge")) return probe_merge();
     if (!strcmp(mode, "--probe-spill")) return probe_spill();
+    if (!strcmp(mode, "--probe-share")) return probe_share();
     if (!strcmp(mode, "--probe-discord")) return probe_discord();
     if (!strcmp(mode, "--probe-dsu")) return probe_dsu();
+    if (!strcmp(mode, "--probe-pads")) return probe_pads();
     if (!strcmp(mode, "--probe-vkdevice")) return probe_vkdevice();
 
     if (!strcmp(mode, "--probe-texpre")) return probe_texpre();

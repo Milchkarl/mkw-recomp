@@ -109,6 +109,7 @@ static const CfgRow rows[] = {
     S("RUMBLE_STRENGTH", "input", "130", "0..300", LIVE),
     S("RUMBLE_CURVE", "input", "0.6", "0.2..1.5", LIVE),
     S("RUMBLE_TRIGGERS", "input", "0", "0|1", LIVE),
+    S("RENHDRUM", "input", "0", "0|1", RESTART),   // Windows: renhdrum.dll beside the exe plays player 1's gamepad (renhdrum_host.h)
     S("PAD_LAYOUT", "input", "auto", "auto|nintendo|xbox", LIVE),
     S("PAD_P2", "input", "0", "0|1", LIVE),
     S("BUTTON_ICONS", "input", "auto", "auto|nintendo|xbox|playstation|keyboard", LIVE),
@@ -262,6 +263,7 @@ static const CfgRow rows[] = {
     K("GLYPH_DUMP"),
     K("GPL_DRAW_BUILD"),
     K("GPU"),
+    K("GPU_CLOCKS"),
     K("GPU_CRUMBS"),
     K("GPU_CRUMBS_DRAW"),
     K("GPU_MEM_LIMIT"),
@@ -338,6 +340,7 @@ static const CfgRow rows[] = {
     K("TEMPORAL_KART_DEPTH"),
     K("TEMPORAL_NGX"),
     K("TEX_OVERWRITTEN"),
+    K("TEX_PRESSURE"),
     K("TEX_RELEASED_MIB"),
     K("TRACE_UBO"),
     K("TRACE_UBO_OUT"),
@@ -572,6 +575,19 @@ const char *cfg_steam_video_driver(void) {
 #endif
 }
 
+const char *cfg_video_failed(const char *err, char *out, int size) {
+    const char *drv = getenv("SDL_VIDEO_DRIVER"), *how = "";
+    if (!drv || !*drv) drv = getenv("SDL_VIDEODRIVER");   // SDL 2's name, still read
+#ifndef _WIN32
+    const char *wl = getenv("WAYLAND_DISPLAY"), *x = getenv("DISPLAY");
+    if (!(wl && *wl) && !(x && *x)) how = ". Neither WAYLAND_DISPLAY nor DISPLAY is set: start it from a desktop session";
+#endif
+    int asks = drv && *drv;
+    snprintf(out, (size_t)size, "No window can open: %.200s%s%.40s%s%s", err && *err ? err : "SDL gives no reason",
+             asks ? ". SDL_VIDEO_DRIVER asks for \"" : "", asks ? drv : "", asks ? "\"" : "", how);
+    return out;
+}
+
 const char *cfg_get(const char *name) {
     const char *v = raw_get(name);
     if (v || strncmp(name, PREFIX, PREFIX_LEN)) return v;
@@ -698,7 +714,22 @@ int cfg_int(const char *name) {
     return end == v || *end ? (int)default_number(name) : (int)l;
 }
 
-int cfg_bool(const char *name) { return strcmp(cfg_value(name), "0") != 0; }
+// "0", "off", "false", "no" are false and "1", "on", "true", "yes" true, in any case; another number is true as it was; a
+// word that is none of these gives the default, as cfg_int does. Only "0" was false before: MKW_DISCORD=off switched
+// Rich Presence on, MKW_LAN=off the LAN sockets and MKW_UPDATE_CHECK=off the update check, all rows of "0|1".
+int cfg_bool(const char *name) {
+    static const char *const no[] = {"0", "off", "false", "no"}, *const yes[] = {"1", "on", "true", "yes"};
+    const char *v = cfg_value(name);
+    for (size_t i = 0; i < sizeof no / sizeof *no; i++)
+        if (!strcasecmp(v, no[i])) return 0;
+    for (size_t i = 0; i < sizeof yes / sizeof *yes; i++)
+        if (!strcasecmp(v, yes[i])) return 1;
+    char *end;
+    long l = strtol(v, &end, 10);
+    if (end != v && !*end) return l != 0;
+    const CfgMeta *m = cfg_meta(name);
+    return m ? strcmp(m->def, "0") != 0 : 1;   // a row without a default (K) keeps the old reading: true
+}
 
 // ---- cfg_save: the file as lines, each with its line ending
 typedef struct { const char *s; size_t n; } Line;   // n includes the '\n' (and '\r') when present

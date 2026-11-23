@@ -529,6 +529,18 @@ msgctxt "UI_MENU_NOT_AVAILABLE"
 msgid "Not available on this PC: the game's own picture stays."
 msgstr ""
 
+msgctxt "UI_MENU_LIB_FETCHING"
+msgid "Downloading %s from its official source: %d %%"
+msgstr ""
+
+msgctxt "UI_MENU_LIB_FAILED"
+msgid "Could not download %s (%s). Pick it again to try once more."
+msgstr ""
+
+msgctxt "UI_MENU_LIB_READY"
+msgid "%s downloaded: it works after a restart."
+msgstr ""
+
 msgctxt "UI_MENU_TEMPORAL_DESC"
 msgid ""
 "Renders the race at a lower resolution and rebuilds it from several frames: NVIDIA DLSS (RTX GPUs) or "
@@ -860,6 +872,14 @@ msgctxt "UI_MENU_RUMBLE_TRIGGERS_DESC"
 msgid "Vibrates the triggers of an Xbox controller too."
 msgstr ""
 
+msgctxt "UI_MENU_RENHDRUM"
+msgid "HD vibration (RenHDrum)"
+msgstr ""
+
+msgctxt "UI_MENU_RENHDRUM_DESC"
+msgid "Plays the game's own HD vibration on player 1's DualSense, Pro Controller, Xbox One S or Steam Controller through RenHDrum, downloaded from its official release when you turn it on. Applies at the next start."
+msgstr ""
+
 msgctxt "UI_MENU_PAD_LAYOUT"
 msgid "Button layout"
 msgstr ""
@@ -1063,6 +1083,10 @@ msgstr ""
 
 msgctxt "UI_MENU_PADS_NONE"
 msgid "No controller connected"
+msgstr ""
+
+msgctxt "UI_MENU_PAD_MOVE_DESC"
+msgid "Press it to trade places with the player before: this controller becomes theirs and theirs becomes this one's. Player 1's controller moves the menu. The order lasts until the game closes. On the right, the battery the controller reports, if any."
 msgstr ""
 
 msgctxt "UI_POWER_LOW"

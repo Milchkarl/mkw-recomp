@@ -8,10 +8,12 @@ sparse and precomputed BC7.
 | `vk_texture.c`, `vk_tex_internal.h`, `vk_formats.c` | Image cache: its state, keys and statistics; the header is what the `vk_tex_*.c` parts share; NVN to Vulkan format table |
 | `vk_tex_image.c` | Image creation, with cube compatibility only for NVN cube targets, and the preallocated texture pool, joined and freed before allocator shutdown |
 | `vk_tex_gfx9.c`, `vk_tex_gfx9.h` | The GFX9 RADV decision on block-view COLOR_ATTACHMENT, free of Vulkan so `tests/runtime/test_gfx9_block_ca.py` builds it alone |
+| `vk_tex_pressure.c` | Eviction under VRAM pressure (`MKW_TEX_PRESSURE`, off unless set: no gain measured on a GTX 1050 Ti): past 90 % of the live budget in VMA's blocks, the recreatable textures idle the longest go until the allocations are at 80 %; with the driver's usage over the budget, every idle texture that spilled into a host heap at the `MKW_GPU_MEM_LIMIT` cap goes too, as NVIDIA's driver keeps those in VRAM all the same (on Windows an allocation rarely fails: past the budget the driver moves memory out of the GPU and the game slows down) |
 | `vk_tex_evict.c` | Image destruction, freed entries (kept up to a cap; past it, those a later image was written over go: `MKW_TEX_OVERWRITTEN`), eviction under memory pressure and the list of textures the GPU wrote |
 | `vk_tex_upload.c` | Uploads with deswizzle and ASTC, and the check of whether the storage changed |
 | `vk_tex_alias.c` | Storage aliases (`MKW_TEX_ALIAS`) and GPU writes to mirrored textures |
 | `vk_tex_slots.c` | Texture and sampler descriptor slots, and the VkSamplers |
+| `vk_tex_twin.c` | Depth twins: a D32_SFLOAT copy of an R32_SFLOAT texture a shader samples with a depth compare (Vulkan compares only on depth formats), refreshed by each upload of its entry |
 | `vk_tex_texel.c` | ReadTexels / WriteTexels and CPU reads of what the GPU wrote |
 | `vk_astc.c` | ASTC on the GPU: decoded by compute and recompressed to BC7 (`MKW_ASTC_BC7`) |
 | `vk_sparse.c` | MKW's own: sparse textures as Vulkan sparse images, tiles bound at each `MapVirtual`; cube compatibility only for cube targets; private small-mip backing initialized separately from shared tiles and sparse resources released before allocator shutdown |
