@@ -116,6 +116,25 @@ msgid ""
 "look at a moment closely."
 msgstr "F3 在当前帧暂停游戏并可再次继续；F4 前进一帧。用于仔细查看某一瞬间。"
 
+msgctxt "UI_MENU_HACK_PAD"
+msgid "Controller shortcuts"
+msgstr "手柄快捷键"
+
+msgctxt "UI_MENU_HACK_PAD_DESC"
+msgid ""
+"Turbo and the freeze keys without a keyboard: hold this button and press ZR (RT) for turbo, ZL "
+"(LT) to freeze, R (RB) for one more frame. The game does not see the pair. Only while those hacks "
+"are on."
+msgstr "不用键盘使用加速和暂停键：按住此按钮，再按 ZR (RT) 加速，ZL (LT) 暂停，R (RB) 前进一帧。游戏收不到这组按键。仅在这些实验功能开启时有效。"
+
+msgctxt "UI_MENU_HACK_PAD_MINUS"
+msgid "Select + ZR, ZL, R"
+msgstr "Select + ZR, ZL, R"
+
+msgctxt "UI_MENU_HACK_PAD_LSTICK"
+msgid "Left stick click + ZR, ZL, R"
+msgstr "左摇杆按下 + ZR, ZL, R"
+
 msgctxt "UI_MENU_UNLOCK_ALL"
 msgid "Unlock everything"
 msgstr "全部解锁"
@@ -143,7 +162,7 @@ msgstr "计时赛"
 
 msgctxt "UI_MENU_QUICK_RACE_GP"
 msgid "Grand Prix"
-msgstr ""
+msgstr "大奖赛"
 
 msgctxt "UI_MENU_QUICK_RACE_FREE"
 msgid "Free roam"
@@ -151,23 +170,23 @@ msgstr "自由行驶"
 
 msgctxt "UI_MENU_CLASSIC_GP"
 msgid "Classic Grand Prix"
-msgstr ""
+msgstr "经典大奖赛"
 
 msgctxt "UI_MENU_CLASSIC_GP_DESC"
 msgid ""
 "Grand Prix races take place on each course instead of the road to it. Knockout Tour is unchanged. "
 "Changes take several seconds and affect races started afterward."
-msgstr ""
+msgstr "大奖赛的比赛在各个赛道上进行，而不是在通往赛道的路上。Knockout Tour 不变。更改需要几秒钟，并影响之后开始的比赛。"
 
 msgctxt "UI_MENU_CLASSIC_VS"
 msgid "Classic VS races"
-msgstr ""
+msgstr "经典 VS 比赛"
 
 msgctxt "UI_MENU_CLASSIC_VS_DESC"
 msgid ""
 "VS races after the first take place on the next course instead of the road to it, whatever the "
 "course rule. Changes take several seconds and affect races started afterward."
-msgstr ""
+msgstr "第一场之后的 VS 比赛在下一个赛道上进行，而不是在通往赛道的路上，无论赛道规则如何。更改需要几秒钟，并影响之后开始的比赛。"
 
 msgctxt "UI_MENU_ANISO"
 msgid "Texture filtering"
@@ -956,13 +975,25 @@ msgstr "通过蓝牙使用 Joy-Con 2 和 Pro 手柄 2。要配对手柄，请在
 
 msgctxt "UI_MENU_DSU"
 msgid "Motion from a DSU server"
-msgstr ""
+msgstr "来自 DSU 服务器的体感"
+
+msgctxt "UI_MENU_JOYCON_COMBINE"
+msgid "Join left and right Joy-Con"
+msgstr "合并左右 Joy-Con"
+
+msgctxt "UI_MENU_JOYCON_COMBINE_DESC"
+msgid ""
+"On: a left and a right Joy-Con paired together act as one controller. Off: each Joy-Con stays its "
+"own small controller, so two players can share the pair. Applies at the next start."
+msgstr "开：配对的左右 Joy-Con 作为一个手柄使用。关：每个 Joy-Con 都是独立的小手柄，两名玩家可以各用一只。下次启动时生效。"
 
 msgctxt "UI_MENU_DSU_DESC"
 msgid ""
 "The gyro of a controller that gives none to the game, such as one in XInput mode, read from a "
 "Cemuhook / DSU server (DS4Windows, BetterJoy...) at 127.0.0.1:26760 (dsu_server in mkw.ini)."
 msgstr ""
+"不向游戏提供陀螺仪的手柄（例如 XInput 模式）的陀螺仪，从 127.0.0.1:26760 上的 Cemuhook / DSU 服务器（DS4Windows、BetterJoy "
+"等）读取（mkw.ini 中的 dsu_server）。"
 
 msgctxt "UI_MENU_STICK_DEADZONE"
 msgid "Stick dead zone"
@@ -2908,13 +2939,13 @@ msgstr "启动时向 GitHub 查询此移植版的新版本，并在开始画面�
 
 msgctxt "UI_MENU_DISCORD"
 msgid "Discord status"
-msgstr ""
+msgstr "Discord 状态"
 
 msgctxt "UI_MENU_DISCORD_DESC"
 msgid ""
 "While the game runs, your Discord profile shows that you are playing, for how long, and whether "
 "you are racing or in the menus. Your Discord friends see it too."
-msgstr ""
+msgstr "游戏运行时，你的 Discord 个人资料会显示你正在游戏、已游戏多久，以及你在比赛中还是在菜单中。你的 Discord 好友也能看到。"
 
 msgctxt "UI_LAUNCH_PLAYERS"
 msgid "Profiles"
@@ -2960,11 +2991,11 @@ msgctxt "UI_SETUP_ERR_SPACE"
 msgid ""
 "not enough free space: the setup needs %s. Free some space, or choose \"Use it where it is\" for "
 "the RomFS, which needs no copy"
-msgstr ""
+msgstr "可用空间不足：设置需要 %s。请释放空间，或为无需复制的 RomFS 选择“在原位置使用”"
 
 msgctxt "UI_MENU_START_SCREEN"
 msgid "Start screen"
-msgstr ""
+msgstr "开始画面"
 
 msgctxt "UI_MENU_START_SCREEN_DESC"
 msgid ""
@@ -2972,37 +3003,38 @@ msgid ""
 "It still opens when the game files need setting up, after an error, or when you hold View / "
 "Select (Minus) at start."
 msgstr ""
+"“自动”会在游戏从 Steam 的 Big Picture 或游戏模式启动时跳过它，就像在主机上一样。当需要设置游戏文件、出错之后，或启动时按住 View / Select（减号）时，它仍会打开。"
 
 msgctxt "UI_MENU_START_ALWAYS"
 msgid "Always"
-msgstr ""
+msgstr "总是"
 
 msgctxt "UI_MENU_START_SKIP"
 msgid "Skip"
-msgstr ""
+msgstr "跳过"
 
 msgctxt "UI_LAUNCH_FILES_GONE"
 msgid "Game files not found"
-msgstr ""
+msgstr "找不到游戏文件"
 
 #. printf format: keep every %... conversion, in the same order.
 msgctxt "UI_LAUNCH_FILES_GONE_HELP"
 msgid ""
 "The setup left the game files at %s and they are not there now. If they are on a card or a drive, "
 "connect it; if you moved them, set the game up again below and pick where they are now."
-msgstr ""
+msgstr "设置曾把游戏文件放在 %s，但现在那里没有了。如果它们在存储卡或驱动器上，请连接；如果你移动了它们，请在下方重新设置游戏并选择它们现在的位置。"
 
 msgctxt "UI_LAUNCH_FOUND"
 msgid "Found on this device"
-msgstr ""
+msgstr "在此设备上找到"
 
 msgctxt "UI_LAUNCH_FOUND_SEARCHING"
 msgid "Looking for your copy in the usual places..."
-msgstr ""
+msgstr "正在常用位置查找你的副本..."
 
 msgctxt "UI_LAUNCH_FOUND_FOLDER"
 msgid "folder"
-msgstr ""
+msgstr "文件夹"
 
 msgctxt "UI_LAUNCH_GPU_NONE"
 msgid "No graphics card here can run the game"
@@ -3054,3 +3086,15 @@ msgid ""
 msgstr ""
 "游戏需要 Vulkan 1.3：请安装显卡厂商（AMD、Intel 或 NVIDIA）的最新驱动（NVIDIA 需 510 "
 "或更新版本）。部分旧显卡完全无法支持。现在就可以进行设置：驱动更新后游戏即可启动。"
+
+msgctxt "UI_BROWSE_USE"
+msgid "Use this folder"
+msgstr "使用此文件夹"
+
+msgctxt "UI_BROWSE_EMPTY"
+msgid "Nothing to choose in this folder"
+msgstr "此文件夹中没有可选择的内容"
+
+msgctxt "UI_BROWSE_UNREADABLE"
+msgid "This folder cannot be read"
+msgstr "无法读取此文件夹"

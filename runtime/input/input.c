@@ -2,7 +2,7 @@
 // merged into Switch npad button bits and stick axes. Button order follows libnx HidNpadButton (ISC). The key and pad
 // bindings are the tables in input_map.c (mkw.ini overrides them). The keyboard and the mouse come from the window
 // system's back end (input_wsys.h: input_sdl.c), which also owns the cursor capture.
-// Keys and their map: docs/controls.md.
+// Keys and their map: runtime/input/README.md.
 // The gamepad also rumbles (input_rumble) and, when it has a gyro and an accelerometer, feeds the six-axis sensor from a
 // thread of its own (input_motion_start). Every SDL call on the gamepad is made under `lock`.
 #include <math.h>
@@ -417,6 +417,43 @@ static int pad_read(uint64_t *b, int32_t sl[2], int32_t sr[2]) {
     return 1;
 }
 
+// The hacks' pairs on player 1's controller (input_hack_gate), under lock: the latches, the keys down at the last
+// poll and when that was.
+static int hack_latch[3];
+static volatile int32_t hack_keys;
+static uint64_t hack_seen_ns;
+
+static void hack_listening(int on[3]) {
+    const char *t = cfg_value("MKW_TURBO");
+    on[HACK_KEY_TURBO] = !strcmp(t, "hold") || !strcmp(t, "toggle");
+    on[HACK_KEY_FREEZE] = on[HACK_KEY_STEP] = cfg_bool("MKW_FREEZE_KEYS");
+}
+
+// `b` is the controller's own buttons, never the merged input: a keyboard key, a script or a recording mapped to Minus+ZR
+// does not fire a hack. With the menu open nothing listens: the latches clear and the menu keeps every button.
+static void hack_gate(uint64_t *b) {
+    int on[3] = {0, 0, 0};
+    if (!menu_is_open()) hack_listening(on);
+    plat_xchg32(&hack_keys, (int32_t)input_hack_gate(hack_latch, b, on));
+    hack_seen_ns = plat_now_ns();
+}
+
+// A frozen game (core/hacks/freeze.c) waits in its present and polls no more: after 100 ms without a poll the pad is
+// read here, so its pair can start the game again. The pad alone then: the keyboard has its F keys.
+int input_pad_hack(int which) {
+    if ((unsigned)which >= 3) return 0;
+    plat_mutex_lock(&lock);
+    if (state == 1 && plat_now_ns() - hack_seen_ns > 100000000ull) {
+        uint64_t b = 0;
+        int32_t sl[2], sr[2];
+        if (pad_read(&b, sl, sr)) hack_gate(&b);
+        else plat_xchg32(&hack_keys, 0), hack_seen_ns = plat_now_ns();
+    }
+    int down = (hack_keys >> which) & 1;
+    plat_mutex_unlock(&lock);
+    return down;
+}
+
 static void poll_merged(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx, int32_t *ry) {
     uint64_t b = 0;
     int32_t sl[2] = {0, 0}, sr[2] = {0, 0};
@@ -428,7 +465,9 @@ static void poll_merged(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx
         int32_t pl[2] = {0, 0}, pr[2] = {0, 0};
         if (state == 1) {
             pad_read(&pb, pl, pr);
-            b = pb, sl[0] = pl[0], sl[1] = pl[1], sr[0] = pr[0], sr[1] = pr[1];
+            uint64_t pg = pb;   // the pad's buttons less a hack pair (input_hack_gate); pb stays whole for the icons below
+            hack_gate(&pg);
+            b = pg,sl[0] = pl[0], sl[1] = pl[1], sr[0] = pr[0], sr[1] = pr[1];
         }
         uint64_t kb = 0;
         if (ikb_foreground() && kbm_get()) {
@@ -507,18 +546,44 @@ void input_menu(int open) {
     ikb_cursor_update();
 }
 
-// 1 while flag (g_block, g_menu) blocks the game's input; state 2 ends at the first poll with nothing held.
-static int blocked(volatile int32_t *flag, uint64_t buttons) {
+// What one flag (g_block, g_menu) does to the game's input. State 1 (open): everything is zeroed, 1 returned. State 2
+// (closed, waiting for the release): only the buttons held at the first poll after the close stay ignored, each until it
+// is let go (and a stick whose direction is among them stays at rest), so the press that closed it does not reach the
+// game while a button or stick stuck down (a drifting stick, a virtual pad) cannot keep the other controls dead for
+// good (#582); the state ends when none is left. Returns 1 only while the whole input is blocked.
+typedef struct { uint64_t held; int armed; } wait_t;
+
+static int gate(volatile int32_t *flag, wait_t *w, uint64_t *buttons, int32_t axes[4]) {
     int32_t k = *flag;
-    return k && !(k == 2 && !buttons && plat_cas32(flag, 0, 2) == 2);
+    if (k != 2) {
+        w->armed = 0;
+        return k == 1;
+    }
+    if (!w->armed) w->held = *buttons, w->armed = 1;
+    else w->held &= *buttons;
+    if (!w->held) {
+        plat_cas32(flag, 0, 2);
+        w->armed = 0;
+        return 0;
+    }
+    *buttons &= ~w->held;
+    if (w->held & 0xfull << B_SL_LEFT) axes[0] = axes[1] = 0;
+    if (w->held & 0xfull << B_SR_LEFT) axes[2] = axes[3] = 0;
+    return 0;
 }
 
 void input_poll(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx, int32_t *ry) {
+    static wait_t text_wait, menu_wait;
     lat_input_read();   // MKW_LATENCY: the first read of each frame
     poll_merged(buttons, lx, ly, rx, ry);
-    int text = blocked(&g_block, *buttons), menu = blocked(&g_menu, *buttons);
-    if (!text && !menu) return;
-    *buttons = 0; *lx = *ly = *rx = *ry = 0;
+    int32_t axes[4] = {*lx, *ly, *rx, *ry};
+    int text = gate(&g_block, &text_wait, buttons, axes);
+    int menu = gate(&g_menu, &menu_wait, buttons, axes);
+    if (text || menu) {
+        *buttons = 0;
+        axes[0] = axes[1] = axes[2] = axes[3] = 0;
+    }
+    *lx = axes[0]; *ly = axes[1]; *rx = axes[2]; *ry = axes[3];
 }
 
 void input_poll_ui(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx, int32_t *ry) {

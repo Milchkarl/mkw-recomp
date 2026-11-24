@@ -13,12 +13,12 @@ if [ -n "$(find runtime -newer build/mkw \( -name '*.c' -o -name '*.h' -o -name 
 fi
 # Each replay holds the whole capture and its GPU memory (UMA: system RAM): ~8.2 GB at peak, serial or in chunks since
 # released textures go with the parts sent (pt-ser/pt-par, 07/11/2026; before, chunked runs reached ~12 GB and one
-# started with 8 GB free took the system out of memory). 9500 leaves ~1.3 GB.
+# started with 8 GB free took the system out of memory). 8500 (the floor of every script) leaves ~1 GB; measured 24/11/2026 on build/cap/race: 7.6 GB peak (system MemAvailable drop).
 tools/run/gpu_ok.sh || exit 1   # no run on a GPU left where the next fault can freeze the desktop
 # The pre-submit checks stop the run before a fault reaches the GPU (vk_guard.c); MKW_GPU_GUARD=0 to measure without.
 export MKW_GPU_GUARD=${MKW_GPU_GUARD:-1}
-avail=$(tools/run/avail.sh --wait "${MIN_AVAIL:-9500}")   # WAIT_MEM=<min>: wait for it instead of refusing
-[ "$avail" -ge "${MIN_AVAIL:-9500}" ] || { echo "replay.sh: only $avail MB available (need ${MIN_AVAIL:-9500}): not starting" >&2; exit 1; }
+avail=$(tools/run/avail.sh --wait "${MIN_AVAIL:-8500}")   # WAIT_MEM=<min>: wait for it instead of refusing
+[ "$avail" -ge "${MIN_AVAIL:-8500}" ] || { echo "replay.sh: only $avail MB available (need ${MIN_AVAIL:-8500}): not starting" >&2; exit 1; }
 rm -rf "$out"; mkdir -p "$out"
 status=0
 for mode in ${MODES:-serial par}; do

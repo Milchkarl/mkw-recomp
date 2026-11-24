@@ -20,14 +20,25 @@ def main() -> None:
     table = table[: table.index("\n};")]
     rows = set(re.findall(r'^\s*S\("([A-Z0-9_]+)"', table, re.M))  # S rows only: K and KS have no default
     bad = []
+    # Text of the runtime outside the table itself, to find rows nobody reads (cfg.c reads some through PREFIX "NAME")
+    code = cfg.replace(table, "")
     for path in sorted((ROOT / "runtime").rglob("*.[ch]*")):
         if "third_party" in path.parts:
             continue
-        for n, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if path.name != "cfg.c":
+            code += text
+        for n, line in enumerate(text.splitlines(), 1):
             for name in re.findall(r'\bcfg_(?:value|int|double|bool)\("MKW_([A-Z0-9_]+)"\)', line):
                 # cfg_value stops only when the name is unset; a line that checks cfg_get first is safe
                 if name not in rows and f'cfg_get("MKW_{name}")' not in line:
                     bad.append(f"{path.relative_to(ROOT)}:{n}: MKW_{name}")
+    unread = sorted(r for r in rows if f"MKW_{r}" not in code and f'"{r}"' not in code)
+    if unread:
+        print("cfg_rows: rows in runtime/core/base/cfg.c that nothing in runtime/ reads (remove the row, or a menu "
+              "shows a setting that does nothing; 24/11/2026: MKW_DESWIZZLE):", file=sys.stderr)
+        print("\n".join(unread), file=sys.stderr)
+        sys.exit(1)
     if bad:
         print("cfg_rows: names read with cfg_value/int/double/bool that have no row in runtime/core/base/cfg.c "
               "(rt_fatal at run time; a diagnostic knob reads cfg_get):", file=sys.stderr)

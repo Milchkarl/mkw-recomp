@@ -7,7 +7,8 @@
 set -euo pipefail
 
 words='la|los|las|del|que|con|para|una|sin|también|ahora|cuando|desde|ya|pero'
-count() { (grep -o -i -w -E "$1" <<<"$2" || true) | wc -l; }
+# -P with lookarounds, not -w: a hyphen is a word break for -w, so "Joy-Con" counted as the Spanish "con" (24/11/2026).
+count() { (grep -o -i -P "(?<![\w-])($1)(?![\w-])" <<<"$2" || true) | wc -l; }
 lines=$(grep -v -E '^(#|[A-Za-z-]+: )' "$1" || true)   # no git template, no trailers (Co-Authored-By)
 subject=$(head -n1 <<<"$lines")
 body=$(tail -n +2 <<<"$lines" | grep -v -E '"|->' || true)

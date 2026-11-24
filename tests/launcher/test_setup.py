@@ -43,6 +43,23 @@ def run_prepare(*args: str) -> subprocess.CompletedProcess:
                           capture_output=True, text=True, encoding="utf-8", timeout=60)  # fmt: skip
 
 
+def test_recomplauncher_progress_accepts_runtime_unpack_counters() -> None:
+    progress = prepare.recomplauncher_progress()
+    assert progress("step", "romfs") == "progress 0.250000 Copying RomFS"
+    assert progress("progress", "25", "50") == "progress 0.312500 Copying RomFS"
+    assert progress("done") == "progress 1 Setup complete"
+
+
+def test_failed_recomplauncher_setup_invalidates_readiness(tmp_path: Path) -> None:
+    ready = tmp_path / "recomplauncher-ready"
+    ready.touch()
+    p = run_prepare("--game", str(tmp_path), "--romfs", "copy", "--recomplauncher")
+
+    assert p.returncode == 2
+    assert "no earlier setup" in p.stdout
+    assert not ready.exists()
+
+
 @pytest.mark.parametrize("name", ["Plain", "Café", "玩家"])
 def test_moved_source_event_uses_utf8(tmp_path: Path, name: str) -> None:
     gone = tmp_path / name
@@ -718,7 +735,7 @@ def test_copy_keeps_installed_files_when_source_scan_fails(
 @pytest.fixture
 def loose_romfs_setup(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
-) -> tuple[Path, Callable[[str], None]]:
+) -> tuple[Path, Callable[..., None]]:
     game = tmp_path / "PC installation"
     game.mkdir()
     for version, data in (("1.0.0", b"old!"), ("1.8.0", b"new!")):
@@ -738,20 +755,35 @@ def loose_romfs_setup(
     monkeypatch.setattr(prepare, "hold_lock", lambda _game: None)
 
     def check(src: Path, *_: Path) -> tuple[Path, Path, SimpleNamespace]:
-        return src / "exefs", src / "romfs", SimpleNamespace(name=src.name, romfs_files=3)
+        romfs = src / "romfs"
+        version = "1.0.0" if (romfs / "1.0.0").is_file() else "1.8.0"
+        return src / "exefs", romfs, SimpleNamespace(name=version, romfs_files=3)
 
     monkeypatch.setattr(prepare, "check", check)
 
-    def run(version: str) -> None:
+    def run(version: str | None, *extra: str) -> None:
         log = game / "logs/setup.log"
         log.parent.mkdir(exist_ok=True)
         with log.open("w", encoding="utf-8") as log_stream, monkeypatch.context() as patch:
             patch.setattr(sys, "stderr", log_stream)
-            patch.setattr(sys, "argv", ["prepare.py", "--source", str(tmp_path / version), "--game", str(game),
-                                        "--romfs", "copy", "--jobs", "1"])
+            source = ["--source", str(tmp_path / version)] if version else []
+            patch.setattr(sys, "argv", ["prepare.py", *source, "--game", str(game), "--romfs", "copy", "--jobs", "1",
+                                        *extra])
+            patch.setattr(machine, "stdout_event", None)
             prepare.main()
 
     return game / "romfs", run
+
+
+def test_recomplauncher_rebuild_reuses_copied_romfs(loose_romfs_setup, capsys: pytest.CaptureFixture) -> None:
+    romfs, run = loose_romfs_setup
+    run("1.0.0", "--recomplauncher")
+    shutil.rmtree(romfs.parent.parent / "1.0.0")
+    run(None, "--recomplauncher")
+
+    assert (romfs / "shared.bin").read_bytes() == b"old!"
+    assert (romfs.parent / "recomplauncher-ready").is_file()
+    assert capsys.readouterr().out.splitlines()[-1] == "progress 1 Setup complete"
 
 
 def test_loose_romfs_replaces_same_size_files_when_switching_versions(loose_romfs_setup) -> None:
@@ -932,6 +964,35 @@ def test_damaged_generated_c_raises_to_regenerate(tmp_path: Path) -> None:
     assert gamecode.compile_one(["cc"], [], src, out, stamp, "k").startswith("main_0203.c: ")
     src.write_text("int x = 1;\n")
     assert gamecode.compile_one(["cc"], [], src, out, stamp, "k") == "" and stamp.read_text() == "k"
+
+
+def test_nul_report_says_where_the_bytes_are(tmp_path: Path) -> None:
+    src = tmp_path / "main_0203.c"
+    src.write_bytes(b"typedef uint6\0_t x;\n")
+    assert "1 NUL in 20 bytes, the first at 13" in gamecode.nul_report(src)
+
+
+def test_gen_refuses_text_with_a_nul_and_reads_back_what_it_wrote(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    # #434: the NUL is told apart by where it appears: in the text before the write, or in the file after it
+    import gen
+
+    with pytest.raises(gen.CorruptText, match="NUL byte at 5"):
+        gen.write_if_changed(tmp_path / "a.c", "uint6\0_t")
+    assert not (tmp_path / "a.c").exists()
+
+    orig, flips = Path.read_bytes, []
+
+    def flaky(self: Path) -> bytes:  # the first read back of the temporary file has a zeroed byte
+        data = orig(self)
+        if self.name.startswith(".") and not flips:
+            flips.append(1)
+            return data[:3] + b"\0" + data[4:]
+        return data
+
+    monkeypatch.setattr(Path, "read_bytes", flaky)
+    assert gen.write_if_changed(tmp_path / "b.c", "int x = 1;\n") is True
+    assert flips and (tmp_path / "b.c").read_bytes() == b"int x = 1;\n"
+    assert gen.write_if_changed(tmp_path / "b.c", "int x = 1;\n") is False  # unchanged: not rewritten
 
 
 def test_space_checked_before_copying(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

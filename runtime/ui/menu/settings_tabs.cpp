@@ -567,6 +567,7 @@ static void tab_controls(float scale) {
 #endif
     opt_toggle("MKW_SWITCH2", UI_MENU_SWITCH2, UI_MENU_SWITCH2_DESC);   // input/switch2.c, at the next start
     opt_toggle("MKW_DSU", UI_MENU_DSU, UI_MENU_DSU_DESC);   // input/dsu.c, live
+    opt_toggle("MKW_JOYCON_COMBINE", UI_MENU_JOYCON_COMBINE, UI_MENU_JOYCON_COMBINE_DESC);   // gfx_window_sdl.c, at the next start
     opt_slider("MKW_STICK_DEADZONE", UI_MENU_STICK_DEADZONE, 0, 40, UI_MENU_STICK_DEADZONE_DESC, 1, "%.0f %%");   // input.c
     opt_toggle("MKW_KEYBOARD_MOUSE", UI_MENU_KEYBOARD_MOUSE, UI_MENU_KEYBOARD_MOUSE_DESC);   // input.c, live
     opt_slider("MKW_MOUSE_SENS", UI_MENU_MOUSE_SENS, 0, 10, UI_MENU_MOUSE_SENS_DESC, 0.1f, "%.1f");
@@ -779,6 +780,9 @@ static void tab_hacks(float scale) {
     static const UiTextId quick[] = {UI_MENU_OFF, UI_MENU_QUICK_RACE_TT, UI_MENU_QUICK_RACE_GP, UI_MENU_QUICK_RACE_FREE};
     opt_choice("MKW_QUICK_RACE", UI_MENU_QUICK_RACE, quick, 4, UI_MENU_QUICK_RACE_DESC);
     opt_toggle("MKW_FREEZE_KEYS", UI_MENU_FREEZE_KEYS, UI_MENU_FREEZE_KEYS_DESC);
+    // turbo's and freeze's keys on the controller, for Steam's Gaming Mode (input/input_map.c input_hack_gate)
+    static const UiTextId pad[] = {UI_MENU_OFF, UI_MENU_HACK_PAD_MINUS, UI_MENU_HACK_PAD_LSTICK};
+    opt_choice("MKW_HACK_PAD", UI_MENU_HACK_PAD, pad, 3, UI_MENU_HACK_PAD_DESC);
     opt_toggle("MKW_CLASSIC_GP", UI_MENU_CLASSIC_GP, UI_MENU_CLASSIC_GP_DESC);
     opt_toggle("MKW_CLASSIC_VS", UI_MENU_CLASSIC_VS, UI_MENU_CLASSIC_VS_DESC);
     opt_end();

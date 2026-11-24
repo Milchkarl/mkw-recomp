@@ -78,6 +78,35 @@ int probe_pads(void) {
     CHECK(!input_pad_swap(0, 0) && !input_pad_swap(-1, 1) && !input_pad_swap(0, INPUT_MAX_PLAYERS), "bad indices do nothing");
     CHECK(!input_pad_swap(INPUT_MAX_PLAYERS - 2, INPUT_MAX_PLAYERS - 1) || base + PADS > INPUT_MAX_PLAYERS - 2,
           "two players without a gamepad do nothing");
+    if (!base) {
+        // The menu's release wait (#582): a button held when it closes stays ignored until let go, the others work.
+        uint64_t b = 0;
+        int32_t x[4];
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_SOUTH, true);
+        SDL_UpdateJoysticks();
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        CHECK(b != 0, "a held button reaches the game");
+        input_menu(1);
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        CHECK(b == 0, "the open menu blocks the game's input");
+        input_menu(0);
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        CHECK(b == 0, "the button held at the close stays ignored");
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_EAST, true);
+        SDL_UpdateJoysticks();
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        CHECK(__builtin_popcountll(b) == 1, "another button reaches the game while the first is still held");
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_SOUTH, false);
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_EAST, false);
+        SDL_UpdateJoysticks();
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_SOUTH, true);
+        SDL_UpdateJoysticks();
+        input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+        CHECK(b != 0, "after the release the same button works again");
+        SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_SOUTH, false);
+        SDL_UpdateJoysticks();
+    }
     plat_setenv("MKW_PAD_P2", "1");
     CHECK(!input_pad_swap(0, 1) && !input_pad_can_move_up(1), "MKW_PAD_P2: player 1 keeps the keyboard");
     CHECK(input_pad_swap(1, 2) && input_pad_swap(1, 2), "MKW_PAD_P2: players 2 and 3 can trade");

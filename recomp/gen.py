@@ -627,19 +627,36 @@ def write_if_changed(path, text):
     """Returns True if the file was written. An unchanged file keeps its mtime, so the build skips it. A changed one
     is written under a temporary name and renamed into place, so a reader never sees it half written."""
     data = text.encode()
+    if (nul := data.find(b'\0')) >= 0:
+        # Generated C and JSON never hold a NUL: one here was made in this process's memory, before any write
+        raise CorruptText(f'{path.name}: the generated text has a NUL byte at {nul} of {len(data)}')
     try:
         if path.stat().st_size == len(data) and path.read_bytes() == data:
             return False
     except FileNotFoundError:
         pass
     tmp = path.with_name(f'.{path.name}.{os.getpid()}.tmp')
-    tmp.write_bytes(data)
+    for attempt in range(3):  # #434: a chunk with a NUL byte in it reached the compiler; read back, to tell where
+        tmp.write_bytes(data)
+        back = tmp.read_bytes()
+        if back == data:
+            break
+        diff = next((i for i, (a, b) in enumerate(zip(back, data)) if a != b), min(len(back), len(data)))
+        print(f'gen: {path.name} read back differently (attempt {attempt + 1}, {len(back)} of {len(data)} bytes, '
+              f'first difference at {diff}, {back.count(0)} NUL): writing again', file=sys.stderr)
+    else:
+        tmp.unlink(missing_ok=True)
+        raise OSError(f'{path.name}: written three times and read back differently (the disk or the memory)')
     try:
         _retry(os.replace, tmp, path)
     except OSError:
         tmp.unlink(missing_ok=True)
         raise
     return True
+
+
+class CorruptText(Exception):
+    """The text of a chunk had a NUL byte before it was written."""
 
 
 def _retry(fn, *args):
@@ -687,12 +704,18 @@ def _emit_chunk(task):
     e = _emitter(name)
     e.stats.clear()
     e.unsupported.clear()
-    text = chunk_text(name, number, e, fns)
     error = None
-    try:
-        written = write_if_changed(Path(path), text)
-    except OSError as ex:
-        written, error = False, f'{path}: {ex}'
+    for attempt in (1, 2):
+        text = chunk_text(name, number, e, fns)
+        try:
+            written, error = write_if_changed(Path(path), text), None
+            break
+        except CorruptText as ex:  # once more from scratch: memory that flips a byte does not do it twice in the same place
+            print(f'gen: {ex}: building the chunk again', file=sys.stderr)
+            written, error = False, f'{path}: {ex}'
+        except OSError as ex:
+            written, error = False, f'{path}: {ex}'
+            break
     return {'module': name, 'number': number, 'file': Path(path).name, 'functions': len(fns), 'bytes': len(text),
             'written': written, 'error': error, 'seconds': time.perf_counter() - t0, 'stats': dict(e.stats),
             'unsupported': dict(e.unsupported)}

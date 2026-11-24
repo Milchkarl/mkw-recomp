@@ -1,7 +1,7 @@
 // The SDL3 back end of the keyboard and the mouse (input_wsys.h; input.c merges them with the gamepad): SDL scancodes to
 // the key ids of input_map.h, the mouse camera's relative motion and the cursor capture (SDL's relative mouse mode).
 // Key and button state comes from the window's events (window thread) and is read by any thread. Keys and their map:
-// docs/controls.md.
+// runtime/input/README.md.
 //
 // The capture follows totk-pc-recomp's Win32 back end (input_win.c): captured while the window has the focus, the mouse
 // camera is on and no text entry or menu is open; Esc releases it until a click in the window (and closing the menu
@@ -117,8 +117,9 @@ uint32_t input_key_char(int key) {
 int input_flight_key(void) { return focused && f8_held; }
 
 int input_hack_key(int which) {
-    static const int keys[] = {[HACK_KEY_TURBO] = KEY_F2, [HACK_KEY_FREEZE] = KEY_F3, [HACK_KEY_STEP] = KEY_F4};
-    return focused && key_held[keys[which]];
+    static const int keys[] = {[HACK_KEY_TURBO] = KEY_F2, [HACK_KEY_FREEZE] = KEY_F3, [HACK_KEY_STEP] = KEY_F4,
+                               [HACK_KEY_PAUSE] = KEY_F5};
+    return (focused && key_held[keys[which]]) || input_pad_hack(which);
 }
 
 // ---- the cursor (window thread)

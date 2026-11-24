@@ -45,6 +45,14 @@ def damaged(src: Path) -> bool:
     return b"\0" in src.read_bytes()
 
 
+def nul_report(src: Path) -> str:
+    """Where the NUL bytes are, for setup.log: one byte in the middle of the text (a memory fault) or a run of them to
+    the end (a write that did not reach the disk) point to different causes (#434)."""
+    data = src.read_bytes()
+    first, count = data.find(b"\0"), data.count(b"\0")
+    return f"{count} NUL in {len(data)} bytes, the first at {first}, around it {data[max(0, first - 12) : first + 12]!r}"
+
+
 def write_link_response(rsp: Path, objects: list[Path], windows_quoting: bool) -> None:
     """Objects passed to the linker without the process command line's length limit."""
     # as_posix converts native Windows separators only: a backslash in a POSIX folder name is a literal character.
@@ -193,6 +201,7 @@ def compile_one(
         r = subprocess.run(cmd, capture_output=True, **UTF8, check=False)
     if r.returncode:
         if damaged(src):
+            print(f"compile: {src.name}: {nul_report(src)}", file=sys.stderr)
             raise DamagedSource(f"compiling the game code failed: {src.name} has NUL bytes (a damaged write)")
         print(f"compile: {src.name} failed:\n{r.stderr.strip()[:3000]}", file=sys.stderr)
         if "checking cache failed" in r.stderr:  # #406: zig cannot use its cache folder

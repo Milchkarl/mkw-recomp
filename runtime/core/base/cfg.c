@@ -1,4 +1,4 @@
-// mkw.ini: file-backed defaults for the MKW_* environment variables (docs/controls.md, mkw.ini.example).
+// mkw.ini: file-backed defaults for the MKW_* environment variables (the keyboard layout: runtime/input/README.md; each setting: the table below).
 // Format: "key = value" lines, '#' or ';' at the start of a line begins a comment, [sections] only group. A key is a
 // variable name without "MKW_" (an optional MKW_ prefix is accepted), case-insensitive. A value is the rest of the
 // line, trimmed, optionally in double quotes; an empty value counts as unset. The environment wins over the file.
@@ -33,7 +33,7 @@ static int save_ok = 1;                         // the last cfg_save_to wrote (o
 // One row per name the runtime reads (and the patch sets in generated/), without the prefix. A file key outside the
 // table is logged as unknown, so a new variable gets its row here. S: a setting the menu shows (CfgMeta: the value in
 // effect when the key is unset, what the key accepts, whether it applies at once) and the mkw.ini section cfg_set
-// writes it to when the file lacks it (mkw.ini.example's sections; NULL: none). The only place a default lives:
+// writes it to when the file lacks it (mkw.ini's section names; NULL: none). The only place a default lives:
 // consumers read cfg_value / cfg_int / cfg_double / cfg_bool. A row with an empty default has no fixed value (it
 // depends on the machine); its consumer reads cfg_get and keeps an "unset" branch. K: a key with no menu row (add it in
 // alphabetical order, one per line, so two additions rarely meet); KS: the same with an ini section.
@@ -112,6 +112,7 @@ static const CfgRow rows[] = {
     S("RENHDRUM", "input", "0", "0|1", RESTART),   // Windows: renhdrum.dll beside the exe plays player 1's gamepad (renhdrum_host.h)
     S("PAD_LAYOUT", "input", "auto", "auto|nintendo|xbox", LIVE),
     S("PAD_P2", "input", "0", "0|1", LIVE),
+    S("JOYCON_COMBINE", "input", "1", "0|1", RESTART),   // 0: a left and a right Joy-Con stay two mini-gamepads, one each for two players (SDL joins them by default)
     S("BUTTON_ICONS", "input", "auto", "auto|nintendo|xbox|playstation|keyboard", LIVE),
     S("MENU_SHORTCUT", "input", "minus_plus", "minus_plus|guide", LIVE),
     S("KEYBOARD_MOUSE", "input", "1", "0|1", LIVE),   // the Controls row that turns the keyboard and mouse off for the game (#663)
@@ -177,6 +178,9 @@ static const CfgRow rows[] = {
     S("SEED", "hacks", "", NULL, RESTART),
     S("UNLOCK_ALL", "hacks", "0", "0|1", RESTART),
     S("FREEZE_KEYS", "hacks", "0", "0|1", LIVE),
+    // input/input_map.c input_hack_gate: the modifier of the controller's pairs for the keys above (with ZR, ZL, R);
+    // they act only while turbo is hold/toggle or the freeze keys are on, so the console's pad is unchanged by default
+    S("HACK_PAD", "hacks", "minus", "off|minus|lstick", LIVE),
     S("QUICK_RACE", "hacks", "off", "off|tt|gp|free", RESTART),
     S("CLASSIC_GP", "hacks", "0", "0|1", LIVE),   // core/hacks/classic.c: the cups' intermissions become laps on one course
     S("CLASSIC_VS", "hacks", "0", "0|1", LIVE),   // core/hacks/classic.c: VS races' routes become laps on one course
@@ -269,6 +273,7 @@ static const CfgRow rows[] = {
     K("GPU_MEM_LIMIT"),
     K("GPU_NAME"),
     K("HDR_FAKE"),
+    K("HDR_FORCE"),
     K("HL_TRACE"),
     K("HUD_PROBE"),
     K("INPUT"),
@@ -1055,6 +1060,11 @@ void cfg_init(void) {
     initialized = 1;
     load_ini();
     const char *selected = cfg_get("MKW_GAME_DIR");
+    // RecompLauncher names the folder it keeps a game's data in ({data}, <game>/recompdata) in RECOMPLAUNCHER_DATA,
+    // for the game and its setup step, with its Easy Setup or without. With no folder chosen here (MKW_GAME_DIR, or
+    // Choose game folder), the game is built, set and saved there, so one folder holds it however it was started.
+    const char *launcher_data = getenv("RECOMPLAUNCHER_DATA");
+    if ((!selected || !*selected) && launcher_data && *launcher_data) selected = launcher_data;
     if (selected && *selected) {
         char dir[CFG_GAME_DIR_MAX + 1];
         game_dir_invalid = !resolve_game_dir(selected, dir, sizeof dir);

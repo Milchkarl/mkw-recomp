@@ -251,6 +251,15 @@ static void window_main(void *arg) {
     const char *bg = cfg_get("MKW_BACKGROUND_WINDOW");
     SDL_SetHint(SDL_HINT_APP_ID, bg && strcmp(bg, "0") ? "mkw-recomp-run" : "mkw-recomp");
     SDL_SetHint(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, "0");
+    // A controller keeps working while another window has the focus. SDL drops joystick events for an unfocused
+    // window unless this hint is set, so a pad went dead as soon as the player alt-tabbed to a second screen (couch
+    // play with the game on a TV while the PC is used for something else). The keyboard and mouse stay gated on the
+    // focus in input.c, where ikb_foreground() decides; the gamepad is read whatever the focus says.
+    SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
+    // SDL's HIDAPI driver joins a left and a right Joy-Con into one Pro-like pad (its default); MKW_JOYCON_COMBINE=0
+    // keeps them apart, each a mini-gamepad, so two players can share the pair (discord help, discussion #814).
+    const char *joycon = cfg_get("MKW_JOYCON_COMBINE");
+    if (joycon && !strcmp(joycon, "0")) SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS, "0");
     const char *steam_drv = steam_video_driver();   // started by Steam on a Wayland desktop, SDR: XWayland
     if (steam_drv) SDL_SetHint(SDL_HINT_VIDEO_DRIVER, steam_drv);
     g_video_ok = SDL_Init(SDL_INIT_VIDEO);
@@ -381,9 +390,12 @@ int wsys_hdr(float *sdr_white, float *headroom) {
     // SDL's X11 driver sets the property but never to true (it cannot know). Inside gamescope (its Xwayland: Steam
     // Deck's game mode) that is unknown, so the surface's formats decide (gfx_hdr.c: HDR10 only with its HDR on); hdr5,
     // 12/11/2026, was "not in HDR" there. Elsewhere on X11 it stays SDR: a driver may list HDR10 on an SDR screen.
-    const char *drv = SDL_GetCurrentVideoDriver();
+    // MKW_HDR_FORCE=1 makes the same call anywhere: on a Wayland session whose display is in HDR but whose window SDL
+    // reports SDR, the window stayed SDR (Linux, 22/11/2026); with it, the surface's HDR10 format turns HDR on.
+    const char *drv = SDL_GetCurrentVideoDriver(), *force = cfg_get("MKW_HDR_FORCE");
     int gamescope = drv && !strcmp(drv, "x11") && SDL_getenv("GAMESCOPE_WAYLAND_DISPLAY");
-    if (!SDL_GetBooleanProperty(p, SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN, false)) return gamescope ? -1 : 0;
+    int forced = force && *force && strcmp(force, "0");
+    if (!SDL_GetBooleanProperty(p, SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN, false)) return gamescope || forced ? -1 : 0;
     *sdr_white = SDL_GetFloatProperty(p, SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT, 0.0f);
     *headroom = SDL_GetFloatProperty(p, SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT, 0.0f);
     return 1;
