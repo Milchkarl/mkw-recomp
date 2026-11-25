@@ -1,0 +1,1001 @@
+# Indonesian for the game's own texts (tools/i18n/game_texts.py): "label<TAB>text", over the game's British English
+# (EUen). Names (characters, courses, cups, modes, music) stay in English, as the game's Asian releases keep them.
+# Control tags ({0E ...}, {0F ...}) are kept as the dump gives them; the fonts need no new letters.
+LayoutMsg/ChatSelectBtn_00/T_Text_02	Tonton juara pertama.
+LayoutMsg/ChatSelectBtn_00/T_Text_03	Tonton juara pertama.
+LayoutMsg/Damage_00/T_Msg_00	AW!
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_01/T_Btn_00	Main LAN
+LayoutMsg/DialogUseCamera_00/T_MainText_00	Pakai kamera?
+LayoutMsg/DialogUseCamera_00/T_SubText_00	Kamu harus gabung GameChat untuk memakai\nkamera online. Video kamera dan audio mik\nhanya dikirim ke anggota GameChat lain.
+LayoutMsg/Dialog_00/T_Group_00	ID Ruang
+LayoutMsg/FaceSelect_00/T_Text_00	Arahkan kursor ke wajahmu.
+LayoutMsg/FaceSelect_00/T_Text_01	Periksa kameranya.
+LayoutMsg/FriendList_00/T_Friend_00	Lawan
+LayoutMsg/FriendList_00/T_Rec_00	Riwayat Pertarungan
+LayoutMsg/FriendList_00/T_You_00	Kamu
+LayoutMsg/FriendList_00/FriendList_00:L_Go_00/T_Text_00	Gabung
+LayoutMsg/FriendList_00/T_Rec_01	Peserta
+LayoutMsg/Hit_00/T_Msg_00	KENA!
+LayoutMsg/MenuGameSelect_01/T_Msg_00	Raih emas di piala empat balapan!
+LayoutMsg/MenuGameSelect_01/T_Msg_01	Tetap di depan di balapan ketahanan!
+LayoutMsg/MenuGameSelect_01/T_Msg_02	Balapan sendiri demi rekor baru!
+LayoutMsg/MenuGameSelect_01/T_Msg_03	Balapan dengan aturan sendiri!
+LayoutMsg/MenuGameSelect_01/T_Msg_04	Bertarung dengan aturan sendiri!
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_00/T_Btn_00	Teknik
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_01/T_Btn_00	Item
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_02/T_Btn_00	Aturan
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_03/T_Btn_00	Jelajah Bebas
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_00/T_Btn_00	Satu Pemain
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_01/T_Btn_00	Multipemain
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_02/T_Btn_00	Main Online
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_00/T_Text_00	Balapan Solo
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_01/T_Text_00	Lawan Ghost
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	Lihat Ghost
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_03/T_Text_00	Lihat Peringkat
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_04/T_Text_00	Unggah Data Ghost
+LayoutMsg/OnlineMenu_00/L_Btn_00/T_Btn_00	Balapan
+LayoutMsg/OnlineMenu_00/L_Btn_02/T_Btn_00	Pertarungan
+LayoutMsg/OnlineMenu_00/L_Btn_03/T_Btn_00	Teman
+LayoutMsg/OnlineMenu_00/L_Btn_04/T_Btn_00	Event
+LayoutMsg/PhotoMode_00/T_Attention_00	Hadap Kamera
+LayoutMsg/PhotoMode_00/T_End_00	Selesai
+LayoutMsg/PhotoMode_00/T_Face_00	Ekspresi
+LayoutMsg/PhotoMode_00/T_Gide_00	Panduan
+LayoutMsg/PhotoMode_00/T_Roll_00	Miring
+LayoutMsg/PhotoMode_00/T_Take_00	Jepret
+LayoutMsg/Retry_00/T_Retry_00	Ulangi
+LayoutMsg/RuleSelect_00/T_Change_00	Atur aturan
+LayoutMsg/TitleLogo_00/T_Press_00	Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk mulai
+MsgMain/Driver/Driver_MarioRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_MarioSheriff_00	Koboi
+MsgMain/Driver/Driver_MarioDesert_00	Penunggang Dune
+MsgMain/Driver/Driver_MarioPilot_00	Pilot
+MsgMain/Driver/Driver_MarioVacance_00	Wisata
+MsgMain/Driver/Driver_MarioOffroad_00	Segala Medan
+MsgMain/Driver/Driver_MarioMechanic_00	Montir
+MsgMain/Driver/Driver_LuigiRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_LuigiFarmer_00	Petani
+MsgMain/Driver/Driver_LuigiMechanic_00	Montir
+MsgMain/Driver/Driver_LuigiOffroad_00	Segala Medan
+MsgMain/Driver/Driver_PeachLagoonCity_00	Wisata
+MsgMain/Driver/Driver_PeachFarmer_00	Petani
+MsgMain/Driver/Driver_PeachRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_PeachPilot_00	Pilot
+MsgMain/Driver/Driver_PeachResort_00	Liburan
+MsgMain/Driver/Driver_DaisySwim_00	Baju Renang
+MsgMain/Driver/Driver_DaisyLagoonCity_00	Liburan
+MsgMain/Driver/Driver_DaisyRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_YoshiDelivery_00	Pengantar Makanan
+MsgMain/Driver/Driver_YoshiIce_00	Penjual Es Krim
+MsgMain/Driver/Driver_YoshiRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_YoshiSwim_00	Baju Renang
+MsgMain/Driver/Driver_YoshiMovie_00	Bangsawan
+MsgMain/Driver/Driver_KinopioEngineer_00	Insinyur
+MsgMain/Driver/Driver_KinopioDiner_00	Kawan Burger
+MsgMain/Driver/Driver_KinopioRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_KinopioExplore_00	Penjelajah
+MsgMain/Driver/Driver_KoopaRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_KoopaOffroad_00	Segala Medan
+MsgMain/Driver/Driver_KoopaHotrod_00	Supercharge
+MsgMain/Driver/Driver_DKOffroad_00	Segala Medan
+MsgMain/Driver/Driver_WarioFactory_00	Pekerja
+MsgMain/Driver/Driver_WarioRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_WarioFairy_00	Tawon Jahat
+MsgMain/Driver/Driver_WarioPirate_00	Bajak Laut
+MsgMain/Driver/Driver_WarioStadium_00	Preman Jalan
+MsgMain/Driver/Driver_WaluigiRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_WaluigiStadium_00	Preman Jalan
+MsgMain/Driver/Driver_RosettaRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_BabyMarioSwim_00	Baju Renang
+MsgMain/Driver/Driver_BabyMarioFactory_00	Pekerja
+MsgMain/Driver/Driver_BabyMarioRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_BabyLuigiFactory_00	Pekerja
+MsgMain/Driver/Driver_BabyLuigiRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_BabyPeachMarine_00	Pelaut
+MsgMain/Driver/Driver_BabyPeachExplore_00	Penjelajah
+MsgMain/Driver/Driver_BabyPeachRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_BabyDaisyMarine_00	Pelaut
+MsgMain/Driver/Driver_BabyDaisyExplore_00	Penjelajah
+MsgMain/Driver/Driver_BabyDaisyRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_BabyRosettaMarine_00	Pelaut
+MsgMain/Driver/Driver_BabyRosettaExplore_00	Penjelajah
+MsgMain/Driver/Driver_BabyRosettaRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_KinopicoConductor_00	Kondektur
+MsgMain/Driver/Driver_KinopicoIce_00	Penjual Es Krim
+MsgMain/Driver/Driver_KinopicoRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_KinopicoExplore_00	Penjelajah
+MsgMain/Driver/Driver_KoopaJrScout_00	Penjelajah
+MsgMain/Driver/Driver_KoopaJrRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_CatherineLagoonCity_00	Liburan
+MsgMain/Driver/Driver_CatherineRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_NokonokoRunner_00	Pelari
+MsgMain/Driver/Driver_NokonokoRacing_00	Pembalap Pro
+MsgMain/Driver/Driver_NokonokoFlagman_00	Pekerja
+MsgMain/Driver/Driver_NokonokoSailor_00	Pelaut
+MsgMain/Driver/Driver_NokonokoOffroad_00	Segala Medan
+MsgMain/Driver/Driver_HeyhoSnow_00	Gaya Lereng
+MsgMain/Driver/Driver_HeyhoRacing_00	Kru Pit
+MsgMain/Driver/Driver_JugemAngler_00	Nelayan
+MsgMain/Driver/Driver_JugemRacing_00	Kru Pit
+MsgMain/Driver/Driver_KingTeresaMovie_00	Bangsawan
+MsgMain/Driver/Driver_KingTeresaPirate_00	Bajak Laut
+MsgMain/Driver/Driver_KingTeresaRacing_00	Pembalap Pro
+MsgMain/Help/HelpButton_01	Panduan
+MsgMain/Help/HelpMenu_01	Teknik
+MsgMain/Help/HelpMenu_02	Item
+MsgMain/Help/HelpMenu_03	Aturan
+MsgMain/Help/HelpMenu_04	Jelajah Bebas
+MsgMain/Help/Technique_201	Saat hitung mundur di awal balapan, tekan dan\ntahan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) ketika angka 2 muncul agar kamu\ndapat dorongan saat balapan dimulai.
+MsgMain/Help/Technique_202	Jika kamu miringkan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} ke arah belokan sambil\nmenahan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, kamu bisa berbelok lebih tajam tanpa\nkehilangan kecepatan.
+MsgMain/Help/Technique_203	Jika kamu drift dan ada percikan di bawah roda,\nlepaskan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} untuk mendapat dorongan kecepatan.\nSetiap percikan berganti warna saat drift,\ndorongannya makin kuat! Saat kemudi pintar\nOFF, percikan bisa berganti warna sampai\ntiga kali.
+MsgMain/Help/Technique_204	Kamu bisa melakukan trik (dan dapat sedikit dorongan)\ndengan menekan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} tepat saat melompat dari ramp!
+MsgMain/Help/Technique_205	Jika kamu miringkan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} ke kiri atau kanan dan menahan\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) dan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) sekaligus, kamu bisa cepat\nmengubah arah hadapmu.
+MsgMain/Help/Technique_206	Jika kamu menahan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) lalu {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} dan terus\nlurus, akan ada percikan di bawah rodamu.\nLalu miringkan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} ke satu arah dan lepas {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF},\nkamu bisa melompat kecil ke arah itu.
+MsgMain/Help/Technique_207	Kamu bisa melaju di permukaan sempit seperti\npagar rel dan kabel listrik. Kamu bahkan bisa melompat\nke atasnya dengan Charge Jump.
+MsgMain/Help/Technique_208	Jika kamu melakukan Jump Boost atau Charge Jump\nmenghadap dinding, kamu bisa melaju di dinding sebentar.
+MsgMain/Help/Technique_209	Jika kamu menahan {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, kendaraanmu bisa kembali\nke posisi sebelumnya.
+MsgMain/Help/Item_101	Rintangan licin yang membuat kendaraan\nberputar tak terkendali jika terkena.
+MsgMain/Help/Item_102	Tiga Banana yang mengorbit kendaraan\npembalap. Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk menaruh\nsatu Banana setiap kali.
+MsgMain/Help/Item_103	Item lezat yang saat dimakan memberi\npembalap semburan kecepatan singkat.
+MsgMain/Help/Item_104	Tiga Mushroom yang mengorbit kendaraan\npembalap. Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk memakai\nsatu Mushroom setiap kali.
+MsgMain/Help/Item_105	Mushroom berkilau yang bisa dipakai\nberkali-kali sesaat untuk memberi\nbeberapa dorongan kecepatan.\nTekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} berulang kali agar\naktif.
+MsgMain/Help/Item_106	Mushroom besar yang membesarkan\npembalap dan kendaraannya saat dipakai,\nmemberi dorongan kecepatan dan\nbisa melindas pembalap lain.
+MsgMain/Help/Item_107	Item berbahaya yang melaju lurus dan\nmembuat pembalap yang terkena\nterhenti dengan tabrakan.
+MsgMain/Help/Item_108	Tiga Green Shell yang mengorbit\nkendaraan pembalap. Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk\nmelempar satu Green Shell setiap kali.
+MsgMain/Help/Item_109	Cangkang pengejar yang mengincar\nsiapa pun di depan pembalap yang\nmelemparnya.
+MsgMain/Help/Item_110	Tiga Red Shell yang mengorbit\nkendaraan pembalap. Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk\nmelempar satu Red Shell setiap kali.
+MsgMain/Help/Item_111	Cangkang yang mengejar dan menabrak\npembalap terdepan. Ia terus melaju\nmeski menabrak pembalap lain di jalan\nhingga menghantam peringkat pertama.
+MsgMain/Help/Item_112	Cangkang berkilau yang menjatuhkan koin\ndan menabrak pembalap sepanjang\nlintasan.
+MsgMain/Help/Item_113	Item kuat untuk melempar bola api\ndengan menekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nPembalap yang terkena bola api akan\nberputar tak terkendali.
+MsgMain/Help/Item_114	Item kuat untuk melempar bola es\ndengan menekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nPembalap yang terkena bola es akan\nberputar tak terkendali.
+MsgMain/Help/Item_115	Item untuk melempar bumerang dengan\nmenekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Pembalap yang\nterkena akan berputar tak terkendali.
+MsgMain/Help/Item_116	Item yang mengubah pemakainya jadi\nBullet Bill sesaat. Ia akan melesat\nsepanjang lintasan dan menerbangkan\npembalap lain yang\nditabraknya.
+MsgMain/Help/Item_117	Bom berjalan yang meledak setelah\nbeberapa saat atau jika ditabrak.\nPembalap di dekatnya bisa\nterkena ledakan!
+MsgMain/Help/Item_118	Palu lempar yang bisa dilempar dengan\nmenekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} berulang kali.\nSiapa pun yang terkena akan terhenti.
+MsgMain/Help/Item_119	Klakson super kuat yang mementalkan\npembalap dan item di sekitar.
+MsgMain/Help/Item_120	? Block yang mengeluarkan koin setiap\nkali pembalap menekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Juga\nmemberi sedikit dorongan kecepatan.
+MsgMain/Help/Item_121	Item yang memberi pemakainya\ndua koin. Makin banyak koin,\nmakin cepat pembalap.
+MsgMain/Help/Item_122	Item yang membuat pembalap\ntransparan sesaat sehingga bisa lewat\naman menembus item berbahaya seperti\nBanana dan cangkang. Juga\nmencuri item dari lawan.
+MsgMain/Help/Item_123	Item pengganggu yang menyemprotkan tinta\nke lawan sehingga sulit\nmelihat untuk sementara.
+MsgMain/Help/Item_124	Item yang memanggil Kamek, yang sihirnya\nmenimbulkan kejadian aneh.
+MsgMain/Help/Item_125	Item yang melontarkan pembalap tinggi\nke udara agar terhindar dari item\nberbahaya seperti Banana dan\ncangkang. Di mode Pertarungan, terbang di atas\nlawan bisa mencuri balon\natau koin.
+MsgMain/Help/Item_126	Item yang membuat pemakainya lebih\ncepat dan kebal sementara, serta\nmembuat pembalap yang ditabrak\nberputar.
+MsgMain/Help/Item_127	Item yang menyambarkan petir ke\npembalap lain, menghancurkan\nitem yang mereka bawa serta\nmemperlambat dan mengecilkan\nmereka untuk sementara.
+MsgMain/Help/Item_128	Camilan lezat yang memberi pembalap\ndorongan kecepatan dan mungkin\nmengubah pakaiannya.
+MsgMain/Help/Rule_03	Time Trial
+MsgMain/Help/Rule_04	Balapan VS
+MsgMain/Help/Rule_05	Pertarungan Balon
+MsgMain/Help/Rule_103	Time Trial
+MsgMain/Help/Rule_104	Balapan VS
+MsgMain/Help/Rule_105	Pertarungan Balon
+MsgMain/Help/Rule_201	Bersaing jadi juara umum di piala empat balapan!
+MsgMain/Help/Rule_202	Bertahan di balapan keliling dunia!
+MsgMain/Help/Rule_203	Balapan sendiri dan catat waktu tercepatmu!
+MsgMain/Help/Rule_204	Balapan dengan aturan sendiri!
+MsgMain/Help/Rule_205	Pakai item dan pecahkan balon!
+MsgMain/Help/Rule_206	Kumpulkan koin terbanyak untuk menang!
+MsgMain/Help/Rule_207	Hancurkan balon lawanmu!
+MsgMain/Help/Rule_301	Tiap balapan memberi poin sesuai posisimu\nsaat melewati garis finis. Peringkat akhirmu\ndi Grand Prix ditentukan dari total\npoin keempat balapan.
+MsgMain/Help/Rule_302	Rangkaian balapan tanpa jeda; pembalap harus\ncukup tinggi peringkatnya agar terus maju.
+MsgMain/Help/Rule_303	Pilih lintasan mana pun yang tersedia.\nKunci waktu terbaik ada pada\npemakaian Mushroom yang cerdas.
+MsgMain/Help/Rule_304	Mode yang bisa diatur aturannya,\nseperti jumlah balapan atau\nada tidaknya tim saat balapan.
+MsgMain/Help/Rule_305	Dapat poin dengan memecahkan balon lawan.\nKamu bisa mencuri balon dengan menabrak\nmereka saat dorongan Mushroom!
+MsgMain/Help/Rule_306	Jatuhkan koin lawan dengan memukul mereka dengan\nitem, atau tabrak mereka saat dorongan\nMushroom untuk mencuri koinnya langsung!
+MsgMain/Help/Rule_307	Pertarungan khusus Bob-omb, kamu bisa memegang\nhingga 10 Bob-omb sekaligus.
+MsgMain/Help/Rule_401	Ada tujuh piala berbeda di Grand Prix.\nApa yang terjadi setelah kamu menamatkan\nsemuanya?
+MsgMain/Help/Rule_402	Tiap tour punya lima checkpoint, dan di setiap\ncheckpoint, beberapa pembalap peringkat bawah\ndieliminasi. Tetap di depan dan incar posisi\npertama di akhir!
+MsgMain/Help/Rule_403	Tantang dirimu melawan data ghost\npembalap lain. Siapa tahu kamu\nbelajar hal baru!
+MsgMain/Help/Rule_404	Pilih Bersambung di pengaturan agar balapanmu\ntersambung dari satu lintasan ke lintasan berikutnya!
+MsgMain/Help/Rule_405	Kehilangan semua balon, kamu tereliminasi...
+MsgMain/Help/Rule_406	Koin muncul di peta mini, jadi\npantau terus ya!
+MsgMain/Help/Rule_407	Jarak terbang Bob-omb tergantung lama\nkamu menahan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.
+MsgMain/Help/FreeRun_01	P Switch
+MsgMain/Help/FreeRun_02	Panel ?
+MsgMain/Help/FreeRun_04	Koin
+MsgMain/Help/FreeRun_06	Foto
+MsgMain/Help/FreeRun_101	Lindas P Switch untuk memulai misi. Tenang saja\njika ada tantangan yang sulit.\nTerus coba dan kamu pasti berhasil!
+MsgMain/Help/FreeRun_102	Panel ? mungkin tersembunyi di tempat tak terduga.\nCari sebanyak yang kamu bisa!
+MsgMain/Help/FreeRun_103	Peach Medallion berkilau tersebar di seluruh\ndunia. Ada berapa ya?
+MsgMain/Help/FreeRun_104	Kamu bisa membuka kendaraan baru dengan mengumpulkan\nkoin. Konon ada tumpukan koin di luar sana,\nmenunggu dikumpulkan...
+MsgMain/Help/FreeRun_105	Banyak toko Dash Food di seluruh dunia,\ndengan beragam makanan untuk dicoba.\nBanyak pembalap berganti penampilan\ntergantung makanan yang mereka makan!
+MsgMain/Help/FreeRun_106	Kamu bisa memakai {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk memotret. Ayo keluar,\nabadikan momen sempurna, dan jangan lupa\nbilang "Cheese!"
+MsgMain/Menu/2003	Ya
+MsgMain/Menu/2004	Tidak
+MsgMain/Menu/2051	Tekan {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} untuk mulai
+MsgMain/Menu/2053	Urutkan
+MsgMain/Menu/2054	Detail
+MsgMain/Menu/2055	Kecepatan
+MsgMain/Menu/2056	Akselerasi
+MsgMain/Menu/2057	Bobot
+MsgMain/Menu/2058	Kemudi
+MsgMain/Menu/2059	Acak
+MsgMain/Menu/2101	Satu Pemain
+MsgMain/Menu/2102	Multipemain
+MsgMain/Menu/2103	Main Online
+MsgMain/Menu/2104	Main Nirkabel
+MsgMain/Menu/2105	Stiker
+MsgMain/Menu/2106	Main LAN
+MsgMain/Menu/2110	Peta
+MsgMain/Menu/2111	Jelajah Bebas
+MsgMain/Menu/2203	Time Trial
+MsgMain/Menu/2204	Balapan VS
+MsgMain/Menu/2205	Pertarungan
+MsgMain/Menu/2211	Raih emas di piala empat balapan!
+MsgMain/Menu/2212	Tetap di depan di balapan ketahanan!
+MsgMain/Menu/2213	Balapan sendiri demi rekor baru!
+MsgMain/Menu/2214	Balapan dengan aturan sendiri!
+MsgMain/Menu/2215	Bertarung dengan aturan sendiri!
+MsgMain/Menu/2216	Hingga 24 pemain bisa balapan bareng!
+MsgMain/Menu/2217	Bertahan di balapan eliminasi 24 pemain!
+MsgMain/Menu/2219	Hingga 24 pemain bisa bertarung bareng!
+MsgMain/Menu/2231	Kumpulkan teman dan bertanding!
+MsgMain/Menu/2221	Mulai Grand Prix?
+MsgMain/Menu/2222	Mulai Knockout Tour?
+MsgMain/Menu/2223	Mulai Time Trial?
+MsgMain/Menu/2224	Mulai Replay?
+MsgMain/Menu/2225	Mulai balapan?
+MsgMain/Menu/2226	Mulai pertarungan?
+MsgMain/Menu/2227	Mau keluar?
+MsgMain/Menu/2228	Mau keluar?
+MsgMain/Menu/2229	Kembali ke layar judul?
+MsgMain/Menu/2235	Cermin
+MsgMain/Menu/2261	Balapan Solo
+MsgMain/Menu/2262	Lawan Ghost
+MsgMain/Menu/2263	Lihat Ghost
+MsgMain/Menu/2264	Lihat Peringkat
+MsgMain/Menu/2272	Unggah Data Ghost
+MsgMain/Menu/2266	Unduh data ghost ini?
+MsgMain/Menu/2268	Hapus data ghost?
+MsgMain/Menu/2269	Data ghost sudah dihapus.
+MsgMain/Menu/2270	Mengunduh data ghost...
+MsgMain/Menu/2271	Data ghost telah diunduh!\nMulai balapan?
+MsgMain/Menu/2273	Unggah data ghost?
+MsgMain/Menu/2274	Kamu belum membuat data ghost\nuntuk lintasan ini!
+MsgMain/Menu/2275	Kamu tidak bisa mengunduh\ndata ghost sendiri.
+MsgMain/Menu/2276	Kamu tidak bisa mengunduh\ndata ghost lagi. Mau {0E 0000 0003 0002 0000}menghapus{0E 0000 0003 0002 FFFF}\nsemua data ghost agar muat?
+MsgMain/Menu/2277	{0E 0000 0003 0002 0000}Data ghost yang dihapus akan\nhilang selamanya.{0E 0000 0003 0002 FFFF}\nMau lanjut?
+MsgMain/Menu/2278	Semua data ghost yang kamu\nunduh sudah dihapus.
+MsgMain/Menu/2281	Kamu sudah mengunduh\ndata ghost ini.
+MsgMain/Menu/2282	Data ghost ini {0E 0000 0003 0002 0000}milikmu{0E 0000 0003 0002 FFFF}.\nTetap mau menghapusnya?
+MsgMain/Menu/2301	Kelas
+MsgMain/Menu/2306	Cermin
+MsgMain/Menu/2308	Lewati
+MsgMain/Menu/2311	Level COM
+MsgMain/Menu/2312	Mudah
+MsgMain/Menu/2314	Sulit
+MsgMain/Menu/2315	Tanpa COM
+MsgMain/Menu/2321	Pilih Lintasan
+MsgMain/Menu/2322	Bersambung
+MsgMain/Menu/2323	Bebas
+MsgMain/Menu/2324	Acak
+MsgMain/Menu/2331	Jumlah Balapan
+MsgMain/Menu/2332	3 Balapan
+MsgMain/Menu/2333	4 Balapan
+MsgMain/Menu/2334	5 Balapan
+MsgMain/Menu/2335	6 Balapan
+MsgMain/Menu/2336	8 Balapan
+MsgMain/Menu/2337	12 Balapan
+MsgMain/Menu/2338	16 Balapan
+MsgMain/Menu/2339	32 Balapan
+MsgMain/Menu/2351	Tim
+MsgMain/Menu/2352	Tanpa Tim
+MsgMain/Menu/2353	Dua Tim
+MsgMain/Menu/2354	Tiga Tim
+MsgMain/Menu/2355	Empat Tim
+MsgMain/Menu/2371	Jumlah Ronde
+MsgMain/Menu/2372	3 Ronde
+MsgMain/Menu/2373	4 Ronde
+MsgMain/Menu/2374	5 Ronde
+MsgMain/Menu/2375	6 Ronde
+MsgMain/Menu/2376	8 Ronde
+MsgMain/Menu/2381	Jeda
+MsgMain/Menu/2382	10 detik
+MsgMain/Menu/2383	Satu menit
+MsgMain/Menu/2384	Lima menit
+MsgMain/Menu/2391	Item
+MsgMain/Menu/2393	Heboh
+MsgMain/Menu/2402	Balapan VS
+MsgMain/Menu/2405	Pertarungan Balon
+MsgMain/Menu/3003	Mulai jelajah bebas?
+MsgMain/Menu/3004	Kembali ke\nlayar judul.
+MsgMain/Menu/5001	Balapan
+MsgMain/Menu/5004	Teman
+MsgMain/Menu/5005	Buat Ruang
+MsgMain/Menu/5006	Cari lewat ID Ruang
+MsgMain/Menu/5007	Gabung
+MsgMain/Menu/5008	Ruang
+MsgMain/Menu/5009	Pertarungan
+MsgMain/Menu/5013	Mencari pemain...
+MsgMain/Menu/5014	Balapan segera dimulai!
+MsgMain/Menu/5017	Lintasan sudah dipilih!
+MsgMain/Menu/5019	Belum bisa gabung. Tunggu ya.
+MsgMain/Menu/5020	Kamu bergabung!
+MsgMain/Menu/5021	{0E 0001 0001 0004 0000 0000} bergabung!
+MsgMain/Menu/5022	Aturan sudah ditentukan!
+MsgMain/Menu/5023	Balapan berikutnya: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5024	Pertarungan berikutnya: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5026	Kamu akan ikut balapan berikutnya. Tunggu ya!
+MsgMain/Menu/5027	Kamu akan ikut pertarungan berikutnya. Bersiaplah!
+MsgMain/Menu/5028	Menunggu pemain bergabung...
+MsgMain/Menu/5029	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Mulai game
+MsgMain/Menu/5030	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Mulai game
+MsgMain/Menu/5031	Pertarungan segera dimulai!
+MsgMain/Menu/5032	Tunggu sampai aturan ditentukan.
+MsgMain/Menu/5033	Koneksimu terputus.
+MsgMain/Menu/5034	Tidak bisa ikut Knockout Tour.
+MsgMain/Menu/5035	Dua pembalap terlalu jauh. Menutup jarak.
+MsgMain/Menu/5101	Acak
+MsgMain/Menu/5102	Ubah
+MsgMain/Menu/5202	Buat grup untuk bertanding?
+MsgMain/Menu/5204	ID yang kamu masukkan tidak\ncocok dengan ruang mana pun.
+MsgMain/Menu/5209	ID Ruang
+MsgMain/Menu/5212	Riwayat Pertarungan
+MsgMain/Menu/5213	Kamu
+MsgMain/Menu/5214	Lawan
+MsgMain/Menu/5218	Masukkan ID Ruang
+MsgMain/Menu/5220	Mohon tunggu...
+MsgMain/Menu/5221	Keluar dari grup ini?
+MsgMain/Menu/5301	Ruang penuh.\nMohon tunggu...
+MsgMain/Menu/5302	Terjadi kesalahan\nkomunikasi.
+MsgMain/Menu/5304	Ruang yang ingin kamu masuki\ntidak ditemukan.
+MsgMain/Menu/5305	Terjadi kesalahan\nkomunikasi.
+MsgMain/Menu/5307	Terjadi kesalahan\nkomunikasi.
+MsgMain/Menu/5308	Terjadi kesalahan\nkomunikasi.
+MsgMain/Menu/5320	Kamu mengumpulkan {0E 0001 0000 0004 0000 0000} koin\ndan membuka {0E 0000 0003 0002 0000}kendaraan{0E 0000 0003 0002 FFFF} baru!
+MsgMain/Menu/5313	Belum ada teman terdaftar.
+MsgMain/Menu/5314	Tidak ada ruang yang bisa dimasuki.
+MsgMain/Menu/5315	Atur aturan
+MsgMain/Menu/5316	Peserta
+MsgMain/Menu/5347	Mode Foto
+MsgMain/Menu/5328	Hadap Kamera
+MsgMain/Menu/5329	Fokus
+MsgMain/Menu/5333	Selesai
+MsgMain/Menu/5334	Ekspresi
+MsgMain/Menu/5335	Bingkai
+MsgMain/Menu/5336	Panduan
+MsgMain/Menu/5341	Miring
+MsgMain/Menu/5342	Jepret
+MsgMain/Menu/5348	Fokus: Tidak Ada
+MsgMain/Menu/5349	Fokus: Karakter
+MsgMain/Menu/5350	Fokus: Tengah
+MsgMain/Menu/5353	Berhenti memotret?
+MsgMain/Menu/5354	Ya
+MsgMain/Menu/5355	Tidak
+MsgMain/Menu/5370	Bingkai: Tidak Ada
+MsgMain/Menu/5371	Bingkai: 1
+MsgMain/Menu/5372	Bingkai: 2
+MsgMain/Menu/5373	Bingkai: 3
+MsgMain/Menu/5374	Bingkai: 4
+MsgMain/Menu/5375	Bingkai: 5
+MsgMain/Menu/5376	Bingkai: 6
+MsgMain/Menu/5377	Bingkai: 7
+MsgMain/Menu/5378	Bingkai: 8
+MsgMain/Menu/5379	Bingkai: 9
+MsgMain/Menu/5380	Bingkai: 10
+MsgMain/Menu/5381	Bingkai: 11
+MsgMain/Menu/5382	Bingkai: 12
+MsgMain/Menu/5383	Bingkai: 13
+MsgMain/Mission/Mission_RC_WL_00	Kumpulkan koin biru dan hindari Goomba!
+MsgMain/Mission/Mission_RC_WL_03	Kumpulkan koin biru di sepanjang jembatan!
+MsgMain/Mission/Mission_RC_WL_04	Telusuri stasiun rel cari koin biru!
+MsgMain/Mission/Mission_RC_WL_05	Kumpulkan koin sambil beraksi di udara!
+MsgMain/Mission/Mission_RC_WL_08	Meluncur dari pipa ke pipa menuju dataran tinggi!
+MsgMain/Mission/Mission_WT_WL_00	Terjang barisan pertahanan!
+MsgMain/Mission/Mission_WT_WL_01	Lompati jalan pintas berblok ke Wario Stadium!
+MsgMain/Mission/Mission_WT_WL_04	Balapan melewati rintangan ban yang licik!
+MsgMain/Mission/Mission_WT_WL_05	Salip kereta yang melintasi jembatan rangka!
+MsgMain/Mission/Mission_WT_WL_06	Naiki ramp dan lompati jembatan gantung!
+MsgMain/Mission/Mission_WT_WL_08	Melayang di udara dan menembus jembatan!
+MsgMain/Mission/Mission_WT_WL_09	Raungkan mesin di jalan dalam aksi yang meledak-ledak!
+MsgMain/Mission/Mission_WT_WL_10	Ambil jalan pintas offroad ke Mario Bros. Circuit!
+MsgMain/Mission/Mission_WT_WL_11	Incar Goal Pole di atas jamur raksasa!
+MsgMain/Mission/Mission_WT_WL_12	Andalkan angin tornado untuk mencapai Goal Pole!
+MsgMain/Mission/Mission_WT_WL_13	Melesat ke goal dan jangan tenggelam!
+MsgMain/Mission/Mission_WT2_WL_00	Pakai item untuk menerjang pasir gurun!
+MsgMain/Mission/Mission_WT2_WL_01	Tunjukkan pada Shy Guy cara balapan menyusuri sungai!
+MsgMain/Mission/Mission_WT2_WL_05	Balapan ke hulu melewati lembah sungai!
+MsgMain/Mission/Mission_WT2_WL_06	Buat jalanmu lewat jalur belakang!
+MsgMain/Mission/Mission_WT2_WL_07	Lewati ramp dan balok menuju goal!
+MsgMain/Mission/Mission_WT2_WL_08	Naiki ramp melewati tepi tebing menuju goal!
+MsgMain/Mission/Mission_WT2_WL_09	Pamerkan kemampuan wall ride-mu!
+MsgMain/Mission/Mission_WT2_WL_10	Lakukan aksi demi aksi di atas jembatan!
+MsgMain/Mission/Mission_WT2_WL_11	Terbang ke Yoshi's untuk makan sebentar!
+MsgMain/Mission/Mission_WT2_WL_12	Trik dari kaktus untuk tambahan tinggi!
+MsgMain/Mission/Mission_WT2_WL_13	Hindari armadilo menuju goal!
+MsgMain/Mission/Mission_WT2_WL_14	Ikuti helikopter itu!
+MsgMain/Mission/Mission_WT2_WL_15	Buktikan dirimu di ujian skill SPECIAL #6!
+MsgMain/Mission/Mission_WT2_WL_18	Melayang antar dataran dengan ramp baja!
+MsgMain/Mission/Mission_WT3_WL_01	Hadapi tantangan ketahanan di tanah tandus!
+MsgMain/Mission/Mission_WT3_WL_02	Ikuti balapan dadakan di ngarai!
+MsgMain/Mission/Mission_WT3_WL_03	Ikuti putaran ngarai yang nekat!
+MsgMain/Mission/Mission_WT3_WL_04	Sambangi para pembalap di atas batu!
+MsgMain/Mission/Mission_RC_WL_02	Rail ride untuk ambil koin biru burger!
+MsgMain/Mission/Mission_WT_WL_03	Balapan lewati tribun menuju goal!
+MsgMain/Mission/Mission_WT2_WL_04	Bawa nafsu makan dan balapan ke goal!
+MsgMain/Mission/Mission_RC_WL_07	Perbanyak trik untuk kumpulkan semua koin biru!
+MsgMain/Mission/Mission_WT_WL_02	Tunjukkan pada kereta betapa cepatnya kamu!
+MsgMain/Mission/Mission_WT2_WL_02	Balapan ke puncak Whistlestop Summit!
+MsgMain/Mission/Mission_RC_WL_06	Kumpulkan koin biru dari atap-atap!
+MsgMain/Mission/Mission_WT2_WL_16	Ramp melewati cincin dan api!
+MsgMain/Mission/Mission_WT2_WL_17	Ikuti cincin di sepanjang atap!
+MsgMain/Mission/Mission_RC_DT_00	Ambil koin biru dan jangan tenggelam!
+MsgMain/Mission/Mission_RC_DT_01	Selamatkan koin biru dari pasir!
+MsgMain/Mission/Mission_RC_DT_03	Pungut koin biru yang berserakan!
+MsgMain/Mission/Mission_RC_DT_04	Kumpulkan koin biru di oasis kering!
+MsgMain/Mission/Mission_RC_DT_05	Jelajahi bazar dan ambil koin biru!
+MsgMain/Mission/Mission_RC_DT_06	Menumpang untuk ambil koin biru di udara!
+MsgMain/Mission/Mission_RC_DT_07	Menyegarkan diri di oasis sambil ambil koin biru!
+MsgMain/Mission/Mission_RC_DT_08	Ikuti tali untuk koin biru reruntuhan!
+MsgMain/Mission/Mission_WT_DT_00	Zig-zag menghindari tornado berbahaya!
+MsgMain/Mission/Mission_WT_DT_01	Tembus blokade Hammer Bros.!
+MsgMain/Mission/Mission_WT_DT_02	Hindari Chain Chomp saat mendaki!
+MsgMain/Mission/Mission_WT_DT_03	Salip Shy Guy di balapan hulu sungai!
+MsgMain/Mission/Mission_WT_DT_04	Berlari ke goal melintasi lautan pasir!
+MsgMain/Mission/Mission_WT_DT_05	Melesat maju dan melompat ke Goal Pole!
+MsgMain/Mission/Mission_WT_DT_06	Dash dengan cerdas agar sampai goal tepat waktu!
+MsgMain/Mission/Mission_WT_DT_07	Susuri jalur berkelok menuju goal!
+MsgMain/Mission/Mission_WT_DT_08	Hadapi Tantangan Shy Guy #2!
+MsgMain/Mission/Mission_WT_DT_09	Hadapi Tantangan Shy Guy #1!
+MsgMain/Mission/Mission_WT_DT_10	Manfaatkan 18 roda tenaga menuju goal!
+MsgMain/Mission/Mission_WT_DT_11	Meluncur dari pipa ke pipa menuju goal!
+MsgMain/Mission/Mission_WT_DT_12	Dash, dash, dash ke goal!
+MsgMain/Mission/Mission_WT_DT_13	Hindari Tokotoko saat menanjak!
+MsgMain/Mission/Mission_WT_DT_14	Hancurkan jalan di labirin blok!
+MsgMain/Mission/Mission_WT_DT_15	Pakai bangkai kapal kuno untuk dorongan!
+MsgMain/Mission/Mission_WT_DT_16	Selinap melewati blokade Batadon!
+MsgMain/Mission/Mission_WT_DT_17	Naik rail ride jarak jauh ke goal!
+MsgMain/Mission/Mission_WT2_DT_00	Balapan menyusuri sungai dan kabur ke laut!
+MsgMain/Mission/Mission_WT2_DT_01	Lakukan lompatan sulit dari pilar ke pilar!
+MsgMain/Mission/Mission_WT2_DT_02	Susuri dinding luar untuk menyelinap masuk!
+MsgMain/Mission/Mission_WT2_DT_03	Seberangi jembatan sambil terus trik!
+MsgMain/Mission/Mission_WT2_DT_04	Hindari Fire Snake di terowongan!
+MsgMain/Mission/Mission_WT2_DT_05	Lewati banyak Pokey berpesta di jalan!
+MsgMain/Mission/Mission_WT2_DT_06	Melayang ke Goal Pole stasiun kereta!
+MsgMain/Mission/Mission_WT2_DT_07	Hadapi Tantangan Shy Guy #3!
+MsgMain/Mission/Mission_WT2_DT_08	Kejar Tokotoko satu demi satu!
+MsgMain/Mission/Mission_WT2_DT_09	Terbang ke langit untuk kabur dari gurun!
+MsgMain/Mission/Mission_WT2_DT_10	Seberangi langit gurun dan bukit hijau menuju goal!
+MsgMain/Mission/Mission_WT2_DT_11	Tur penuh trik di Shy Guy Bazaar!
+MsgMain/Mission/Mission_WT2_DT_12	Balapan menembus badai hujan dan koin!
+MsgMain/Mission/Mission_WT3_DT_00	Hadapi ujian ketahanan di atas pasir!
+MsgMain/Mission/Mission_RC_VL_02	Kumpulkan koin biru di jalan sempit!
+MsgMain/Mission/Mission_RC_VL_04	Kumpulkan koin biru di pemandian air panas!
+MsgMain/Mission/Mission_RC_VL_05	Kumpulkan koin biru dan awas Thwomp!
+MsgMain/Mission/Mission_RC_VL_06	Terjang Bully sambil kumpulkan koin biru!
+MsgMain/Mission/Mission_RC_VL_07	Ambil koin biru sambil rail ride!
+MsgMain/Mission/Mission_RC_VL_08	Ambil koin biru di kuburan seram!
+MsgMain/Mission/Mission_RC_VL_09	Kumpulkan koin biru yang tersebar!
+MsgMain/Mission/Mission_RC_VL_11	Kumpulkan koin biru di tangga besar!
+MsgMain/Mission/Mission_RC_VL_12	Loncat dari rel ke rel untuk ambil koin biru!
+MsgMain/Mission/Mission_WT_VL_02	Terbang aman di atas danau lava!
+MsgMain/Mission/Mission_WT_VL_03	Zig-zag melewati Whamp!
+MsgMain/Mission/Mission_WT_VL_04	Pinjam truknya dan terobos!
+MsgMain/Mission/Mission_WT_VL_05	Zig-zag di jalan penuh Dry Bones!
+MsgMain/Mission/Mission_WT_VL_06	Melesat melewati Fish Bone menuju pemandian air panas!
+MsgMain/Mission/Mission_WT_VL_07	Lewati perlintasan Treaded Grrrol!
+MsgMain/Mission/Mission_WT_VL_08	Seberangi balok jembatan yang rusak!
+MsgMain/Mission/Mission_WT_VL_10	Meluncur sebagai Bullet Bill menembus rentetan api!
+MsgMain/Mission/Mission_WT_VL_11	Ambil penerbangan sambungan ke Airship Fortress!
+MsgMain/Mission/Mission_WT_VL_12	Selip di antara gelombang bola api! Jangan hangus!
+MsgMain/Mission/Mission_WT2_VL_04	Tunjukkan pada lava bahwa kamu superstar!
+MsgMain/Mission/Mission_WT2_VL_05	Pakai Mushroom untuk melesat di jalur kanan!
+MsgMain/Mission/Mission_WT2_VL_06	Pamerkan kemampuan meniti tali!
+MsgMain/Mission/Mission_WT2_VL_07	Melesat di jalur kiri tanpa Mushroom!
+MsgMain/Mission/Mission_WT2_VL_08	Naiki geyser dan tembus cincin menuju goal!
+MsgMain/Mission/Mission_WT2_VL_09	Bertahan di lorong Fire Piranha Plant yang pedas!
+MsgMain/Mission/Mission_WT2_VL_10	Naik helikopter dan hindari nasib berapi!
+MsgMain/Mission/Mission_WT2_VL_11	Hancurkan lintasan dengan trik demi trik!
+MsgMain/Mission/Mission_WT2_VL_12	Susuri jalur pipa dan cincin!
+MsgMain/Mission/Mission_WT2_VL_13	Selinap dari injakan sumo yang mengejutkan!
+MsgMain/Mission/Mission_WT2_VL_16	Lewati celah di penyangga baja!
+MsgMain/Mission/Mission_WT2_VL_17	Balapan ke puncak dinding kastil!
+MsgMain/Mission/Mission_WT2_VL_18	Panjat satu derek, lalu hindari yang lain!
+MsgMain/Mission/Mission_WT2_VL_20	Terbang jauh demi hole in one!
+MsgMain/Mission/Mission_WT3_VL_01	Ambil beberapa camilan sambil balapan di Big Donut!
+MsgMain/Mission/Mission_WT_VL_00	Selinap melewati barisan Rocky Wrench!
+MsgMain/Mission/Mission_WT2_VL_00	Drift ke puncak menara berputar!
+MsgMain/Mission/Mission_WT2_VL_02	Tunjukkan kemampuanmu di time trial Airship Fortress!
+MsgMain/Mission/Mission_RC_VL_01	Kumpulkan koin biru di food court pedas!
+MsgMain/Mission/Mission_WT_VL_01	Lompati dinding Bowser's Castle!
+MsgMain/Mission/Mission_WT2_VL_03	Trik tanpa tercebur ke kolam lava!
+MsgMain/Mission/Mission_WT3_VL_00	Balapan di lintasan penuh anak buah Bowser!
+MsgMain/Mission/Mission_RC_VL_10	Seimbang di tali untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_VL_15	Hindari bola api dan kumpulkan koin biru!
+MsgMain/Mission/Mission_WT2_VL_14	Tunjukkan pada semua cara wall ride!
+MsgMain/Mission/Mission_RC_FS_03	Kumpulkan koin biru di jalur angka delapan!
+MsgMain/Mission/Mission_RC_FS_04	Kumpulkan koin biru timbunan Wiggler!
+MsgMain/Mission/Mission_RC_FS_05	Atasi rasa tenggelam untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_FS_06	Potong lalu lintas dan ambil koin biru!
+MsgMain/Mission/Mission_RC_FS_07	Ambil koin biru di kolam Skeeter!
+MsgMain/Mission/Mission_RC_FS_08	Kumpulkan koin biru di perkemahan tepi sungai!
+MsgMain/Mission/Mission_RC_FS_09	Beranikan diri di hutan seram demi koin biru!
+MsgMain/Mission/Mission_WT_FS_02	Manuver di antara kawanan rusa santai!
+MsgMain/Mission/Mission_WT_FS_03	Naiki tali dan melayang ke goal!
+MsgMain/Mission/Mission_WT_FS_04	Sapa patung Mario saat melayang lewat!
+MsgMain/Mission/Mission_WT_FS_05	Pakai kelopak bunga untuk ke apel raksasa!
+MsgMain/Mission/Mission_WT_FS_06	Lompat, lompat, lompat di Mario Circuit!
+MsgMain/Mission/Mission_WT_FS_07	Kejar kereta dan ikuti rel!
+MsgMain/Mission/Mission_WT_FS_08	Hindari serangan Spike dan capai goal!
+MsgMain/Mission/Mission_WT_FS_09	Latih akrobat dan mendarat dengan sulit!
+MsgMain/Mission/Mission_WT_FS_10	Jelajahi alam liar dan capai garis akhir!
+MsgMain/Mission/Mission_WT_FS_11	Tunjukkan jalan, Ivy Piranha Plant!
+MsgMain/Mission/Mission_WT_FS_12	Lawan arus dengan kekuatan bintang!
+MsgMain/Mission/Mission_WT_FS_13	Lewati rel! Lewati kabel! Capai garis akhir!
+MsgMain/Mission/Mission_WT2_FS_05	Beranikan diri di hutan berhantu!
+MsgMain/Mission/Mission_WT2_FS_06	Meluncurlah di atas kanopi pohon!
+MsgMain/Mission/Mission_WT2_FS_07	Balap dari jembatan ke jembatan di rawa berhantu!
+MsgMain/Mission/Mission_WT2_FS_08	Cepat ke hulu dan capai garis akhir!
+MsgMain/Mission/Mission_WT2_FS_09	Tunjukkan kekuatan Super Star pada rawa!
+MsgMain/Mission/Mission_WT2_FS_10	Selip dan lari di dinding melewati lalu lintas!
+MsgMain/Mission/Mission_WT2_FS_11	Taklukkan lompatan di jalan belakang yang sempit!
+MsgMain/Mission/Mission_WT2_FS_12	Susuri hilir menuju Acorn Heights!
+MsgMain/Mission/Mission_WT2_FS_13	Hindari Piranha Plant sepanjang jalan!
+MsgMain/Mission/Mission_WT2_FS_14	Selip di antara mobil dan Chargin' Chuck!
+MsgMain/Mission/Mission_WT3_FS_01	Balapan di lintasan penghormatan Ghost Valley 1!
+MsgMain/Mission/Mission_WT3_FS_02	Balapan di lintasan penghormatan Ghost Valley 2!
+MsgMain/Mission/Mission_WT3_FS_03	Balapan di lintasan penghormatan Ghost Valley 3!
+MsgMain/Mission/Mission_WT3_FS_05	Balapan di rute liar menembus hutan!
+MsgMain/Mission/Mission_RC_FS_01	Kumpulkan koin biru menuruni lembah bunga lili!
+MsgMain/Mission/Mission_WT_FS_01	Bertahan dari badai biji ek!
+MsgMain/Mission/Mission_WT2_FS_00	Panjat terus ke atas dengan Ivy Piranha Plant!
+MsgMain/Mission/Mission_WT2_FS_02	Lewati para Wiggler menuju garis akhir!
+MsgMain/Mission/Mission_RC_FS_00	Kumpulkan koin biru di sekitar menara kendali!
+MsgMain/Mission/Mission_WT_FS_00	Meluncur dari quarter pipe dan melayang tinggi!
+MsgMain/Mission/Mission_WT2_FS_01	Uji dirimu di tantangan time trial yang sulit!
+MsgMain/Mission/Mission_RC_FS_02	Panjat derek kamera! Siap... Action!
+MsgMain/Mission/Mission_WT2_FS_03	Intip dunia sinema berhantu!
+MsgMain/Mission/Mission_WT2_FS_04	Lewati rel menuju lobi bioskop!
+MsgMain/Mission/Mission_WT3_FS_04	Balapan dalam pengalaman film yang nyata!
+MsgMain/Mission/Mission_RC_IC_05	Slalom menuruni lereng dan ambil koin biru!
+MsgMain/Mission/Mission_RC_IC_07	Kumpulkan koin biru di antara Snow Pokey!
+MsgMain/Mission/Mission_RC_IC_09	Kumpulkan koin biru saat pinguin berparade!
+MsgMain/Mission/Mission_RC_IC_10	Naik turun cepat untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_IC_11	Hindari serangan Frost Piranha demi koin biru!
+MsgMain/Mission/Mission_RC_IC_12	Ambil semua koin biru para manusia salju!
+MsgMain/Mission/Mission_RC_IC_13	Ambil koin biru di sela serangan Frost Piranha!
+MsgMain/Mission/Mission_RC_IC_14	Pamerkan trik rel sambil ambil koin biru!
+MsgMain/Mission/Mission_RC_IC_15	Terobos Fuzzy sambil ambil koin biru!
+MsgMain/Mission/Mission_RC_IC_16	Ambil koin biru saat bola salju menuruni lereng!
+MsgMain/Mission/Mission_WT2_IC_02	Melayang tinggi di atas lereng!
+MsgMain/Mission/Mission_WT2_IC_03	Balapan melawan serangan burung es!
+MsgMain/Mission/Mission_WT2_IC_04	Melesat di rute lintas alam yang terjal!
+MsgMain/Mission/Mission_WT2_IC_07	Perhatikan angin menuju garis akhir!
+MsgMain/Mission/Mission_WT2_IC_08	Cepat ke puncak beku!
+MsgMain/Mission/Mission_WT2_IC_09	Selip di tengah macet menuju garis akhir!
+MsgMain/Mission/Mission_WT2_IC_10	Menumpang kereta menuju garis akhir!
+MsgMain/Mission/Mission_WT2_IC_15	Bersihkan jalanmu dengan bola api!
+MsgMain/Mission/Mission_WT2_IC_16	Meluncur di latihan seluncur es!
+MsgMain/Mission/Mission_WT2_IC_17	Balapan menuruni bukit bersama bola salju!
+MsgMain/Mission/Mission_WT2_IC_18	Awas bahaya bola salju di depan!
+MsgMain/Mission/Mission_WT2_IC_19	Terobos lalu lintas menuju lereng!
+MsgMain/Mission/Mission_WT2_IC_20	Pakai Mushroom untuk melesat ke stasiun!
+MsgMain/Mission/Mission_WT2_IC_22	Taklukkan lintasan dingin di danau!
+MsgMain/Mission/Mission_WT2_IC_23	Terbang di langit dan melesat ke garis akhir!
+MsgMain/Mission/Mission_WT2_IC_24	Ambil Green Shell untuk keberuntungan!
+MsgMain/Mission/Mission_WT2_IC_26	Daki lereng licin menuju garis akhir!
+MsgMain/Mission/Mission_WT2_IC_30	Beranikan diri di jalan pintas yang belum jadi!
+MsgMain/Mission/Mission_WT2_IC_31	Tunjukkan skillmu dengan meluncur sangat jauh!
+MsgMain/Mission/Mission_WT3_IC_00	Balapan di lintasan penghormatan Vanilla Lake!
+MsgMain/Mission/Mission_RC_IC_02	Putari observatorium dan ambil koin biru!
+MsgMain/Mission/Mission_WT2_IC_05	Awas serangan Ice Bros.!
+MsgMain/Mission/Mission_WT2_IC_28	Tancap gas! Ayo, ayo, ayo!
+MsgMain/Mission/Mission_WT_IC_02	Capai puncak es krim kerucut yang berputar!
+MsgMain/Mission/Mission_WT2_IC_11	Kabur berani lewat jurang es krim!
+MsgMain/Mission/Mission_WT2_IC_32	Atur waktu Mushroom untuk menerobos ke garis akhir!
+MsgMain/Mission/Mission_RC_IC_04	K-k-k-kumpulkan koin biru di DK Pass!
+MsgMain/Mission/Mission_WT2_IC_12	Buktikan dirimu di ujian skill SPESIAL #5!
+MsgMain/Mission/Mission_WT2_IC_13	Balap melewati tribun kosong menuju garis akhir!
+MsgMain/Mission/Mission_WT2_IC_14	Ikut kompetisi snowboard Shy Guy!
+MsgMain/Mission/Mission_RC_PL_01	Kumpulkan koin biru di gua misterius!
+MsgMain/Mission/Mission_WT_PL_02	Balap menaiki jembatan penuh Para-Biddybud!
+MsgMain/Mission/Mission_WT2_PL_03	Lompat, lompat, lompat, lompat, lompat, lompat... lompat!
+MsgMain/Mission/Mission_WT2_PL_04	Buktikan dirimu di ujian skill SPESIAL #3!
+MsgMain/Mission/Mission_RC_PL_04	Raih ketenangan dengan mengumpulkan koin biru!
+MsgMain/Mission/Mission_WT_PL_05	Cari kedamaian dengan mendaki air terjun!
+MsgMain/Mission/Mission_WT2_PL_07	Selaraskan diri dengan dunia dengan membunyikan lonceng!
+MsgMain/Mission/Mission_RC_RT_03	Tunjukkan mengemudi presisi untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_RT_04	Selamatkan koin biru dari pusaran air!
+MsgMain/Mission/Mission_RC_RT_05	Hadapi badai dan kumpulkan koin biru!
+MsgMain/Mission/Mission_RC_RT_06	Ambil koin biru hati-hati sambil nikmati udara laut!
+MsgMain/Mission/Mission_RC_RT_07	Ambil koin biru di tempat liburan para Goomba!
+MsgMain/Mission/Mission_RC_RT_08	Ikut pesta koin biru di tepi laut!
+MsgMain/Mission/Mission_WT_RT_02	Melayang tinggi menuju garis akhir!
+MsgMain/Mission/Mission_WT_RT_03	Capai putri duyung yang memanggil dari seberang laut!
+MsgMain/Mission/Mission_WT_RT_04	Terbang ke Salty Salty Speedway!
+MsgMain/Mission/Mission_WT_RT_05	Seberangi tebing berbahaya menuju Goal Pole!
+MsgMain/Mission/Mission_WT_RT_06	Ikuti latihan lanjutan mengemudi di air!
+MsgMain/Mission/Mission_WT_RT_07	Percayakan dirimu pada angin puting beliung air!
+MsgMain/Mission/Mission_WT_RT_08	Tembus blokade Boomerang Bros.!
+MsgMain/Mission/Mission_WT_RT_09	Lewati kincir angin!
+MsgMain/Mission/Mission_WT_RT_10	Melesat ke pantai! Ayo, ayo, ayo!
+MsgMain/Mission/Mission_WT2_RT_04	Lompat demi dorongan saat Cheep Cheep menyemangatimu!
+MsgMain/Mission/Mission_WT2_RT_05	Keliling pulau menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_06	Selancar ombak diawasi para Bulber!
+MsgMain/Mission/Mission_WT2_RT_07	Kuasai Feather untuk mencapai garis akhir!
+MsgMain/Mission/Mission_WT2_RT_08	Tancap gas di atas kelopak bunga!
+MsgMain/Mission/Mission_WT2_RT_09	Cari angin laut melewati kincir angin!
+MsgMain/Mission/Mission_WT2_RT_10	Hadapi puting beliung air di laut lepas!
+MsgMain/Mission/Mission_WT2_RT_11	Parkour di atap Salty Salty Speedway!
+MsgMain/Mission/Mission_WT2_RT_12	Zigzag menuruni bukit menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_13	Ikuti pipa dan jalur sempit menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_14	Berani menumpang Dragoneel!
+MsgMain/Mission/Mission_WT3_RT_00	Ikut balapan mengelilingi pulau terpencil!
+MsgMain/Mission/Mission_RC_RT_01	Daki bangkai kapal demi koin biru!
+MsgMain/Mission/Mission_WT_RT_01	Ikuti jalur bertabur koin menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_01	Terbang langsung dari menara ke menara!
+MsgMain/Mission/Mission_RC_RT_00	Kumpulkan koin biru sang putri duyung memesona!
+MsgMain/Mission/Mission_WT_RT_00	Hancurkan kotak tertentu untuk dorongan!
+MsgMain/Mission/Mission_WT2_RT_00	Ambil jalan pintas agar tetap kering menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_02	Terbang ke menara tempat duduk VIP!
+MsgMain/Mission/Mission_WT2_RT_03	Mush-zoom melewati kota menuju garis akhir!
+MsgMain/Mission/Mission_WT2_RT_15	Terobos pertunjukan air Shy Guy!
+MsgMain/Mission/Mission_RC_JG_02	Capai koin biru dengan bantuan buaya!
+MsgMain/Mission/Mission_RC_JG_03	Lewati kabel dan kumpulkan koin biru!
+MsgMain/Mission/Mission_RC_JG_05	Ikuti Ivy Piranha Plant menuju koin biru!
+MsgMain/Mission/Mission_RC_JG_06	Lewati rel di hutan untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_JG_07	Petik koin biru dari langit sabana!
+MsgMain/Mission/Mission_RC_JG_08	Naiki sulur Ivy Piranha Plant demi koin biru!
+MsgMain/Mission/Mission_RC_JG_09	Ambil koin biru yang diincar Piranha Plant!
+MsgMain/Mission/Mission_RC_JG_10	Awas jerapah saat melesat ke koin biru!
+MsgMain/Mission/Mission_RC_JG_11	Putar balik lihai untuk ambil koin biru tepat waktu!
+MsgMain/Mission/Mission_RC_JG_12	Kumpulkan koin biru di safari tepi sungai!
+MsgMain/Mission/Mission_RC_JG_13	Kumpulkan koin biru di sekitar ladang geyser!
+MsgMain/Mission/Mission_WT_JG_02	Terbang dan meluncur menyusuri lembah sungai!
+MsgMain/Mission/Mission_WT_JG_03	Loncat dari blok ke awan menuju garis akhir!
+MsgMain/Mission/Mission_WT_JG_04	Hadapi kawanan kerbau dari dua sisi!
+MsgMain/Mission/Mission_WT_JG_05	Zigzag di tengah kawanan zebra!
+MsgMain/Mission/Mission_WT_JG_06	Manfaatkan Feather menuju garis akhir!
+MsgMain/Mission/Mission_WT_JG_07	Melayang di atas air terjun!
+MsgMain/Mission/Mission_WT_JG_08	Lompat nekat dari tepi air terjun!
+MsgMain/Mission/Mission_WT_JG_09	Meluncur dari triceratops!
+MsgMain/Mission/Mission_WT_JG_10	Minta bantuan kawanan menuju garis akhir!
+MsgMain/Mission/Mission_WT_JG_11	Berterima kasih pada buaya atas bantuannya!
+MsgMain/Mission/Mission_WT_JG_12	Lari di dinding air terjun? Mungkin bisa!
+MsgMain/Mission/Mission_WT_JG_13	Hindari puing dan drift menyeberangi air terjun!
+MsgMain/Mission/Mission_WT2_JG_04	Naik turun tur menyusuri sungai!
+MsgMain/Mission/Mission_WT2_JG_05	Meluncur semangat! Jangan takut T. rex!
+MsgMain/Mission/Mission_WT2_JG_06	Dapatkan tumpangan dari brachiosaurus!
+MsgMain/Mission/Mission_WT2_JG_08	Daki tinggi menuju blok langit!
+MsgMain/Mission/Mission_WT2_JG_09	Lompat dari batu ke batu di sabana ramai!
+MsgMain/Mission/Mission_WT2_JG_11	Jelajahi sabana dan kunjungi air terjun raksasa!
+MsgMain/Mission/Mission_WT2_JG_12	Balap off-road di hutan penuh dinosaurus!
+MsgMain/Mission/Mission_WT2_JG_13	Menumpang truk yang melaju liar!
+MsgMain/Mission/Mission_WT2_JG_14	Taklukkan jalur sulit menuju gunung!
+MsgMain/Mission/Mission_WT3_JG_00	Ikut balapan ketahanan di sabana!
+MsgMain/Mission/Mission_WT3_JG_01	Melesat melewati dan di atas dinosaurus liar!
+MsgMain/Mission/Mission_RC_JG_01	Kumpulkan koin biru di antara emas reruntuhan!
+MsgMain/Mission/Mission_WT_JG_01	Pantul di atas puncak awan!
+MsgMain/Mission/Mission_WT2_JG_03	Balap di jalur sulit di atas reruntuhan kuno!
+MsgMain/Mission/Mission_RC_JG_00	Masuki kubah dino demi koin biru!
+MsgMain/Mission/Mission_WT2_JG_00	Terbang keliling kubah dan sekitarnya!
+MsgMain/Mission/Mission_WT2_JG_01	Buktikan dirimu di ujian skill SPESIAL #4!
+MsgMain/Mission/Mission_WT2_JG_02	Percayakan pada punggung mereka!
+MsgMain/Mission/Mission_WT2_JG_10	Meluncur naik, naik, naik ke awan!
+MsgMain/Mission/Mission_RC_BS_04	Klakson kalau suka kumpulkan koin biru!
+MsgMain/Mission/Mission_RC_BS_05	Cari angka delapan untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_BS_06	Selamatkan koin biru dari ombak pusaran!
+MsgMain/Mission/Mission_RC_BS_08	Kumpulkan koin biru di tantangan trik rel!
+MsgMain/Mission/Mission_RC_BS_09	Latih mengemudi presisi demi koin biru!
+MsgMain/Mission/Mission_RC_BS_10	Ambil koin biru... dan mungkin donat di akhir?
+MsgMain/Mission/Mission_WT_BS_03	Balap mendahului bahan peledak!
+MsgMain/Mission/Mission_WT_BS_04	Pinjam peningkatan untuk capai garis akhir!
+MsgMain/Mission/Mission_WT_BS_05	Naik kereta ekspres ke kota!
+MsgMain/Mission/Mission_WT_BS_07	Lewati sulur menuju piala terbaik!
+MsgMain/Mission/Mission_WT_BS_08	Pantul, pantul, pantul ke titik pandang megah!
+MsgMain/Mission/Mission_WT2_BS_04	Lakukan trik dari kendaraan menuju pelabuhan antariksa!
+MsgMain/Mission/Mission_WT2_BS_05	Lihat jalan pintas tong rahasia di jalan belakang!
+MsgMain/Mission/Mission_WT2_BS_06	Ambil rute sungai ke kota!
+MsgMain/Mission/Mission_WT2_BS_07	Naiki penerbangan carter ke kota!
+MsgMain/Mission/Mission_WT2_BS_08	Sentuh dengan halus menuju Goal Pole!
+MsgMain/Mission/Mission_WT2_BS_10	Melesat di lalu lintas jalan tertutup!
+MsgMain/Mission/Mission_WT2_BS_11	Keluarkan semua triknya di ujian menantang ini!
+MsgMain/Mission/Mission_WT2_BS_12	Susuri kawanan ikan menuju garis akhir!
+MsgMain/Mission/Mission_WT2_BS_13	Menuju pantai!
+MsgMain/Mission/Mission_WT2_BS_14	Balap di time trial angka delapan!
+MsgMain/Mission/Mission_WT2_BS_15	Buktikan dirimu di ujian skill SPESIAL #1!
+MsgMain/Mission/Mission_WT2_BS_16	Ambil jalur agak santai menuju garis akhir!
+MsgMain/Mission/Mission_WT2_BS_17	Melompat menuju Koopa Troopa Beach!
+MsgMain/Mission/Mission_WT2_BS_18	Sambutan paus raksasa di Peach Stadium!
+MsgMain/Mission/Mission_WT2_BS_19	Berlayar berbahaya menuju kota yang jauh!
+MsgMain/Mission/Mission_WT2_BS_20	Terobos sarang Hermity Cone!
+MsgMain/Mission/Mission_WT2_BS_21	Balap di jalanan penuh dinosaurus!
+MsgMain/Mission/Mission_WT3_BS_02	Hadapi pasir dan ombak di balapan tepi pantai!
+MsgMain/Mission/Mission_RC_BS_03	Kumpulkan koin biru di rintangan terapung!
+MsgMain/Mission/Mission_WT2_BS_03	Lewati tali menuju puncak!
+MsgMain/Mission/Mission_WT3_BS_01	Balapan di lintasan penghormatan Koopa Beach 1!
+MsgMain/Mission/Mission_RC_BS_01	Naiki pipa untuk ambil koin biru landasan!
+MsgMain/Mission/Mission_WT_BS_01	Balap kembali melewati DK Spaceport!
+MsgMain/Mission/Mission_WT2_BS_01	Ingat DONKEY KONG yang klasik!
+MsgMain/Mission/Mission_RC_BS_00	Kumpulkan koin biru di tikungan taman!
+MsgMain/Mission/Mission_RC_BS_02	Lewati pagar kota untuk kumpulkan koin biru!
+MsgMain/Mission/Mission_WT_BS_00	Hindari pasukan Bowser menuju garis akhir!
+MsgMain/Mission/Mission_WT_BS_02	Rebut tempat parkir itu! Cepat!
+MsgMain/Mission/Mission_WT2_BS_00	Tur parkour di Crown City!
+MsgMain/Mission/Mission_WT2_BS_02	Drift di garasi parkir seperti legenda!
+MsgMain/Mission/Mission_WT3_BS_00	Uji ketahananmu di balapan keliling kota!
+MsgMain/Mission/Mission_RC_PL_05	Ambil koin biru dengan anggun di antara daun berguguran!
+MsgMain/Mission/Mission_RC_PL_06	Lompat dari kabel ke kabel untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_PL_07	Ambil koin biru di antara Para-Biddybud!
+MsgMain/Mission/Mission_RC_PL_08	CARI LADANG. CULIK KOIN BIRU.
+MsgMain/Mission/Mission_RC_PL_09	Kumpulkan koin biru di dinding Thwompy-Whampy!
+MsgMain/Mission/Mission_RC_PL_10	Kumpulkan koin biru di lintasan tali!
+MsgMain/Mission/Mission_RC_PL_11	Ikuti arus untuk kumpulkan koin biru!
+MsgMain/Mission/Mission_RC_PL_12	Pantul naik! Jatuh turun! Ambil koin biru!
+MsgMain/Mission/Mission_RC_PL_13	Terobos tumpukan jerami untuk ambil koin biru!
+MsgMain/Mission/Mission_RC_PL_14	Ambil koin biru mudah... dan satu yang sulit!
+MsgMain/Mission/Mission_RC_PL_15	Kumpulkan koin biru di rute belakang yang indah!
+MsgMain/Mission/Mission_RC_PL_16	Ambil koin biru menuju Dandelion Depths!
+MsgMain/Mission/Mission_RC_PL_17	Mainkan nada sambil kumpulkan koin biru!
+MsgMain/Mission/Mission_WT_PL_06	Seberangi danau! Jangan jadi makanan ikan!
+MsgMain/Mission/Mission_WT_PL_07	Lewati ramp dan capai garis akhir!
+MsgMain/Mission/Mission_WT_PL_08	Lewati bawah Signal Bug tepat waktu!
+MsgMain/Mission/Mission_WT_PL_09	Ambil tas bawa pulang Yoshi! Atau tujuh! Atau sebelas!
+MsgMain/Mission/Mission_WT_PL_10	Selip di lalu lintas paling berbahaya!
+MsgMain/Mission/Mission_WT_PL_11	Manfaatkan kendaraan di tepi sungai!
+MsgMain/Mission/Mission_WT_PL_12	Ambil truk untuk menerjang jalan pintas!
+MsgMain/Mission/Mission_WT_PL_13	Ambil apa yang dijatuhkan Super Koopa!
+MsgMain/Mission/Mission_WT_PL_14	Perhatikan jalan pintas lewat taman stadion!
+MsgMain/Mission/Mission_WT_PL_16	Lahap jalur gunung sebelum waktu habis!
+MsgMain/Mission/Mission_WT_PL_17	Balap menuruni bukit ke danau tepat waktu!
+MsgMain/Mission/Mission_WT_PL_19	Terbang lewat rute rahasia ke Cheep Cheep Falls!
+MsgMain/Mission/Mission_WT_PL_20	Melesat ke hulu dan capai garis akhir!
+MsgMain/Mission/Mission_WT2_PL_09	Awas! Awas lagi! Awas terus!
+MsgMain/Mission/Mission_WT2_PL_10	Balap di jalan pintas berisiko!
+MsgMain/Mission/Mission_WT2_PL_11	Perhatikan waktu lompatanmu!
+MsgMain/Mission/Mission_WT2_PL_12	Arahkan sulur Ivy Piranha Plant ke garis akhir!
+MsgMain/Mission/Mission_WT2_PL_13	Tunjukkan lereng bukan area terlarang!
+MsgMain/Mission/Mission_WT2_PL_14	Pamerkan cara sangat berbahaya naik kereta!
+MsgMain/Mission/Mission_WT2_PL_15	Bersinarlah dengan kekuatan Super Star!
+MsgMain/Mission/Mission_WT2_PL_16	Keluarkan semua trik menuju puncak gunung!
+MsgMain/Mission/Mission_WT2_PL_17	Pinjam perahu dan jadilah tak terhentikan!
+MsgMain/Mission/Mission_WT2_PL_18	Kejar siapa pun yang mengacak-acak halaman!
+MsgMain/Mission/Mission_WT2_PL_19	Selip di antara kawanan Chain Chomp!
+MsgMain/Mission/Mission_WT2_PL_20	Ambil rute off-road ke Choco Mountain!
+MsgMain/Mission/Mission_WT2_PL_22	Ke udara! Ke air!
+MsgMain/Mission/Mission_WT3_PL_00	Balapan di lintasan penghormatan Choco Island 2!
+MsgMain/Mission/Mission_WT3_PL_01	Balapan di lintasan penghormatan Choco Island 1!
+MsgMain/Mission/Mission_WT3_PL_03	Ikut balapan amatir lokal!
+MsgMain/Mission/Mission_WT3_PL_04	Awas Dragoneel saat balapan di danau!
+MsgMain/Mission/Mission_RC_Island_00	Fokus pada koin biru di lautan emas!
+MsgMain/Mission/Mission_WT_PL_18	Awas cokelat jatuh! Dan batu!
+MsgMain/Mission/Mission_WT2_PL_21	Melesat menembus cokelat kental!
+MsgMain/Mission/Mission_WT_PL_00	Maklumi kacaunya pengujian prototipe!
+MsgMain/Mission/Mission_WT2_PL_00	Buktikan dirimu di ujian skill SPESIAL #2!
+MsgMain/Mission/Mission_WT2_PL_01	Tur keliling Toad's Factory!
+MsgMain/Mission/Mission_WT2_PL_02	Balap sampai puncak derek!
+MsgMain/Mission/Mission_RC_PL_02	Percayalah ada koin biru di balik pipa itu!
+MsgMain/Mission/Mission_WT_PL_03	Terobos kawanan sapi!
+MsgMain/Mission/Mission_WT2_PL_05	Lompati padang rumput dan meluncur ke garis akhir!
+MsgMain/Mission/Mission_RC_PL_03	Kumpulkan koin biru di sekitar menara kendali!
+MsgMain/Mission/Mission_WT_PL_04	Terbang tinggi di atas Peach Stadium!
+MsgMain/Mission/Mission_WT2_PL_06	Lakukan trik menuju puncak gerbang!
+MsgMain/Race/9001	Lanjut
+MsgMain/Race/9002	Keluar
+MsgMain/Race/9003	Ganti Lintasan
+MsgMain/Race/9004	Ganti Karakter
+MsgMain/Race/9005	Mulai Ulang
+MsgMain/Race/9006	Balapan Berikutnya
+MsgMain/Race/9007	Lanjut
+MsgMain/Race/9008	Coba Lagi
+MsgMain/Race/9009	Lihat Replay
+MsgMain/Race/9010	Lanjut Menonton
+MsgMain/Race/9011	Keluar
+MsgMain/Race/9012	Ronde Berikutnya
+MsgMain/Race/9013	Balapan Lawan Ghost
+MsgMain/Race/9014	Replay dari Awal
+MsgMain/Race/9015	Yakin ingin keluar?
+MsgMain/Race/9016	Lanjut Menonton
+MsgMain/Race/9017	Keluar
+MsgMain/Race/9018	Mulai Game
+MsgMain/Race/9019	Lanjut Jelajah Bebas
+MsgMain/Race/9020	Akhiri Jelajah Bebas
+MsgMain/Race/9021	Ubah Aturan
+MsgMain/Race/9022	Lihat Info Ruang
+MsgMain/Race/9023	Pengaturan/Kontroler
+MsgMain/Race/9025	Lihat Aturan
+MsgMain/Race/9026	Kembali ke Jelajah Bebas
+MsgMain/Race/9028	Lanjut Misi
+MsgMain/Race/9029	Akhiri Misi
+MsgMain/Race/9034	LANJUT
+MsgMain/Race/9035	GARIS AKHIR
+MsgMain/Race/9031	Data ghost baru dibuat.
+MsgMain/Race/9032	Ini hasil balapannya!
+MsgMain/Race/9033	Kamu tertinggal terlalu jauh...
+MsgMain/Race/9037	Beberapa pembalap tertinggal jauh...
+MsgMain/Race/9101	Mau unggah data ghost\nbarumu?
+MsgMain/Race/9103	Mengunggah...
+MsgMain/Race/9104	Data ghost terunggah.
+MsgMain/Race/9105	Tidak bisa mengunggah data ghost.
+MsgMain/Race/9106	{0E 0000 0003 0002 0000}Special Cup{0E 0000 0003 0002 FFFF} kini tersedia!
+MsgMain/Race/9107	{0E 0000 0003 0002 0000}Mode Cermin {0E 0000 0003 0002 FFFF}telah dibuka!
+MsgMain/Race/9201	Slow-mo
+MsgMain/Race/9203	Ganti
+MsgMain/Race/9204	Jeda
+MsgMain/Race/9205	Lanjutkan
+MsgMain/Race/9221	Pengaturan
+MsgMain/Race/9222	Kemudi Pintar
+MsgMain/Race/9223	Nyala
+MsgMain/Race/9224	Mati
+MsgMain/Race/9225	Kontrol Miring
+MsgMain/Race/9226	Nyala
+MsgMain/Race/9227	Mati
+MsgMain/Race/9228	Akselerasi Otomatis
+MsgMain/Race/9229	Nyala
+MsgMain/Race/9230	Mati
+MsgMain/Race/9231	Pakai Item Otomatis
+MsgMain/Race/9232	Nyala
+MsgMain/Race/9233	Mati
+MsgMain/Race/9234	Kamera Horizontal
+MsgMain/Race/9236	Terbalik
+MsgMain/Race/9237	Kamera Vertikal
+MsgMain/Race/9238	Peta Mini
+MsgMain/Race/9240	Berubah wujud
+MsgMain/Race/9241	Tidak berubah wujud
+MsgMain/Race/9281	Pakai item
+MsgMain/Race/9282	Kemudi
+MsgMain/Race/9284	Akselerasi
+MsgMain/Race/9301	Balapan ke-1
+MsgMain/Race/9302	Balapan ke-2
+MsgMain/Race/9303	Balapan ke-3
+MsgMain/Race/9304	Balapan ke-4
+MsgMain/Race/9305	Balapan ke-5
+MsgMain/Race/9306	Balapan ke-6
+MsgMain/Race/9307	Balapan ke-7
+MsgMain/Race/9308	Balapan ke-8
+MsgMain/Race/9309	Balapan ke-9
+MsgMain/Race/9310	Balapan ke-10
+MsgMain/Race/9311	Balapan ke-11
+MsgMain/Race/9312	Balapan ke-12
+MsgMain/Race/9313	Balapan ke-13
+MsgMain/Race/9314	Balapan ke-14
+MsgMain/Race/9315	Balapan ke-15
+MsgMain/Race/9316	Balapan ke-16
+MsgMain/Race/9317	Balapan ke-17
+MsgMain/Race/9318	Balapan ke-18
+MsgMain/Race/9319	Balapan ke-19
+MsgMain/Race/9320	Balapan ke-20
+MsgMain/Race/9321	Balapan ke-21
+MsgMain/Race/9322	Balapan ke-22
+MsgMain/Race/9323	Balapan ke-23
+MsgMain/Race/9324	Balapan ke-24
+MsgMain/Race/9325	Balapan ke-25
+MsgMain/Race/9326	Balapan ke-26
+MsgMain/Race/9327	Balapan ke-27
+MsgMain/Race/9328	Balapan ke-28
+MsgMain/Race/9329	Balapan ke-29
+MsgMain/Race/9330	Balapan ke-30
+MsgMain/Race/9331	Balapan ke-31
+MsgMain/Race/9399	Balapan Terakhir
+MsgMain/Race/9401	Ronde ke-1
+MsgMain/Race/9402	Ronde ke-2
+MsgMain/Race/9403	Ronde ke-3
+MsgMain/Race/9404	Ronde ke-4
+MsgMain/Race/9405	Ronde ke-5
+MsgMain/Race/9406	Ronde ke-6
+MsgMain/Race/9407	Ronde ke-7
+MsgMain/Race/9499	Ronde Terakhir
+MsgMain/Race/9501	Incar posisi {0E 0000 0003 0002 0004}pertama{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}Capai{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}peringkat 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!{0E 0000 0002 0002 0064}
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!{0E 0000 0002 0002 0064}
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} atau lebih baik!{0E 0000 0002 0002 0064}
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!{0E 0000 0002 0002 0064}
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}Capai{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}peringkat 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!{0E 0000 0002 0002 0064}
+MsgMain/Race/9604	Kamu tidak masuk 4 besar.
+MsgMain/Race/9608	Kamu tidak masuk 8 besar.
+MsgMain/Race/9612	Kamu tidak masuk 12 besar.
+MsgMain/Race/9616	Kamu tidak masuk 16 besar.
+MsgMain/Race/9620	Kamu tidak masuk 20 besar.
+MsgMain/Race/9701	Halo!
+MsgMain/Race/9702	Semoga beruntung!
+MsgMain/Race/9703	Selamat datang!
+MsgMain/Race/9704	Jangan keras-keras ya!
+MsgMain/Race/9705	Aku akan berusaha!
+MsgMain/Race/9706	Ayo!
+MsgMain/Race/9707	Tunggu pemain lain dulu.
+MsgMain/Race/9709	Aku agak gugup...
+MsgMain/Race/9710	Aku semangat!
+MsgMain/Race/9711	Aku foto ya!
+MsgMain/Race/9712	Hore!
+MsgMain/Race/9713	Seru banget!
+MsgMain/Race/9714	Permainan bagus!
+MsgMain/Race/9715	Sayang sekali!
+MsgMain/Race/9716	Tidak adil!
+MsgMain/Race/9717	Sekali lagi!
+MsgMain/Race/9718	Lain kali kukalahkan kamu!
+MsgMain/Race/9719	Ini game terakhirku.
+MsgMain/Race/9720	Aku pamit dulu.
+MsgMain/Race/9721	Makasih sudah main!
+MsgMain/Race/9722	Terima kasih!
+MsgMain/Race/9723	Selamat malam!
+MsgMain/Race/9724	Dadah!
+MsgMain/Race/9726	Kamu hebat!
+MsgMain/Race/9727	Luar biasa!
+MsgMain/Race/9728	Awas!
+MsgMain/Race/9729	Berikan yang terbaik!
+MsgMain/Race/9730	Begitu dong!
+MsgMain/Race/9731	Ayo, ayo, ayo!
+MsgMain/Race/9732	Lihat belakangmu!
+MsgMain/Race/9733	Bagus!
+MsgMain/Race/9750	Aku sedang foto!
+MsgMain/Race/9751	Aku sedang balapan!
+MsgMain/Race/9752	Aku sedang bertarung!
+MsgMain/Race/9753	Aku sedang menonton!
+MsgMain/Race/9939	AUW!
+MsgMain/Race/9940	KENA!
+MsgMain/Sticker/10000	Kamu mulai main Mario Kart World!
+MsgMain/Sticker/10001	Kamu mengumpulkan{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}{0E 0001 0000 0004 0000 0000} total!
+MsgMain/Sticker/10002	Kamu melakukan {0E 0001 0000 0004 0000 0000} trik total!
+MsgMain/Sticker/10004	Kamu mengemudi {0E 0001 0000 0004 0000 0000} km total!
+MsgMain/Sticker/10005	Kamu meluncur {0E 0001 0000 0004 0000 0000} km total!
+MsgMain/Sticker/10006	Kamu balapan {0E 0001 0000 0004 0000 0000} kali total!
+MsgMain/Sticker/10008	Kamu mengaktifkan ? Panel!
+MsgMain/Sticker/10009	Kamu dapat Peach Medallion!
+MsgMain/Sticker/10011	Kamu menangkap Nabbit!
+MsgMain/Sticker/10012	Kamu menang tantangan Chargin' Chuck!
+MsgMain/Sticker/10013	Kamu menyelesaikan misi!
+MsgMain/Sticker/10014	Kamu balapan di Special Cup!
+Ver110/Ver110/VideoChat_04	Periksa kameranya.
+Ver110/Ver110/VideoChat_06	Sejajarkan kursor dengan wajahmu.
+Ver110/Ver110/VideoChat_09	Geser
+Ver110/Ver110/VideoChat_10	Gunakan kamera?
+Ver110/Ver110/VideoChat_11	Kamera Nyala
+Ver110/Ver110/VideoChat_12	Kamera Mati
+Ver110/Ver110/VideoChat_13	Kamu harus bergabung ke GameChat untuk memakai\nkamera online. Video kamera dan suara mikrofon\nhanya dikirim ke anggota GameChat lain.
+Ver110/Ver110/VideoChat_14	Tekan Tombol C untuk\nmembuka GameChat.
+Ver120/Ver120/Championship_01	Event
+Ver120/Ver120/Championship_02	Cari event
+Ver120/Ver120/Championship_03	Masukkan ID event.
+Ver120/Ver120/Championship_04	Event ditemukan!
+Ver120/Ver120/Championship_05	Event tidak ditemukan\ndengan ID tersebut.
+Ver120/Ver120/Championship_06	Tampilkan Detail
+Ver120/Ver120/Championship_07	Berlatih sampai\nevent dimulai?
+Ver120/Ver120/Championship_08	Event telah berakhir.
+Ver120/Ver120/Championship_09	Kamu sudah menyelesaikan\njumlah balapan yang ditetapkan.
+Ver120/Ver120/Championship_10	Event telah dimulai!
+Ver120/Ver120/Championship_12	64 Balapan
+Ver120/Ver120/Championship_13	128 Balapan
+Ver120/Ver120/Championship_14	Tak Terbatas
+Ver120/Ver120/Championship_15	Tidak bisa bergabung ke event.
+Ver120/Ver120/Championship_23	Balapan Maks.
+Ver120/Ver120/Championship_24	Ronde Maks.
+Ver120/Ver120/Championship_17	12 Ronde
+Ver120/Ver120/Championship_18	16 Ronde
+Ver120/Ver120/Championship_19	32 Ronde
+Ver120/Ver120/Championship_20	64 Ronde
+Ver120/Ver120/Championship_21	128 Ronde
+Ver120/Ver120/Championship_22	Hanya Lintasan Tertutup
+Ver120/Ver120/Spectate_01	Pilih pembalap untuk ditonton
+Ver120/Ver120/Spectate_02	Pemimpin
+Ver120/Ver120/VSRace_01	Hanya Mushroom
+Ver120/Ver120/TimeTrials_01	Balapan Lawan Ghost
+Ver120/Ver120/TimeTrials_02	Lihat Replay
+Ver130/Ver130/Join_01	Ruang penuh. Harap tunggu...
+Ver130/Ver130/FreeRun_01	Mulai Misi
+Ver140/Ver140/ItemSwitch_01	Item Kustom
+Ver140/Ver140/ItemSwitch_02	Acak
+Ver140/Ver140/ItemSwitch_03	Semua Nyala
+Ver140/Ver140/ItemSwitch_04	Semua Mati
+Ver140/Ver140/BGMVolume_01	Volume Musik
+Ver140/Ver140/BGMVolume_03	Keras
+Ver140/Ver140/Accompany_01	Hanya Ruang
+Ver140/Ver140/Accompany_02	Semua
+Ver140/Ver140/Accompany_03	Ajak anggota ruang dan\nbergabung dengan pemain online lain?
+Ver140/Ver140/Accompany_04	Hanya sampai empat pemain yang\nbisa bergabung bersama.
+Ver140/Ver140/Accompany_05	Sedang bergabung dengan pemain online lain.
+Ver170/Ver170/PhotoMode170_00	Stiker
+Ver170/Ver170/PhotoMode_Dialog_Reset_00	Hapus semua perubahan?
+Ver170/Ver170/PhotoMode_Dialog_Reset_01	Ya
+Ver170/Ver170/PhotoMode_Dialog_Reset_02	Tidak
+Ver170/Ver170/PhotoSticker_01	Selesai
+Ver170/Ver170/PhotoSticker_03	Menu Stiker
+Ver170/Ver170/PhotoSticker_06	Kembali
+Ver170/Ver170/PhotoSticker_08	Ukuran
+Ver170/Ver170/PhotoSticker_10	Miring
+Ver170/Ver170/PhotoSticker_12	Atur
+Ver170/Ver170/SpectatingMode_01	Mode Penonton
+Ver170/Ver170/SpectatingMode_02	Mulai menonton?\n\nKamu tidak bisa bermain\nsaat menonton.
+Ver170/Ver170/SpectatingMode_03	Berhenti menonton?
+Ver170/Ver170/SpectatingMode_04	Ruang penuh. Coba lagi\nsaat ada tempat.
+Ver170/Ver170/SpectatingMode_05	Tidak bisa beralih.
+Ver170/Ver170/SpectatingMode_06	Ada pemain yang sedang\nmenonton, jadi kamu tidak\nbisa pilih Semua.
+Ver170/Ver170/SpectatingMode_07	Pemain yang tersisa\ntidak cukup.

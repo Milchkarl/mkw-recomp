@@ -581,8 +581,9 @@ def main() -> None:
                 warm(game, work, runtime, dest if args.next else None)
             elif step == "cleanup":
                 clear_work(work)
-                # the languages the game does not ship (ca, gl, eu, tr), from this version's translations (the step runs
-                # at every setup, so an update brings its new texts); about a second, ~25 s the first time Turkish composes its fonts
+                # the languages the game does not ship (ca, gl, eu, tr, vi, uk, id, ar, hi), from this version's
+                # translations (the step runs at every setup, so an update brings its new texts); about a second, ~25 s
+                # the first time Turkish, Vietnamese, Ukrainian, Arabic and Hindi compose their fonts
                 game_texts.build_all(game, loose_romfs(runtime, romfs, work, "Mals", "Font"))
                 # Settings > Hacks > Straight to waits for the game's phases, named by this table (seqnodes.py); a
                 # setup without it left every press of it unfired. About a second, at every setup as above.

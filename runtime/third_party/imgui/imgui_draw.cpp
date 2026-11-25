@@ -3688,6 +3688,9 @@ void ImFontGlyphRangesBuilder::BuildRanges(ImVector<ImWchar>* out_ranges)
 // [SECTION] ImFont
 //-----------------------------------------------------------------------------
 
+// mkw-recomp: set by ui/menu/ui_bidi.cpp; see ImFont::RenderText
+int (*GImFontVisualLine)(const char* s, const char* e, char* out, int cap) = NULL;
+
 ImFont::ImFont()
 {
     memset(this, 0, sizeof(*this));
@@ -4140,6 +4143,40 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
     const float line_height = FontSize * scale;
     const float origin_x = x;
     const bool word_wrap_enabled = (wrap_width > 0.0f);
+
+    // mkw-recomp: a line holding right-to-left text (Arabic) is drawn in visual order, each wrapped line on its own
+    // (GImFontVisualLine, ui/menu/ui_bidi.cpp: -1 for a line to draw as it is)
+    static thread_local bool in_visual_line = false;
+    if (GImFontVisualLine && !in_visual_line)
+    {
+        in_visual_line = true;
+        char buf[2048];
+        bool any = false;
+        for (const char* s = text_begin; s < text_end && !any; )
+        {
+            const char* nl = (const char*)ImMemchr(s, '\n', text_end - s);
+            const char* le = nl ? nl : text_end;
+            any = GImFontVisualLine(s, le, buf, sizeof(buf)) >= 0;
+            s = nl ? nl + 1 : text_end;
+        }
+        for (const char* s = text_begin; any && s < text_end && y <= clip_rect.w; y += line_height)
+        {
+            const char* nl = (const char*)ImMemchr(s, '\n', text_end - s);
+            const char* le = nl ? nl : text_end;
+            const char* eol = word_wrap_enabled ? CalcWordWrapPositionA(scale, s, le, wrap_width) : le;
+            if (eol <= s)
+                eol = le;
+            int n = GImFontVisualLine(s, eol, buf, sizeof(buf));
+            if (n < 0)
+                RenderText(draw_list, size, ImVec2(x, y), col, clip_rect, s, eol, 0.0f, cpu_fine_clip);
+            else
+                RenderText(draw_list, size, ImVec2(x, y), col, clip_rect, buf, buf + n, 0.0f, cpu_fine_clip);
+            s = eol < le ? CalcWordWrapNextLineStartA(eol, text_end) : (nl ? nl + 1 : text_end);
+        }
+        in_visual_line = false;
+        if (any)
+            return;
+    }
 
     // Fast-forward to first visible line
     const char* s = text_begin;

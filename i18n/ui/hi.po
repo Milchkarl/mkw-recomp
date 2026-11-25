@@ -1,0 +1,3285 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: mkw-recomp\nLanguage: hi\nMIME-Version: 1.0\nContent-Type: text/plain; "
+"charset=UTF-8\nContent-Transfer-Encoding: 8bit\n"
+
+#. The software keyboard's starting text: at most 9 UTF-16 units, no '@' '%' '\'.
+msgctxt "UI_SWKBD_DEFAULT_NAME"
+msgid "Player"
+msgstr "खिलाड़ी"
+
+#. The on-screen number pad the game opens to ask for a number: its confirm key (keep it short, it fits a small key)
+msgctxt "UI_KEYPAD_OK"
+msgid "OK"
+msgstr "OK"
+
+#. The on-screen number pad: the wide button under the keys that closes it without a number
+msgctxt "UI_KEYPAD_CANCEL"
+msgid "Cancel"
+msgstr "रद्द करें"
+
+#. The on-screen number pad: the key that erases the last digit (keep it short, it fits a small key)
+msgctxt "UI_KEYPAD_DELETE"
+msgid "Delete"
+msgstr "मिटाएँ"
+
+msgctxt "UI_MENU_TITLE"
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+msgctxt "UI_MENU_TAB_SCREEN"
+msgid "Screen"
+msgstr "स्क्रीन"
+
+#. The settings tab with the game's and the menu's language, LAN play and the update check.
+msgctxt "UI_MENU_TAB_GENERAL"
+msgid "General"
+msgstr "सामान्य"
+
+msgctxt "UI_MENU_TAB_SOUND"
+msgid "Sound"
+msgstr "साउंड"
+
+msgctxt "UI_MENU_TAB_CONTROLS"
+msgid "Controls"
+msgstr "कंट्रोल"
+
+msgctxt "UI_MENU_TAB_ADVANCED"
+msgid "Advanced"
+msgstr "उन्नत"
+
+msgctxt "UI_MENU_TAB_GRAPHICS"
+msgid "Graphics"
+msgstr "ग्राफ़िक्स"
+
+msgctxt "UI_MENU_TAB_HACKS"
+msgid "Hacks"
+msgstr "हैक्स"
+
+msgctxt "UI_MENU_HACKS_WARNING"
+msgid ""
+"Experimental: shortcuts the console does not have, for playing and testing faster. They can "
+"change how the game behaves."
+msgstr ""
+"प्रायोगिक: ऐसे शॉर्टकट जो कंसोल में नहीं हैं, तेज़ खेलने और टेस्ट करने के लिए। ये गेम के व्यवहार "
+"को बदल सकते हैं।"
+
+msgctxt "UI_MENU_TURBO"
+msgid "Turbo"
+msgstr "टर्बो"
+
+msgctxt "UI_MENU_TURBO_DESC"
+msgid ""
+"The whole game runs faster: menus, movies, loads and races. Hold or press F2. The screen shows at "
+"most 60 frames a second."
+msgstr ""
+"पूरा गेम तेज़ चलता है: मेन्यू, मूवी, लोडिंग और रेस। F2 दबाए रखें या दबाएँ। स्क्रीन पर अधिकतम 60 "
+"फ़्रेम प्रति सेकंड दिखते हैं।"
+
+msgctxt "UI_MENU_TURBO_HOLD"
+msgid "Hold F2"
+msgstr "F2 दबाए रखें"
+
+msgctxt "UI_MENU_TURBO_TOGGLE"
+msgid "F2 on/off"
+msgstr "F2 चालू/बंद"
+
+msgctxt "UI_MENU_TURBO_SPEED"
+msgid "Turbo speed"
+msgstr "टर्बो गति"
+
+msgctxt "UI_MENU_TURBO_SPEED_DESC"
+msgid "How many times faster. A slow PC may not reach it."
+msgstr "कितने गुना तेज़। धीमा PC शायद इसे न पा सके।"
+
+msgctxt "UI_MENU_SKIP_MOVIES"
+msgid "Skip movies"
+msgstr "मूवी छोड़ें"
+
+msgctxt "UI_MENU_SKIP_MOVIES_DESC"
+msgid "Skips the cup and course openings as soon as they start."
+msgstr "कप और कोर्स के ओपनिंग शुरू होते ही छोड़ देता है।"
+
+msgctxt "UI_MENU_SEED"
+msgid "Same randomness every time"
+msgstr "हर बार वही रैंडमनेस"
+
+msgctxt "UI_MENU_SEED_DESC"
+msgid ""
+"The game draws the same random numbers in every session: the same title course, the same items. "
+"For testing."
+msgstr "गेम हर सेशन में वही रैंडम नंबर चुनता है: वही टाइटल कोर्स, वही आइटम। टेस्टिंग के लिए।"
+
+msgctxt "UI_MENU_FREEZE_KEYS"
+msgid "Freeze keys"
+msgstr "फ़्रीज़ कीज़"
+
+msgctxt "UI_MENU_FREEZE_KEYS_DESC"
+msgid ""
+"F3 stops the game on the frame on screen and starts it again; F4 moves it on by one frame. To "
+"look at a moment closely."
+msgstr ""
+"F3 गेम को स्क्रीन के फ़्रेम पर रोकता है और फिर चालू करता है; F4 उसे एक फ़्रेम आगे बढ़ाता है। किसी "
+"पल को ध्यान से देखने के लिए।"
+
+msgctxt "UI_MENU_HACK_PAD"
+msgid "Controller shortcuts"
+msgstr "कंट्रोलर शॉर्टकट"
+
+msgctxt "UI_MENU_HACK_PAD_DESC"
+msgid ""
+"Turbo and the freeze keys without a keyboard: hold this button and press ZR (RT) for turbo, ZL "
+"(LT) to freeze, R (RB) for one more frame. The game does not see the pair. Only while those hacks "
+"are on."
+msgstr ""
+"कीबोर्ड के बिना टर्बो और फ़्रीज़ कीज़: यह बटन दबाए रखकर टर्बो के लिए ZR (RT), फ़्रीज़ के लिए ZL "
+"(LT), एक और फ़्रेम के लिए R (RB) दबाएँ। गेम को यह जोड़ी नहीं दिखती। केवल तब जब ये हैक्स चालू हों।"
+
+msgctxt "UI_MENU_HACK_PAD_MINUS"
+msgid "Select + ZR, ZL, R"
+msgstr "Select + ZR, ZL, R"
+
+msgctxt "UI_MENU_HACK_PAD_LSTICK"
+msgid "Left stick click + ZR, ZL, R"
+msgstr "बायाँ स्टिक क्लिक + ZR, ZL, R"
+
+msgctxt "UI_MENU_UNLOCK_ALL"
+msgid "Unlock everything"
+msgstr "सब अनलॉक करें"
+
+msgctxt "UI_MENU_UNLOCK_ALL_DESC"
+msgid ""
+"Every driver and outfit, vehicle and sticker, the Special Cup and Mirror. It goes into your save "
+"when the game saves: turning it off does not lock them again."
+msgstr ""
+"हर ड्राइवर और आउटफ़िट, वाहन और स्टिकर, स्पेशल कप और मिरर। गेम सेव होने पर यह आपके सेव में चला "
+"जाता है: इसे बंद करने से ये दोबारा लॉक नहीं होते।"
+
+msgctxt "UI_MENU_QUICK_RACE"
+msgid "Straight to"
+msgstr "सीधे यहाँ"
+
+msgctxt "UI_MENU_QUICK_RACE_DESC"
+msgid ""
+"Goes through the menus by itself at start. Time trial: Mario, standard kart and the course the "
+"game offers (always the same with «Same randomness every time»), no rivals. Free roam: the open "
+"world. The controller still works."
+msgstr ""
+"शुरू में मेन्यू खुद पार करता है। टाइम ट्रायल: मारियो, स्टैंडर्ड कार्ट और गेम का सुझाया कोर्स («हर "
+"बार वही रैंडमनेस» के साथ हमेशा वही), बिना प्रतिद्वंद्वी। फ़्री रोम: खुली दुनिया। कंट्रोलर फिर भी "
+"काम करता है।"
+
+msgctxt "UI_MENU_QUICK_RACE_TT"
+msgid "Time trial"
+msgstr "टाइम ट्रायल"
+
+msgctxt "UI_MENU_QUICK_RACE_GP"
+msgid "Grand Prix"
+msgstr "ग्रां प्री"
+
+msgctxt "UI_MENU_QUICK_RACE_FREE"
+msgid "Free roam"
+msgstr "फ़्री रोम"
+
+msgctxt "UI_MENU_CLASSIC_GP"
+msgid "Classic Grand Prix"
+msgstr "क्लासिक ग्रां प्री"
+
+msgctxt "UI_MENU_CLASSIC_GP_DESC"
+msgid ""
+"Grand Prix races take place on each course instead of the road to it. Knockout Tour is unchanged. "
+"Changes take several seconds and affect races started afterward."
+msgstr ""
+"ग्रां प्री रेस रास्ते की जगह हर कोर्स पर होती हैं। नॉकआउट टूर वैसा ही रहता है। बदलाव में कई सेकंड "
+"लगते हैं और बाद में शुरू हुई रेस पर लागू होते हैं।"
+
+msgctxt "UI_MENU_CLASSIC_VS"
+msgid "Classic VS races"
+msgstr "क्लासिक VS रेस"
+
+msgctxt "UI_MENU_CLASSIC_VS_DESC"
+msgid ""
+"VS races after the first take place on the next course instead of the road to it, whatever the "
+"course rule. Changes take several seconds and affect races started afterward."
+msgstr ""
+"पहली के बाद की VS रेस, कोर्स नियम चाहे जो हो, रास्ते की जगह अगले कोर्स पर होती हैं। बदलाव में कई "
+"सेकंड लगते हैं और बाद में शुरू हुई रेस पर लागू होते हैं।"
+
+msgctxt "UI_MENU_ANISO"
+msgid "Texture filtering"
+msgstr "टेक्सचर फ़िल्टरिंग"
+
+msgctxt "UI_MENU_ANISO_DESC"
+msgid ""
+"Sharpness of textures seen far away or at a low angle, such as the road ahead. Game uses what "
+"each texture asks for. Impact on frame rate: low."
+msgstr ""
+"दूर या कम कोण से दिखते टेक्सचर की तीक्ष्णता, जैसे सामने की सड़क। गेम हर टेक्सचर की माँग के अनुसार "
+"चलता है। फ़्रेम रेट पर असर: कम।"
+
+msgctxt "UI_MENU_ANISO_GAME"
+msgid "Game"
+msgstr "गेम"
+
+msgctxt "UI_MENU_TEX_QUALITY"
+msgid "Texture quality"
+msgstr "टेक्सचर क्वालिटी"
+
+msgctxt "UI_MENU_TEX_QUALITY_DESC"
+msgid ""
+"Detail of the game's own textures. Half and Quarter skip their finest levels: less memory traffic "
+"on the graphics card, blurrier surfaces up close. Impact on frame rate: low."
+msgstr ""
+"गेम के अपने टेक्सचर का डिटेल। आधा और चौथाई उनके सबसे बारीक स्तर छोड़ते हैं: ग्राफ़िक्स कार्ड पर "
+"कम मेमोरी ट्रैफ़िक, पास से धुँधली सतहें। फ़्रेम रेट पर असर: कम।"
+
+msgctxt "UI_MENU_TEX_QUALITY_FULL"
+msgid "Full"
+msgstr "पूरा"
+
+msgctxt "UI_MENU_TEX_QUALITY_HALF"
+msgid "Half"
+msgstr "आधा"
+
+msgctxt "UI_MENU_TEX_QUALITY_QUARTER"
+msgid "Quarter"
+msgstr "चौथाई"
+
+msgctxt "UI_MENU_DETAIL"
+msgid "Detail distance"
+msgstr "डिटेल दूरी"
+
+msgctxt "UI_MENU_DETAIL_DESC"
+msgid ""
+"How far objects keep their detailed models before switching to simpler ones. Console is the "
+"Switch 2's. Impact on frame rate: low."
+msgstr ""
+"वस्तुएँ सरल मॉडल पर जाने से पहले कितनी दूर तक विस्तृत मॉडल रखती हैं। कंसोल मतलब Switch 2 का। "
+"फ़्रेम रेट पर असर: कम।"
+
+msgctxt "UI_MENU_DETAIL_LOW"
+msgid "Low"
+msgstr "कम"
+
+msgctxt "UI_MENU_DETAIL_MEDIUM"
+msgid "Medium"
+msgstr "मध्यम"
+
+msgctxt "UI_MENU_DETAIL_CONSOLE"
+msgid "Console"
+msgstr "कंसोल"
+
+msgctxt "UI_MENU_DETAIL_HIGH"
+msgid "High"
+msgstr "ऊँचा"
+
+msgctxt "UI_MENU_DETAIL_ULTRA"
+msgid "Very high"
+msgstr "बहुत ऊँचा"
+
+msgctxt "UI_MENU_SHADOW"
+msgid "Shadow quality"
+msgstr "शैडो क्वालिटी"
+
+msgctxt "UI_MENU_SHADOW_DESC"
+msgid ""
+"Size of the map the game draws shadows from. Smaller is lighter for the graphics card, with "
+"blurrier shadow edges. Console is 3072 docked and 2048 handheld. Impact on frame rate: low."
+msgstr ""
+"उस मैप का आकार जिससे गेम शैडो बनाता है। छोटा ग्राफ़िक्स कार्ड के लिए हल्का है, पर शैडो के किनारे "
+"धुँधले होते हैं। कंसोल पर डॉक्ड में 3072 और हैंडहेल्ड में 2048। फ़्रेम रेट पर असर: कम।"
+
+msgctxt "UI_MENU_CONTINUE"
+msgid "Continue"
+msgstr "जारी रखें"
+
+msgctxt "UI_MENU_QUIT"
+msgid "Quit game"
+msgstr "गेम बंद करें"
+
+msgctxt "UI_MENU_ON"
+msgid "On"
+msgstr "चालू"
+
+msgctxt "UI_MENU_OFF"
+msgid "Off"
+msgstr "बंद"
+
+msgctxt "UI_MENU_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_DEFAULT_MARK"
+msgid "default"
+msgstr "डिफ़ॉल्ट"
+
+msgctxt "UI_MENU_AFTER_RESTART"
+msgid "after restart"
+msgstr "रीस्टार्ट के बाद"
+
+msgctxt "UI_MENU_SET_BY_ENV"
+msgid "set by environment variable"
+msgstr "एनवायरनमेंट वेरिएबल से सेट"
+
+msgctxt "UI_MENU_SAVE_FAILED"
+msgid "could not save settings"
+msgstr "सेटिंग्स सेव नहीं हो सकीं"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_VERSION"
+msgid "MKW Recomp %s, game %s"
+msgstr "MKW Recomp %s, गेम %s"
+
+msgctxt "UI_MENU_FULLSCREEN"
+msgid "Fullscreen"
+msgstr "फ़ुलस्क्रीन"
+
+msgctxt "UI_MENU_FULLSCREEN_DESC"
+msgid "Fills the screen with the game; F11 toggles it."
+msgstr "गेम से पूरी स्क्रीन भरता है; F11 से बदलें।"
+
+msgctxt "UI_MENU_WINDOW_SIZE"
+msgid "Window size"
+msgstr "विंडो का आकार"
+
+msgctxt "UI_MENU_WINDOW_SIZE_DESC"
+msgid "Size of the game window when not fullscreen."
+msgstr "फ़ुलस्क्रीन न होने पर गेम विंडो का आकार।"
+
+msgctxt "UI_MENU_QUALITY"
+msgid "Quality"
+msgstr "क्वालिटी"
+
+msgctxt "UI_MENU_QUALITY_DESC"
+msgid ""
+"Sets the rows below at once. Console looks like the Switch 2; Low and Medium are lighter for the "
+"graphics card, High and Very high sharper. Changing a row makes it Custom. The internal "
+"resolution is what changes the frame rate most."
+msgstr ""
+"नीचे की पंक्तियाँ एक साथ सेट करता है। कंसोल Switch 2 जैसा दिखता है; कम और मध्यम ग्राफ़िक्स कार्ड "
+"के लिए हल्के, ऊँचा और बहुत ऊँचा अधिक तेज़ हैं। कोई पंक्ति बदलने पर यह कस्टम हो जाता है। फ़्रेम "
+"रेट को सबसे ज़्यादा इंटरनल रिज़ॉल्यूशन बदलता है।"
+
+msgctxt "UI_MENU_QUALITY_CUSTOM"
+msgid "Custom"
+msgstr "कस्टम"
+
+msgctxt "UI_MENU_RESOLUTION"
+msgid "Internal resolution"
+msgstr "इंटरनल रिज़ॉल्यूशन"
+
+msgctxt "UI_MENU_RESOLUTION_DESC"
+msgid ""
+"Lines the game renders its scenes at, then scaled to the window. Lower is faster: 720p suits "
+"integrated graphics. Original is the console's (up to 1440p)."
+msgstr ""
+"कितनी लाइनों पर गेम अपने दृश्य रेंडर करता है, फिर विंडो में स्केल होते हैं। कम तेज़ है: 720p "
+"इंटीग्रेटेड ग्राफ़िक्स के लिए ठीक है। ओरिजिनल कंसोल का है (1440p तक)।"
+
+msgctxt "UI_MENU_RESOLUTION_ORIGINAL"
+msgid "Original"
+msgstr "ओरिजिनल"
+
+msgctxt "UI_MENU_ASPECT"
+msgid "Aspect ratio"
+msgstr "आस्पेक्ट रेशियो"
+
+msgctxt "UI_MENU_ASPECT_DESC"
+msgid ""
+"Wider than 16:9 shows more of the course at the sides, for ultrawide screens. 16:9 is the "
+"console's; Window takes the window's or monitor's shape. Menus stay stretched for now."
+msgstr ""
+"16:9 से चौड़ा होने पर अल्ट्रावाइड स्क्रीन के लिए कोर्स के किनारे ज़्यादा दिखते हैं। 16:9 कंसोल का "
+"है; विंडो, विंडो या मॉनिटर का आकार लेता है। मेन्यू अभी खिंचे रहते हैं।"
+
+msgctxt "UI_MENU_ASPECT_WINDOW"
+msgid "Window"
+msgstr "विंडो"
+
+msgctxt "UI_MENU_HUD_POSITION"
+msgid "HUD position"
+msgstr "HUD की जगह"
+
+msgctxt "UI_MENU_HUD_POSITION_DESC"
+msgid ""
+"On a picture wider or taller than 16:9, keep the race HUD in the middle 16:9 area (the console's "
+"place) or put it at the screen's edges and corners. Takes effect at the next start."
+msgstr ""
+"16:9 से चौड़ी या लंबी तस्वीर पर रेस HUD को बीच के 16:9 हिस्से (कंसोल वाली जगह) में रखें या "
+"स्क्रीन के किनारों और कोनों पर। अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_HUD_POSITION_16X9"
+msgid "16:9 area"
+msgstr "16:9 हिस्सा"
+
+msgctxt "UI_MENU_HUD_POSITION_EDGES"
+msgid "Screen edges"
+msgstr "स्क्रीन के किनारे"
+
+msgctxt "UI_MENU_PRESENT"
+msgid "Presentation"
+msgstr "प्रस्तुति"
+
+msgctxt "UI_MENU_PRESENT_DESC"
+msgid "How finished frames reach the screen."
+msgstr "तैयार फ़्रेम स्क्रीन तक कैसे पहुँचते हैं।"
+
+msgctxt "UI_MENU_PRESENT_MAILBOX"
+msgid "Mailbox"
+msgstr "Mailbox"
+
+msgctxt "UI_MENU_PRESENT_VSYNC"
+msgid "VSync"
+msgstr "VSync"
+
+msgctxt "UI_MENU_PRESENT_IMMEDIATE"
+msgid "Immediate"
+msgstr "तुरंत"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_PRESENT_IN_USE"
+msgid "in use: %s"
+msgstr "उपयोग में: %s"
+
+msgctxt "UI_MENU_GPU"
+msgid "Graphics card"
+msgstr "ग्राफ़िक्स कार्ड"
+
+msgctxt "UI_MENU_GPU_DESC"
+msgid "The Vulkan device that draws the game."
+msgstr "वह Vulkan डिवाइस जो गेम बनाता है।"
+
+msgctxt "UI_MENU_GPU_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_PERF_OVERLAY"
+msgid "Performance overlay"
+msgstr "परफ़ॉर्मेंस ओवरले"
+
+msgctxt "UI_MENU_PERF_OVERLAY_DESC"
+msgid ""
+"Frame rate in the top right corner. Full adds frame times with a graph, CPU, GPU and memory load, "
+"temperatures and the render thread's waits. F10 cycles the modes."
+msgstr ""
+"ऊपर दाएँ कोने में फ़्रेम रेट। पूरा में ग्राफ़ के साथ फ़्रेम टाइम, CPU, GPU और मेमोरी लोड, तापमान "
+"और रेंडर थ्रेड की प्रतीक्षा जुड़ती है। F10 से मोड बदलते हैं।"
+
+msgctxt "UI_MENU_PERF_OFF"
+msgid "Off"
+msgstr "बंद"
+
+msgctxt "UI_MENU_PERF_FPS"
+msgid "FPS"
+msgstr "FPS"
+
+msgctxt "UI_MENU_PERF_FULL"
+msgid "Full"
+msgstr "पूरा"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_PERF_LINE_FPS"
+msgid "%.0f fps"
+msgstr "%.0f fps"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_PERF_LINE_FPS_FG"
+msgid "%.0f/%.0f fps"
+msgstr "%.0f/%.0f fps"
+
+msgctxt "UI_MENU_FPS"
+msgid "Frame rate"
+msgstr "फ़्रेम रेट"
+
+msgctxt "UI_MENU_FPS_DESC"
+msgid ""
+"Frames per second the game aims for. Automatic lowers it from 60 to 30, 20 or 15 when frames take "
+"too long, so the race always runs at its real speed. At 20 or 15, Frame generation can show the "
+"frames in between. 20 and 15 apply only in races: menus, movies and loading screens go at 30 at "
+"most, as on the console."
+msgstr ""
+"गेम जितने फ़्रेम प्रति सेकंड का लक्ष्य रखता है। फ़्रेम में ज़्यादा समय लगे तो स्वचालित इसे 60 से "
+"घटाकर 30, 20 या 15 कर देता है, ताकि रेस हमेशा असली गति से चले। 20 या 15 पर फ़्रेम जनरेशन बीच के "
+"फ़्रेम दिखा सकता है। 20 और 15 केवल रेस में लागू होते हैं: मेन्यू, मूवी और लोडिंग स्क्रीन कंसोल की "
+"तरह अधिकतम 30 पर चलते हैं।"
+
+msgctxt "UI_MENU_FPS_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_LOGIC_HZ"
+msgid "Logic rate"
+msgstr "लॉजिक रेट"
+
+msgctxt "UI_MENU_LOGIC_HZ_DESC"
+msgid ""
+"How many times a second the game updates karts, physics and timers. 60 is the console's rate; "
+"120, 144 or 240 make movement smoother on a high refresh rate screen but need a faster PC. Time "
+"trials and LAN games always run at 60."
+msgstr ""
+"गेम कार्ट, फ़िज़िक्स और टाइमर को सेकंड में कितनी बार अपडेट करता है। 60 कंसोल की दर है; 120, 144 "
+"या 240 ऊँचे रिफ़्रेश रेट की स्क्रीन पर गति को ज़्यादा सहज बनाते हैं पर तेज़ PC चाहिए। टाइम ट्रायल "
+"और LAN गेम हमेशा 60 पर चलते हैं।"
+
+msgctxt "UI_MENU_FRAMEGEN"
+msgid "Frame generation"
+msgstr "फ़्रेम जनरेशन"
+
+msgctxt "UI_MENU_FRAMEGEN_DESC"
+msgid ""
+"Shows frames made between the game's own: 2x turns 30 fps into 60. Automatic makes only as many "
+"as divide your monitor's refresh rate evenly. Adds up to one frame of delay, and fast motion can "
+"smear. Not on the console."
+msgstr ""
+"गेम के अपने फ़्रेम के बीच बनाए फ़्रेम दिखाता है: 2x से 30 fps 60 बन जाता है। स्वचालित सिर्फ़ उतने "
+"बनाता है जो आपके मॉनिटर के रिफ़्रेश रेट को बराबर बाँटें। एक फ़्रेम तक देरी जुड़ती है और तेज़ गति "
+"धुँधली हो सकती है। कंसोल पर नहीं है।"
+
+msgctxt "UI_MENU_FRAMEGEN_UNEVEN"
+msgid ""
+"At the game's frame rate now, this factor does not divide your screen's refresh rate evenly: "
+"motion judders. Automatic avoids it."
+msgstr ""
+"अभी गेम के फ़्रेम रेट पर यह गुणक आपकी स्क्रीन के रिफ़्रेश रेट को बराबर नहीं बाँटता: गति अटकती है। "
+"स्वचालित इससे बचाता है।"
+
+msgctxt "UI_MENU_VRR"
+msgid "Variable refresh screen"
+msgstr "वेरिएबल रिफ़्रेश स्क्रीन"
+
+msgctxt "UI_MENU_VRR_DESC"
+msgid ""
+"Turn on if your screen has FreeSync or G-Sync and it is enabled. Off, Automatic frame generation "
+"only makes the frames that divide the refresh rate evenly, so motion does not judder."
+msgstr ""
+"अगर आपकी स्क्रीन में FreeSync या G-Sync है और चालू है तो इसे चालू करें। बंद होने पर स्वचालित "
+"फ़्रेम जनरेशन सिर्फ़ वही फ़्रेम बनाता है जो रिफ़्रेश रेट को बराबर बाँटें, ताकि गति न अटके।"
+
+msgctxt "UI_MENU_LOW_LATENCY"
+msgid "Low latency"
+msgstr "कम लेटेंसी"
+
+msgctxt "UI_MENU_LOW_LATENCY_DESC"
+msgid ""
+"Starts each frame as late as your computer allows, so what you press reaches the screen sooner. "
+"Matters most at 20 or 15 fps and with Frame generation. Turn it off if the picture stutters."
+msgstr ""
+"हर फ़्रेम उतनी देर से शुरू करता है जितनी आपका कंप्यूटर अनुमति दे, ताकि आपका दबाया स्क्रीन पर "
+"जल्दी पहुँचे। 20 या 15 fps और फ़्रेम जनरेशन के साथ सबसे ज़्यादा मायने रखता है। तस्वीर अटके तो इसे "
+"बंद करें।"
+
+msgctxt "UI_MENU_FG_ENGINE"
+msgid "Frame generation by"
+msgstr "फ़्रेम जनरेशन किससे"
+
+msgctxt "UI_MENU_FG_ENGINE_DESC"
+msgid ""
+"Who makes the frames between the game's own. The port's own works everywhere. NVIDIA DLSS Frame "
+"Generation (RTX 40 and 50) and AMD FSR 3.1 use the scene's depth and motion and need DLSS or FSR "
+"3.1 upscaling on."
+msgstr ""
+"गेम के अपने फ़्रेम के बीच के फ़्रेम कौन बनाए। पोर्ट का अपना हर जगह चलता है। NVIDIA DLSS Frame "
+"Generation (RTX 40 और 50) और AMD FSR 3.1 दृश्य की गहराई और गति इस्तेमाल करते हैं और इनके लिए DLSS "
+"या FSR 3.1 अपस्केलिंग चालू होनी चाहिए।"
+
+msgctxt "UI_MENU_REFLEX"
+msgid "NVIDIA Reflex"
+msgstr "NVIDIA Reflex"
+
+msgctxt "UI_MENU_REFLEX_DESC"
+msgid ""
+"Starts each frame as late as the GPU allows, so what you press reaches the screen sooner. Boost "
+"also keeps the GPU's clocks up. NVIDIA GPUs only."
+msgstr ""
+"हर फ़्रेम उतनी देर से शुरू करता है जितनी GPU अनुमति दे, ताकि आपका दबाया स्क्रीन पर जल्दी पहुँचे। "
+"Boost GPU की क्लॉक भी ऊँची रखता है। केवल NVIDIA GPU के लिए।"
+
+msgctxt "UI_MENU_REFLEX_BOOST"
+msgid "On + Boost"
+msgstr "चालू + Boost"
+
+msgctxt "UI_MENU_TEMPORAL"
+msgid "AI upscaling"
+msgstr "AI अपस्केलिंग"
+
+msgctxt "UI_MENU_NOT_AVAILABLE"
+msgid "Not available on this PC: the game's own picture stays."
+msgstr "इस PC पर उपलब्ध नहीं: गेम की अपनी तस्वीर रहती है।"
+
+msgctxt "UI_MENU_LIB_FETCHING"
+msgid "Downloading %s from its official source: %d %%"
+msgstr "%s को उसके आधिकारिक स्रोत से डाउनलोड कर रहे हैं: %d %%"
+
+msgctxt "UI_MENU_LIB_FAILED"
+msgid "Could not download %s (%s). Pick it again to try once more."
+msgstr "%s डाउनलोड नहीं हो सका (%s)। दोबारा कोशिश के लिए इसे फिर चुनें।"
+
+msgctxt "UI_MENU_LIB_READY"
+msgid "%s downloaded: it works after a restart."
+msgstr "%s डाउनलोड हो गया: रीस्टार्ट के बाद काम करेगा।"
+
+msgctxt "UI_MENU_TEMPORAL_DESC"
+msgid ""
+"Renders the race at a lower resolution and rebuilds it from several frames: NVIDIA DLSS (RTX "
+"GPUs) or AMD FSR 3.1 (any GPU). Sharper and steadier edges than the game's own scaling; the HUD "
+"stays sharp."
+msgstr ""
+"रेस को कम रिज़ॉल्यूशन पर रेंडर करके कई फ़्रेम से दोबारा बनाता है: NVIDIA DLSS (RTX GPU) या AMD "
+"FSR 3.1 (कोई भी GPU)। गेम की अपनी स्केलिंग से ज़्यादा तेज़ और स्थिर किनारे; HUD तेज़ रहता है।"
+
+msgctxt "UI_MENU_TEMPORAL_QUALITY"
+msgid "Upscaling quality"
+msgstr "अपस्केलिंग क्वालिटी"
+
+msgctxt "UI_MENU_TEMPORAL_QUALITY_DESC"
+msgid ""
+"The share of the screen's resolution the race renders at: Native (DLAA) 100 %, Quality 67 %, "
+"Balanced 58 %, Performance 50 %, Ultra performance 33 %. Applies at the next start."
+msgstr ""
+"स्क्रीन के रिज़ॉल्यूशन का वह हिस्सा जिस पर रेस रेंडर होती है: Native (DLAA) 100 %, Quality 67 %, "
+"Balanced 58 %, Performance 50 %, Ultra performance 33 %। अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_TQ_NATIVE"
+msgid "Native (DLAA)"
+msgstr "Native (DLAA)"
+
+msgctxt "UI_MENU_TQ_QUALITY"
+msgid "Quality"
+msgstr "Quality"
+
+msgctxt "UI_MENU_TQ_BALANCED"
+msgid "Balanced"
+msgstr "Balanced"
+
+msgctxt "UI_MENU_TQ_PERFORMANCE"
+msgid "Performance"
+msgstr "Performance"
+
+msgctxt "UI_MENU_TQ_ULTRA"
+msgid "Ultra performance"
+msgstr "Ultra performance"
+
+msgctxt "UI_MENU_DLSS_PRESET"
+msgid "DLSS model"
+msgstr "DLSS मॉडल"
+
+msgctxt "UI_MENU_DLSS_PRESET_DESC"
+msgid ""
+"NVIDIA's model DLSS uses: the default of the DLSS version next to the game, or presets J, K, L, M."
+msgstr ""
+"DLSS जो NVIDIA मॉडल इस्तेमाल करता है: गेम के पास वाले DLSS संस्करण का डिफ़ॉल्ट, या प्रीसेट J, K, "
+"L, M।"
+
+msgctxt "UI_MENU_DLSS_PRESET_DEFAULT"
+msgid "Default"
+msgstr "डिफ़ॉल्ट"
+
+msgctxt "UI_MENU_CAS"
+msgid "CAS sharpening"
+msgstr "CAS शार्पनिंग"
+
+msgctxt "UI_MENU_CAS_DESC"
+msgid ""
+"AMD's contrast adaptive sharpening of the race after DLSS or FSR 3.1, before the HUD is drawn. "
+"Needs AI upscaling on."
+msgstr ""
+"DLSS या FSR 3.1 के बाद, HUD बनने से पहले, रेस की AMD की कंट्रास्ट अडैप्टिव शार्पनिंग। AI "
+"अपस्केलिंग चालू होनी चाहिए।"
+
+msgctxt "UI_MENU_CAS_SHARPNESS"
+msgid "CAS strength"
+msgstr "CAS की ताकत"
+
+msgctxt "UI_MENU_CAS_SHARPNESS_DESC"
+msgid "How strongly CAS sharpens: 0 is the lightest touch, 100 the strongest."
+msgstr "CAS कितना तेज़ करता है: 0 सबसे हल्का, 100 सबसे तेज़।"
+
+msgctxt "UI_MENU_GRAPHICS"
+msgid "Picture"
+msgstr "तस्वीर"
+
+msgctxt "UI_MENU_UPSCALER"
+msgid "Scaling to the window"
+msgstr "विंडो में स्केलिंग"
+
+msgctxt "UI_MENU_UPSCALER_DESC"
+msgid ""
+"How the picture is scaled when the window is larger than the game resolution. FSR keeps edges and "
+"detail sharper than bilinear."
+msgstr ""
+"विंडो गेम रिज़ॉल्यूशन से बड़ी होने पर तस्वीर कैसे स्केल हो। FSR किनारे और डिटेल बाइलीनियर से "
+"ज़्यादा तेज़ रखता है।"
+
+msgctxt "UI_MENU_UPSCALER_FSR"
+msgid "AMD FSR 1"
+msgstr "AMD FSR 1"
+
+msgctxt "UI_MENU_UPSCALER_BILINEAR"
+msgid "Bilinear"
+msgstr "बाइलीनियर"
+
+msgctxt "UI_MENU_PICTURE_FIT"
+msgid "Picture shape"
+msgstr "तस्वीर का आकार"
+
+msgctxt "UI_MENU_PICTURE_FIT_DESC"
+msgid ""
+"When the window's shape differs from the game resolution's (a 16:9 game on the Steam Deck's 16:10 "
+"screen), keep the picture's proportions with black bars, or stretch it over the whole window."
+msgstr ""
+"विंडो का आकार गेम रिज़ॉल्यूशन से अलग हो (Steam Deck की 16:10 स्क्रीन पर 16:9 गेम) तो काली "
+"पट्टियों के साथ अनुपात बनाए रखें, या पूरी विंडो में खींचें।"
+
+msgctxt "UI_MENU_PICTURE_FIT_KEEP"
+msgid "Keep (bars)"
+msgstr "बनाए रखें (पट्टियाँ)"
+
+msgctxt "UI_MENU_PICTURE_FIT_STRETCH"
+msgid "Stretch"
+msgstr "खींचें"
+
+msgctxt "UI_MENU_HDR"
+msgid "HDR"
+msgstr "HDR"
+
+msgctxt "UI_MENU_HDR_DESC"
+msgid ""
+"Automatic shows the game's own HDR picture when the display is in HDR (on Windows, Settings > "
+"Display > Use HDR), as the console does; its brightness follows the system's HDR settings. Off "
+"always shows the standard picture. Applies at once."
+msgstr ""
+"स्वचालित, डिस्प्ले HDR में होने पर (Windows में Settings > Display > Use HDR) गेम की अपनी HDR "
+"तस्वीर दिखाता है, जैसे कंसोल करता है; उसकी चमक सिस्टम की HDR सेटिंग्स के अनुसार चलती है। बंद "
+"हमेशा स्टैंडर्ड तस्वीर दिखाता है। तुरंत लागू होता है।"
+
+msgctxt "UI_MENU_HDR_TONEMAP"
+msgid "HDR tone mapper"
+msgstr "HDR टोन मैपर"
+
+msgctxt "UI_MENU_HDR_TONEMAP_DESC"
+msgid ""
+"How the scene's brightness is fitted to the display in HDR. Vanilla is the game's own curve, "
+"which never goes above 1.5 times paper white. PsychoV35 is RenoDX's: the same mid-tones and "
+"colour grade, with highlights that roll off smoothly up to the display's peak. Applies after a "
+"restart, as do peak and paper white changes while it is on."
+msgstr ""
+"दृश्य की चमक HDR में डिस्प्ले के हिसाब से कैसे बैठे। Vanilla गेम का अपना कर्व है, जो पेपर व्हाइट "
+"के 1.5 गुना से ऊपर नहीं जाता। PsychoV35 RenoDX का है: वही मिड-टोन और कलर ग्रेड, हाइलाइट डिस्प्ले "
+"की चरम चमक तक सहजता से घटती हुई। रीस्टार्ट के बाद लागू होता है, साथ ही इसके चालू रहते पीक और पेपर "
+"व्हाइट के बदलाव भी।"
+
+msgctxt "UI_MENU_HDR_TONEMAP_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MENU_HDR_TONEMAP_PSYCHOV"
+msgid "PsychoV35"
+msgstr "PsychoV35"
+
+msgctxt "UI_MENU_HDR_TONEMAP_MISSING"
+msgid "Its programs are made by the setup. Set the game up again (an update does it) to add them."
+msgstr ""
+"इसके प्रोग्राम सेटअप बनाता है। इन्हें जोड़ने के लिए गेम दोबारा सेट अप करें (अपडेट से हो जाता है)।"
+
+msgctxt "UI_MENU_HDR_NEEDS_PSYCHOV"
+msgid "Only with the PsychoV35 tone mapper. Vanilla uses the display's own values, as the console."
+msgstr "केवल PsychoV35 टोन मैपर के साथ। Vanilla कंसोल की तरह डिस्प्ले के अपने मान इस्तेमाल करता है।"
+
+msgctxt "UI_MENU_HDR_PEAK"
+msgid "HDR peak brightness"
+msgstr "HDR पीक चमक"
+
+msgctxt "UI_MENU_HDR_PEAK_DESC"
+msgid ""
+"The brightest the game draws. Automatic uses the display's peak as Windows reports it. Applies at "
+"once."
+msgstr ""
+"गेम जितनी सबसे ज़्यादा चमक बनाता है। स्वचालित डिस्प्ले की पीक चमक लेता है जैसा Windows बताता है। "
+"तुरंत लागू होता है।"
+
+msgctxt "UI_MENU_HDR_WHITE"
+msgid "HDR paper white"
+msgstr "HDR पेपर व्हाइट"
+
+msgctxt "UI_MENU_HDR_WHITE_DESC"
+msgid ""
+"How bright white menus and the scene's mid-tones are. Automatic uses Windows' SDR content "
+"brightness, which is often much brighter than a game wants; 203 nits is the HDR reference. Lower "
+"values leave the highlights more room. Applies at once."
+msgstr ""
+"सफ़ेद मेन्यू और दृश्य के मिड-टोन कितने चमकीले हों। स्वचालित Windows की SDR कंटेंट चमक लेता है, जो "
+"अक्सर गेम के लिए बहुत ज़्यादा होती है; 203 nits HDR का संदर्भ है। कम मान हाइलाइट को ज़्यादा जगह "
+"देते हैं। तुरंत लागू होता है।"
+
+msgctxt "UI_MENU_HDR_NITS"
+msgid "%s nits"
+msgstr "%s nits"
+
+msgctxt "UI_MENU_SHARPNESS"
+msgid "FSR sharpness"
+msgstr "FSR शार्पनेस"
+
+msgctxt "UI_MENU_SHARPNESS_DESC"
+msgid "Sharpening after FSR scaling; 0 turns it off."
+msgstr "FSR स्केलिंग के बाद शार्पनिंग; 0 इसे बंद करता है।"
+
+#. Under Sharpness, greyed out, when the upscaler is not AMD FSR 1.
+msgctxt "UI_MENU_SHARPNESS_FSR_ONLY"
+msgid "With AMD FSR 1 only"
+msgstr "केवल AMD FSR 1 के साथ"
+
+#. Group heading on the Graphics tab: internal resolution and upscaling.
+msgctxt "UI_MENU_GROUP_RESOLUTION"
+msgid "Resolution"
+msgstr "रिज़ॉल्यूशन"
+
+#. Group heading on the Graphics tab: frame rate, frame generation, overlay.
+msgctxt "UI_MENU_GROUP_PERFORMANCE"
+msgid "Performance"
+msgstr "परफ़ॉर्मेंस"
+
+#. Graphics tab button: Auto-set.
+msgctxt "UI_MENU_AUTOSET"
+msgid "Best settings for this PC"
+msgstr "इस PC की सबसे अच्छी सेटिंग्स"
+
+#. Description of Best settings for this PC.
+msgctxt "UI_MENU_AUTOSET_DESC"
+msgid ""
+"Picks the Quality preset, the internal resolution and AMD FSR 1 from your graphics card and "
+"screen. A first guess: change anything afterwards."
+msgstr ""
+"आपके ग्राफ़िक्स कार्ड और स्क्रीन के हिसाब से क्वालिटी प्रीसेट, इंटरनल रिज़ॉल्यूशन और AMD FSR 1 "
+"चुनता है। यह पहला अंदाज़ा है: बाद में कुछ भी बदलें।"
+
+#. Puts back what Best settings for this PC changed.
+msgctxt "UI_MENU_AUTOSET_UNDO"
+msgid "Undo best settings"
+msgstr "सबसे अच्छी सेटिंग्स वापस लें"
+
+#. Description of Undo best settings.
+msgctxt "UI_MENU_AUTOSET_UNDO_DESC"
+msgid "Puts back the rows Best settings for this PC changed."
+msgstr "इस PC की सबसे अच्छी सेटिंग्स ने जो पंक्तियाँ बदलीं, उन्हें लौटाता है।"
+
+msgctxt "UI_MENU_GAME_LANG"
+msgid "Game language"
+msgstr "गेम की भाषा"
+
+msgctxt "UI_MENU_GAME_LANG_DESC"
+msgid "Language of the game's text and voices."
+msgstr "गेम के टेक्स्ट और आवाज़ों की भाषा।"
+
+msgctxt "UI_MENU_GAME_LANG_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_OPERATION_MODE"
+msgid "Console mode"
+msgstr "कंसोल मोड"
+
+msgctxt "UI_MENU_OPERATION_MODE_DESC"
+msgid ""
+"Whether the game thinks it runs docked or handheld. Docked, it draws the scene smaller and "
+"enlarges it with its own scaler; handheld, at the full internal resolution with smaller shadows: "
+"sharper, but more work for the graphics card."
+msgstr ""
+"गेम समझता है कि वह डॉक्ड चल रहा है या हैंडहेल्ड। डॉक्ड में दृश्य छोटा बनाकर अपने स्केलर से बड़ा "
+"करता है; हैंडहेल्ड में पूरे इंटरनल रिज़ॉल्यूशन पर, छोटे शैडो के साथ: ज़्यादा तेज़, पर ग्राफ़िक्स "
+"कार्ड पर ज़्यादा काम।"
+
+msgctxt "UI_MENU_MODE_DOCKED"
+msgid "Docked"
+msgstr "डॉक्ड"
+
+msgctxt "UI_MENU_MODE_HANDHELD"
+msgid "Handheld"
+msgstr "हैंडहेल्ड"
+
+msgctxt "UI_MENU_LAN"
+msgid "LAN play"
+msgstr "LAN प्ले"
+
+msgctxt "UI_MENU_LAN_DESC"
+msgid ""
+"The title menu's Wireless Play becomes LAN Play, to race other PCs on the same local network (UDP "
+"ports 49152 and 35000). It only reaches local network addresses, never the internet. Applies at "
+"the next start."
+msgstr ""
+"टाइटल मेन्यू का वायरलेस प्ले LAN प्ले बन जाता है, उसी लोकल नेटवर्क के दूसरे PC से रेस के लिए (UDP "
+"पोर्ट 49152 और 35000)। यह केवल लोकल नेटवर्क पतों तक पहुँचता है, इंटरनेट तक कभी नहीं। अगली शुरुआत "
+"पर लागू होता है।"
+
+msgctxt "UI_MENU_LAN_NET"
+msgid "LAN network"
+msgstr "LAN नेटवर्क"
+
+msgctxt "UI_MENU_LAN_NET_DESC"
+msgid ""
+"The network LAN play uses, for ZeroTier, N2N, Tailscale or a VPN: pick the one the other players "
+"are on. Automatic picks the best network by itself. Applies at the next start."
+msgstr ""
+"LAN प्ले जो नेटवर्क इस्तेमाल करता है, ZeroTier, N2N, Tailscale या VPN के लिए: वह चुनें जिस पर "
+"दूसरे खिलाड़ी हैं। स्वचालित सबसे अच्छा नेटवर्क खुद चुनता है। अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_VOLUME"
+msgid "Volume"
+msgstr "वॉल्यूम"
+
+msgctxt "UI_MENU_VOLUME_DESC"
+msgid "Master volume of the game."
+msgstr "गेम का मास्टर वॉल्यूम।"
+
+msgctxt "UI_MENU_SPEAKERS"
+msgid "Speakers"
+msgstr "स्पीकर"
+
+msgctxt "UI_MENU_SPEAKERS_STEREO"
+msgid "Stereo"
+msgstr "स्टीरियो"
+
+msgctxt "UI_MENU_SPEAKERS_51"
+msgid "5.1 surround"
+msgstr "5.1 सराउंड"
+
+msgctxt "UI_MENU_BACKGROUND_MUTE"
+msgid "Mute in background"
+msgstr "बैकग्राउंड में म्यूट"
+
+msgctxt "UI_MENU_BACKGROUND_MUTE_DESC"
+msgid "No sound while the game window is not in front."
+msgstr "गेम विंडो आगे न होने पर आवाज़ नहीं।"
+
+msgctxt "UI_MENU_MUTE"
+msgid "Mute"
+msgstr "म्यूट"
+
+msgctxt "UI_MENU_MUTE_DESC"
+msgid ""
+"No sound. The Mute Toggle key (\\ by default, in the Controls tab) turns it on and off at any "
+"time."
+msgstr ""
+"आवाज़ नहीं। म्यूट टॉगल कुंजी (डिफ़ॉल्ट रूप से \\, कंट्रोल टैब में) इसे कभी भी चालू-बंद करती है।"
+
+msgctxt "UI_MENU_SPEAKERS_DESC"
+msgid ""
+"Automatic gives the game's 5.1 surround mix when the system's sound output has 6 channels or "
+"more, and stereo otherwise. Applies at the next start."
+msgstr ""
+"सिस्टम के साउंड आउटपुट में 6 या अधिक चैनल हों तो स्वचालित गेम का 5.1 सराउंड मिक्स देता है, वरना "
+"स्टीरियो। अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_MOTION"
+msgid "Motion controls"
+msgstr "मोशन कंट्रोल"
+
+msgctxt "UI_MENU_MOTION_DESC"
+msgid "Steering by tilting the controller."
+msgstr "कंट्रोलर झुकाकर स्टीयरिंग।"
+
+msgctxt "UI_MENU_RUMBLE_STRENGTH"
+msgid "Vibration strength"
+msgstr "वाइब्रेशन की ताकत"
+
+msgctxt "UI_MENU_RUMBLE_STRENGTH_DESC"
+msgid "How strong the controller vibrates."
+msgstr "कंट्रोलर कितना ज़ोर से वाइब्रेट करता है।"
+
+msgctxt "UI_MENU_RUMBLE_CURVE"
+msgid "Vibration curve"
+msgstr "वाइब्रेशन कर्व"
+
+msgctxt "UI_MENU_RUMBLE_CURVE_DESC"
+msgid "Lower values make weak vibration stronger."
+msgstr "कम मान कमज़ोर वाइब्रेशन को मज़बूत करते हैं।"
+
+msgctxt "UI_MENU_RUMBLE_TRIGGERS"
+msgid "Trigger vibration (Xbox)"
+msgstr "ट्रिगर वाइब्रेशन (Xbox)"
+
+msgctxt "UI_MENU_RUMBLE_TRIGGERS_DESC"
+msgid "Vibrates the triggers of an Xbox controller too."
+msgstr "Xbox कंट्रोलर के ट्रिगर भी वाइब्रेट कराता है।"
+
+msgctxt "UI_MENU_RENHDRUM"
+msgid "HD vibration (RenHDrum)"
+msgstr "HD वाइब्रेशन (RenHDrum)"
+
+msgctxt "UI_MENU_RENHDRUM_DESC"
+msgid ""
+"Plays the game's own HD vibration on player 1's DualSense, Pro Controller, Xbox One S or Steam "
+"Controller through RenHDrum, downloaded from its official release when you turn it on. Applies at "
+"the next start."
+msgstr ""
+"खिलाड़ी 1 के DualSense, Pro Controller, Xbox One S या Steam Controller पर RenHDrum के ज़रिए गेम "
+"का अपना HD वाइब्रेशन चलाता है; चालू करने पर यह उसकी आधिकारिक रिलीज़ से डाउनलोड होता है। अगली "
+"शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_PAD_LAYOUT"
+msgid "Button layout"
+msgstr "बटन लेआउट"
+
+msgctxt "UI_MENU_PAD_LAYOUT_DESC"
+msgid ""
+"Which button is A. Nintendo: the right one, as on a Switch. Xbox: the bottom one, as labelled on "
+"an Xbox controller (cross on a PlayStation controller). Automatic picks Nintendo for controllers "
+"with Nintendo labels and Xbox for the others."
+msgstr ""
+"कौन सा बटन A है। Nintendo: दाहिना, जैसे Switch पर। Xbox: नीचे वाला, जैसे Xbox कंट्रोलर पर लिखा है "
+"(PlayStation कंट्रोलर पर क्रॉस)। स्वचालित Nintendo लेबल वाले कंट्रोलर के लिए Nintendo और बाकियों "
+"के लिए Xbox चुनता है।"
+
+msgctxt "UI_MENU_PAD_LAYOUT_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_PAD_LAYOUT_NINTENDO"
+msgid "Nintendo (A right)"
+msgstr "Nintendo (A दाएँ)"
+
+msgctxt "UI_MENU_PAD_LAYOUT_XBOX"
+msgid "Xbox (A bottom)"
+msgstr "Xbox (A नीचे)"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_PAD_LAYOUT_IN_USE"
+msgid "in use: %s"
+msgstr "उपयोग में: %s"
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE"
+msgid "Keyboard and mouse"
+msgstr "कीबोर्ड और माउस"
+
+msgctxt "UI_MENU_KEYBOARD_MOUSE_DESC"
+msgid ""
+"Off: the game ignores the keyboard and the mouse (controllers only) and the mouse cursor stays "
+"free. Esc still opens this menu."
+msgstr ""
+"बंद: गेम कीबोर्ड और माउस को अनदेखा करता है (केवल कंट्रोलर) और माउस कर्सर खाली रहता है। Esc फिर भी "
+"यह मेन्यू खोलता है।"
+
+msgctxt "UI_MENU_MOUSE_SENS"
+msgid "Mouse camera sensitivity"
+msgstr "माउस कैमरा संवेदनशीलता"
+
+msgctxt "UI_MENU_MOUSE_SENS_DESC"
+msgid "How fast the mouse turns the camera."
+msgstr "माउस कैमरा कितनी तेज़ी से घुमाता है।"
+
+msgctxt "UI_MENU_SWITCH2"
+msgid "Switch 2 controllers (Bluetooth)"
+msgstr "Switch 2 कंट्रोलर (Bluetooth)"
+
+msgctxt "UI_MENU_SWITCH2_DESC"
+msgid ""
+"Joy-Con 2 and Pro Controller 2 over Bluetooth. To pair one, hold its Sync button with the game "
+"open. Applies at the next start."
+msgstr ""
+"Bluetooth पर Joy-Con 2 और Pro Controller 2। जोड़ने के लिए गेम खुला रखकर उसका Sync बटन दबाए रखें। "
+"अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_DSU"
+msgid "Motion from a DSU server"
+msgstr "DSU सर्वर से मोशन"
+
+msgctxt "UI_MENU_JOYCON_COMBINE"
+msgid "Join left and right Joy-Con"
+msgstr "बायाँ और दायाँ Joy-Con जोड़ें"
+
+msgctxt "UI_MENU_JOYCON_COMBINE_DESC"
+msgid ""
+"On: a left and a right Joy-Con paired together act as one controller. Off: each Joy-Con stays its "
+"own small controller, so two players can share the pair. Applies at the next start."
+msgstr ""
+"चालू: एक साथ जुड़े बाएँ और दाएँ Joy-Con एक कंट्रोलर की तरह काम करते हैं। बंद: हर Joy-Con अपना "
+"छोटा कंट्रोलर रहता है, ताकि दो खिलाड़ी जोड़ी बाँट सकें। अगली शुरुआत पर लागू होता है।"
+
+msgctxt "UI_MENU_DSU_DESC"
+msgid ""
+"The gyro of a controller that gives none to the game, such as one in XInput mode, read from a "
+"Cemuhook / DSU server (DS4Windows, BetterJoy...) at 127.0.0.1:26760 (dsu_server in mkw.ini)."
+msgstr ""
+"उस कंट्रोलर का गायरो जो गेम को कोई नहीं देता, जैसे XInput मोड वाला, Cemuhook / DSU सर्वर "
+"(DS4Windows, BetterJoy...) से 127.0.0.1:26760 पर पढ़ा जाता है (mkw.ini में dsu_server)।"
+
+msgctxt "UI_MENU_STICK_DEADZONE"
+msgid "Stick dead zone"
+msgstr "स्टिक डेड ज़ोन"
+
+msgctxt "UI_MENU_STICK_DEADZONE_DESC"
+msgid ""
+"How far a stick must tilt before it counts. Raise it if the kart drifts with the stick at rest."
+msgstr "स्टिक को गिने जाने से पहले कितना झुकना होता है। स्टिक छोड़ने पर कार्ट खिसके तो इसे बढ़ाएँ।"
+
+msgctxt "UI_MENU_BUTTON_ICONS"
+msgid "Button icons"
+msgstr "बटन आइकन"
+
+msgctxt "UI_MENU_BUTTON_ICONS_DESC"
+msgid ""
+"Which buttons the game's prompts show. Automatic follows the device you used last: the "
+"controller's own buttons (Xbox or PlayStation), or your keys and mouse. The icons follow your "
+"remapped buttons."
+msgstr ""
+"गेम के प्रॉम्प्ट कौन से बटन दिखाएँ। स्वचालित आपके आख़िरी इस्तेमाल किए डिवाइस के अनुसार चलता है: "
+"कंट्रोलर के अपने बटन (Xbox या PlayStation), या आपकी कीज़ और माउस। आइकन आपके रीमैप किए बटन के "
+"अनुसार बदलते हैं।"
+
+msgctxt "UI_MENU_ICONS_NINTENDO"
+msgid "Nintendo"
+msgstr "Nintendo"
+
+msgctxt "UI_MENU_ICONS_XBOX"
+msgid "Xbox"
+msgstr "Xbox"
+
+msgctxt "UI_MENU_ICONS_PLAYSTATION"
+msgid "PlayStation"
+msgstr "PlayStation"
+
+msgctxt "UI_MENU_ICONS_KEYBOARD"
+msgid "Keyboard"
+msgstr "कीबोर्ड"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_ICONS_IN_USE"
+msgid "in use: %s"
+msgstr "उपयोग में: %s"
+
+msgctxt "UI_MENU_MENU_SHORTCUT"
+msgid "Menu shortcut"
+msgstr "मेन्यू शॉर्टकट"
+
+msgctxt "UI_MENU_MENU_SHORTCUT_DESC"
+msgid ""
+"Choose which controller input opens this menu (Start + Select or the Guide button). Keyboard "
+"defaults to F1 or Esc."
+msgstr ""
+"चुनें कि कंट्रोलर का कौन सा इनपुट यह मेन्यू खोले (Start + Select या Guide बटन)। कीबोर्ड पर "
+"डिफ़ॉल्ट F1 या Esc है।"
+
+msgctxt "UI_MENU_SHORTCUT_MINUS_PLUS"
+msgid "Start + Select"
+msgstr "Start + Select"
+
+msgctxt "UI_MENU_SHORTCUT_GUIDE"
+msgid "Guide button"
+msgstr "Guide बटन"
+
+msgctxt "UI_MENU_SHORTCUT_STEAM_NOTE"
+msgid ""
+"Note: If using the Guide button, turn off 'Guide button focuses Steam' in Steam (Settings -> "
+"Controller -> Advanced Settings).\n\nOn Windows, also turn off 'Allow your controller to open "
+"Game Bar' (Settings -> Gaming -> Game Bar)."
+msgstr ""
+"ध्यान दें: Guide बटन इस्तेमाल करें तो Steam में 'Guide button focuses Steam' बंद करें (Settings "
+"-> Controller -> Advanced Settings)।\n\nWindows पर 'Allow your controller to open Game Bar' भी "
+"बंद करें (Settings -> Gaming -> Game Bar)।"
+
+msgctxt "UI_BINDS_HELP"
+msgid ""
+"Select a cell and press A or Enter, then the key, mouse button or controller button. Delete or X "
+"clears a cell. A key in use moves here; a controller button swaps with the one it replaces."
+msgstr ""
+"कोई सेल चुनकर A या Enter दबाएँ, फिर कुंजी, माउस बटन या कंट्रोलर बटन। Delete या X सेल खाली करता "
+"है। इस्तेमाल में कुंजी यहाँ आ जाती है; कंट्रोलर बटन उस बटन से अदला-बदली करता है जिसकी जगह लेता है।"
+
+msgctxt "UI_BINDS_COL_KEY1"
+msgid "Key 1"
+msgstr "कुंजी 1"
+
+msgctxt "UI_BINDS_COL_KEY2"
+msgid "Key 2"
+msgstr "कुंजी 2"
+
+msgctxt "UI_BINDS_COL_PAD"
+msgid "Controller"
+msgstr "कंट्रोलर"
+
+msgctxt "UI_BINDS_GROUP_BUTTONS"
+msgid "Buttons"
+msgstr "बटन"
+
+msgctxt "UI_BINDS_GROUP_MOVE"
+msgid "Movement"
+msgstr "गति"
+
+msgctxt "UI_BINDS_GROUP_CAMERA"
+msgid "Camera"
+msgstr "कैमरा"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_BINDS_PRESS_KEY"
+msgid "Press a key or mouse button for %s"
+msgstr "%s के लिए कोई कुंजी या माउस बटन दबाएँ"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_BINDS_PRESS_PAD"
+msgid "Press a controller button for %s"
+msgstr "%s के लिए कोई कंट्रोलर बटन दबाएँ"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_BINDS_CANCEL_HINT"
+msgid "Esc cancels, or wait %d s"
+msgstr "Esc से रद्द करें, या %d सेकंड रुकें"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_BINDS_TAKEN"
+msgid "%s was taken from %s"
+msgstr "%s को %s से लिया गया"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_BINDS_SWAPPED"
+msgid "%s swapped with %s"
+msgstr "%s की %s से अदला-बदली हुई"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_NOTICE_PADS_MISSING"
+msgid "%d players need a controller each: %d connected. The keyboard only counts for player 1."
+msgstr ""
+"%d खिलाड़ियों को एक-एक कंट्रोलर चाहिए: %d जुड़े हैं। कीबोर्ड केवल खिलाड़ी 1 के लिए गिना जाता है।"
+
+msgctxt "UI_MENU_PADS"
+msgid "Controllers"
+msgstr "कंट्रोलर"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_PAD_PLAYER"
+msgid "Player %d: %s"
+msgstr "खिलाड़ी %d: %s"
+
+msgctxt "UI_MENU_PAD_BATTERY_DESC"
+msgid ""
+"The battery of each player's controller, as the controller reports it. Some controllers report "
+"none. A Switch 2 controller over Bluetooth reports a voltage and an Xbox controller on Linux's "
+"xone driver a level, each shown as high, medium or low."
+msgstr ""
+"हर खिलाड़ी के कंट्रोलर की बैटरी, जैसा कंट्रोलर बताता है। कुछ कंट्रोलर कुछ नहीं बताते। Bluetooth "
+"पर Switch 2 कंट्रोलर वोल्टेज बताता है और Linux के xone ड्राइवर पर Xbox कंट्रोलर स्तर, जो ऊँचा, "
+"मध्यम या कम दिखता है।"
+
+msgctxt "UI_MENU_PADS_NONE"
+msgid "No controller connected"
+msgstr "कोई कंट्रोलर जुड़ा नहीं है"
+
+msgctxt "UI_MENU_PAD_MOVE_DESC"
+msgid ""
+"Press it to trade places with the player before: this controller becomes theirs and theirs "
+"becomes this one's. Player 1's controller moves the menu. The order lasts until the game closes. "
+"On the right, the battery the controller reports, if any."
+msgstr ""
+"पिछले खिलाड़ी से जगह बदलने के लिए दबाएँ: यह कंट्रोलर उनका हो जाता है और उनका इसका। खिलाड़ी 1 का "
+"कंट्रोलर मेन्यू चलाता है। क्रम गेम बंद होने तक रहता है। दाईं ओर, कंट्रोलर जो बैटरी बताता है, अगर "
+"बताता हो।"
+
+msgctxt "UI_POWER_LOW"
+msgid "Low"
+msgstr "कम"
+
+msgctxt "UI_POWER_MEDIUM"
+msgid "Medium"
+msgstr "मध्यम"
+
+msgctxt "UI_POWER_HIGH"
+msgid "High"
+msgstr "ऊँचा"
+
+msgctxt "UI_POWER_CHARGING"
+msgid "Charging"
+msgstr "चार्ज हो रहा है"
+
+msgctxt "UI_POWER_CHARGED"
+msgid "Charged"
+msgstr "चार्ज हो गया"
+
+msgctxt "UI_POWER_WIRED"
+msgid "Wired"
+msgstr "वायर्ड"
+
+msgctxt "UI_POWER_UNKNOWN"
+msgid "Battery not reported"
+msgstr "बैटरी की जानकारी नहीं"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_NOTICE_BATTERY_LOW"
+msgid "Player %d's controller is running out of battery (%s)"
+msgstr "खिलाड़ी %d के कंट्रोलर की बैटरी ख़त्म होने वाली है (%s)"
+
+msgctxt "UI_BINDS_RESET"
+msgid "Reset all buttons"
+msgstr "सभी बटन रीसेट करें"
+
+msgctxt "UI_BINDS_RESET_DESC"
+msgid ""
+"Back to the default keys and controller buttons. The button layout above applies again: remapped "
+"controller buttons stay where you put them until this reset."
+msgstr ""
+"डिफ़ॉल्ट कुंजियों और कंट्रोलर बटन पर वापस। ऊपर का बटन लेआउट फिर लागू होता है: रीमैप किए कंट्रोलर "
+"बटन इस रीसेट तक वहीं रहते हैं जहाँ आपने रखे।"
+
+msgctxt "UI_BIND_A"
+msgid "A"
+msgstr "A"
+
+msgctxt "UI_BIND_B"
+msgid "B"
+msgstr "B"
+
+msgctxt "UI_BIND_X"
+msgid "X"
+msgstr "X"
+
+msgctxt "UI_BIND_Y"
+msgid "Y"
+msgstr "Y"
+
+msgctxt "UI_BIND_LCLICK"
+msgid "Left stick click"
+msgstr "बायाँ स्टिक क्लिक"
+
+msgctxt "UI_BIND_RCLICK"
+msgid "Right stick click"
+msgstr "दायाँ स्टिक क्लिक"
+
+msgctxt "UI_BIND_L"
+msgid "L"
+msgstr "L"
+
+msgctxt "UI_BIND_R"
+msgid "R"
+msgstr "R"
+
+msgctxt "UI_BIND_ZL"
+msgid "ZL"
+msgstr "ZL"
+
+msgctxt "UI_BIND_ZR"
+msgid "ZR"
+msgstr "ZR"
+
+msgctxt "UI_BIND_PLUS"
+msgid "Plus"
+msgstr "प्लस"
+
+msgctxt "UI_BIND_MINUS"
+msgid "Minus"
+msgstr "माइनस"
+
+msgctxt "UI_BIND_LEFT"
+msgid "D-pad left"
+msgstr "D-पैड बायाँ"
+
+msgctxt "UI_BIND_UP"
+msgid "D-pad up"
+msgstr "D-पैड ऊपर"
+
+msgctxt "UI_BIND_RIGHT"
+msgid "D-pad right"
+msgstr "D-पैड दायाँ"
+
+msgctxt "UI_BIND_DOWN"
+msgid "D-pad down"
+msgstr "D-पैड नीचे"
+
+msgctxt "UI_BIND_LSTICK_LEFT"
+msgid "Steer left"
+msgstr "बाएँ मुड़ें"
+
+msgctxt "UI_BIND_LSTICK_UP"
+msgid "Stick up"
+msgstr "स्टिक ऊपर"
+
+msgctxt "UI_BIND_LSTICK_RIGHT"
+msgid "Steer right"
+msgstr "दाएँ मुड़ें"
+
+msgctxt "UI_BIND_LSTICK_DOWN"
+msgid "Stick down"
+msgstr "स्टिक नीचे"
+
+msgctxt "UI_BIND_RSTICK_LEFT"
+msgid "Camera left"
+msgstr "कैमरा बाएँ"
+
+msgctxt "UI_BIND_RSTICK_UP"
+msgid "Camera up"
+msgstr "कैमरा ऊपर"
+
+msgctxt "UI_BIND_RSTICK_RIGHT"
+msgid "Camera right"
+msgstr "कैमरा दाएँ"
+
+msgctxt "UI_BIND_RSTICK_DOWN"
+msgid "Camera down"
+msgstr "कैमरा नीचे"
+
+msgctxt "UI_BIND_MUTE"
+msgid "Mute Toggle"
+msgstr "म्यूट टॉगल"
+
+msgctxt "UI_BIND_DESC_A"
+msgid "Accelerate; confirm in menus."
+msgstr "तेज़ करें; मेन्यू में पुष्टि।"
+
+msgctxt "UI_BIND_DESC_B"
+msgid "Brake, reverse; back in menus."
+msgstr "ब्रेक, रिवर्स; मेन्यू में वापस।"
+
+msgctxt "UI_BIND_DESC_X"
+msgid "Rear view."
+msgstr "पीछे का दृश्य।"
+
+msgctxt "UI_BIND_DESC_Y"
+msgid "World map (free roam)."
+msgstr "वर्ल्ड मैप (फ़्री रोम)।"
+
+msgctxt "UI_BIND_DESC_LCLICK"
+msgid "No action in the game's control list."
+msgstr "गेम की कंट्रोल सूची में कोई क्रिया नहीं।"
+
+msgctxt "UI_BIND_DESC_RCLICK"
+msgid "No action in the game's control list."
+msgstr "गेम की कंट्रोल सूची में कोई क्रिया नहीं।"
+
+msgctxt "UI_BIND_DESC_L"
+msgid "Use an item."
+msgstr "आइटम इस्तेमाल करें।"
+
+msgctxt "UI_BIND_DESC_R"
+msgid "Hop, drift, charge jump, trick."
+msgstr "हॉप, ड्रिफ़्ट, चार्ज जंप, ट्रिक।"
+
+msgctxt "UI_BIND_DESC_ZL"
+msgid "Use an item."
+msgstr "आइटम इस्तेमाल करें।"
+
+msgctxt "UI_BIND_DESC_ZR"
+msgid "Hop, drift, charge jump, trick."
+msgstr "हॉप, ड्रिफ़्ट, चार्ज जंप, ट्रिक।"
+
+msgctxt "UI_BIND_DESC_PLUS"
+msgid "Pause, settings."
+msgstr "पॉज़, सेटिंग्स।"
+
+msgctxt "UI_BIND_DESC_MINUS"
+msgid "Photo mode."
+msgstr "फ़ोटो मोड।"
+
+msgctxt "UI_BIND_DESC_DPAD"
+msgid "Down rewinds; all four move in menus."
+msgstr "नीचे रिवाइंड करता है; मेन्यू में चारों चलते हैं।"
+
+msgctxt "UI_BIND_DESC_MOVE"
+msgid "Steers like the left stick. The controller's left stick always works too."
+msgstr "बाएँ स्टिक की तरह मोड़ता है। कंट्रोलर का बायाँ स्टिक भी हमेशा काम करता है।"
+
+msgctxt "UI_BIND_DESC_CAMERA"
+msgid ""
+"Turns the camera like the right stick. The mouse and the controller's right stick always work too."
+msgstr "दाएँ स्टिक की तरह कैमरा घुमाता है। माउस और कंट्रोलर का दायाँ स्टिक भी हमेशा काम करते हैं।"
+
+msgctxt "UI_BIND_DESC_MUTE"
+msgid ""
+"Turns the sound on and off at any time, as the Sound tab's Mute. Keys only: the mouse buttons and "
+"F2 to F5 cannot be used."
+msgstr ""
+"आवाज़ कभी भी चालू-बंद करता है, जैसे साउंड टैब का म्यूट। केवल कुंजियाँ: माउस बटन और F2 से F5 "
+"इस्तेमाल नहीं हो सकते।"
+
+msgctxt "UI_KEY_SPACE"
+msgid "Space"
+msgstr "Space"
+
+msgctxt "UI_KEY_TAB"
+msgid "Tab"
+msgstr "Tab"
+
+msgctxt "UI_KEY_LSHIFT"
+msgid "Left Shift"
+msgstr "Left Shift"
+
+msgctxt "UI_KEY_LCTRL"
+msgid "Left Ctrl"
+msgstr "Left Ctrl"
+
+msgctxt "UI_KEY_UP"
+msgid "Up arrow"
+msgstr "ऊपर तीर"
+
+msgctxt "UI_KEY_DOWN"
+msgid "Down arrow"
+msgstr "नीचे तीर"
+
+msgctxt "UI_KEY_LEFT"
+msgid "Left arrow"
+msgstr "बायाँ तीर"
+
+msgctxt "UI_KEY_RIGHT"
+msgid "Right arrow"
+msgstr "दायाँ तीर"
+
+msgctxt "UI_KEY_MOUSE_L"
+msgid "Left mouse"
+msgstr "बायाँ माउस"
+
+msgctxt "UI_KEY_MOUSE_R"
+msgid "Right mouse"
+msgstr "दायाँ माउस"
+
+msgctxt "UI_KEY_MOUSE_M"
+msgid "Middle mouse"
+msgstr "बीच का माउस"
+
+msgctxt "UI_KEY_MOUSE_X1"
+msgid "Mouse 4"
+msgstr "माउस 4"
+
+msgctxt "UI_KEY_MOUSE_X2"
+msgid "Mouse 5"
+msgstr "माउस 5"
+
+msgctxt "UI_KEY_ENTER"
+msgid "Enter"
+msgstr "Enter"
+
+msgctxt "UI_KEY_BACKSPACE"
+msgid "Backspace"
+msgstr "Backspace"
+
+msgctxt "UI_KEY_RSHIFT"
+msgid "Right Shift"
+msgstr "Right Shift"
+
+msgctxt "UI_KEY_RCTRL"
+msgid "Right Ctrl"
+msgstr "Right Ctrl"
+
+msgctxt "UI_KEY_LALT"
+msgid "Alt"
+msgstr "Alt"
+
+msgctxt "UI_KEY_CAPSLOCK"
+msgid "Caps Lock"
+msgstr "Caps Lock"
+
+msgctxt "UI_KEY_INSERT"
+msgid "Insert"
+msgstr "Insert"
+
+msgctxt "UI_KEY_DELETE"
+msgid "Delete"
+msgstr "Delete"
+
+msgctxt "UI_KEY_HOME"
+msgid "Home"
+msgstr "Home"
+
+msgctxt "UI_KEY_END"
+msgid "End"
+msgstr "End"
+
+msgctxt "UI_KEY_PAGEUP"
+msgid "Page Up"
+msgstr "Page Up"
+
+msgctxt "UI_KEY_PAGEDOWN"
+msgid "Page Down"
+msgstr "Page Down"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_KEY_NUM_FMT"
+msgid "Num %s"
+msgstr "Num %s"
+
+msgctxt "UI_PAD_SOUTH"
+msgid "Bottom button"
+msgstr "नीचे का बटन"
+
+msgctxt "UI_PAD_EAST"
+msgid "Right button"
+msgstr "दायाँ बटन"
+
+msgctxt "UI_PAD_WEST"
+msgid "Left button"
+msgstr "बायाँ बटन"
+
+msgctxt "UI_PAD_NORTH"
+msgid "Top button"
+msgstr "ऊपर का बटन"
+
+msgctxt "UI_PAD_LSTICK"
+msgid "Left stick"
+msgstr "बायाँ स्टिक"
+
+msgctxt "UI_PAD_RSTICK"
+msgid "Right stick"
+msgstr "दायाँ स्टिक"
+
+msgctxt "UI_PAD_L"
+msgid "Left bumper"
+msgstr "बायाँ बम्पर"
+
+msgctxt "UI_PAD_R"
+msgid "Right bumper"
+msgstr "दायाँ बम्पर"
+
+msgctxt "UI_PAD_START"
+msgid "Start"
+msgstr "Start"
+
+msgctxt "UI_PAD_BACK"
+msgid "Back"
+msgstr "Back"
+
+msgctxt "UI_PAD_DPAD_LEFT"
+msgid "D-pad left"
+msgstr "D-पैड बायाँ"
+
+msgctxt "UI_PAD_DPAD_UP"
+msgid "D-pad up"
+msgstr "D-पैड ऊपर"
+
+msgctxt "UI_PAD_DPAD_RIGHT"
+msgid "D-pad right"
+msgstr "D-पैड दायाँ"
+
+msgctxt "UI_PAD_DPAD_DOWN"
+msgid "D-pad down"
+msgstr "D-पैड नीचे"
+
+msgctxt "UI_PAD_ZL"
+msgid "Left trigger"
+msgstr "बायाँ ट्रिगर"
+
+msgctxt "UI_PAD_ZR"
+msgid "Right trigger"
+msgstr "दायाँ ट्रिगर"
+
+msgctxt "UI_PAD_CROSS"
+msgid "Cross"
+msgstr "क्रॉस"
+
+msgctxt "UI_PAD_CIRCLE"
+msgid "Circle"
+msgstr "सर्कल"
+
+msgctxt "UI_PAD_SQUARE"
+msgid "Square"
+msgstr "स्क्वेयर"
+
+msgctxt "UI_PAD_TRIANGLE"
+msgid "Triangle"
+msgstr "ट्रायंगल"
+
+msgctxt "UI_MENU_MENU_LANG"
+msgid "Menu language"
+msgstr "मेन्यू भाषा"
+
+msgctxt "UI_MENU_MENU_LANG_DESC"
+msgid "Language of this menu and the overlay."
+msgstr "इस मेन्यू और ओवरले की भाषा।"
+
+msgctxt "UI_MENU_MENU_LANG_AUTO"
+msgid "Automatic (from the system)"
+msgstr "स्वचालित (सिस्टम से)"
+
+msgctxt "UI_MENU_ADV_WARNING"
+msgid "These settings are for testing and troubleshooting. Change them only when you know why."
+msgstr "ये सेटिंग्स टेस्टिंग और समस्या सुलझाने के लिए हैं। केवल तब बदलें जब आपको कारण पता हो।"
+
+msgctxt "UI_MENU_GROUP_SCHED"
+msgid "Scheduling"
+msgstr "शेड्यूलिंग"
+
+msgctxt "UI_MENU_GROUP_SHADERS"
+msgid "Shaders and pipelines"
+msgstr "शेडर और पाइपलाइन"
+
+msgctxt "UI_MENU_GROUP_TEXMEM"
+msgid "Textures and memory"
+msgstr "टेक्सचर और मेमोरी"
+
+msgctxt "UI_MENU_GROUP_FIXES"
+msgid "Render fixes"
+msgstr "रेंडर फ़िक्स"
+
+msgctxt "UI_MENU_GROUP_VULKAN"
+msgid "Vulkan"
+msgstr "Vulkan"
+
+msgctxt "UI_MENU_GROUP_DIAG"
+msgid "Diagnostics"
+msgstr "डायग्नोस्टिक्स"
+
+msgctxt "UI_MENU_ASYNC_PREEMPT"
+msgid "Virtual core preemption"
+msgstr "वर्चुअल कोर प्रीएम्प्शन"
+
+msgctxt "UI_MENU_ASYNC_PREEMPT_DESC"
+msgid "Lets a game thread interrupt another one on the same virtual core."
+msgstr "एक गेम थ्रेड को उसी वर्चुअल कोर पर दूसरे को रोकने देता है।"
+
+msgctxt "UI_MENU_PREEMPT_OFF"
+msgid "Off"
+msgstr "बंद"
+
+msgctxt "UI_MENU_PREEMPT_ON"
+msgid "On"
+msgstr "चालू"
+
+msgctxt "UI_MENU_PREEMPT_INHERIT"
+msgid "Inheritance only"
+msgstr "केवल इनहेरिटेंस"
+
+msgctxt "UI_MENU_REPLAY_ASYNC"
+msgid "GPU frame prep on its own thread"
+msgstr "GPU फ़्रेम तैयारी अपने थ्रेड पर"
+
+msgctxt "UI_MENU_REPLAY_ASYNC_DESC"
+msgid ""
+"Prepares frames for the GPU on a separate thread instead of the game thread. Adds up to one frame "
+"of latency."
+msgstr "GPU के फ़्रेम गेम थ्रेड की जगह अलग थ्रेड पर तैयार करता है। एक फ़्रेम तक लेटेंसी जुड़ती है।"
+
+msgctxt "UI_MENU_FREE_CORES"
+msgid "Virtual core gate"
+msgstr "वर्चुअल कोर गेट"
+
+msgctxt "UI_MENU_FREE_CORES_DESC"
+msgid "Lets only one thread run per virtual core, as on the console."
+msgstr "कंसोल की तरह हर वर्चुअल कोर पर केवल एक थ्रेड चलने देता है।"
+
+msgctxt "UI_MENU_TIMER_1MS"
+msgid "1 ms Windows timer"
+msgstr "1 ms Windows टाइमर"
+
+msgctxt "UI_MENU_TIMER_1MS_DESC"
+msgid "Raises the system timer resolution to 1 ms for steadier frame pacing."
+msgstr "फ़्रेम की लय स्थिर रखने के लिए सिस्टम टाइमर रिज़ॉल्यूशन 1 ms करता है।"
+
+msgctxt "UI_MENU_PIPE_WAIT"
+msgid "Waiting draw handling"
+msgstr "प्रतीक्षारत ड्रॉ का संचालन"
+
+msgctxt "UI_MENU_PIPE_WAIT_DESC"
+msgid ""
+"Default keeps the current scheduling with a reserved worker for waiting draws; Old (draw) uses "
+"the previous scheduling."
+msgstr ""
+"डिफ़ॉल्ट मौजूदा शेड्यूलिंग रखता है और प्रतीक्षारत ड्रॉ के लिए एक आरक्षित वर्कर; पुराना (ड्रॉ) "
+"पिछली शेड्यूलिंग इस्तेमाल करता है।"
+
+msgctxt "UI_MENU_PIPE_WAIT_DEFAULT"
+msgid "Default"
+msgstr "डिफ़ॉल्ट"
+
+msgctxt "UI_MENU_PIPE_WAIT_DRAW"
+msgid "Old (draw)"
+msgstr "पुराना (ड्रॉ)"
+
+msgctxt "UI_MENU_PIPE_SKIP"
+msgid "Draws skipped while a pipeline builds"
+msgstr "पाइपलाइन बनते समय छोड़े गए ड्रॉ"
+
+msgctxt "UI_MENU_PIPE_SKIP_DESC"
+msgid "Which draws are dropped instead of waiting for their pipeline."
+msgstr "कौन से ड्रॉ अपनी पाइपलाइन का इंतज़ार करने की जगह छोड़ दिए जाते हैं।"
+
+msgctxt "UI_MENU_PIPE_SKIP_STRICT"
+msgid "Strict"
+msgstr "सख़्त"
+
+msgctxt "UI_MENU_PIPE_SKIP_ANY"
+msgid "Any"
+msgstr "कोई भी"
+
+msgctxt "UI_MENU_PIPE_SKIP_FULLSCREEN"
+msgid "Fullscreen passes"
+msgstr "फ़ुलस्क्रीन पास"
+
+msgctxt "UI_MENU_PIPE_PREBUILD"
+msgid "Pipeline prebuild"
+msgstr "पाइपलाइन पहले से बनाना"
+
+msgctxt "UI_MENU_PIPE_PREBUILD_DESC"
+msgid "Builds known pipelines ahead of time."
+msgstr "जानी-पहचानी पाइपलाइन पहले से बनाता है।"
+
+msgctxt "UI_MENU_GPL"
+msgid "Graphics pipeline library"
+msgstr "ग्राफ़िक्स पाइपलाइन लाइब्रेरी"
+
+msgctxt "UI_MENU_GPL_DESC"
+msgid "Uses the Vulkan pipeline library extension; turn off if your driver misbehaves with it."
+msgstr ""
+"Vulkan पाइपलाइन लाइब्रेरी एक्सटेंशन इस्तेमाल करता है; आपके ड्राइवर में दिक्कत हो तो बंद करें।"
+
+msgctxt "UI_MENU_ASTC"
+msgid "ASTC texture decoding"
+msgstr "ASTC टेक्सचर डिकोडिंग"
+
+msgctxt "UI_MENU_ASTC_DESC"
+msgid "Where compressed ASTC textures are decoded."
+msgstr "कंप्रेस्ड ASTC टेक्सचर कहाँ डिकोड होते हैं।"
+
+msgctxt "UI_MENU_ASTC_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_ASTC_GPU"
+msgid "GPU shader"
+msgstr "GPU शेडर"
+
+msgctxt "UI_MENU_ASTC_NATIVE"
+msgid "Native"
+msgstr "नेटिव"
+
+msgctxt "UI_MENU_ASTC_CPU"
+msgid "CPU"
+msgstr "CPU"
+
+msgctxt "UI_MENU_MEMORY"
+msgid "GPU memory mode"
+msgstr "GPU मेमोरी मोड"
+
+msgctxt "UI_MENU_MEMORY_DESC"
+msgid "How game memory is shared with the GPU."
+msgstr "गेम की मेमोरी GPU के साथ कैसे साझा होती है।"
+
+msgctxt "UI_MENU_MEMORY_AUTO"
+msgid "Automatic"
+msgstr "स्वचालित"
+
+msgctxt "UI_MENU_MEMORY_IMPORT"
+msgid "Import"
+msgstr "इम्पोर्ट"
+
+msgctxt "UI_MENU_MEMORY_MIRROR"
+msgid "Mirror"
+msgstr "मिरर"
+
+msgctxt "UI_MENU_MEMORY_VERIFY"
+msgid "Verify"
+msgstr "वेरिफ़ाई"
+
+msgctxt "UI_MENU_TEX_ALIAS"
+msgid "Texture aliasing"
+msgstr "टेक्सचर एलियासिंग"
+
+msgctxt "UI_MENU_TEX_ALIAS_DESC"
+msgid ""
+"A new texture created over a live texture's memory starts with that content instead of empty."
+msgstr "किसी चालू टेक्सचर की मेमोरी पर बना नया टेक्सचर खाली की जगह उसी सामग्री से शुरू होता है।"
+
+msgctxt "UI_MENU_FIX_C0"
+msgid "Constant buffer fix"
+msgstr "कॉन्स्टेंट बफ़र फ़िक्स"
+
+msgctxt "UI_MENU_FIX_C0_DESC"
+msgid ""
+"Fills the driver-reserved constant bank c0 (storage sizes, dispatch size, point size, base "
+"instance) instead of reading zeros."
+msgstr ""
+"ड्राइवर-आरक्षित कॉन्स्टेंट बैंक c0 (स्टोरेज आकार, डिस्पैच आकार, पॉइंट आकार, बेस इंस्टेंस) भरता "
+"है, शून्य पढ़ने की जगह।"
+
+msgctxt "UI_MENU_FIX_ZERO"
+msgid "Zero new GPU memory"
+msgstr "नई GPU मेमोरी शून्य करें"
+
+msgctxt "UI_MENU_FIX_ZERO_DESC"
+msgid "New GPU memory pools start zero-filled, as Switch memory does."
+msgstr "नए GPU मेमोरी पूल शून्य से भरे शुरू होते हैं, जैसे Switch की मेमोरी।"
+
+msgctxt "UI_MENU_BIND_SKIP"
+msgid "Skip repeated binds"
+msgstr "दोहराए बाइंड छोड़ें"
+
+msgctxt "UI_MENU_BIND_SKIP_DESC"
+msgid "Optimisation: skips bindings that did not change."
+msgstr "ऑप्टिमाइज़ेशन: जो बाइंडिंग नहीं बदलीं उन्हें छोड़ता है।"
+
+msgctxt "UI_MENU_SHADER_MEMO"
+msgid "Shader memo"
+msgstr "शेडर मेमो"
+
+msgctxt "UI_MENU_SHADER_MEMO_DESC"
+msgid "Optimisation: remembers shader lookups."
+msgstr "ऑप्टिमाइज़ेशन: शेडर लुकअप याद रखता है।"
+
+msgctxt "UI_MENU_PIPE_MEMO"
+msgid "Pipeline memo"
+msgstr "पाइपलाइन मेमो"
+
+msgctxt "UI_MENU_PIPE_MEMO_DESC"
+msgid "Optimisation: reuses the previous draw's pipeline when its state repeats."
+msgstr "ऑप्टिमाइज़ेशन: स्टेट दोहराने पर पिछले ड्रॉ की पाइपलाइन दोबारा इस्तेमाल करता है।"
+
+msgctxt "UI_MENU_TEX_MEMO"
+msgid "Texture binding memo"
+msgstr "टेक्सचर बाइंडिंग मेमो"
+
+msgctxt "UI_MENU_TEX_MEMO_DESC"
+msgid "Optimisation: remembers texture descriptors between draws."
+msgstr "ऑप्टिमाइज़ेशन: ड्रॉ के बीच टेक्सचर डिस्क्रिप्टर याद रखता है।"
+
+msgctxt "UI_MENU_DESC_TEMPLATE"
+msgid "Descriptor templates"
+msgstr "डिस्क्रिप्टर टेम्पलेट"
+
+msgctxt "UI_MENU_DESC_TEMPLATE_DESC"
+msgid "Optimisation: updates descriptors in bulk."
+msgstr "ऑप्टिमाइज़ेशन: डिस्क्रिप्टर एक साथ अपडेट करता है।"
+
+msgctxt "UI_MENU_PUSH_SKIP"
+msgid "Skip repeated push constants"
+msgstr "दोहराए पुश कॉन्स्टेंट छोड़ें"
+
+msgctxt "UI_MENU_PUSH_SKIP_DESC"
+msgid "Optimisation: skips push constants that did not change."
+msgstr "ऑप्टिमाइज़ेशन: जो पुश कॉन्स्टेंट नहीं बदले उन्हें छोड़ता है।"
+
+msgctxt "UI_MENU_SPLIT_DRAWS"
+msgid "Early GPU submission"
+msgstr "जल्दी GPU सबमिशन"
+
+msgctxt "UI_MENU_SPLIT_DRAWS_DESC"
+msgid ""
+"Submits GPU work in parts every N draws between passes so the GPU starts earlier; 0 turns it off."
+msgstr ""
+"पासों के बीच हर N ड्रॉ पर GPU का काम हिस्सों में भेजता है ताकि GPU जल्दी शुरू हो; 0 इसे बंद करता "
+"है।"
+
+msgctxt "UI_MENU_VK_VALIDATION"
+msgid "Validation layer"
+msgstr "वैलिडेशन लेयर"
+
+msgctxt "UI_MENU_VK_VALIDATION_DESC"
+msgid "Checks every Vulkan call and slows the game down a lot."
+msgstr "हर Vulkan कॉल जाँचता है और गेम को बहुत धीमा कर देता है।"
+
+msgctxt "UI_MENU_VK_VALIDATION_MISSING"
+msgid "The validation layer is not installed."
+msgstr "वैलिडेशन लेयर इंस्टॉल नहीं है।"
+
+msgctxt "UI_MENU_VK_DYN_VERTEX"
+msgid "Dynamic vertex state"
+msgstr "डायनेमिक वर्टेक्स स्टेट"
+
+msgctxt "UI_MENU_VK_DYN_VERTEX_DESC"
+msgid "Forces dynamic vertex input on or off; the default depends on the GPU."
+msgstr "डायनेमिक वर्टेक्स इनपुट को ज़बरदस्ती चालू या बंद करता है; डिफ़ॉल्ट GPU पर निर्भर है।"
+
+msgctxt "UI_MENU_VK_SUBGROUP_PIN"
+msgid "Pin subgroup size"
+msgstr "सबग्रुप आकार स्थिर करें"
+
+msgctxt "UI_MENU_VK_SUBGROUP_PIN_DESC"
+msgid "Fixes the shader subgroup size."
+msgstr "शेडर सबग्रुप का आकार तय करता है।"
+
+msgctxt "UI_MENU_TRACE"
+msgid "Performance log"
+msgstr "परफ़ॉर्मेंस लॉग"
+
+msgctxt "UI_MENU_TRACE_DESC"
+msgid "Writes frame timings to a file."
+msgstr "फ़्रेम टाइमिंग एक फ़ाइल में लिखता है।"
+
+msgctxt "UI_MENU_FLIGHT"
+msgid "Flight recorder"
+msgstr "फ़्लाइट रिकॉर्डर"
+
+msgctxt "UI_MENU_FLIGHT_DESC"
+msgid "Keeps a short history and saves it when a frame freezes."
+msgstr "छोटा इतिहास रखता है और फ़्रेम जम जाने पर उसे सेव करता है।"
+
+msgctxt "UI_MENU_FLIGHT_SPIKE_MS"
+msgid "Freeze threshold (ms)"
+msgstr "फ़्रीज़ सीमा (ms)"
+
+msgctxt "UI_MENU_FLIGHT_SPIKE_MS_DESC"
+msgid "Frame time that counts as a freeze."
+msgstr "वह फ़्रेम टाइम जो फ़्रीज़ गिना जाता है।"
+
+msgctxt "UI_MENU_INPUT_RECORD"
+msgid "Input recording"
+msgstr "इनपुट रिकॉर्डिंग"
+
+msgctxt "UI_MENU_INPUT_RECORD_DESC"
+msgid "Writes your inputs to a file for bug reports."
+msgstr "बग रिपोर्ट के लिए आपके इनपुट फ़ाइल में लिखता है।"
+
+msgctxt "UI_MENU_OPEN_LOG"
+msgid "Open log folder"
+msgstr "लॉग फ़ोल्डर खोलें"
+
+msgctxt "UI_MENU_OPEN_LOG_DESC"
+msgid "Shows the folder with the log files."
+msgstr "लॉग फ़ाइलों वाला फ़ोल्डर दिखाता है।"
+
+msgctxt "UI_MENU_COPY_INFO"
+msgid "Copy system info"
+msgstr "सिस्टम जानकारी कॉपी करें"
+
+msgctxt "UI_MENU_COPY_INFO_DESC"
+msgid "Copies GPU, driver, CPU, RAM and changed settings to the clipboard."
+msgstr "GPU, ड्राइवर, CPU, RAM और बदली गई सेटिंग्स क्लिपबोर्ड पर कॉपी करता है।"
+
+msgctxt "UI_MENU_COPY_INFO_DONE"
+msgid "Copied"
+msgstr "कॉपी हो गया"
+
+msgctxt "UI_MENU_ACTION_FAILED"
+msgid "did not work"
+msgstr "काम नहीं किया"
+
+msgctxt "UI_MENU_RESET"
+msgid "Reset all settings to defaults"
+msgstr "सभी सेटिंग्स डिफ़ॉल्ट पर रीसेट करें"
+
+msgctxt "UI_MENU_RESET_DESC"
+msgid "Applies to every tab."
+msgstr "हर टैब पर लागू होता है।"
+
+msgctxt "UI_MENU_RESET_CONFIRM"
+msgid "Reset every setting to its default?"
+msgstr "हर सेटिंग डिफ़ॉल्ट पर रीसेट करें?"
+
+msgctxt "UI_MENU_RESET_YES"
+msgid "Reset"
+msgstr "रीसेट"
+
+msgctxt "UI_MENU_RESET_NO"
+msgid "Cancel"
+msgstr "रद्द करें"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FPS"
+msgid "%.0f FPS"
+msgstr "%.0f FPS"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FRAME_MS"
+msgid "%.1f ms"
+msgstr "%.1f ms"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_GAME_PCT"
+msgid "game %.0f%%"
+msgstr "गेम %.0f%%"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_MAX_MS"
+msgid "max %.1f ms"
+msgstr "अधिकतम %.1f ms"
+
+msgctxt "UI_MENU_OV_GPU"
+msgid "GPU"
+msgstr "GPU"
+
+msgctxt "UI_MENU_OV_CPU"
+msgid "CPU"
+msgstr "CPU"
+
+msgctxt "UI_MENU_OV_RAM"
+msgid "RAM"
+msgstr "RAM"
+
+msgctxt "UI_MENU_OV_VRAM"
+msgid "VRAM"
+msgstr "VRAM"
+
+msgctxt "UI_MENU_OV_NONE"
+msgid "-"
+msgstr "-"
+
+msgctxt "UI_MENU_OV_REPLAY"
+msgid "GPU frame prep"
+msgstr "GPU फ़्रेम तैयारी"
+
+msgctxt "UI_MENU_OV_GPU_TIME"
+msgid "GPU busy per frame"
+msgstr "प्रति फ़्रेम GPU व्यस्त"
+
+msgctxt "UI_MENU_OV_PIPE_WAIT"
+msgid "Pipeline waits"
+msgstr "पाइपलाइन प्रतीक्षा"
+
+msgctxt "UI_MENU_OV_TEX_UPLOADS"
+msgid "Texture uploads"
+msgstr "टेक्सचर अपलोड"
+
+msgctxt "UI_MENU_OV_MAIN_CPU"
+msgid "Game main thread CPU"
+msgstr "गेम मुख्य थ्रेड CPU"
+
+msgctxt "UI_MENU_OV_RENDER_CPU"
+msgid "Render thread CPU"
+msgstr "रेंडर थ्रेड CPU"
+
+msgctxt "UI_MENU_OV_SLOW"
+msgid "Frames over 33 ms"
+msgstr "33 ms से लंबे फ़्रेम"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_PER_MIN"
+msgid "%.0f last minute"
+msgstr "%.0f पिछले मिनट में"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_PCT"
+msgid "%.0f%%"
+msgstr "%.0f%%"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_TEMP"
+msgid "%.0f °C"
+msgstr "%.0f °C"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_POWER"
+msgid "%.0f W"
+msgstr "%.0f W"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_MHZ"
+msgid "%.0f MHz"
+msgstr "%.0f MHz"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_GB"
+msgid "%.1f GB"
+msgstr "%.1f GB"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_GB_OF"
+msgid "/ %.1f GB"
+msgstr "/ %.1f GB"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_GAME_GB"
+msgid "game %.1f GB"
+msgstr "गेम %.1f GB"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_MS"
+msgid "%.2f ms"
+msgstr "%.2f ms"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_PER_FRAME"
+msgid "%.1f per frame"
+msgstr "%.1f प्रति फ़्रेम"
+
+msgctxt "UI_MENU_OV_WINDOW"
+msgid "Window"
+msgstr "विंडो"
+
+msgctxt "UI_MENU_OV_OUTPUT"
+msgid "Game image"
+msgstr "गेम की तस्वीर"
+
+msgctxt "UI_MENU_OV_INTERNAL"
+msgid "Internal resolution"
+msgstr "इंटरनल रिज़ॉल्यूशन"
+
+msgctxt "UI_MENU_OV_SCALING"
+msgid "Scaling"
+msgstr "स्केलिंग"
+
+msgctxt "UI_MENU_OV_PRESENT"
+msgid "Presentation"
+msgstr "प्रस्तुति"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_SIZE"
+msgid "%ux%u"
+msgstr "%ux%u"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MENU_OV_FMT_FSR"
+msgid "AMD FSR 1, sharpness %d%%"
+msgstr "AMD FSR 1, शार्पनेस %d%%"
+
+msgctxt "UI_MENU_OV_SCALE_NONE"
+msgid "none (1:1)"
+msgstr "कोई नहीं (1:1)"
+
+msgctxt "UI_MENU_OV_SCALE_BILINEAR"
+msgid "bilinear"
+msgstr "बाइलीनियर"
+
+msgctxt "UI_LAUNCH_SUBTITLE"
+msgid "Static recompilation for PC"
+msgstr "PC के लिए स्टैटिक रीकम्पाइलेशन"
+
+msgctxt "UI_LAUNCH_PLAY"
+msgid "Play"
+msgstr "खेलें"
+
+msgctxt "UI_LAUNCH_SETTINGS"
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+msgctxt "UI_LAUNCH_FILES"
+msgid "Game files"
+msgstr "गेम फ़ाइलें"
+
+msgctxt "UI_LAUNCH_QUIT"
+msgid "Quit"
+msgstr "बाहर निकलें"
+
+msgctxt "UI_LAUNCH_BACK"
+msgid "Back"
+msgstr "वापस"
+
+msgctxt "UI_LAUNCH_FILES_READY"
+msgid "Game files ready (version 1.0.0 or 1.8.0)"
+msgstr "गेम फ़ाइलें तैयार (संस्करण 1.0.0 या 1.8.0)"
+
+msgctxt "UI_LAUNCH_FILES_MISSING"
+msgid "Game files not set up"
+msgstr "गेम फ़ाइलें सेट अप नहीं हैं"
+
+msgctxt "UI_LAUNCH_FILES_FOLDER"
+msgid "Game folder"
+msgstr "गेम फ़ोल्डर"
+
+msgctxt "UI_LAUNCH_PICK_GAME_DIR"
+msgid "Choose game folder"
+msgstr "गेम फ़ोल्डर चुनें"
+
+msgctxt "UI_LAUNCH_GAME_DIR_HELP"
+msgid ""
+"Choose where to install the game, or select an existing installation. The launcher reopens with "
+"that folder. Existing files are kept where they are."
+msgstr ""
+"चुनें कि गेम कहाँ इंस्टॉल करना है, या कोई मौजूदा इंस्टॉलेशन चुनें। लॉन्चर उसी फ़ोल्डर के साथ "
+"दोबारा खुलेगा। मौजूदा फ़ाइलें जहाँ हैं वहीं रहती हैं।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GAME_DIR_INVALID"
+msgid ""
+"This game folder could not be selected. Choose a folder whose full path is at most %d UTF-8 bytes "
+"and contains no line breaks."
+msgstr ""
+"यह गेम फ़ोल्डर चुना नहीं जा सका। ऐसा फ़ोल्डर चुनें जिसका पूरा पाथ अधिकतम %d UTF-8 बाइट का हो और "
+"जिसमें लाइन ब्रेक न हों।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GAME_DIR_INVALID_WIN32"
+msgid ""
+"This game folder could not be selected. On Windows, choose a folder without line breaks whose "
+"full path is at most %d UTF-16 units to leave room for the game's files."
+msgstr ""
+"यह गेम फ़ोल्डर चुना नहीं जा सका। Windows पर बिना लाइन ब्रेक वाला ऐसा फ़ोल्डर चुनें जिसका पूरा पाथ "
+"अधिकतम %d UTF-16 इकाइयों का हो, ताकि गेम की फ़ाइलों के लिए जगह बचे।"
+
+msgctxt "UI_LAUNCH_FILES_HELP"
+msgid ""
+"The game does not come with the port: it needs your own copy of Mario Kart World 1.0.0 or 1.8.0, "
+"dumped from your console (the exefs and romfs folders). The setup checks its version, builds the "
+"game code on this computer and translates the shaders."
+msgstr ""
+"गेम पोर्ट के साथ नहीं आता: इसके लिए आपकी अपनी मारियो कार्ट वर्ल्ड 1.0.0 या 1.8.0 की कॉपी चाहिए, "
+"आपके कंसोल से डंप की हुई (exefs और romfs फ़ोल्डर)। सेटअप उसका संस्करण जाँचता है, इसी कंप्यूटर पर "
+"गेम कोड बनाता है और शेडर का अनुवाद करता है।"
+
+msgctxt "UI_LAUNCH_NO_TOOLS"
+msgid "The setup tools are missing: the setup/ folder that comes with the program."
+msgstr "सेटअप टूल गायब हैं: प्रोग्राम के साथ आने वाला setup/ फ़ोल्डर।"
+
+msgctxt "UI_LAUNCH_SOURCE"
+msgid "Your copy"
+msgstr "आपकी कॉपी"
+
+msgctxt "UI_LAUNCH_PICK"
+msgid "Choose folder"
+msgstr "फ़ोल्डर चुनें"
+
+msgctxt "UI_LAUNCH_PICK_NUP"
+msgid "Choose .nup or .nx file"
+msgstr ".nup या .nx फ़ाइल चुनें"
+
+msgctxt "UI_LAUNCH_ROMFS_MODE"
+msgid "RomFS (23 GB)"
+msgstr "RomFS (23 GB)"
+
+msgctxt "UI_LAUNCH_ROMFS_COPY"
+msgid "Copy into the game folder"
+msgstr "गेम फ़ोल्डर में कॉपी करें"
+
+msgctxt "UI_LAUNCH_ROMFS_LINK"
+msgid "Use it where it is"
+msgstr "जहाँ है वहीं इस्तेमाल करें"
+
+msgctxt "UI_LAUNCH_SETUP"
+msgid "Set up"
+msgstr "सेट अप करें"
+
+msgctxt "UI_LAUNCH_SETUP_AGAIN"
+msgid "Set up again"
+msgstr "दोबारा सेट अप करें"
+
+msgctxt "UI_LAUNCH_CANCEL"
+msgid "Cancel"
+msgstr "रद्द करें"
+
+msgctxt "UI_LAUNCH_SETUP_DONE"
+msgid "Set up finished: the game is ready."
+msgstr "सेटअप पूरा: गेम तैयार है।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_SETUP_FAILED"
+msgid "Set up failed: %s"
+msgstr "सेटअप विफल: %s"
+
+#. No %s: the detail is not shown.
+msgctxt "UI_SETUP_ERR_SOURCE"
+msgid "there is no earlier setup in this folder: choose the folder of your copy"
+msgstr "इस फ़ोल्डर में पहले का कोई सेटअप नहीं है: अपनी कॉपी का फ़ोल्डर चुनें"
+
+#. %s: the folder the player chose.
+msgctxt "UI_SETUP_ERR_NOGAME"
+msgid "no exefs/main and romfs/ in %s: choose the folder of your copy of the game"
+msgstr "%s में exefs/main और romfs/ नहीं हैं: गेम की अपनी कॉपी का फ़ोल्डर चुनें"
+
+#. %s: the path of the exefs/main file.
+msgctxt "UI_SETUP_ERR_ENCRYPTED"
+msgid "%s is encrypted: the game's exefs must be decrypted"
+msgstr "%s एन्क्रिप्टेड है: गेम का exefs डिक्रिप्ट होना चाहिए"
+
+#. %s: the build id of the player's exefs/main (hexadecimal).
+msgctxt "UI_SETUP_ERR_VERSION"
+msgid ""
+"the game is not Mario Kart World 1.0.0 or 1.8.0 (build id %s): only those versions are supported"
+msgstr ""
+"यह गेम मारियो कार्ट वर्ल्ड 1.0.0 या 1.8.0 नहीं है (build id %s): केवल वही संस्करण समर्थित हैं"
+
+#. %s: how many files the player's RomFS has.
+msgctxt "UI_SETUP_ERR_ROMFS"
+msgid "the RomFS has only %s files: the copy is incomplete, copy it again"
+msgstr "RomFS में केवल %s फ़ाइलें हैं: कॉपी अधूरी है, उसे दोबारा कॉपी करें"
+
+#. %s: the failing tool's message, in English. logs/setup.log is a file name: keep it.
+msgctxt "UI_SETUP_ERR_FAILED"
+msgid "%s (more in logs/setup.log)"
+msgstr "%s (और जानकारी logs/setup.log में)"
+
+#. %s: the system's error message, in English. logs/setup.log is a file name: keep it.
+msgctxt "UI_SETUP_ERR_IO"
+msgid "file error: %s (more in logs/setup.log)"
+msgstr "फ़ाइल त्रुटि: %s (और जानकारी logs/setup.log में)"
+
+msgctxt "UI_SETUP_ERR_STOPPED"
+msgid "the setup stopped (more in logs/setup.log)"
+msgstr "सेटअप रुक गया (और जानकारी logs/setup.log में)"
+
+msgctxt "UI_SETUP_ERR_CANCELLED"
+msgid "cancelled"
+msgstr "रद्द किया गया"
+
+msgctxt "UI_SETUP_ERR_NO_SETUP"
+msgid "the setup tools are missing (setup/ next to the program): extract the release again"
+msgstr "सेटअप टूल गायब हैं (प्रोग्राम के पास setup/): रिलीज़ दोबारा एक्सट्रैक्ट करें"
+
+#. %s: the folder of the last setup's game files, which no longer exists.
+msgctxt "UI_SETUP_ERR_MOVED"
+msgid "your game files are no longer in %s: if you moved or renamed that folder, choose it again"
+msgstr ""
+"आपकी गेम फ़ाइलें अब %s में नहीं हैं: अगर आपने वह फ़ोल्डर हिलाया या उसका नाम बदला, तो उसे फिर चुनें"
+
+#. %s: the two versions, e.g. "RomFS 1.8.0, exefs/main 1.0.0".
+msgctxt "UI_SETUP_ERR_MISMATCH"
+msgid ""
+"the game files and the program are from different versions (%s): take exefs and romfs from the "
+"same dump, with the update applied to both"
+msgstr ""
+"गेम फ़ाइलें और प्रोग्राम अलग संस्करणों के हैं (%s): exefs और romfs एक ही डंप से लें, दोनों पर "
+"अपडेट लगाकर"
+
+msgctxt "UI_LAUNCH_STEP_CHECK"
+msgid "Check the copy"
+msgstr "कॉपी जाँचें"
+
+msgctxt "UI_LAUNCH_STEP_EXEFS"
+msgid "Copy exefs"
+msgstr "exefs कॉपी करें"
+
+msgctxt "UI_LAUNCH_STEP_ROMFS"
+msgid "RomFS"
+msgstr "RomFS"
+
+msgctxt "UI_LAUNCH_STEP_GENERATE"
+msgid "Generate the game code"
+msgstr "गेम कोड बनाएँ"
+
+msgctxt "UI_LAUNCH_STEP_COMPILE"
+msgid "Compile the game code"
+msgstr "गेम कोड कम्पाइल करें"
+
+msgctxt "UI_LAUNCH_STEP_SHADERS"
+msgid "Translate the shaders"
+msgstr "शेडर का अनुवाद करें"
+
+msgctxt "UI_LAUNCH_STEP_WARM"
+msgid "Warm up the graphics (one minute)"
+msgstr "ग्राफ़िक्स वार्म-अप (एक मिनट)"
+
+msgctxt "UI_LAUNCH_STEP_CLEANUP"
+msgid "Clean up"
+msgstr "सफ़ाई"
+
+msgctxt "UI_LAUNCH_STEP_KEPT"
+msgid "kept"
+msgstr "रखा गया"
+
+msgctxt "UI_LAUNCH_SHORTCUT"
+msgid "Desktop shortcut"
+msgstr "डेस्कटॉप शॉर्टकट"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_SHORTCUT_DONE"
+msgid "Shortcut made: %s"
+msgstr "शॉर्टकट बन गया: %s"
+
+msgctxt "UI_LAUNCH_SHORTCUT_FAILED"
+msgid "Could not make the shortcut"
+msgstr "शॉर्टकट नहीं बन सका"
+
+msgctxt "UI_LAUNCH_MODS"
+msgid "Mods"
+msgstr "मॉड"
+
+msgctxt "UI_LAUNCH_MODS_EMPTY"
+msgid "No mods yet: import a zip or a folder below"
+msgstr "अभी कोई मॉड नहीं: नीचे zip या फ़ोल्डर इम्पोर्ट करें"
+
+msgctxt "UI_MOD_IMPORT_ZIP"
+msgid "Import zip..."
+msgstr "zip इम्पोर्ट करें..."
+
+msgctxt "UI_MOD_IMPORT_FOLDER"
+msgid "Import folder..."
+msgstr "फ़ोल्डर इम्पोर्ट करें..."
+
+msgctxt "UI_MOD_NAME"
+msgid "Name"
+msgstr "नाम"
+
+msgctxt "UI_MOD_IMPORT"
+msgid "Import"
+msgstr "इम्पोर्ट"
+
+msgctxt "UI_MOD_DELETE"
+msgid "Delete"
+msgstr "मिटाएँ"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MOD_CONFIRM"
+msgid "Delete %s?"
+msgstr "%s मिटाएँ?"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MOD_ROMFS"
+msgid "%d files"
+msgstr "%d फ़ाइलें"
+
+msgctxt "UI_MOD_ROMFS_1"
+msgid "1 file"
+msgstr "1 फ़ाइल"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MOD_CODE_BUILD"
+msgid "code: built for %s"
+msgstr "कोड: %s के लिए बना"
+
+msgctxt "UI_MOD_CODE_PORT"
+msgid "code: needs a ported build"
+msgstr "कोड: पोर्टेड बिल्ड चाहिए"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_MOD_CODE_SWITCHES"
+msgid "code: %d switches"
+msgstr "कोड: %d स्विच"
+
+msgctxt "UI_MOD_CODE_SWITCH_1"
+msgid "code: 1 switch"
+msgstr "कोड: 1 स्विच"
+
+msgctxt "UI_MOD_MERGING"
+msgid "Merging mods..."
+msgstr "मॉड मर्ज हो रहे हैं..."
+
+msgctxt "UI_MOD_CONFLICTS"
+msgid "Conflicts: click the winner to change it"
+msgstr "टकराव: बदलने के लिए विजेता पर क्लिक करें"
+
+msgctxt "UI_MOD_VANILLA"
+msgid "Vanilla"
+msgstr "Vanilla"
+
+msgctxt "UI_MOD_IMPORTED"
+msgid "Imported %s"
+msgstr "%s इम्पोर्ट हुआ"
+
+msgctxt "UI_MOD_RESOLVE"
+msgid "Resolve conflicts"
+msgstr "टकराव सुलझाएँ"
+
+msgctxt "UI_MOD_OK"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "UI_MOD_ERR_LAYOUT"
+msgid "Not a mod: no romfs/ or exefs/ inside"
+msgstr "मॉड नहीं है: अंदर romfs/ या exefs/ नहीं है"
+
+msgctxt "UI_MOD_ERR_NAME"
+msgid "That name is taken or empty"
+msgstr "यह नाम लिया जा चुका है या खाली है"
+
+msgctxt "UI_MOD_ERR_IO"
+msgid "Could not copy the files"
+msgstr "फ़ाइलें कॉपी नहीं हो सकीं"
+
+msgctxt "UI_MOD_ERR_NOPORT"
+msgid "Not ported yet: no code patches for this game"
+msgstr "अभी पोर्ट नहीं हुआ: इस गेम के लिए कोड पैच नहीं हैं"
+
+msgctxt "UI_MOD_ERR_NOGAME"
+msgid "Game files not set up: do that on the Files page first"
+msgstr "गेम फ़ाइलें सेट अप नहीं हैं: पहले फ़ाइलें पेज पर यह करें"
+
+#. Above one button per mod found in the archive (its folder inside the archive).
+msgctxt "UI_MOD_VARIANTS"
+msgid "This archive holds several mods: pick the one to import"
+msgstr "इस आर्काइव में कई मॉड हैं: इम्पोर्ट के लिए एक चुनें"
+
+msgctxt "UI_MOD_ERR_BIG"
+msgid "Too large to be a mod (over 4 GB or 50000 files)"
+msgstr "मॉड होने के लिए बहुत बड़ा (4 GB या 50000 फ़ाइलों से ज़्यादा)"
+
+msgctxt "UI_MOD_ERR_UNPACK"
+msgid "Cannot open this archive: .rar and .7z need bsdtar (libarchive) installed"
+msgstr "यह आर्काइव नहीं खुल सकता: .rar और .7z के लिए bsdtar (libarchive) इंस्टॉल होना चाहिए"
+
+#. The Mods page's two tabs: the player's mods, and GameBanana's.
+msgctxt "UI_MOD_TAB_INSTALLED"
+msgid "Installed"
+msgstr "इंस्टॉल किए गए"
+
+msgctxt "UI_MOD_TAB_FIND"
+msgid "Find on GameBanana"
+msgstr "GameBanana पर खोजें"
+
+#. Shown above the GameBanana list: the project hosts no mods.
+msgctxt "UI_GB_NOTE"
+msgid ""
+"Mods are made by their authors and downloaded from GameBanana when you install them. This project "
+"is not affiliated with GameBanana or the mods' authors, and does not host, review or endorse "
+"mods. Each mod has its own license."
+msgstr ""
+"मॉड उनके लेखक बनाते हैं और इंस्टॉल करने पर GameBanana से डाउनलोड होते हैं। यह प्रोजेक्ट "
+"GameBanana या मॉड के लेखकों से जुड़ा नहीं है, और मॉड होस्ट, समीक्षा या समर्थन नहीं करता। हर मॉड "
+"का अपना लाइसेंस है।"
+
+msgctxt "UI_GB_SEARCH"
+msgid "Search"
+msgstr "खोजें"
+
+msgctxt "UI_GB_SORT_DOWNLOADS"
+msgid "Most downloaded"
+msgstr "सबसे ज़्यादा डाउनलोड"
+
+msgctxt "UI_GB_SORT_NEW"
+msgid "Newest"
+msgstr "सबसे नए"
+
+msgctxt "UI_GB_SORT_LIKES"
+msgid "Most liked"
+msgstr "सबसे ज़्यादा पसंद"
+
+msgctxt "UI_GB_LOADING"
+msgid "Loading..."
+msgstr "लोड हो रहा है..."
+
+msgctxt "UI_GB_NONE"
+msgid "No mods found"
+msgstr "कोई मॉड नहीं मिला"
+
+#. %s: the mod's author on GameBanana.
+msgctxt "UI_GB_BY"
+msgid "by %s"
+msgstr "%s द्वारा"
+
+#. %s: the mod's license, e.g. "CC BY-NC-ND 4.0".
+msgctxt "UI_GB_LICENSE"
+msgid "License: %s"
+msgstr "लाइसेंस: %s"
+
+msgctxt "UI_GB_OPEN"
+msgid "Open its GameBanana page"
+msgstr "इसका GameBanana पेज खोलें"
+
+#. %s: the file's name.
+msgctxt "UI_GB_INSTALL"
+msgid "Install %s"
+msgstr "%s इंस्टॉल करें"
+
+#. First %s: the file's name; second %s: its author.
+msgctxt "UI_GB_CONFIRM"
+msgid "Download %s by %s from GameBanana and install it?"
+msgstr "%s (%s द्वारा) GameBanana से डाउनलोड करके इंस्टॉल करें?"
+
+msgctxt "UI_GB_UNSAFE"
+msgid "Not offered: GameBanana's virus scan has not marked this file clean"
+msgstr "उपलब्ध नहीं: GameBanana के वायरस स्कैन ने इस फ़ाइल को साफ़ नहीं माना"
+
+#. %d: this page; %d: how many pages.
+msgctxt "UI_GB_PAGE"
+msgid "Page %d of %d"
+msgstr "पेज %d / %d"
+
+#. %s: what failed (an English detail from the network).
+msgctxt "UI_GB_ERROR"
+msgid "GameBanana did not answer: %s"
+msgstr "GameBanana ने जवाब नहीं दिया: %s"
+
+#. %s: the content ratings GameBanana marks the mod with (e.g. Sexual Themes).
+msgctxt "UI_GB_RATED"
+msgid "Content rating: %s"
+msgstr "कंटेंट रेटिंग: %s"
+
+msgctxt "UI_GB_MATURE"
+msgid "NSFW mods"
+msgstr "NSFW मॉड"
+
+msgctxt "UI_GB_MATURE_OBFUSCATE"
+msgid "Obfuscate"
+msgstr "धुँधला करें"
+
+msgctxt "UI_GB_MATURE_SHOW"
+msgid "Show"
+msgstr "दिखाएँ"
+
+#. Under an installed mod that replaces the game's graphics settings archive (general_format).
+msgctxt "UI_MOD_WARN_GRAPHICS"
+msgid ""
+"Changes the game's graphics settings: the port's own settings (resolution, quality) go on top, so "
+"this mod may do less than on a console, look worse or misbehave"
+msgstr ""
+"गेम की ग्राफ़िक्स सेटिंग्स बदलता है: पोर्ट की अपनी सेटिंग्स (रिज़ॉल्यूशन, क्वालिटी) इसके ऊपर लगती "
+"हैं, इसलिए यह मॉड कंसोल से कम असर दिखा सकता है, बदतर दिख सकता है या गड़बड़ कर सकता है"
+
+#. Above every mod install and import.
+msgctxt "UI_MOD_RISK"
+msgid ""
+"Mods are made by other people and are not tested by this project. A mod can crash the game or "
+"damage your save: read its page first, keep a copy of your save, and report a mod's problems to "
+"its author."
+msgstr ""
+"मॉड दूसरे लोग बनाते हैं और इस प्रोजेक्ट ने उनका परीक्षण नहीं किया है। मॉड गेम क्रैश कर सकता है या "
+"आपका सेव बिगाड़ सकता है: पहले उसका पेज पढ़ें, अपने सेव की कॉपी रखें, और मॉड की समस्याएँ उसके लेखक "
+"को बताएँ।"
+
+msgctxt "UI_MOD_RISK_ACK"
+msgid "I understand"
+msgstr "मैं समझता हूँ"
+
+#. Under a mod that changes the game's code (its .ips): the game code is built with it.
+msgctxt "UI_MOD_PLUGIN"
+msgid ""
+"Native plugin: runs its own program on your computer alongside the game. Enable it only if you "
+"trust where it comes from"
+msgstr ""
+"नेटिव प्लगइन: गेम के साथ आपके कंप्यूटर पर अपना प्रोग्राम चलाता है। इसे तभी चालू करें जब आप उसके "
+"स्रोत पर भरोसा करते हों"
+
+#. A mod's button beside Delete: opens the options page its plugin draws (runtime/ui/launcher/mod_page.cpp).
+msgctxt "UI_MOD_OPTIONS"
+msgid "Options"
+msgstr "विकल्प"
+
+#. The options page of a mod whose plugin has none for this system.
+msgctxt "UI_MOD_NO_OPTIONS"
+msgid "This mod has no options"
+msgstr "इस मॉड में कोई विकल्प नहीं हैं"
+
+msgctxt "UI_MOD_CODE_REBUILD"
+msgid "code: turning it on or off builds the game code again before you play (a few minutes)"
+msgstr "कोड: इसे चालू या बंद करने पर खेलने से पहले गेम कोड दोबारा बनता है (कुछ मिनट)"
+
+#. Under an installed mod that ships shaders (Shader/ files).
+msgctxt "UI_MOD_WARN_SHADERS"
+msgid ""
+"Replaces shaders: the port translates the game's shaders during the setup, so this mod may not "
+"show, or may break the picture"
+msgstr ""
+"शेडर बदलता है: पोर्ट सेटअप के दौरान गेम के शेडर का अनुवाद करता है, इसलिए यह मॉड दिख न भी सकता है, "
+"या तस्वीर बिगाड़ सकता है"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_UPDATE_FETCHING"
+msgid "Downloading %s"
+msgstr "%s डाउनलोड हो रहा है"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_UPDATE_FAILED"
+msgid "Update failed: %s"
+msgstr "अपडेट विफल: %s"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_UPDATED"
+msgid "Updated to %s: setting up again what it changed"
+msgstr "%s पर अपडेट हुआ: जो बदला उसे दोबारा सेट अप कर रहे हैं"
+
+#. The update card's title; %s is the release (v0.1.12).
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_UPDATE_TITLE"
+msgid "Update available: %s"
+msgstr "अपडेट उपलब्ध: %s"
+
+#. Under it: %s the version in use, %d the download in MB.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_UPDATE_DETAIL"
+msgid "You have %s · %d MB to download"
+msgstr "आपके पास %s है · %d MB डाउनलोड करना है"
+
+#. The update card's button: downloads and installs it.
+msgctxt "UI_LAUNCH_UPDATE_NOW"
+msgid "Update"
+msgstr "अपडेट करें"
+
+msgctxt "UI_LAUNCH_UPDATE_PREPARING"
+msgid "Setting up %s in the background. You can keep playing meanwhile."
+msgstr "%s को बैकग्राउंड में सेट अप कर रहे हैं। इस बीच आप खेलते रह सकते हैं।"
+
+msgctxt "UI_LAUNCH_UPDATE_PREPARED"
+msgid "%s is ready"
+msgstr "%s तैयार है"
+
+msgctxt "UI_LAUNCH_UPDATE_RESTART"
+msgid "Restart with it"
+msgstr "इसके साथ रीस्टार्ट करें"
+
+msgctxt "UI_LAUNCH_UPDATE_PREPARE_FAILED"
+msgid "It could not be set up in advance (%s): it will be set up when it starts."
+msgstr "इसे पहले से सेट अप नहीं किया जा सका (%s): शुरू होने पर सेट अप होगा।"
+
+#. Opens the release's notes on GitHub.
+msgctxt "UI_LAUNCH_WHATS_NEW"
+msgid "What's new"
+msgstr "नया क्या है"
+
+#. After a failed download.
+msgctxt "UI_LAUNCH_RETRY"
+msgid "Try again"
+msgstr "फिर कोशिश करें"
+
+#. The game files' state with the game version the setup installed.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_FILES_READY_AS"
+msgid "Game files ready (version %s)"
+msgstr "गेम फ़ाइलें तैयार (संस्करण %s)"
+
+#. Under Play: %s is the first controller's name.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_PAD"
+msgid "Controller: %s"
+msgstr "कंट्रोलर: %s"
+
+#. Under Play when no controller is connected.
+msgctxt "UI_LAUNCH_PAD_NONE"
+msgid "No controller connected"
+msgstr "कोई कंट्रोलर जुड़ा नहीं है"
+
+#. On the controller row: opens the Controls tab.
+msgctxt "UI_LAUNCH_CONFIGURE"
+msgid "Configure"
+msgstr "कॉन्फ़िगर करें"
+
+#. Offered once on the start screen after the setup.
+msgctxt "UI_LAUNCH_SHORTCUT_ASK"
+msgid "Start the game from your desktop"
+msgstr "गेम अपने डेस्कटॉप से शुरू करें"
+
+#. Makes the desktop shortcut.
+msgctxt "UI_LAUNCH_SHORTCUT_MAKE"
+msgid "Create shortcut"
+msgstr "शॉर्टकट बनाएँ"
+
+#. Puts the offer away; the button stays on the Game files page.
+msgctxt "UI_LAUNCH_NOT_NOW"
+msgid "Not now"
+msgstr "अभी नहीं"
+
+#. The keys, at the lower right of the start screen.
+msgctxt "UI_LAUNCH_KEYS"
+msgid "Enter or A: select · F11: fullscreen"
+msgstr "Enter या A: चुनें · F11: फ़ुलस्क्रीन"
+
+#. Beside the Settings title on the start screen.
+msgctxt "UI_LAUNCH_SETTINGS_NOTE"
+msgid "Changes are saved and apply when you press Play"
+msgstr "बदलाव सेव होते हैं और खेलें दबाने पर लागू होते हैं"
+
+#. Step 1 of the setup before the player picks their copy.
+msgctxt "UI_LAUNCH_NO_SOURCE"
+msgid "No copy chosen yet"
+msgstr "अभी कोई कॉपी नहीं चुनी"
+
+#. Under Copy into the game folder.
+msgctxt "UI_LAUNCH_ROMFS_COPY_NOTE"
+msgid "Uses 23 GB more disk space; your copy can be deleted afterwards"
+msgstr "23 GB और डिस्क जगह लगती है; बाद में आपकी कॉपी मिटाई जा सकती है"
+
+#. Under Use it where it is.
+msgctxt "UI_LAUNCH_ROMFS_LINK_NOTE"
+msgid "No extra disk space; your copy has to stay where it is"
+msgstr "अतिरिक्त डिस्क जगह नहीं; आपकी कॉपी वहीं रहनी चाहिए जहाँ है"
+
+#. Under Set up: %s is the game folder.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_INSTALLS_TO"
+msgid "Installs to %s"
+msgstr "%s में इंस्टॉल होगा"
+
+#. What a setup installed: label.
+msgctxt "UI_LAUNCH_INFO_VERSION"
+msgid "Game version"
+msgstr "गेम संस्करण"
+
+#. What a setup installed: label; the value is MKW Recomp and its version.
+msgctxt "UI_LAUNCH_INFO_PORT"
+msgid "Set up by"
+msgstr "सेट अप किया"
+
+#. What a setup installed: label; the value says how it is kept.
+msgctxt "UI_LAUNCH_INFO_ROMFS"
+msgid "RomFS"
+msgstr "RomFS"
+
+#. How the RomFS is kept, after the setup.
+msgctxt "UI_LAUNCH_ROMFS_COPIED"
+msgid "Copied into the game folder"
+msgstr "गेम फ़ोल्डर में कॉपी किया गया"
+
+#. How the RomFS is kept, after the setup.
+msgctxt "UI_LAUNCH_ROMFS_LINKED"
+msgid "Used where it is"
+msgstr "जहाँ है वहीं इस्तेमाल हो रहा है"
+
+#. Shows the game folder in the file manager.
+msgctxt "UI_LAUNCH_OPEN_FOLDER"
+msgid "Open folder"
+msgstr "फ़ोल्डर खोलें"
+
+#. Under Set up again, folded on the Game files page once the game is set up.
+msgctxt "UI_LAUNCH_SETUP_AGAIN_HINT"
+msgid "After a game update, or when the game files look damaged. The steps already done are kept."
+msgstr "गेम अपडेट के बाद, या जब गेम फ़ाइलें ख़राब लगें। हो चुके चरण रखे जाते हैं।"
+
+#. The start screen's page with the saves, the shortcuts, the updates and reporting a problem.
+msgctxt "UI_LAUNCH_TOOLS"
+msgid "Tools"
+msgstr "टूल"
+
+#. Tools page heading.
+msgctxt "UI_TOOLS_SAVES"
+msgid "Saves"
+msgstr "सेव"
+
+#. Tools page row.
+msgctxt "UI_TOOLS_BACKUP"
+msgid "Back up saves"
+msgstr "सेव का बैकअप लें"
+
+#. Under Back up saves: %s is the player's name.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_BACKUP_NOTE"
+msgid "A zip of %s's saves in the game folder's backups"
+msgstr "गेम फ़ोल्डर के backups में %s के सेव की zip"
+
+#. After a backup: %s is the zip file.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_BACKUP_DONE"
+msgid "Saved: %s"
+msgstr "सेव हुआ: %s"
+
+#. Button of Back up saves.
+msgctxt "UI_TOOLS_BACKUP_BUTTON"
+msgid "Back up"
+msgstr "बैकअप लें"
+
+#. Tools page row with the two folders' buttons.
+msgctxt "UI_TOOLS_SAVES_FOLDERS"
+msgid "Saves and backups"
+msgstr "सेव और बैकअप"
+
+#. Shows the player's saves folder.
+msgctxt "UI_TOOLS_OPEN_SAVES"
+msgid "Open saves"
+msgstr "सेव खोलें"
+
+#. Shows the backups folder.
+msgctxt "UI_TOOLS_OPEN_BACKUPS"
+msgid "Open backups"
+msgstr "बैकअप खोलें"
+
+#. Tools page heading.
+msgctxt "UI_TOOLS_SHORTCUTS"
+msgid "Shortcuts"
+msgstr "शॉर्टकट"
+
+#. Tools page row.
+msgctxt "UI_TOOLS_STEAM"
+msgid "Add to Steam"
+msgstr "Steam में जोड़ें"
+
+#. Under Add to Steam.
+msgctxt "UI_TOOLS_STEAM_NOTE"
+msgid "As a non-Steam game, for Big Picture and the Steam Deck"
+msgstr "नॉन-Steam गेम के रूप में, Big Picture और Steam Deck के लिए"
+
+#. Button of Add to Steam.
+msgctxt "UI_TOOLS_ADD"
+msgid "Add"
+msgstr "जोड़ें"
+
+#. After Add to Steam.
+msgctxt "UI_TOOLS_STEAM_DONE"
+msgid "Added to Steam"
+msgstr "Steam में जुड़ गया"
+
+#. After Add to Steam while Steam runs.
+msgctxt "UI_TOOLS_STEAM_RESTART"
+msgid "Added: restart Steam to see it"
+msgstr "जुड़ गया: देखने के लिए Steam रीस्टार्ट करें"
+
+#. After Add to Steam, when only some profiles could be updated.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL"
+msgid "Updated %d of %d Steam profiles"
+msgstr "%d Steam प्रोफ़ाइल अपडेट हुईं, कुल %d में"
+
+#. After Add to Steam, when only some profiles could be updated and Steam is running.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_STEAM_PARTIAL_RESTART"
+msgid "Updated %d of %d Steam profiles. Restart Steam to see the shortcut."
+msgstr "%d Steam प्रोफ़ाइल अपडेट हुईं, कुल %d में। शॉर्टकट देखने के लिए Steam रीस्टार्ट करें।"
+
+#. Why Add to Steam failed.
+msgctxt "UI_TOOLS_STEAM_NONE"
+msgid "Steam is not installed for this user"
+msgstr "इस उपयोगकर्ता के लिए Steam इंस्टॉल नहीं है"
+
+#. Tools page heading.
+msgctxt "UI_TOOLS_UPDATES"
+msgid "Updates"
+msgstr "अपडेट"
+
+#. The version in use: %s.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_VERSION"
+msgid "Version %s"
+msgstr "संस्करण %s"
+
+#. Looks for a new version.
+msgctxt "UI_TOOLS_CHECK"
+msgid "Check now"
+msgstr "अभी जाँचें"
+
+#. While the check runs.
+msgctxt "UI_TOOLS_CHECKING"
+msgid "Checking for a new version..."
+msgstr "नया संस्करण जाँच रहे हैं..."
+
+#. The manual update check found no newer version.
+msgctxt "UI_TOOLS_UPDATE_CURRENT"
+msgid "You're up to date."
+msgstr "आप अप-टू-डेट हैं।"
+
+#. Tools page row: %s is the version before the last update.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_UNDO_ROW"
+msgid "Go back to %s"
+msgstr "%s पर वापस जाएँ"
+
+#. Under Go back to.
+msgctxt "UI_TOOLS_UNDO_NOTE"
+msgid "The version before the last update; the launcher starts again"
+msgstr "पिछले अपडेट से पहले का संस्करण; लॉन्चर फिर शुरू होता है"
+
+#. Button that puts back the version before the last update.
+msgctxt "UI_TOOLS_UNDO"
+msgid "Undo update"
+msgstr "अपडेट वापस लें"
+
+#. Confirmation: %s is that version.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_UNDO_ASK"
+msgid "Go back to %s? The launcher starts again and sets up again what differs."
+msgstr "%s पर वापस जाएँ? लॉन्चर फिर शुरू होता है और जो अलग है उसे दोबारा सेट अप करता है।"
+
+#. Tools page heading.
+msgctxt "UI_TOOLS_PROBLEMS"
+msgid "Problems"
+msgstr "समस्याएँ"
+
+#. Tools page row.
+msgctxt "UI_TOOLS_REPORT"
+msgid "Report a problem"
+msgstr "समस्या बताएँ"
+
+#. Under Report a problem.
+msgctxt "UI_TOOLS_REPORT_NOTE"
+msgid "Copies your system's details and opens the bug report form, to paste them in"
+msgstr "आपके सिस्टम का ब्योरा कॉपी करता है और बग रिपोर्ट फ़ॉर्म खोलता है, ताकि उसे चिपकाएँ"
+
+#. Button of Report a problem.
+msgctxt "UI_TOOLS_REPORT_BUTTON"
+msgid "Report"
+msgstr "रिपोर्ट करें"
+
+#. After Report.
+msgctxt "UI_TOOLS_REPORT_COPIED"
+msgid "Your system's details are on the clipboard: paste them in the form"
+msgstr "आपके सिस्टम का ब्योरा क्लिपबोर्ड पर है: उसे फ़ॉर्म में चिपकाएँ"
+
+#. Tools page row with the log folder's button.
+msgctxt "UI_TOOLS_LOGS"
+msgid "Logs"
+msgstr "लॉग"
+
+#. A Tools page action that did not work: %s says why.
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_TOOLS_FAILED"
+msgid "Failed: %s"
+msgstr "विफल: %s"
+
+msgctxt "UI_LAUNCH_NO_GAME_DATA"
+msgid "Your own copy of the game · No game data included"
+msgstr "आपकी अपनी गेम कॉपी · कोई गेम डेटा शामिल नहीं"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_LASTRUN_KNOWN"
+msgid ""
+"The last game stopped with a known problem, followed in issue #%d. No need to report it again."
+msgstr ""
+"पिछला गेम एक ज्ञात समस्या से रुका, जिसे issue #%d में देखा जा रहा है। दोबारा रिपोर्ट की ज़रूरत "
+"नहीं।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_LASTRUN_FIXED"
+msgid "The last game stopped with a problem that %s fixes. Update to get the fix."
+msgstr "पिछला गेम ऐसी समस्या से रुका जिसे %s ठीक करता है। फ़िक्स के लिए अपडेट करें।"
+
+msgctxt "UI_LAUNCH_LASTRUN_CRASH"
+msgid ""
+"The last game stopped with an error. Reporting it with logs/mkw.log attached helps to fix it."
+msgstr ""
+"पिछला गेम एक त्रुटि से रुका। logs/mkw.log संलग्न करके रिपोर्ट करने से इसे ठीक करने में मदद मिलती "
+"है।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_LASTRUN_OPEN"
+msgid "Open issue #%d"
+msgstr "issue #%d खोलें"
+
+msgctxt "UI_LAUNCH_LASTRUN_REPORT"
+msgid "Report it"
+msgstr "रिपोर्ट करें"
+
+msgctxt "UI_LAUNCH_LASTRUN_DISMISS"
+msgid "Close"
+msgstr "बंद करें"
+
+msgctxt "UI_MENU_UPDATE_CHECK"
+msgid "Check for updates"
+msgstr "अपडेट जाँचें"
+
+msgctxt "UI_MENU_UPDATE_CHECK_DESC"
+msgid ""
+"At start, ask GitHub for a newer release of the port and offer it on the start screen (a few "
+"seconds at most, nothing offline)."
+msgstr ""
+"शुरू में GitHub से पोर्ट की नई रिलीज़ पूछता है और स्टार्ट स्क्रीन पर देता है (ज़्यादा से ज़्यादा "
+"कुछ सेकंड, ऑफ़लाइन में कुछ नहीं)।"
+
+msgctxt "UI_MENU_DISCORD"
+msgid "Discord status"
+msgstr "Discord स्टेटस"
+
+msgctxt "UI_MENU_DISCORD_DESC"
+msgid ""
+"While the game runs, your Discord profile shows that you are playing, for how long, and whether "
+"you are racing or in the menus. Your Discord friends see it too."
+msgstr ""
+"गेम चलने के दौरान आपकी Discord प्रोफ़ाइल दिखाती है कि आप खेल रहे हैं, कितनी देर से, और रेस में "
+"हैं या मेन्यू में। आपके Discord दोस्त भी यह देखते हैं।"
+
+msgctxt "UI_LAUNCH_PLAYERS"
+msgid "Profiles"
+msgstr "प्रोफ़ाइल"
+
+msgctxt "UI_PLAYER_NOTE"
+msgid ""
+"Each profile has its own name and save, like the users of a console. The game shows the name, and "
+"so do the other players' screens in LAN play."
+msgstr ""
+"हर प्रोफ़ाइल का अपना नाम और सेव होता है, कंसोल के उपयोगकर्ताओं की तरह। गेम नाम दिखाता है, और LAN "
+"प्ले में दूसरे खिलाड़ियों की स्क्रीन भी।"
+
+msgctxt "UI_PLAYER_NAME_HINT"
+msgid "Name (up to 10 characters)"
+msgstr "नाम (अधिकतम 10 अक्षर)"
+
+msgctxt "UI_PLAYER_CHOOSE"
+msgid "Play as"
+msgstr "इस रूप में खेलें"
+
+msgctxt "UI_PLAYER_CHOSEN"
+msgid "Playing"
+msgstr "खेल रहे हैं"
+
+msgctxt "UI_PLAYER_NEW"
+msgid "New profile"
+msgstr "नई प्रोफ़ाइल"
+
+msgctxt "UI_PLAYER_REMOVE"
+msgid "Remove"
+msgstr "हटाएँ"
+
+msgctxt "UI_PLAYER_CONFIRM"
+msgid ""
+"Remove the profile %s? It leaves the list; its save is kept in the folder profile/players/deleted."
+msgstr ""
+"प्रोफ़ाइल %s हटाएँ? वह सूची से हट जाती है; उसका सेव profile/players/deleted फ़ोल्डर में रखा जाता "
+"है।"
+
+msgctxt "UI_PLAYER_FAILED"
+msgid "The profile could not be saved (the log says why)."
+msgstr "प्रोफ़ाइल सेव नहीं हो सकी (कारण लॉग में है)।"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_SETUP_ERR_SPACE"
+msgid ""
+"not enough free space: the setup needs %s. Free some space, or choose \"Use it where it is\" for "
+"the RomFS, which needs no copy"
+msgstr ""
+"खाली जगह कम है: सेटअप को %s चाहिए। कुछ जगह खाली करें, या RomFS के लिए \"जहाँ है वहीं इस्तेमाल "
+"करें\" चुनें, जिसे कॉपी नहीं चाहिए"
+
+msgctxt "UI_MENU_START_SCREEN"
+msgid "Start screen"
+msgstr "स्टार्ट स्क्रीन"
+
+msgctxt "UI_MENU_START_SCREEN_DESC"
+msgid ""
+"Automatic skips it when the game starts from Steam's Big Picture or Gaming Mode, as on a console. "
+"It still opens when the game files need setting up, after an error, or when you hold View / "
+"Select (Minus) at start."
+msgstr ""
+"स्वचालित इसे तब छोड़ता है जब गेम Steam के Big Picture या Gaming Mode से शुरू हो, जैसे कंसोल पर। "
+"यह फिर भी खुलती है जब गेम फ़ाइलें सेट अप करनी हों, त्रुटि के बाद, या शुरू में View / Select "
+"(Minus) दबाए रखने पर।"
+
+msgctxt "UI_MENU_START_ALWAYS"
+msgid "Always"
+msgstr "हमेशा"
+
+msgctxt "UI_MENU_START_SKIP"
+msgid "Skip"
+msgstr "छोड़ें"
+
+msgctxt "UI_LAUNCH_FILES_GONE"
+msgid "Game files not found"
+msgstr "गेम फ़ाइलें नहीं मिलीं"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_FILES_GONE_HELP"
+msgid ""
+"The setup left the game files at %s and they are not there now. If they are on a card or a drive, "
+"connect it; if you moved them, set the game up again below and pick where they are now."
+msgstr ""
+"सेटअप ने गेम फ़ाइलें %s पर छोड़ी थीं और वे अब वहाँ नहीं हैं। अगर वे कार्ड या ड्राइव पर हैं तो उसे "
+"जोड़ें; अगर आपने उन्हें हिलाया है तो नीचे गेम दोबारा सेट अप करें और अब की जगह चुनें।"
+
+msgctxt "UI_LAUNCH_FOUND"
+msgid "Found on this device"
+msgstr "इस डिवाइस पर मिला"
+
+msgctxt "UI_LAUNCH_FOUND_SEARCHING"
+msgid "Looking for your copy in the usual places..."
+msgstr "सामान्य जगहों में आपकी कॉपी खोज रहे हैं..."
+
+msgctxt "UI_LAUNCH_FOUND_FOLDER"
+msgid "folder"
+msgstr "फ़ोल्डर"
+
+msgctxt "UI_LAUNCH_GPU_NONE"
+msgid "No graphics card here can run the game"
+msgstr "यहाँ कोई ग्राफ़िक्स कार्ड गेम नहीं चला सकता"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GPU_OLD"
+msgid "%s: its driver offers %s, and the game needs Vulkan 1.3"
+msgstr "%s: इसका ड्राइवर %s देता है, और गेम को Vulkan 1.3 चाहिए"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GPU_EXT"
+msgid "%s (%s): its driver lacks %s, which the game needs"
+msgstr "%s (%s): इसके ड्राइवर में %s नहीं है, जो गेम को चाहिए"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GPU_QUEUE"
+msgid "%s: it has no queue that does both graphics and compute"
+msgstr "%s: इसमें ऐसी कतार नहीं जो ग्राफ़िक्स और कंप्यूट दोनों करे"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GPU_SKIPPED"
+msgid "%s: not the one chosen in Settings, Screen, Graphics card"
+msgstr "%s: वह नहीं जो सेटिंग्स, स्क्रीन, ग्राफ़िक्स कार्ड में चुना गया है"
+
+#. printf format: keep every %... conversion, in the same order.
+msgctxt "UI_LAUNCH_GPU_SOFTWARE"
+msgid "%s draws on the processor, not on a graphics card: far too slow to play"
+msgstr "%s प्रोसेसर पर ड्रॉ करता है, ग्राफ़िक्स कार्ड पर नहीं: खेलने के लिए बहुत धीमा"
+
+msgctxt "UI_LAUNCH_GPU_NO_DRIVER"
+msgid "No Vulkan driver was found."
+msgstr "कोई Vulkan ड्राइवर नहीं मिला।"
+
+msgctxt "UI_LAUNCH_GPU_HELP"
+msgid ""
+"The game needs Vulkan 1.3. On AMD and Intel that is Mesa 22.0 or newer, newer than Debian 11 and "
+"Ubuntu 20.04 ship; on NVIDIA, its driver 510 or newer. Some older graphics cards cannot have it "
+"at all. The setup can run now: the game starts once the driver is updated."
+msgstr ""
+"गेम को Vulkan 1.3 चाहिए। AMD और Intel पर इसका मतलब Mesa 22.0 या नया है, जो Debian 11 और Ubuntu "
+"20.04 के साथ आने वाले से नया है; NVIDIA पर उसका ड्राइवर 510 या नया। कुछ पुराने ग्राफ़िक्स कार्ड "
+"पर यह बिल्कुल नहीं मिल सकता। सेटअप अभी चल सकता है: ड्राइवर अपडेट होते ही गेम शुरू होगा।"
+
+msgctxt "UI_LAUNCH_GPU_HELP_WIN"
+msgid ""
+"The game needs Vulkan 1.3: install the latest driver from your graphics card's maker (AMD, Intel "
+"or NVIDIA; on NVIDIA, 510 or newer). Some older graphics cards cannot have it at all. The setup "
+"can run now: the game starts once the driver is updated."
+msgstr ""
+"गेम को Vulkan 1.3 चाहिए: अपने ग्राफ़िक्स कार्ड बनाने वाले (AMD, Intel या NVIDIA) का नवीनतम "
+"ड्राइवर इंस्टॉल करें; NVIDIA पर 510 या नया। कुछ पुराने ग्राफ़िक्स कार्ड पर यह बिल्कुल नहीं मिल "
+"सकता। सेटअप अभी चल सकता है: ड्राइवर अपडेट होते ही गेम शुरू होगा।"
+
+msgctxt "UI_BROWSE_USE"
+msgid "Use this folder"
+msgstr "यह फ़ोल्डर इस्तेमाल करें"
+
+msgctxt "UI_BROWSE_EMPTY"
+msgid "Nothing to choose in this folder"
+msgstr "इस फ़ोल्डर में चुनने को कुछ नहीं"
+
+msgctxt "UI_BROWSE_UNREADABLE"
+msgid "This folder cannot be read"
+msgstr "यह फ़ोल्डर पढ़ा नहीं जा सकता"

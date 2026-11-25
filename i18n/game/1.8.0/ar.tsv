@@ -1,0 +1,20 @@
+# Texts 1.8.0 reworded or retagged: used over ../ar.tsv for a 1.8.0 copy or later (tools/i18n/game_texts.py)
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	عرض الإعادة
+MsgMain/GrandprixCupName/Name_GP09	{0E 0000 0002 0002 005F}رالي ذهبي
+MsgMain/GrandprixCupName/Name_GP10	{0E 0000 0002 0002 005F}رالي الجليد
+MsgMain/GrandprixCupName/Name_GP11	{0E 0000 0002 0002 005F}رالي القمر
+MsgMain/GrandprixCupName/Name_GP12	{0E 0000 0002 0002 005F}رالي القواقع الشائكة
+MsgMain/GrandprixCupName/Name_GP13	{0E 0000 0002 0002 005F}رالي الكرز
+MsgMain/GrandprixCupName/Name_GP14	{0E 0000 0002 0002 005F}رالي البلوط
+MsgMain/GrandprixCupName/Name_GP15	{0E 0000 0002 0002 005F}رالي السحاب
+MsgMain/GrandprixCupName/Name_GP16	{0E 0000 0002 0002 005F}رالي القلب
+MsgMain/Help/FreeRun_06	وضع التصوير
+MsgMain/Menu/2263	عرض الإعادة
+MsgMain/Menu/2271	تم تنزيل بيانات الشبح!
+MsgMain/Menu/5202	إنشاء غرفة للتنافس؟
+MsgMain/Menu/5221	مغادرة هذه الغرفة؟
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}احتل{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}المركز 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} أو أفضل!
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}احتل{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}المركز 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!

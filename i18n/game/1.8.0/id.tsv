@@ -1,0 +1,12 @@
+# Texts 1.8.0 reworded or retagged: used over ../id.tsv for a 1.8.0 copy or later (tools/i18n/game_texts.py)
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	Lihat Replay
+MsgMain/Help/FreeRun_06	Mode Foto
+MsgMain/Menu/2263	Lihat Replay
+MsgMain/Menu/2271	Data ghost sudah diunduh!
+MsgMain/Menu/5202	Buat ruang untuk bertanding?
+MsgMain/Menu/5221	Tinggalkan ruang ini?
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}Capai{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}peringkat 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} atau lebih baik!
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}Capai {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}peringkat 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}Capai{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}peringkat 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}atau lebih baik!

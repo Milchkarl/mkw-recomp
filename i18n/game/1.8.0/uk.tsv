@@ -1,0 +1,20 @@
+# Texts 1.8.0 reworded or retagged: used over ../uk.tsv for a 1.8.0 copy or later (tools/i18n/game_texts.py)
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	Дивитися повтор
+MsgMain/GrandprixCupName/Name_GP09	{0E 0000 0002 0002 005F}Ралі «Золоте»
+MsgMain/GrandprixCupName/Name_GP10	{0E 0000 0002 0002 005F}Ралі «Крижане»
+MsgMain/GrandprixCupName/Name_GP11	{0E 0000 0002 0002 005F}Ралі «Місячне»
+MsgMain/GrandprixCupName/Name_GP12	{0E 0000 0002 0002 005F}Ралі «Колючник»
+MsgMain/GrandprixCupName/Name_GP13	{0E 0000 0002 0002 005F}Ралі «Вишня»
+MsgMain/GrandprixCupName/Name_GP14	{0E 0000 0002 0002 005F}Ралі «Жолудь»
+MsgMain/GrandprixCupName/Name_GP15	{0E 0000 0002 0002 005F}Ралі «Хмарне»
+MsgMain/GrandprixCupName/Name_GP16	{0E 0000 0002 0002 005F}Ралі «Серце»
+MsgMain/Help/FreeRun_06	Фоторежим
+MsgMain/Menu/2263	Дивитися повтор
+MsgMain/Menu/2271	Дані привида завантажено!
+MsgMain/Menu/5202	Створити групу\nдля змагань?
+MsgMain/Menu/5221	Точно вийти?
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-4{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-8{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-16{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!

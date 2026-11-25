@@ -1,0 +1,1547 @@
+# Ukrainian for the game's own texts (tools/i18n/game_texts.py): "label<TAB>text", over the game's British English
+# (EUen), with the game's Russian as the guide for names and lengths. Untranslated labels (staff names) stay in English.
+# Control tags ({0E ...}, {0F ...}) are kept as the dump gives them. The fonts' missing letters (ґ є і ї) are composed
+# at setup (game_fonts.py).
+LayoutMsg/ChatSelectBtn_00/T_Text_02	Стеж за лідером.
+LayoutMsg/ChatSelectBtn_00/T_Text_03	Стеж за лідером.
+LayoutMsg/Damage_00/T_Msg_00	ОЙ!
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_00/T_Btn_00	Гран-прі
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_01/T_Btn_00	Гра по LAN
+LayoutMsg/DialogUseCamera_00/T_MainText_00	Використати камеру?
+LayoutMsg/DialogUseCamera_00/T_SubText_00	Приєднайся до GameChat, щоб користуватися камерою\nонлайн. Відео з камери і звук з мікрофона\nнадсилатимуться лише іншим учасникам GameChat.
+LayoutMsg/Dialog_00/T_Group_00	Код групи
+LayoutMsg/FaceSelect_00/T_Text_00	Наведи рамки на обличчя.
+LayoutMsg/FaceSelect_00/T_Text_01	Будь ласка, перевір камеру.
+LayoutMsg/FriendList_00/T_Friend_00	Друг
+LayoutMsg/FriendList_00/T_Rec_00	Статистика боїв
+LayoutMsg/FriendList_00/T_You_00	Ти
+LayoutMsg/FriendList_00/FriendList_00:L_Go_00/T_Text_00	Приєднатися
+LayoutMsg/FriendList_00/T_Rec_01	Учасники
+LayoutMsg/Hit_00/T_Msg_00	ЄСТЬ!
+LayoutMsg/MenuGameSelect_01/T_Msg_00	Переможи у 4 заїздах!
+LayoutMsg/MenuGameSelect_01/T_Msg_01	Вирвися вперед і тримай позицію!
+LayoutMsg/MenuGameSelect_01/T_Msg_02	Встанови новий рекорд!
+LayoutMsg/MenuGameSelect_01/T_Msg_03	Змагайся за своїми правилами!
+LayoutMsg/MenuGameSelect_01/T_Msg_04	Бийся за своїми правилами!
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_00/T_Btn_00	Прийоми
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_01/T_Btn_00	Предмети
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_02/T_Btn_00	Види перегонів
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_03/T_Btn_00	Вільна їзда
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_00/T_Btn_00	Один гравець
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_01/T_Btn_00	Локальна гра
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_02/T_Btn_00	Гра онлайн
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_00/T_Text_00	Наодинці
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_01/T_Text_00	З привидом
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	Дивитися привида
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_03/T_Text_00	Рейтинги
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_04/T_Text_00	Завантажити дані на сервер
+LayoutMsg/OnlineMenu_00/L_Btn_00/T_Btn_00	Перегони
+LayoutMsg/OnlineMenu_00/L_Btn_01/T_Btn_00	Марафон на вибування
+LayoutMsg/OnlineMenu_00/L_Btn_02/T_Btn_00	Бій
+LayoutMsg/OnlineMenu_00/L_Btn_03/T_Btn_00	Друзі
+LayoutMsg/OnlineMenu_00/L_Btn_04/T_Btn_00	Заходи
+LayoutMsg/PhotoMode_00/T_Attention_00	Погляд на камеру
+LayoutMsg/PhotoMode_00/T_End_00	Завершити
+LayoutMsg/PhotoMode_00/T_Face_00	Вираз обличчя
+LayoutMsg/PhotoMode_00/T_Gide_00	Інтерфейс
+LayoutMsg/PhotoMode_00/T_Posechange_00	Поза
+LayoutMsg/PhotoMode_00/T_Roll_00	Нахил
+LayoutMsg/PhotoMode_00/T_Take_00	Зробити знімок
+LayoutMsg/PhotoMode_00/T_Zoom_00	Зум
+LayoutMsg/Retry_00/T_Retry_00	Ще раз
+LayoutMsg/RuleSelect_00/T_Change_00	Задати правила
+LayoutMsg/TitleLogo_00/T_Press_00	Натисни {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}
+LayoutMsg/Watching_00/T_Text_01	ПРЯМИЙ ЕФІР
+MsgMain/BattleCourse/1701	Траса Mario Bros.
+MsgMain/BattleCourse/1702	Піски Кусаки
+MsgMain/BattleCourse/1703	Стадіон Піч
+MsgMain/BattleCourse/1704	Діно-діно джунглі
+MsgMain/BattleCourse/1705	Великий Бублик
+MsgMain/BattleCourse/1706	Водні провулки
+MsgMain/BattleCourse/1707	Луки Му-Му
+MsgMain/BattleCourse/1708	Перевал ДК
+MsgMain/Course(adjust)/Adjust_Name_Race_AirshipFortress_A_00	Корабельна фортеця
+MsgMain/Course(adjust)/Adjust_Name_Race_BigTree_A_00	Дубові доріжки
+MsgMain/Course(adjust)/Adjust_Name_Race_Cave_A_00	Кульбабовий грот
+MsgMain/Course(adjust)/Adjust_Name_Race_Central_A_00	Стадіон Піч
+MsgMain/Course(adjust)/Adjust_Name_Race_ChocoMountain_A_00	Шоколадна гора
+MsgMain/Course(adjust)/Adjust_Name_Race_Cinema_A_00	Кінотеатр Бу
+MsgMain/Course(adjust)/Adjust_Name_Race_Coaster_A_00	Паровозний пік
+MsgMain/Course(adjust)/Adjust_Name_Race_DesertHills_A_00	Піщаний шлях
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoBones_A_00	Скелетний серпантин
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoDinoJungle_A_00	Діно-діно джунглі
+MsgMain/Course(adjust)/Adjust_Name_Race_DKJungleParkway_A_00	Водопійний водоспад
+MsgMain/Course(adjust)/Adjust_Name_Race_DKPass_A_00	Перевал ДК
+MsgMain/Course(adjust)/Adjust_Name_Race_DonkeyKong_A_00	Космопорт ДК
+MsgMain/Course(adjust)/Adjust_Name_Race_FirstCircuit_A_00	Траса Mario Bros.
+MsgMain/Course(adjust)/Adjust_Name_Race_IceBuildings_A_00	Пломбірний пробіг
+MsgMain/Course(adjust)/Adjust_Name_Race_KoopaTroopaBeach_A_00	Купа-трупа-пляж
+MsgMain/Course(adjust)/Adjust_Name_Race_LagoonCity_A_00	Водні провулки
+MsgMain/Course(adjust)/Adjust_Name_Race_Lava_A_00	Замок Боузера
+MsgMain/Course(adjust)/Adjust_Name_Race_MooMooFarm_A_00	Луки Му-Му
+MsgMain/Course(adjust)/Adjust_Name_Race_RaftingRiver_A_00	Каскади Чіп-чіпів
+MsgMain/Course(adjust)/Adjust_Name_Race_Rainbow_A_00	Траса Веселка
+MsgMain/Course(adjust)/Adjust_Name_Race_SFCMarioCircuit_G_00	Траса Маріо
+MsgMain/Course(adjust)/Adjust_Name_Race_ShyGuyBazaar_A_00	Маскарад Сором’язка
+MsgMain/Course(adjust)/Adjust_Name_Race_SnowMountain_A_00	Астротрек
+MsgMain/Course(adjust)/Adjust_Name_Race_StormClouds_A_00	Золоті руїни «?»
+MsgMain/Course(adjust)/Adjust_Name_Race_ToadFactory_A_00	Фабрика Тоада
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioShipyard_A_00	Галеон Варіо
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioStadium_A_00	Стадіон Варіо
+MsgMain/Course(adjust)/Adjust_Name_Race_WestCity_D_00	Кроун-Сіті
+MsgMain/Course(adjust)/Adjust_Name_Race_PeachBeach_D_00	Узбережжя Піч
+MsgMain/Course/Name_Race_AirshipFortress_A_00	Корабельна фортеця
+MsgMain/Course/Name_Race_BigTree_A_00	Дубові доріжки
+MsgMain/Course/Name_Race_Cave_A_00	Кульбабовий грот
+MsgMain/Course/Name_Race_Central_A_00	Стадіон Піч
+MsgMain/Course/Name_Race_ChocoMountain_A_00	Шоколадна гора
+MsgMain/Course/Name_Race_Cinema_A_00	Кінотеатр Бу
+MsgMain/Course/Name_Race_Coaster_A_00	Паровозний пік
+MsgMain/Course/Name_Race_DesertHills_A_00	Піщаний шлях
+MsgMain/Course/Name_Race_DinoBones_A_00	Скелетний серпантин
+MsgMain/Course/Name_Race_DinoDinoJungle_A_00	Діно-діно джунглі
+MsgMain/Course/Name_Race_DKJungleParkway_A_00	Водопійний водоспад
+MsgMain/Course/Name_Race_DKPass_A_00	Перевал ДК
+MsgMain/Course/Name_Race_DonkeyKong_A_00	Космопорт ДК
+MsgMain/Course/Name_Race_FirstCircuit_A_00	Траса Mario Bros.
+MsgMain/Course/Name_Race_IceBuildings_A_00	Пломбірний пробіг
+MsgMain/Course/Name_Race_KoopaTroopaBeach_A_00	Купа-трупа-пляж
+MsgMain/Course/Name_Race_LagoonCity_A_00	Водні провулки
+MsgMain/Course/Name_Race_Lava_A_00	Замок Боузера
+MsgMain/Course/Name_Race_MooMooFarm_A_00	Луки Му-Му
+MsgMain/Course/Name_Race_RaftingRiver_A_00	Каскади Чіп-чіпів
+MsgMain/Course/Name_Race_Rainbow_A_00	Траса Веселка
+MsgMain/Course/Name_Race_SFCMarioCircuit_G_00	Траса Маріо
+MsgMain/Course/Name_Race_ShyGuyBazaar_A_00	Маскарад Сором’язка
+MsgMain/Course/Name_Race_SnowMountain_A_00	Астротрек
+MsgMain/Course/Name_Race_StormClouds_A_00	Золоті руїни «?»
+MsgMain/Course/Name_Race_ToadFactory_A_00	Фабрика Тоада
+MsgMain/Course/Name_Race_WarioShipyard_A_00	Галеон Варіо
+MsgMain/Course/Name_Race_WarioStadium_A_00	Стадіон Варіо
+MsgMain/Course/Name_Race_WestCity_D_00	Кроун-Сіті
+MsgMain/Course/Name_Race_PeachBeach_D_00	Узбережжя Піч
+MsgMain/CourseArea(adjust)/Name_AirshipFortress_00	Корабельна фортеця
+MsgMain/CourseArea(adjust)/Name_BigTree_00	Дубові доріжки
+MsgMain/CourseArea(adjust)/Name_Cave_00	Кульбабовий грот
+MsgMain/CourseArea(adjust)/Name_Central_00	Стадіон Піч
+MsgMain/CourseArea(adjust)/Name_ChocoMountain_00	Шоколадна гора
+MsgMain/CourseArea(adjust)/Name_Cinema_00	Кінотеатр Бу
+MsgMain/CourseArea(adjust)/Name_Coaster	Паровозний пік
+MsgMain/CourseArea(adjust)/Name_DesertHills_00	Піщаний шлях
+MsgMain/CourseArea(adjust)/Name_DinoBones_00	Скелетний серпантин
+MsgMain/CourseArea(adjust)/Name_DinoDinoJungle_00	Діно-діно джунглі
+MsgMain/CourseArea(adjust)/Name_DKJungleParkway_00	Водопійний водоспад
+MsgMain/CourseArea(adjust)/Name_DKPass_00	Перевал ДК
+MsgMain/CourseArea(adjust)/Name_DonkeyKong	Космопорт ДК
+MsgMain/CourseArea(adjust)/Name_FirstCircuit	Траса Mario Bros.
+MsgMain/CourseArea(adjust)/Name_IceBuildings_00	Пломбірний пробіг
+MsgMain/CourseArea(adjust)/Name_KoopaTroopaBeach_00	Купа-трупа-пляж
+MsgMain/CourseArea(adjust)/Name_LagoonCity_00	Водні провулки
+MsgMain/CourseArea(adjust)/Name_Lava_00	Замок Боузера
+MsgMain/CourseArea(adjust)/Name_MooMooFarm_00	Луки Му-Му
+MsgMain/CourseArea(adjust)/Name_PeachBeach_00	Узбережжя Піч
+MsgMain/CourseArea(adjust)/Name_RaftingRiver_00	Каскади Чіп-чіпів
+MsgMain/CourseArea(adjust)/Name_Rainbow_00	Траса Веселка
+MsgMain/CourseArea(adjust)/Name_SFCMarioCircuit_00	Траса Маріо
+MsgMain/CourseArea(adjust)/Name_ShyGuyBazaar_00	Маскарад Сором’язка
+MsgMain/CourseArea(adjust)/Name_SnowMountain_00	Астротрек
+MsgMain/CourseArea(adjust)/Name_StormClouds_00	Золоті руїни «?»
+MsgMain/CourseArea(adjust)/Name_ToadFactory_00	Фабрика Тоада
+MsgMain/CourseArea(adjust)/Name_WarioShipyard_00	Галеон Варіо
+MsgMain/CourseArea(adjust)/Name_WarioStadium	Стадіон Варіо
+MsgMain/CourseArea(adjust)/Name_WestCity	Кроун-Сіті
+MsgMain/CourseArea/Name_AirshipFortress_00	Корабельна фортеця
+MsgMain/CourseArea/Name_BigTree_00	Дубові доріжки
+MsgMain/CourseArea/Name_Cave_00	Кульбабовий грот
+MsgMain/CourseArea/Name_Central_00	Стадіон Піч
+MsgMain/CourseArea/Name_ChocoMountain_00	Шоколадна гора
+MsgMain/CourseArea/Name_Cinema_00	Кінотеатр Бу
+MsgMain/CourseArea/Name_Coaster	Паровозний пік
+MsgMain/CourseArea/Name_DesertHills_00	Піщаний шлях
+MsgMain/CourseArea/Name_DinoBones_00	Скелетний серпантин
+MsgMain/CourseArea/Name_DinoDinoJungle_00	Діно-діно джунглі
+MsgMain/CourseArea/Name_DKJungleParkway_00	Водопійний водоспад
+MsgMain/CourseArea/Name_DKPass_00	Перевал ДК
+MsgMain/CourseArea/Name_DonkeyKong	Космопорт ДК
+MsgMain/CourseArea/Name_FirstCircuit	Траса Mario Bros.
+MsgMain/CourseArea/Name_IceBuildings_00	Пломбірний пробіг
+MsgMain/CourseArea/Name_KoopaTroopaBeach_00	Купа-трупа-пляж
+MsgMain/CourseArea/Name_LagoonCity_00	Водні провулки
+MsgMain/CourseArea/Name_Lava_00	Замок Боузера
+MsgMain/CourseArea/Name_MooMooFarm_00	Луки Му-Му
+MsgMain/CourseArea/Name_PeachBeach_00	Узбережжя Піч
+MsgMain/CourseArea/Name_RaftingRiver_00	Каскади Чіп-чіпів
+MsgMain/CourseArea/Name_Rainbow_00	Траса Веселка
+MsgMain/CourseArea/Name_SFCMarioCircuit_00	Траса Маріо
+MsgMain/CourseArea/Name_ShyGuyBazaar_00	Маскарад Сором’язка
+MsgMain/CourseArea/Name_SnowMountain_00	Астротрек
+MsgMain/CourseArea/Name_StormClouds_00	Золоті руїни «?»
+MsgMain/CourseArea/Name_ToadFactory_00	Фабрика Тоада
+MsgMain/CourseArea/Name_WarioShipyard_00	Галеон Варіо
+MsgMain/CourseArea/Name_WarioStadium	Стадіон Варіо
+MsgMain/CourseArea/Name_WestCity	Кроун-Сіті
+MsgMain/Driver/Driver_MarioRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_MarioSheriff_00	Ковбой
+MsgMain/Driver/Driver_MarioDesert_00	Пустельний гонщик
+MsgMain/Driver/Driver_MarioOmatsuri_00	Мацурі
+MsgMain/Driver/Driver_MarioCasual_00	Автомарафонець
+MsgMain/Driver/Driver_MarioPilot_00	Льотчик
+MsgMain/Driver/Driver_MarioVacance_00	Мандрівник
+MsgMain/Driver/Driver_MarioOffroad_00	Крос-гонщик
+MsgMain/Driver/Driver_MarioMechanic_00	Автомеханік
+MsgMain/Driver/Driver_LuigiRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_LuigiLagoonCity_00	Гондольєр
+MsgMain/Driver/Driver_LuigiDesert_00	Мешканець оазису
+MsgMain/Driver/Driver_LuigiOmatsuri_00	Мацурі
+MsgMain/Driver/Driver_LuigiFarmer_00	Фермер
+MsgMain/Driver/Driver_LuigiCasual_00	Автомарафонець
+MsgMain/Driver/Driver_LuigiMechanic_00	Автомеханік
+MsgMain/Driver/Driver_LuigiOffroad_00	Крос-гонщик
+MsgMain/Driver/Driver_PeachCasual_00	Автомарафонка
+MsgMain/Driver/Driver_PeachLagoonCity_00	Мандрівниця
+MsgMain/Driver/Driver_PeachFarmer_00	Фермер
+MsgMain/Driver/Driver_PeachRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_PeachPilot_00	Льотчиця
+MsgMain/Driver/Driver_PeachResort_00	Курортниця
+MsgMain/Driver/Driver_PeachOffroad_00	Аеронавт
+MsgMain/Driver/Driver_PeachYukata_00	Мацурі
+MsgMain/Driver/Driver_DaisySwim_00	Купальник
+MsgMain/Driver/Driver_DaisyLagoonCity_00	Курортниця
+MsgMain/Driver/Driver_DaisyDesert_00	Мешканець оазису
+MsgMain/Driver/Driver_DaisyRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_DaisyCasual_00	Автомарафонка
+MsgMain/Driver/Driver_DaisyOffroad_00	Аеронавт
+MsgMain/Driver/Driver_YoshiDelivery_00	Розвізник їжі
+MsgMain/Driver/Driver_YoshiIce_00	Морозивник
+MsgMain/Driver/Driver_YoshiRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_YoshiSwim_00	Купальник
+MsgMain/Driver/Driver_YoshiStadium_00	Байкер
+MsgMain/Driver/Driver_YoshiCasual_00	Автомарафонець
+MsgMain/Driver/Driver_YoshiHachimaki_00	Мацурі
+MsgMain/Driver/Driver_YoshiMovie_00	Аристократ
+MsgMain/Driver/Driver_KinopioEngineer_00	Машиніст
+MsgMain/Driver/Driver_KinopioDiner_00	Продавець бургерів
+MsgMain/Driver/Driver_KinopioRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_KinopioExplore_00	Першопроходець
+MsgMain/Driver/Driver_KoopaRiders_00	Байкер
+MsgMain/Driver/Driver_KoopaRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_KoopaOffroad_00	Крос-гонщик
+MsgMain/Driver/Driver_KoopaHotrod_00	З турбонаддувом
+MsgMain/Driver/Driver_DKOffroad_00	Крос-гонщик
+MsgMain/Driver/Driver_WarioDesert_00	Мешканець оазису
+MsgMain/Driver/Driver_WarioDiner_00	Байкер
+MsgMain/Driver/Driver_WarioFactory_00	Робітник
+MsgMain/Driver/Driver_WarioRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_WarioFairy_00	Шалений джміль
+MsgMain/Driver/Driver_WarioPirate_00	Пірат
+MsgMain/Driver/Driver_WarioStadium_00	Дорожній бандит
+MsgMain/Driver/Driver_WaluigiRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_WaluigiHorror_00	Вампір
+MsgMain/Driver/Driver_WaluigiDiner_00	Байкер
+MsgMain/Driver/Driver_WaluigiStadium_00	Дорожній бандит
+MsgMain/Driver/Driver_WaluigiMariachi_00	Маріачі
+MsgMain/Driver/Driver_RosettaRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_RosettaCasual_00	Автомарафонка
+MsgMain/Driver/Driver_RosettaAurora_00	Сяюча
+MsgMain/Driver/Driver_RosettaOffroad_00	Аеронавт
+MsgMain/Driver/Driver_PaulineOffroad_00	Аеронавт
+MsgMain/Driver/Driver_BabyMarioSwim_00	Купальник
+MsgMain/Driver/Driver_BabyMarioFactory_00	Робітник
+MsgMain/Driver/Driver_BabyMarioRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_BabyLuigiFactory_00	Робітник
+MsgMain/Driver/Driver_BabyLuigiRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_BabyPeachMarine_00	Морячка
+MsgMain/Driver/Driver_BabyPeachExplore_00	Першопроходиця
+MsgMain/Driver/Driver_BabyPeachCasual_00	Автомарафонка
+MsgMain/Driver/Driver_BabyPeachRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_BabyDaisyMarine_00	Морячка
+MsgMain/Driver/Driver_BabyDaisyExplore_00	Першопроходиця
+MsgMain/Driver/Driver_BabyDaisyRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_BabyDaisyCasual_00	Автомарафонка
+MsgMain/Driver/Driver_BabyRosettaMarine_00	Морячка
+MsgMain/Driver/Driver_BabyRosettaExplore_00	Першопроходиця
+MsgMain/Driver/Driver_BabyRosettaCasual_00	Автомарафонка
+MsgMain/Driver/Driver_BabyRosettaRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_KinopicoConductor_00	Провідниця
+MsgMain/Driver/Driver_KinopicoIce_00	Морозивниця
+MsgMain/Driver/Driver_KinopicoRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_KinopicoExplore_00	Першопроходиця
+MsgMain/Driver/Driver_KoopaJrRiders_00	Байкер-молодший
+MsgMain/Driver/Driver_KoopaJrScout_00	Першопроходець
+MsgMain/Driver/Driver_KoopaJrRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_CatherineLagoonCity_00	Курортниця
+MsgMain/Driver/Driver_CatherineRacing_00	Профі-гонщиця
+MsgMain/Driver/Driver_NokonokoRunner_00	Бігун
+MsgMain/Driver/Driver_NokonokoRacing_00	Профі-гонщик
+MsgMain/Driver/Driver_NokonokoFlagman_00	Робітник
+MsgMain/Driver/Driver_NokonokoSailor_00	Моряк
+MsgMain/Driver/Driver_NokonokoOffroad_00	Крос-гонщик
+MsgMain/Driver/Driver_HeyhoSnow_00	Сноубордист
+MsgMain/Driver/Driver_HeyhoRacing_00	Автомеханік
+MsgMain/Driver/Driver_JugemAngler_00	Рибалка
+MsgMain/Driver/Driver_JugemRacing_00	Автомеханік
+MsgMain/Driver/Driver_KingTeresaMovie_00	Аристократ
+MsgMain/Driver/Driver_KingTeresaPirate_00	Пірат
+MsgMain/Driver/Driver_KingTeresaRacing_00	Профі-гонщик
+MsgMain/DriverCategoryName/Driver_BabyDaisy	Малючка Дейзі
+MsgMain/DriverCategoryName/Driver_BabyLuigi	Малюк Луїджі
+MsgMain/DriverCategoryName/Driver_BabyMario	Малюк Маріо
+MsgMain/DriverCategoryName/Driver_BabyPeach	Малючка Піч
+MsgMain/DriverCategoryName/Driver_BabyRosetta	Малючка Розаліна
+MsgMain/DriverCategoryName/Driver_Catherine	Бірдо
+MsgMain/DriverCategoryName/Driver_DK	Донкі Конг
+MsgMain/DriverCategoryName/Driver_Daisy	Дейзі
+MsgMain/DriverCategoryName/Driver_Heyho	Сором’язко
+MsgMain/DriverCategoryName/Driver_Jugem	Лакіту
+MsgMain/DriverCategoryName/Driver_KingTeresa	Бу-король
+MsgMain/DriverCategoryName/Driver_Kinopico	Тоадетта
+MsgMain/DriverCategoryName/Driver_Kinopio	Тоад
+MsgMain/DriverCategoryName/Driver_Koopa	Боузер
+MsgMain/DriverCategoryName/Driver_KoopaJr	Боузер-молодший
+MsgMain/DriverCategoryName/Driver_Luigi	Луїджі
+MsgMain/DriverCategoryName/Driver_Mario	Маріо
+MsgMain/DriverCategoryName/Driver_Nokonoko	Купа-трупа
+MsgMain/DriverCategoryName/Driver_Pauline	Поліна
+MsgMain/DriverCategoryName/Driver_Peach	Піч
+MsgMain/DriverCategoryName/Driver_Rosetta	Розаліна
+MsgMain/DriverCategoryName/Driver_Waluigi	Валуїджі
+MsgMain/DriverCategoryName/Driver_Wario	Варіо
+MsgMain/DriverCategoryName/Driver_Yoshi	Йоші
+MsgMain/DriverCategoryName/Driver_Basabasa	Пікірувальник
+MsgMain/DriverCategoryName/Driver_Bull	Нападник Чак
+MsgMain/DriverCategoryName/Driver_Choropoo	Кріт Монті
+MsgMain/DriverCategoryName/Driver_Cow	Корова
+MsgMain/DriverCategoryName/Driver_Crab	Бокохід
+MsgMain/DriverCategoryName/Driver_Gabon	Спайк
+MsgMain/DriverCategoryName/Driver_Hacchin	Дзижчало
+MsgMain/DriverCategoryName/Driver_HammerBros	Братик-молоток
+MsgMain/DriverCategoryName/Driver_Lifton	Дельфін
+MsgMain/DriverCategoryName/Driver_PackunFlower	Рослина-піранья
+MsgMain/DriverCategoryName/Driver_Penguin	Пінгвін
+MsgMain/DriverCategoryName/Driver_Pukupuku	Чіп-чіп
+MsgMain/DriverCategoryName/Driver_Sambo	Покі
+MsgMain/DriverCategoryName/Driver_Kuribo	Гумба
+MsgMain/DriverCategoryName/Driver_FishBone	Риба-скелет
+MsgMain/DriverCategoryName/Driver_Gamane	Гаманець
+MsgMain/DriverCategoryName/Driver_Karon	Купа-скелет
+MsgMain/DriverCategoryName/Driver_Poihana	Катаквак
+MsgMain/DriverCategoryName/Driver_Snowman	Сніговик
+MsgMain/DriverCategoryName/Driver_Teren	Витрішкуватий привид
+MsgMain/DriverCategoryName/Driver_Monte	Піанта
+MsgMain/DriverCategoryName/Driver_Tuccondor	Кондор
+MsgMain/DriverCategoryName/Driver_Patatenten	Літаюча цяточка
+MsgMain/DriverCategoryName/Driver_Totten	Кралик
+MsgMain/DriverCategoryName/Driver_Hanachan	Звиваха
+MsgMain/DriverCategoryName/Driver_Poo	Роккі-ключ
+MsgMain/GrandprixCupName/Name_Banana	Кубок банана
+MsgMain/GrandprixCupName/Name_Flower	Кубок квітки
+MsgMain/GrandprixCupName/Name_Kinoko	Кубок гриба
+MsgMain/GrandprixCupName/Name_Konoha	Кубок листка
+MsgMain/GrandprixCupName/Name_Koura	Кубок панцира
+MsgMain/GrandprixCupName/Name_Star	Кубок зірки
+MsgMain/GrandprixCupName/Name_Thunder	Кубок блискавки
+MsgMain/GrandprixCupName/Name_Special	Особливий кубок
+MsgMain/GrandprixCupName/Name_GP09	Золоте ралі
+MsgMain/GrandprixCupName/Name_GP10	Крижане ралі
+MsgMain/GrandprixCupName/Name_GP11	Місячне ралі
+MsgMain/GrandprixCupName/Name_GP12	Ралі «Колючка»
+MsgMain/GrandprixCupName/Name_GP13	Вишневе ралі
+MsgMain/GrandprixCupName/Name_GP14	Жолудеве ралі
+MsgMain/GrandprixCupName/Name_GP15	Хмарне ралі
+MsgMain/GrandprixCupName/Name_GP16	Ралі «Серце»
+MsgMain/Help/HelpButton_01	Посібник
+MsgMain/Help/HelpMenu_01	Прийоми
+MsgMain/Help/HelpMenu_02	Предмети
+MsgMain/Help/HelpMenu_03	Види перегонів
+MsgMain/Help/HelpMenu_04	Вільна їзда
+MsgMain/Help/Technique_01	Швидкий старт
+MsgMain/Help/Technique_02	Кероване занесення
+MsgMain/Help/Technique_03	Міні-прискорення
+MsgMain/Help/Technique_04	Прискорення в стрибку
+MsgMain/Help/Technique_05	Поворот навколо осі
+MsgMain/Help/Technique_06	Стрибок із зарядом
+MsgMain/Help/Technique_07	Слайд
+MsgMain/Help/Technique_08	Їзда по стіні
+MsgMain/Help/Technique_09	Зворотна перемотка
+MsgMain/Help/Technique_101	Швидкий старт
+MsgMain/Help/Technique_102	Кероване занесення
+MsgMain/Help/Technique_103	Міні-прискорення
+MsgMain/Help/Technique_104	Прискорення в стрибку
+MsgMain/Help/Technique_105	Поворот навколо осі
+MsgMain/Help/Technique_106	Стрибок із зарядом
+MsgMain/Help/Technique_107	Слайд
+MsgMain/Help/Technique_108	Їзда по стіні
+MsgMain/Help/Technique_109	Зворотна перемотка
+MsgMain/Help/Technique_201	Під час стартового відліку натисни\nй утримуй {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}), коли з’явиться\nцифра 2, і отримаєш прискорення на старті.
+MsgMain/Help/Technique_202	Утримуючи {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, нахили {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} у бік\nповороту, куди хочеш повернути, і\nпройди поворот без втрати швидкості.
+MsgMain/Help/Technique_203	Під час заносу відпусти {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF},\nпобачивши іскри, щоб отримати прискорення.\nЩоразу, коли іскри міняють колір,\nприскорення стає потужнішим!\nПри вимкненому смарт-керуванні іскри\nможуть міняти колір до трьох разів.
+MsgMain/Help/Technique_204	Виконуй трюки (і отримуй невелике прискорення),\nнатискаючи {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} одразу після відриву від рампи!
+MsgMain/Help/Technique_205	Стоячи на місці, натисни й утримуй\nодночасно {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) і {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}), нахиляючи {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}\nправоруч або ліворуч, щоб розвернутися.
+MsgMain/Help/Technique_206	Утримуй {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}), потім натисни {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, продовжуючи\nїхати прямо, і під колесами з’являться іскри.\nНахили {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} в якомусь напрямку, а потім відпусти {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}\n— і виконаєш невеликий стрибок у цьому напрямку.
+MsgMain/Help/Technique_207	Вузькими поверхнями на кшталт поручнів\nі проводів можна їхати. На них можна навіть\nзастрибнути стрибком із зарядом.
+MsgMain/Help/Technique_208	Із прискоренням у стрибку або стрибком із зарядом\nперед стіною можна деякий час їхати по цій стіні.
+MsgMain/Help/Technique_209	Утримуючи {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, можна повернути\nсвій транспорт назад.
+MsgMain/Help/Item_01	Банан
+MsgMain/Help/Item_02	Трійка бананів
+MsgMain/Help/Item_03	Гриб прискорення
+MsgMain/Help/Item_04	Трійка грибів прискорення
+MsgMain/Help/Item_05	Золотий гриб прискорення
+MsgMain/Help/Item_06	Мегагриб
+MsgMain/Help/Item_07	Зелений панцир
+MsgMain/Help/Item_08	Трійка зелених панцирів
+MsgMain/Help/Item_09	Червоний панцир
+MsgMain/Help/Item_10	Трійка червоних панцирів
+MsgMain/Help/Item_11	Панцир Колючника
+MsgMain/Help/Item_12	Монетний панцир
+MsgMain/Help/Item_13	Вогняна квітка
+MsgMain/Help/Item_14	Крижана квітка
+MsgMain/Help/Item_15	Квітка-бумеранг
+MsgMain/Help/Item_16	Білл-куля
+MsgMain/Help/Item_17	Боб-омб
+MsgMain/Help/Item_18	Молот
+MsgMain/Help/Item_19	Супергудок
+MsgMain/Help/Item_20	Блок «?»
+MsgMain/Help/Item_21	Монетка
+MsgMain/Help/Item_22	Бу
+MsgMain/Help/Item_23	Блупер
+MsgMain/Help/Item_24	Камек
+MsgMain/Help/Item_25	Перо
+MsgMain/Help/Item_26	Суперзірка
+MsgMain/Help/Item_27	Блискавка
+MsgMain/Help/Item_28	Турбоїжа
+MsgMain/Help/Item_101	Хто на нього наїде,\nвтратить керування.
+MsgMain/Help/Item_102	Три банани, які обертаються\nнавколо тебе. Натискай {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}, щоб\nкидати їх один за одним.
+MsgMain/Help/Item_103	Смачний гриб, який дає\nтимчасове прискорення.
+MsgMain/Help/Item_104	Три смачні гриби прискорення, які\nобертаються навколо тебе. Натискай {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000},\nщоб використовувати їх один за одним.
+MsgMain/Help/Item_105	Протягом короткого\nчасу дає використовувати\nгриб прискорення\nщоразу, коли ти\nнатискаєш {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.
+MsgMain/Help/Item_106	Цей великий гриб збільшує тебе\nі твій транспорт, додає швидкості\nй дає змогу сплющувати\nсуперників.
+MsgMain/Help/Item_107	Летить по прямій і збиває\nперший транспорт\nна своєму шляху.
+MsgMain/Help/Item_108	Три панцирі, які обертаються\nнавколо тебе. Натискай {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}, щоб\nкидати їх один за одним.
+MsgMain/Help/Item_109	Наводиться на суперника перед собою\nі переслідує його, але зіб’є й того,\nхто перший трапиться на шляху.
+MsgMain/Help/Item_110	Три панцирі, які обертаються\nнавколо тебе. Натискай {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}, щоб\nкидати їх один за одним.
+MsgMain/Help/Item_111	Невпинно переслідує лідера,\nпо дорозі збиваючи будь-який інший\nтранспорт. Поки не наздожене\nлідера, не зупиниться!
+MsgMain/Help/Item_112	Цей блискучий панцир мчить\nтрасою, збиваючи суперників\nі залишаючи монетки.
+MsgMain/Help/Item_113	Дає змогу протягом короткого часу\nметати вогняні кулі за допомогою {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nСуперник, у якого влучиш,\nвтратить керування.
+MsgMain/Help/Item_114	Дає змогу протягом короткого часу\nметати крижані кулі за допомогою {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nСуперник, у якого влучиш,\nвтратить керування.
+MsgMain/Help/Item_115	Квітка-бумеранг, яку можна метнути до\nчотирьох разів: {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Суперник, у якого\nвін влучить, втратить керування.
+MsgMain/Help/Item_116	Тимчасово перетворює тебе\nна великого білла-кулю,\nякий на автопілоті мчить\nдо фінішу і збиває весь\nтранспорт на шляху.
+MsgMain/Help/Item_117	Вибухає невдовзі після кидка\nабо при зіткненні з гонщиком.\nВибух може зачепити й інших\nпоблизу!
+MsgMain/Help/Item_118	Комплект метальних молотів, які можна\nжбурляти, багаторазово натискаючи {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nКожен, у кого влучить молот, перевернеться.
+MsgMain/Help/Item_119	Розкидає все навколо потужною\nзвуковою хвилею.
+MsgMain/Help/Item_120	Блок «?», який дає монетки\nза кожне натискання {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Крім того,\nтрохи додає швидкості.
+MsgMain/Help/Item_121	Додає дві монетки. Чим\nбільше у тебе монеток,\nтим швидше ти їдеш.
+MsgMain/Help/Item_122	Тимчасово робить твій транспорт\nпрозорим і дає проїжджати крізь\nнебезпечні об’єкти, як-от банани\nй панцирі. Можливо, тобі навіть\nвдасться вкрасти предмет у суперника!
+MsgMain/Help/Item_123	Обприскує чорним чорнилом\nтранспорт суперників, на короткий\nчас затемнюючи водіям огляд.
+MsgMain/Help/Item_124	Викликає Камека, який негайно\nначаклує всіляких дивацтв.
+MsgMain/Help/Item_125	Підкидає тебе, дозволяючи\nуникнути бананів чи\nпанцирів. У боях з його\nдопомогою можна вкрасти\nкулі чи монетки, перестрибуючи\nчерез гонщиків.
+MsgMain/Help/Item_126	Тимчасово дає тобі\nнеушкоджуваність, а також\nприскорює тебе. Транспорт, який ти\nзачепиш, буде збито.
+MsgMain/Help/Item_127	Б’є всіх суперників\nблискавкою, позбавляючи\nпредметів. Потім тимчасово\nзменшує суперників,\nзнижуючи їхню швидкість.
+MsgMain/Help/Item_128	Смачна їжа, яка додає тобі\nшвидкості, а також може змінити\nкостюм твого персонажа.
+MsgMain/Help/Rule_01	Гран-прі
+MsgMain/Help/Rule_02	Марафон на вибування
+MsgMain/Help/Rule_03	На час
+MsgMain/Help/Rule_04	Перегони
+MsgMain/Help/Rule_05	Битва куль
+MsgMain/Help/Rule_06	Час — гроші
+MsgMain/Help/Rule_07	Боб-омб-битва
+MsgMain/Help/Rule_101	Гран-прі
+MsgMain/Help/Rule_102	Марафон на вибування
+MsgMain/Help/Rule_103	На час
+MsgMain/Help/Rule_104	Перегони
+MsgMain/Help/Rule_105	Битва куль
+MsgMain/Help/Rule_106	Час — гроші
+MsgMain/Help/Rule_107	Боб-омб-битва
+MsgMain/Help/Rule_201	Змагайся за першість у чотирьох заїздах!
+MsgMain/Help/Rule_202	Протримайся в гонці на вибування по всьому світу!
+MsgMain/Help/Rule_203	Встанови рекорд в одиночній гонці на час!
+MsgMain/Help/Rule_204	Змагайся за своїми правилами!
+MsgMain/Help/Rule_205	Підривай повітряні кулі предметами!
+MsgMain/Help/Rule_206	Збери найбільше монеток і переможи!
+MsgMain/Help/Rule_207	Підривай повітряні кулі суперників!
+MsgMain/Help/Rule_301	У кожному заїзді ти отримуєш очки\nзалежно від зайнятого місця.\nМісце в гран-прі залежить від суми очок,\nнабраних у чотирьох заїздах.
+MsgMain/Help/Rule_302	Послідовність заїздів, що переходять один в інший. У кожному сегменті\nучасники мають увійти до певного топу, щоб продовжити гонку.
+MsgMain/Help/Rule_303	Обери будь-яку доступну трасу. Секрет\nрекорду — у грамотному використанні грибів\nприскорення!
+MsgMain/Help/Rule_304	Режим гри, де можна встановлювати\nрізні правила, наприклад кількість\nзаїздів, поділ на команди тощо.
+MsgMain/Help/Rule_305	Заробляй очки, підриваючи повітряні кулі\nсуперників. Якщо врізатися в суперника з грибом\nприскорення, можна навіть вкрасти в нього кулю.
+MsgMain/Help/Rule_306	Влучай по суперниках предметами, щоб вибивати\nмонетки. Або врізайся в них із грибом\nприскорення, щоб одразу вкрасти монетки.
+MsgMain/Help/Rule_307	Битва виключно з боб-омбами, причому в\nзапасі їх можна тримати до 10 штук.
+MsgMain/Help/Rule_401	У гран-прі сім різних\nкубків. Цікаво, що буде,\nколи ти пройдеш їх усі?
+MsgMain/Help/Rule_402	У марафоні п’ять контрольних пунктів,\nі на кожному вибувають слабші учасники.\nТримайся попереду й намагайся посісти\n1-ше місце в фінальному сегменті!
+MsgMain/Help/Rule_403	Змагайся з даними привидів інших\nгравців. Можливо, ти навіть підгледиш\nу них кілька хитрощів!
+MsgMain/Help/Rule_404	Якщо в налаштуваннях трас обрати З’єднані, заїзди\nв перегонах будуть пов’язані на карті світу!
+MsgMain/Help/Rule_405	Якщо луснуть усі твої кулі, ти програєш...
+MsgMain/Help/Rule_406	На мінікарті часто буде видно, де шукати\nмонетки. Не забувай поглядати на неї!
+MsgMain/Help/Rule_407	Дальність польоту боб-омба залежить від того,\nяк довго ти утримуєш {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.
+MsgMain/Help/FreeRun_01	Перемикачі «P»
+MsgMain/Help/FreeRun_02	Панелі «?»
+MsgMain/Help/FreeRun_03	Медальйони Піч
+MsgMain/Help/FreeRun_04	Монетки
+MsgMain/Help/FreeRun_05	Закусочні Йоші
+MsgMain/Help/FreeRun_06	Фото
+MsgMain/Help/FreeRun_101	Наїжджай на перемикач «P», щоб почати\nзавдання. Не засмучуйся, якщо одразу не\nвийде — рано чи пізно ти впораєшся!
+MsgMain/Help/FreeRun_102	Панелі «?» ховаються в несподіваних місцях.\nСкільки ти зможеш знайти?
+MsgMain/Help/FreeRun_103	Світом розкидано блискучі медальйони Піч.\nЦікаво, скільки їх?
+MsgMain/Help/FreeRun_104	За монетки можна розблокувати нові види\nтранспорту. Кажуть, світом розкидано гори\nмонеток, які чекають, щоб їх зібрали...
+MsgMain/Help/FreeRun_105	Тобі траплятимуться закусочні, де\nподають найрізноманітнішу турбоїжу.\nПоївши її, багато гонщиків змінюватимуть\nсвій вигляд!
+MsgMain/Help/FreeRun_106	Роби фото, натискаючи {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nЗавжди приємно зберегти ідеальну\nмить на згадку! Усміхнись!
+MsgMain/MachineType/Vehicle_Amb	Валучоппер
+MsgMain/MachineType/Vehicle_Bds	Турбо B
+MsgMain/MachineType/Vehicle_Blk	Мехашина
+MsgMain/MachineType/Vehicle_Bsn	Бикарт
+MsgMain/MachineType/Vehicle_Bul	Чак-трак
+MsgMain/MachineType/Vehicle_Crp	Карпоцикл
+MsgMain/MachineType/Vehicle_Dkn	Трубайк
+MsgMain/MachineType/Vehicle_Dmp	Самоскидка
+MsgMain/MachineType/Vehicle_Esp	Астрохід
+MsgMain/MachineType/Vehicle_H2o	Хмарокар
+MsgMain/MachineType/Vehicle_Hrl	Мегамобіль
+MsgMain/MachineType/Vehicle_Kgs	Блупмобіль
+MsgMain/MachineType/Vehicle_Lob	Мотолобстер
+MsgMain/MachineType/Vehicle_Mhb	Надбайк
+MsgMain/MachineType/Vehicle_Mov	Кіномобіль
+MsgMain/MachineType/Vehicle_Mqn	Жалокар
+MsgMain/MachineType/Vehicle_Ocn	Квакабріолет
+MsgMain/MachineType/Vehicle_Ptn	Цяткокарт
+MsgMain/MachineType/Vehicle_Rbn	Бантобагі
+MsgMain/MachineType/Vehicle_Rcb	Магнітолер
+MsgMain/MachineType/Vehicle_Rcc	Форс-карт
+MsgMain/MachineType/Vehicle_Rlb	Раліцикл
+MsgMain/MachineType/Vehicle_Rlk	Ралікарт
+MsgMain/MachineType/Vehicle_Sct	Мімі-ролер
+MsgMain/MachineType/Vehicle_Skl	Труботурбо
+MsgMain/MachineType/Vehicle_Snd	Вжух-багі
+MsgMain/MachineType/Vehicle_Snm	Грізнохід
+MsgMain/MachineType/Vehicle_Stb	Мото-стандарт
+MsgMain/MachineType/Vehicle_Stk	Карт-стандарт
+MsgMain/MachineType/Vehicle_Stm	Паро-чоппер
+MsgMain/MachineType/Vehicle_Tbt	Всюдицикл
+MsgMain/MachineType/Vehicle_Dlp	Дельфінатор
+MsgMain/MachineType/Vehicle_Rkt	Бластронавт III
+MsgMain/MachineType/Vehicle_Pfm	Арістокарт
+MsgMain/MachineType/Vehicle_Cpt	Килимохід
+MsgMain/MachineType/Vehicle_Wtm	Гідроролер
+MsgMain/MachineType/Vehicle_Alt	Раліґатор
+MsgMain/MachineType/Vehicle_Kpv	Боузвір
+MsgMain/MachineType/Vehicle_Bil	Біллдозер
+MsgMain/Menu/2003	Так
+MsgMain/Menu/2004	Ні
+MsgMain/Menu/2051	Натисни {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}
+MsgMain/Menu/2053	Сортування
+MsgMain/Menu/2054	Інформація
+MsgMain/Menu/2055	Швидкість
+MsgMain/Menu/2056	Прискорення
+MsgMain/Menu/2057	Маса
+MsgMain/Menu/2058	Керованість
+MsgMain/Menu/2059	Перемішати
+MsgMain/Menu/2101	Один гравець
+MsgMain/Menu/2102	Локальна гра
+MsgMain/Menu/2103	Гра онлайн
+MsgMain/Menu/2104	Бездротова гра
+MsgMain/Menu/2105	Наліпки
+MsgMain/Menu/2106	Гра по LAN
+MsgMain/Menu/2110	Карта
+MsgMain/Menu/2111	Вільна їзда
+MsgMain/Menu/2201	Гран-прі
+MsgMain/Menu/2202	Марафон на вибування
+MsgMain/Menu/2203	На час
+MsgMain/Menu/2204	Перегони
+MsgMain/Menu/2205	Бій
+MsgMain/Menu/2211	Переможи у 4 заїздах!
+MsgMain/Menu/2212	Вирвися вперед і тримай позицію!
+MsgMain/Menu/2213	Встанови новий рекорд!
+MsgMain/Menu/2214	Змагайся за своїми правилами!
+MsgMain/Menu/2215	Бийся за своїми правилами!
+MsgMain/Menu/2216	До 24 гонщиків разом!
+MsgMain/Menu/2217	Переможи в гонці з 24 гравцями!
+MsgMain/Menu/2219	До 24 учасників разом!
+MsgMain/Menu/2231	Змагайся з друзями!
+MsgMain/Menu/2221	Почати гран-прі?
+MsgMain/Menu/2222	Почати марафон?
+MsgMain/Menu/2223	Почати спробу на час?
+MsgMain/Menu/2224	Дивитися повтор?
+MsgMain/Menu/2225	Почати заїзд?
+MsgMain/Menu/2226	Почати бій?
+MsgMain/Menu/2227	Вийти?
+MsgMain/Menu/2228	Вийти?
+MsgMain/Menu/2229	Повернутися до початкового екрана?
+MsgMain/Menu/2235	Дзеркало
+MsgMain/Menu/2240	куб. см
+MsgMain/Menu/2261	Наодинці
+MsgMain/Menu/2262	З привидом
+MsgMain/Menu/2263	Дивитися привида
+MsgMain/Menu/2264	Рейтинги
+MsgMain/Menu/2272	Завантажити дані на сервер
+MsgMain/Menu/2266	Завантажити дані цього\nпривида?
+MsgMain/Menu/2268	Видалити дані привида?
+MsgMain/Menu/2269	Дані привида видалено.
+MsgMain/Menu/2270	Триває завантаження даних\nпривида...
+MsgMain/Menu/2271	Дані привида завантажено!\nПочати заїзд?
+MsgMain/Menu/2273	Завантажити дані привида\nна сервер?
+MsgMain/Menu/2274	На цій трасі в тебе ще\nнемає даних привида!
+MsgMain/Menu/2275	Не можна завантажити\nвласні дані привида.
+MsgMain/Menu/2276	Більше не можна завантажувати\nпривидів. {0E 0000 0003 0002 0000}Видалити{0E 0000 0003 0002 FFFF} всі дані\nпривидів і звільнити місце?
+MsgMain/Menu/2277	{0E 0000 0003 0002 0000}Видалені дані привидів\nне можна відновити.{0E 0000 0003 0002 FFFF}\nПродовжити?
+MsgMain/Menu/2278	Усі завантажені тобою дані\nпривидів видалено.
+MsgMain/Menu/2281	Ці дані привида\nвже завантажено.
+MsgMain/Menu/2282	Це {0E 0000 0003 0002 0000}твої власні дані{0E 0000 0003 0002 FFFF}\nпривида. Точно видалити?
+MsgMain/Menu/2301	Клас
+MsgMain/Menu/2302	50 куб. см
+MsgMain/Menu/2303	100 куб. см
+MsgMain/Menu/2304	150 куб. см
+MsgMain/Menu/2306	Дзеркало
+MsgMain/Menu/2308	Пропустити
+MsgMain/Menu/2311	Гравці КОМП.
+MsgMain/Menu/2312	Слабкі
+MsgMain/Menu/2313	Середні
+MsgMain/Menu/2314	Сильні
+MsgMain/Menu/2315	Немає
+MsgMain/Menu/2321	Траси
+MsgMain/Menu/2322	З’єднані
+MsgMain/Menu/2323	На вибір
+MsgMain/Menu/2324	Випадкові
+MsgMain/Menu/2331	К-сть заїздів
+MsgMain/Menu/2332	3 заїзди
+MsgMain/Menu/2333	4 заїзди
+MsgMain/Menu/2334	5 заїздів
+MsgMain/Menu/2335	6 заїздів
+MsgMain/Menu/2336	8 заїздів
+MsgMain/Menu/2337	12 заїздів
+MsgMain/Menu/2338	16 заїздів
+MsgMain/Menu/2339	32 заїзди
+MsgMain/Menu/2351	Тип гри
+MsgMain/Menu/2352	Кожен сам за себе
+MsgMain/Menu/2353	Дві команди
+MsgMain/Menu/2354	Три команди
+MsgMain/Menu/2355	Чотири команди
+MsgMain/Menu/2371	К-сть раундів
+MsgMain/Menu/2372	3 раунди
+MsgMain/Menu/2373	4 раунди
+MsgMain/Menu/2374	5 раундів
+MsgMain/Menu/2375	6 раундів
+MsgMain/Menu/2376	8 раундів
+MsgMain/Menu/2381	Між заїздами
+MsgMain/Menu/2382	10 секунд
+MsgMain/Menu/2383	1 хвилина
+MsgMain/Menu/2384	5 хвилин
+MsgMain/Menu/2391	Предмети
+MsgMain/Menu/2392	Звичайні
+MsgMain/Menu/2393	Бойові
+MsgMain/Menu/2402	Перегони
+MsgMain/Menu/2404	Марафон на вибування
+MsgMain/Menu/2405	Битва куль
+MsgMain/Menu/2406	Час — гроші
+MsgMain/Menu/3003	Почати вільну їзду?
+MsgMain/Menu/3004	Повернення\nдо початкового екрана.
+MsgMain/Menu/5001	Перегони
+MsgMain/Menu/5002	Марафон на вибування
+MsgMain/Menu/5004	Друзі
+MsgMain/Menu/5005	Створити групу
+MsgMain/Menu/5006	Шукати за кодом
+MsgMain/Menu/5007	Приєднатися
+MsgMain/Menu/5008	Група
+MsgMain/Menu/5009	Бій
+MsgMain/Menu/5013	Триває пошук гравців...
+MsgMain/Menu/5014	Гонка скоро почнеться!
+MsgMain/Menu/5017	Трасу обрано!
+MsgMain/Menu/5019	Не можна приєднатися. Зачекай.
+MsgMain/Menu/5020	Ти приєднався!
+MsgMain/Menu/5021	Гравець {0E 0001 0001 0004 0000 0000} приєднався!
+MsgMain/Menu/5022	Правила обрано!
+MsgMain/Menu/5023	До наступного заїзду: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5024	До наступного бою: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5026	Ти приєднаєшся до наступного заїзду.
+MsgMain/Menu/5027	Ти приєднаєшся до наступного бою.
+MsgMain/Menu/5028	Очікування гравців...
+MsgMain/Menu/5029	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Старт
+MsgMain/Menu/5030	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Старт
+MsgMain/Menu/5031	Бій скоро почнеться!
+MsgMain/Menu/5032	Зачекай, поки обираються правила.
+MsgMain/Menu/5033	Зв’язок перервано.
+MsgMain/Menu/5034	Не вдалося приєднатися до марафону.
+MsgMain/Menu/5035	Гравці далеко один від одного. Переміщуємо!
+MsgMain/Menu/5101	Випадкова
+MsgMain/Menu/5102	Змінити
+MsgMain/Menu/5202	Створити групу для змагань?
+MsgMain/Menu/5204	Групу з введеним\nкодом не знайдено.
+MsgMain/Menu/5209	Код групи
+MsgMain/Menu/5212	Статистика боїв
+MsgMain/Menu/5213	Ти
+MsgMain/Menu/5214	Друг
+MsgMain/Menu/5218	Введи код групи
+MsgMain/Menu/5220	Будь ласка, зачекай...
+MsgMain/Menu/5221	Покинути цю групу?
+MsgMain/Menu/5301	Місць більше немає.\nБудь ласка, зачекай...
+MsgMain/Menu/5302	Сталася помилка\nзв’язку.
+MsgMain/Menu/5304	Не вдалося знайти\nгрупу, до якої ти\nхотів приєднатися.
+MsgMain/Menu/5305	Сталася помилка\nзв’язку.
+MsgMain/Menu/5307	Сталася помилка\nзв’язку.
+MsgMain/Menu/5308	Сталася помилка\nзв’язку.
+MsgMain/Menu/5320	Ти зібрав монетки: {0E 0001 0000 0004 0000 0000}!\nВідкрито новий {0E 0000 0003 0002 0000}транспорт{0E 0000 0003 0002 FFFF}!
+MsgMain/Menu/5313	Немає зареєстрованих друзів.
+MsgMain/Menu/5314	Немає доступних груп.
+MsgMain/Menu/5315	Продовжити з цими правилами?
+MsgMain/Menu/5316	Учасники
+MsgMain/Menu/5347	Фоторежим
+MsgMain/Menu/5328	Погляд на камеру
+MsgMain/Menu/5329	Фокус
+MsgMain/Menu/5333	Завершити
+MsgMain/Menu/5334	Вираз обличчя
+MsgMain/Menu/5335	Рамка
+MsgMain/Menu/5336	Інтерфейс
+MsgMain/Menu/5340	Поза
+MsgMain/Menu/5341	Нахил
+MsgMain/Menu/5342	Зробити знімок
+MsgMain/Menu/5345	Зум
+MsgMain/Menu/5348	Фокус: немає
+MsgMain/Menu/5349	Фокус: персонаж
+MsgMain/Menu/5350	Фокус: центр
+MsgMain/Menu/5353	Вийти з фоторежиму?
+MsgMain/Menu/5354	Так
+MsgMain/Menu/5355	Ні
+MsgMain/Menu/5370	Рамка: немає
+MsgMain/Menu/5371	Рамка: 1
+MsgMain/Menu/5372	Рамка: 2
+MsgMain/Menu/5373	Рамка: 3
+MsgMain/Menu/5374	Рамка: 4
+MsgMain/Menu/5375	Рамка: 5
+MsgMain/Menu/5376	Рамка: 6
+MsgMain/Menu/5377	Рамка: 7
+MsgMain/Menu/5378	Рамка: 8
+MsgMain/Menu/5379	Рамка: 9
+MsgMain/Menu/5380	Рамка: 10
+MsgMain/Menu/5381	Рамка: 11
+MsgMain/Menu/5382	Рамка: 12
+MsgMain/Menu/5383	Рамка: 13
+MsgMain/Mission/Mission_RC_WL_00	Сині монетки: грізні гумби
+MsgMain/Mission/Mission_RC_WL_03	Сині монетки: по арці мосту
+MsgMain/Mission/Mission_RC_WL_04	Сині монетки: перевірка колій
+MsgMain/Mission/Mission_RC_WL_05	Сині монетки: трюки з підльотами
+MsgMain/Mission/Mission_RC_WL_08	Крізь труби з плато на плато
+MsgMain/Mission/Mission_WT_WL_00	Нападники Чаки: лінія захисту
+MsgMain/Mission/Mission_WT_WL_01	Короткий шлях до Стадіону Варіо
+MsgMain/Mission/Mission_WT_WL_04	Штабелі шин і шини-шахраї
+MsgMain/Mission/Mission_WT_WL_05	Наввипередки з потягом мостом
+MsgMain/Mission/Mission_WT_WL_06	Рампами через підвісний міст
+MsgMain/Mission/Mission_WT_WL_08	Пролітом через проліти
+MsgMain/Mission/Mission_WT_WL_09	Як у бойовику-блокбастері!
+MsgMain/Mission/Mission_WT_WL_10	Короткий шлях до Траси Mario Bros.
+MsgMain/Mission/Mission_WT_WL_11	Політ до фінального прапора на капелюшку гриба
+MsgMain/Mission/Mission_WT_WL_12	До фінального прапора — на хвостах смерчів!
+MsgMain/Mission/Mission_WT_WL_13	Крізь драговину — на прискореннях!
+MsgMain/Mission/Mission_WT2_WL_00	Пустельний ривок із предметами
+MsgMain/Mission/Mission_WT2_WL_01	Сором’язняги: униз за течією
+MsgMain/Mission/Mission_WT2_WL_05	Річковою долиною проти течії
+MsgMain/Mission/Mission_WT2_WL_06	Манівцями на путівець
+MsgMain/Mission/Mission_WT2_WL_07	Рампами й балками — до вершини!
+MsgMain/Mission/Mission_WT2_WL_08	Рампами — пам! Над горою!
+MsgMain/Mission/Mission_WT2_WL_09	Для майстрів їзди по стінах
+MsgMain/Mission/Mission_WT2_WL_10	Трюк за трюком на мосту
+MsgMain/Mission/Mission_WT2_WL_11	Політ над закусочною Йоші
+MsgMain/Mission/Mission_WT2_WL_12	Стрибки по кактусах
+MsgMain/Mission/Mission_WT2_WL_13	Повз броненосців — до мети!
+MsgMain/Mission/Mission_WT2_WL_14	Погоня за вертольотом
+MsgMain/Mission/Mission_WT2_WL_15	Особливо суворе випробування 6
+MsgMain/Mission/Mission_WT2_WL_18	Рампами — пам! З плато на плато!
+MsgMain/Mission/Mission_WT3_WL_01	Перевірка витримки в глибинці
+MsgMain/Mission/Mission_WT3_WL_02	Експромт-гонка каньйоном
+MsgMain/Mission/Mission_WT3_WL_03	Екстремальна гонка каньйоном
+MsgMain/Mission/Mission_WT3_WL_04	У гості до гонщиків на скелях
+MsgMain/Mission/Mission_RC_WL_02	Сині монетки: по краю довкола бургера
+MsgMain/Mission/Mission_WT_WL_03	Трибунами — до мети!
+MsgMain/Mission/Mission_WT2_WL_04	Фініш чекає, треба підкріпитися!
+MsgMain/Mission/Mission_RC_WL_07	Сині монетки: трюк за трюком
+MsgMain/Mission/Mission_WT_WL_02	Проїздом повз потяг
+MsgMain/Mission/Mission_WT2_WL_02	На вершину Паровозного піка!
+MsgMain/Mission/Mission_RC_WL_06	Сині монетки: круїз дахами
+MsgMain/Mission/Mission_WT2_WL_16	Вогонь, рампи й сині кільця
+MsgMain/Mission/Mission_WT2_WL_17	Крізь кільця дахами
+MsgMain/Mission/Mission_RC_DT_00	Сині монетки: піщана вирва
+MsgMain/Mission/Mission_RC_DT_01	Сині монетки: згубні піски
+MsgMain/Mission/Mission_RC_DT_03	Сині монетки: врозкид по барханах
+MsgMain/Mission/Mission_RC_DT_04	Сині монетки: у висохлому оазисі
+MsgMain/Mission/Mission_RC_DT_05	Сині монетки: поміж торгових наметів
+MsgMain/Mission/Mission_RC_DT_06	Сині монетки: важка авіація
+MsgMain/Mission/Mission_RC_DT_07	Сині монетки: у свіжості оазису
+MsgMain/Mission/Mission_RC_DT_08	Сині монетки: баланс на тросі
+MsgMain/Mission/Mission_WT_DT_00	Віражі довкола смерчів
+MsgMain/Mission/Mission_WT_DT_01	Брати-молотки: блокада мосту
+MsgMain/Mission/Mission_WT_DT_02	Кусалкіни на ланцюгах: заїзд на гору
+MsgMain/Mission/Mission_WT_DT_03	Сором’язняги: перегони на гідроциклах
+MsgMain/Mission/Mission_WT_DT_04	Повний уперед морем піску!
+MsgMain/Mission/Mission_WT_DT_05	До фінального прапора!
+MsgMain/Mission/Mission_WT_DT_06	З прискоренням — вчасно до мети!
+MsgMain/Mission/Mission_WT_DT_07	Спіраллю — до мети!
+MsgMain/Mission/Mission_WT_DT_08	Випробування в сором’язняг 2
+MsgMain/Mission/Mission_WT_DT_09	Випробування в сором’язняг 1
+MsgMain/Mission/Mission_WT_DT_10	18-колісний фурор у пустелі
+MsgMain/Mission/Mission_WT_DT_11	Крізь труби — до мети!
+MsgMain/Mission/Mission_WT_DT_12	З прискоренням — пустельним самумом до мети!
+MsgMain/Mission/Mission_WT_DT_13	Токотоки: заїзд на пагорб
+MsgMain/Mission/Mission_WT_DT_14	Навпростець крізь лабіринт із блоків
+MsgMain/Mission/Mission_WT_DT_15	Корабельні аварії додадуть прискорення
+MsgMain/Mission/Mission_WT_DT_16	Батадони: летючі перешкоди
+MsgMain/Mission/Mission_WT_DT_17	Карт далекого сполучення
+MsgMain/Mission/Mission_WT2_DT_00	Рікою і до моря!
+MsgMain/Mission/Mission_WT2_DT_01	Хитрими стрибками від колони до колони!
+MsgMain/Mission/Mission_WT2_DT_02	Проникни в місто по стіні!
+MsgMain/Mission/Mission_WT2_DT_03	З трюками мостом
+MsgMain/Mission/Mission_WT2_DT_04	Вогняні змії: небезпечний тунель
+MsgMain/Mission/Mission_WT2_DT_05	Покі: проїздом піщаним шляхом
+MsgMain/Mission/Mission_WT2_DT_06	До фінального прапора на даху станції
+MsgMain/Mission/Mission_WT2_DT_07	Випробування в сором’язняг 3
+MsgMain/Mission/Mission_WT2_DT_08	Погоня за токотоками
+MsgMain/Mission/Mission_WT2_DT_09	З пустелі — у небо!
+MsgMain/Mission/Mission_WT2_DT_10	З пустелі в зелений куточок
+MsgMain/Mission/Mission_WT2_DT_11	З трюками — крізь Маскарад Сором’язняги!
+MsgMain/Mission/Mission_WT2_DT_12	Крізь зливу й монетки
+MsgMain/Mission/Mission_WT3_DT_00	Перевірка витримки в пісках
+MsgMain/Mission/Mission_RC_VL_02	Сині монетки: вузьким шляхом
+MsgMain/Mission/Mission_RC_VL_04	Сині монетки: гарячі джерела
+MsgMain/Mission/Mission_RC_VL_05	Сині монетки: дорога бамсів
+MsgMain/Mission/Mission_RC_VL_06	Сині монетки: злі забіяки
+MsgMain/Mission/Mission_RC_VL_07	Сині монетки: уздовж парапету
+MsgMain/Mission/Mission_RC_VL_08	Сині монетки: біля зачарованого цвинтаря
+MsgMain/Mission/Mission_RC_VL_09	Сині монетки: врозкид
+MsgMain/Mission/Mission_RC_VL_11	Сині монетки: на гігантських сходах
+MsgMain/Mission/Mission_RC_VL_12	Сині монетки: з парапету на парапет
+MsgMain/Mission/Mission_WT_VL_02	Політ над озером лави
+MsgMain/Mission/Mission_WT_VL_03	Обережно, на дорозі рампси!
+MsgMain/Mission/Mission_WT_VL_04	На лихій вантажівці
+MsgMain/Mission/Mission_WT_VL_05	Обережно, на дорозі купи-скелети!
+MsgMain/Mission/Mission_WT_VL_06	Риби-скелети: шлях до джерел
+MsgMain/Mission/Mission_WT_VL_07	Водію, швидше! Шинокати!
+MsgMain/Mission/Mission_WT_VL_08	Ривок по іржавій руїні
+MsgMain/Mission/Mission_WT_VL_10	Біллом-кулею крізь вогняні кулі
+MsgMain/Mission/Mission_WT_VL_11	Попутний рейс до Корабельної фортеці
+MsgMain/Mission/Mission_WT_VL_12	Угору повз вогняні кулі
+MsgMain/Mission/Mission_WT2_VL_04	Суперзіркам лава нічого не зробить
+MsgMain/Mission/Mission_WT2_VL_05	Повз правий підйом
+MsgMain/Mission/Mission_WT2_VL_06	Еквілібристика на дротах
+MsgMain/Mission/Mission_WT2_VL_07	Повз лівий підйом
+MsgMain/Mission/Mission_WT2_VL_08	По гейзерах у гарячих джерелах
+MsgMain/Mission/Mission_WT2_VL_09	Вогняні рослини-піраньї, пли!
+MsgMain/Mission/Mission_WT2_VL_10	Великий вертоліт, гарячий політ
+MsgMain/Mission/Mission_WT2_VL_11	Їзда по стіні та інші трюки
+MsgMain/Mission/Mission_WT2_VL_12	Небезпечний ривок повз труби й крізь кільця
+MsgMain/Mission/Mission_WT2_VL_13	Повз потужні повільні блискавки
+MsgMain/Mission/Mission_WT2_VL_16	Політ крізь сталеві проліти
+MsgMain/Mission/Mission_WT2_VL_17	Швидше нагору фортечної стіни!
+MsgMain/Mission/Mission_WT2_VL_18	Злет на кран і вищий пілотаж
+MsgMain/Mission/Mission_WT2_VL_20	Довгий політ до лунки
+MsgMain/Mission/Mission_WT3_VL_01	Гонка із закусками довкола Великого Бублика
+MsgMain/Mission/Mission_WT_VL_00	Швидше, повз Роккі-ключі!
+MsgMain/Mission/Mission_WT2_VL_00	Дріфтом на вершину вежі!
+MsgMain/Mission/Mission_WT2_VL_02	Стрімголов Корабельною фортецею
+MsgMain/Mission/Mission_RC_VL_01	Сині монетки: по краю тарілки з гарячим
+MsgMain/Mission/Mission_WT_VL_01	Стрибки по стінах замку Боузера
+MsgMain/Mission/Mission_WT2_VL_03	Трюки біля гарячої лави
+MsgMain/Mission/Mission_WT3_VL_00	Гонка повз солдатів Боузера
+MsgMain/Mission/Mission_RC_VL_10	Сині монетки: їзда канатом
+MsgMain/Mission/Mission_RC_VL_15	Сині монетки: обережно, вогняні кулі!
+MsgMain/Mission/Mission_WT2_VL_14	По стіні як профі!
+MsgMain/Mission/Mission_RC_FS_03	Сині монетки: вісімка на вісімці
+MsgMain/Mission/Mission_RC_FS_04	Сині монетки: на галявині звивак
+MsgMain/Mission/Mission_RC_FS_05	Сині монетки: не втонути в драговині!
+MsgMain/Mission/Mission_RC_FS_06	Сині монетки: узбіччям
+MsgMain/Mission/Mission_RC_FS_07	Сині монетки: став водомірок
+MsgMain/Mission/Mission_RC_FS_08	Сині монетки: табір біля річки
+MsgMain/Mission/Mission_RC_FS_09	Сині монетки: у лісі з привидами
+MsgMain/Mission/Mission_WT_FS_02	Обережно, лосі на трасі!
+MsgMain/Mission/Mission_WT_FS_03	Канатом — на злет!
+MsgMain/Mission/Mission_WT_FS_04	Повітряний привіт статуї Маріо!
+MsgMain/Mission/Mission_WT_FS_05	По квіточках — у яблучко!
+MsgMain/Mission/Mission_WT_FS_06	Скік-поскік на Трасі Маріо
+MsgMain/Mission/Mission_WT_FS_07	Відчайдушний обгін на рейках
+MsgMain/Mission/Mission_WT_FS_08	Спайки хоробрим не завада!
+MsgMain/Mission/Mission_WT_FS_09	Акробатика й приземлення з трюком
+MsgMain/Mission/Mission_WT_FS_10	Туристичним маршрутом — до мети!
+MsgMain/Mission/Mission_WT_FS_11	Піранья-ліана виведе в небеса
+MsgMain/Mission/Mission_WT_FS_12	Проти течії — на повну вперед!
+MsgMain/Mission/Mission_WT_FS_13	Рейками й дротом проїхати спробуємо!
+MsgMain/Mission/Mission_WT2_FS_05	Примарною пущею
+MsgMain/Mission/Mission_WT2_FS_06	Політ поміж крон
+MsgMain/Mission/Mission_WT2_FS_07	Містками на болоті з привидами
+MsgMain/Mission/Mission_WT2_FS_08	Угору річкою — до мети!
+MsgMain/Mission/Mission_WT2_FS_09	Суперзірки на болотах
+MsgMain/Mission/Mission_WT2_FS_10	Година пік біля закусочної
+MsgMain/Mission/Mission_WT2_FS_11	Таємними стежками
+MsgMain/Mission/Mission_WT2_FS_12	Уздовж річки до Дубових доріжок
+MsgMain/Mission/Mission_WT2_FS_13	Рослини-піраньї скрізь!
+MsgMain/Mission/Mission_WT2_FS_14	Повз машини й нападників Чаків
+MsgMain/Mission/Mission_WT3_FS_01	Ностальгія: Долина привидів 1
+MsgMain/Mission/Mission_WT3_FS_02	Ностальгія: Долина привидів 2
+MsgMain/Mission/Mission_WT3_FS_03	Ностальгія: Долина привидів 3
+MsgMain/Mission/Mission_WT3_FS_05	Гонка довкола лісу
+MsgMain/Mission/Mission_RC_FS_01	Сині монетки: квітковий врожай
+MsgMain/Mission/Mission_WT_FS_01	Жолудевий град
+MsgMain/Mission/Mission_WT2_FS_00	Усе вище й вище по піраньях-ліанах
+MsgMain/Mission/Mission_WT2_FS_02	Променадом звивак — до мети
+MsgMain/Mission/Mission_RC_FS_00	Сині монетки: довкола центру керування
+MsgMain/Mission/Mission_WT_FS_00	Зі скейт-рампи — на радість публіці!
+MsgMain/Mission/Mission_WT2_FS_01	Швидше! Час не чекає!
+MsgMain/Mission/Mission_RC_FS_02	Угору операторськими кранами! Знімаємо!
+MsgMain/Mission/Mission_WT2_FS_03	Примарне заекраниння
+MsgMain/Mission/Mission_WT2_FS_04	Поруччям — на вихід!
+MsgMain/Mission/Mission_WT3_FS_04	Кіно з ефектом присутності
+MsgMain/Mission/Mission_RC_IC_05	Сині монетки: слалом
+MsgMain/Mission/Mission_RC_IC_07	Сині монетки: поміж сніжних покі
+MsgMain/Mission/Mission_RC_IC_09	Сині монетки: парад пінгвінів
+MsgMain/Mission/Mission_RC_IC_10	Сині монетки: туди й назад
+MsgMain/Mission/Mission_RC_IC_11	Сині монетки: у морозному колі
+MsgMain/Mission/Mission_RC_IC_12	Сині монетки: поміж сніговиків
+MsgMain/Mission/Mission_RC_IC_13	Сині монетки: морозні рослини-піраньї
+MsgMain/Mission/Mission_RC_IC_14	Сині монетки: трюки на рейках
+MsgMain/Mission/Mission_RC_IC_15	Сині монетки: кудлатики на лінії!
+MsgMain/Mission/Mission_RC_IC_16	Сині монетки: сніжні кулі на схилі
+MsgMain/Mission/Mission_WT2_IC_02	Політ над лижною трасою
+MsgMain/Mission/Mission_WT2_IC_03	Назустріч пінгвінам
+MsgMain/Mission/Mission_WT2_IC_04	Швидкісний крос
+MsgMain/Mission/Mission_WT2_IC_07	Крізь вітер і холоднечу
+MsgMain/Mission/Mission_WT2_IC_08	Заскок на крижаний пік
+MsgMain/Mission/Mission_WT2_IC_09	Повз затори — до мети!
+MsgMain/Mission/Mission_WT2_IC_10	Попутний потяг
+MsgMain/Mission/Mission_WT2_IC_15	Без вогняних куль не обійтись
+MsgMain/Mission/Mission_WT2_IC_16	Ковзанярське тренування
+MsgMain/Mission/Mission_WT2_IC_17	Спуск схилом зі сніжними кулями
+MsgMain/Mission/Mission_WT2_IC_18	Обережно, сніжні кулі!
+MsgMain/Mission/Mission_WT2_IC_19	Навпростець до мети!
+MsgMain/Mission/Mission_WT2_IC_20	З грибами прискорення — до станції!
+MsgMain/Mission/Mission_WT2_IC_22	Смуга перешкод на озері
+MsgMain/Mission/Mission_WT2_IC_23	З повітряними прискореннями — до мети!
+MsgMain/Mission/Mission_WT2_IC_24	Зелені панцирі на удачу
+MsgMain/Mission/Mission_WT2_IC_26	Слизьким схилом — до мети!
+MsgMain/Mission/Mission_WT2_IC_30	Недобудованим шляхом
+MsgMain/Mission/Mission_WT2_IC_31	Тривалий політ
+MsgMain/Mission/Mission_WT3_IC_00	Ностальгія: Ванільне озеро
+MsgMain/Mission/Mission_RC_IC_02	Сині монетки: кільце довкола обсерваторії
+MsgMain/Mission/Mission_WT2_IC_05	Обережно! Брати-льоди!
+MsgMain/Mission/Mission_WT2_IC_28	Педаль у підлогу й уперед!
+MsgMain/Mission/Mission_WT_IC_02	На верхівку морозива!
+MsgMain/Mission/Mission_WT2_IC_11	Стінами ущелини з морозива
+MsgMain/Mission/Mission_WT2_IC_32	Точний таймінг із грибом прискорення
+MsgMain/Mission/Mission_RC_IC_04	Сині монетки: дрижаки на Перевалі ДК
+MsgMain/Mission/Mission_WT2_IC_12	Особливо суворе випробування 5
+MsgMain/Mission/Mission_WT2_IC_13	Порожніми трибунами — до мети!
+MsgMain/Mission/Mission_WT2_IC_14	Сором’язняги: перегони на сноубордах
+MsgMain/Mission/Mission_RC_PL_01	Сині монетки: у загадковій печері
+MsgMain/Mission/Mission_WT_PL_02	Мостом летючих цяточок
+MsgMain/Mission/Mission_WT2_PL_03	Стриб-стриб-стриб-стриб-стриб-стриб-стриб... стриб!
+MsgMain/Mission/Mission_WT2_PL_04	Особливо суворе випробування 3
+MsgMain/Mission/Mission_RC_PL_04	Сині монетки в саду каміння. Дзен.
+MsgMain/Mission/Mission_WT_PL_05	Мчить карт до водоспаду. Хоробрий гонщик.
+MsgMain/Mission/Mission_WT2_PL_07	У світі суєти спокійний дзвін. Гармонія.
+MsgMain/Mission/Mission_RC_RT_03	Сині монетки: акуратний збір
+MsgMain/Mission/Mission_RC_RT_04	Сині монетки: порятунок із виру
+MsgMain/Mission/Mission_RC_RT_05	Сині монетки: і в шторм, і в бурю!
+MsgMain/Mission/Mission_RC_RT_06	Сині монетки: на свіжому морському повітрі
+MsgMain/Mission/Mission_RC_RT_07	Сині монетки: на курорті гумб
+MsgMain/Mission/Mission_RC_RT_08	Сині монетки: пляжний відпочинок
+MsgMain/Mission/Mission_WT_RT_02	З морською фауною — до мети!
+MsgMain/Mission/Mission_WT_RT_03	Просторами — на поклик русалки!
+MsgMain/Mission/Mission_WT_RT_04	Переліт до Водних провулків
+MsgMain/Mission/Mission_WT_RT_05	Прибережними скелями до фінального прапора!
+MsgMain/Mission/Mission_WT_RT_06	Курси водного водіння
+MsgMain/Mission/Mission_WT_RT_07	Смерчі не підведуть!
+MsgMain/Mission/Mission_WT_RT_08	Блокада братів-бумерангів!
+MsgMain/Mission/Mission_WT_RT_09	Битва з млинами
+MsgMain/Mission/Mission_WT_RT_10	Швидше на пляж!
+MsgMain/Mission/Mission_WT2_RT_04	Чіп-чіпи-чирлідери
+MsgMain/Mission/Mission_WT2_RT_05	Тур острівцями
+MsgMain/Mission/Mission_WT2_RT_06	Хвилями повз вудильників
+MsgMain/Mission/Mission_WT2_RT_07	Пір’я окриляє!
+MsgMain/Mission/Mission_WT2_RT_08	Швидкісний квіткінг
+MsgMain/Mission/Mission_WT2_RT_09	Легкий бриз біля млинів
+MsgMain/Mission/Mission_WT2_RT_10	Повз моторошні морські смерчі!
+MsgMain/Mission/Mission_WT2_RT_11	Паркур дахами Водних провулків
+MsgMain/Mission/Mission_WT2_RT_12	Зигзагом схилом
+MsgMain/Mission/Mission_WT2_RT_13	Містками й трубами
+MsgMain/Mission/Mission_WT2_RT_14	З вітерцем драконовугрями
+MsgMain/Mission/Mission_WT3_RT_00	Гонка островом
+MsgMain/Mission/Mission_RC_RT_01	Сині монетки: уламками кораблів
+MsgMain/Mission/Mission_WT_RT_01	Монетки приведуть до мети
+MsgMain/Mission/Mission_WT2_RT_01	Прямим рейсом на вежу
+MsgMain/Mission/Mission_RC_RT_00	Сині монетки: біля чарівної русалки
+MsgMain/Mission/Mission_WT_RT_00	Скриню збив — прискорення здобув!
+MsgMain/Mission/Mission_WT2_RT_00	Об’їздом, щоб не змокнути!
+MsgMain/Mission/Mission_WT2_RT_02	Політ до VIP-вежі
+MsgMain/Mission/Mission_WT2_RT_03	На грибних прискореннях — до фінішу!
+MsgMain/Mission/Mission_WT2_RT_15	Парад сором’язняг на гідроциклах
+MsgMain/Mission/Mission_RC_JG_02	Сині монетки: зубаті помічники
+MsgMain/Mission/Mission_RC_JG_03	Сині монетки: прямісінько по прямих
+MsgMain/Mission/Mission_RC_JG_05	Сині монетки: по піраньях-ліанах
+MsgMain/Mission/Mission_RC_JG_06	Сині монетки: рейками в джунглях
+MsgMain/Mission/Mission_RC_JG_07	Сині монетки: соколом над савану
+MsgMain/Mission/Mission_RC_JG_08	Сині монетки: в’йся, піранья-ліано!
+MsgMain/Mission/Mission_RC_JG_09	Сині монетки: у голодних піраній
+MsgMain/Mission/Mission_RC_JG_10	Сині монетки: у супроводі жирафів
+MsgMain/Mission/Mission_RC_JG_11	Сині монетки: хитрий розворот із трюком
+MsgMain/Mission/Mission_RC_JG_12	Сині монетки: сафарі біля річки
+MsgMain/Mission/Mission_RC_JG_13	Сині монетки: поміж гейзерів
+MsgMain/Mission/Mission_WT_JG_02	Політ над руслом річки
+MsgMain/Mission/Mission_WT_JG_03	Плитами й хмарами — до мети!
+MsgMain/Mission/Mission_WT_JG_04	Буйволи біжать, б’ються!
+MsgMain/Mission/Mission_WT_JG_05	Зигзагами крізь забіг зебр
+MsgMain/Mission/Mission_WT_JG_06	Мета виправдовує пір’я!
+MsgMain/Mission/Mission_WT_JG_07	Увись над водоспадами
+MsgMain/Mission/Mission_WT_JG_08	Відчайдушний стрибок з водоспаду
+MsgMain/Mission/Mission_WT_JG_09	З трицератопсів — у політ!
+MsgMain/Mission/Mission_WT_JG_10	Спинами слонів
+MsgMain/Mission/Mission_WT_JG_11	Концерт із крокодилами
+MsgMain/Mission/Mission_WT_JG_12	Божевільна їзда водною стіною
+MsgMain/Mission/Mission_WT_JG_13	Сторонні об’єкти на водоспаді
+MsgMain/Mission/Mission_WT2_JG_04	Річкова експедиція
+MsgMain/Mission/Mission_WT2_JG_05	Бадьорий політ над тиранозаврами
+MsgMain/Mission/Mission_WT2_JG_06	Брахіозаври завжди допоможуть!
+MsgMain/Mission/Mission_WT2_JG_08	До піднебесного блока
+MsgMain/Mission/Mission_WT2_JG_09	Камінням крізь савану
+MsgMain/Mission/Mission_WT2_JG_11	Тур савану з відвідинами водоспадів
+MsgMain/Mission/Mission_WT2_JG_12	Заїзд лісом динозаврів
+MsgMain/Mission/Mission_WT2_JG_13	На попутній вантажівці
+MsgMain/Mission/Mission_WT2_JG_14	Складний підйом на гору
+MsgMain/Mission/Mission_WT3_JG_00	Гонка на витримку савану
+MsgMain/Mission/Mission_WT3_JG_01	Повз диких динозаврів — до мети!
+MsgMain/Mission/Mission_RC_JG_01	Сині монетки: у золотих руїнах
+MsgMain/Mission/Mission_WT_JG_01	Стрибки по хмарах
+MsgMain/Mission/Mission_WT2_JG_03	Хитрий шлях руїнами
+MsgMain/Mission/Mission_RC_JG_00	Сині монетки: під діно-куполом
+MsgMain/Mission/Mission_WT2_JG_00	Політ під куполом і огляд околиць
+MsgMain/Mission/Mission_WT2_JG_01	Особливо суворе випробування 4
+MsgMain/Mission/Mission_WT2_JG_02	Спинами велетнів
+MsgMain/Mission/Mission_WT2_JG_10	Стриб-стриб-стриб у небо!
+MsgMain/Mission/Mission_RC_BS_04	Сині монетки: супергудок розчистить шлях
+MsgMain/Mission/Mission_RC_BS_05	Сині монетки: вісімкою
+MsgMain/Mission/Mission_RC_BS_06	Сині монетки: на хвилях виру
+MsgMain/Mission/Mission_RC_BS_08	Сині монетки: випробування трюками
+MsgMain/Mission/Mission_RC_BS_09	Сині монетки: з точністю до міліметра
+MsgMain/Mission/Mission_RC_BS_10	Сині монетки: пончик на десерт
+MsgMain/Mission/Mission_WT_BS_03	Устигнути до вибуху!
+MsgMain/Mission/Mission_WT_BS_04	На важкій техніці — до мети!
+MsgMain/Mission/Mission_WT_BS_05	Експресом до міста
+MsgMain/Mission/Mission_WT_BS_07	Ліанами — до трофея!
+MsgMain/Mission/Mission_WT_BS_08	Стрибками — до чудового виду!
+MsgMain/Mission/Mission_WT2_BS_04	Трюки на машинах дорогою до космопорту
+MsgMain/Mission/Mission_WT2_BS_05	Короткий шлях через бочки
+MsgMain/Mission/Mission_WT2_BS_06	Річковий сплав до міста
+MsgMain/Mission/Mission_WT2_BS_07	Чартерним рейсом до міста!
+MsgMain/Mission/Mission_WT2_BS_08	Витончений політ до фінального прапора
+MsgMain/Mission/Mission_WT2_BS_10	Жвавий рух на критому шосе
+MsgMain/Mission/Mission_WT2_BS_11	Суворе випробування трюками
+MsgMain/Mission/Mission_WT2_BS_12	Крізь зграйки риб — до мети!
+MsgMain/Mission/Mission_WT2_BS_13	Пригоди дорогою на пляж
+MsgMain/Mission/Mission_WT2_BS_14	Вісімкою довкола островів
+MsgMain/Mission/Mission_WT2_BS_15	Особливо суворе випробування 1
+MsgMain/Mission/Mission_WT2_BS_16	Прогулянковим маршрутом — до мети!
+MsgMain/Mission/Mission_WT2_BS_17	Стрибками — до Купа-Трупа-пляжу!
+MsgMain/Mission/Mission_WT2_BS_18	Кит-парад біля Стадіону Піч!
+MsgMain/Mission/Mission_WT2_BS_19	Небезпечне плавання до далекого міста
+MsgMain/Mission/Mission_WT2_BS_20	Крізь огорожі відлюдьок-конусів!
+MsgMain/Mission/Mission_WT2_BS_21	Навала динозаврів!
+MsgMain/Mission/Mission_WT3_BS_02	Пляжна гонка з піском і купанням
+MsgMain/Mission/Mission_RC_BS_03	Сині монетки: водна смуга перешкод
+MsgMain/Mission/Mission_WT2_BS_03	Тросами — на вершину й вище!
+MsgMain/Mission/Mission_WT3_BS_01	Ностальгія: Пляж куп 1
+MsgMain/Mission/Mission_RC_BS_01	Сині монетки: труби стартового майданчика
+MsgMain/Mission/Mission_WT_BS_01	Залишаючи Космопорт ДК...
+MsgMain/Mission/Mission_WT2_BS_01	Як у класичній грі DONKEY KONG
+MsgMain/Mission/Mission_RC_BS_00	Сині монетки: доріжками парку
+MsgMain/Mission/Mission_RC_BS_02	Сині монетки: по краях дахів
+MsgMain/Mission/Mission_WT_BS_00	Повз солдатів Боузера — до мети!
+MsgMain/Mission/Mission_WT_BS_02	На парковку, поки місце не зайняли!
+MsgMain/Mission/Mission_WT2_BS_00	Паркур по Кронбриджу
+MsgMain/Mission/Mission_WT2_BS_02	Паркувальний супердріфт
+MsgMain/Mission/Mission_WT3_BS_00	Перевірка витримки в місті
+MsgMain/Mission/Mission_RC_PL_05	Сині монетки: листопад
+MsgMain/Mission/Mission_RC_PL_06	Сині монетки: трюки на дротах
+MsgMain/Mission/Mission_RC_PL_07	Сині монетки: поміж летючих цяточок
+MsgMain/Mission/Mission_RC_PL_08	Сині монетки: польові викрадення
+MsgMain/Mission/Mission_RC_PL_09	Сині монетки: кам’яною стіною
+MsgMain/Mission/Mission_RC_PL_10	Сині монетки: на тросовій трасі
+MsgMain/Mission/Mission_RC_PL_11	Сині монетки: униз за течією
+MsgMain/Mission/Mission_RC_PL_12	Сині монетки: злети й падіння
+MsgMain/Mission/Mission_RC_PL_13	Сині монетки: зносячи стоги сіна
+MsgMain/Mission/Mission_RC_PL_14	Сині монетки: остання складніша!
+MsgMain/Mission/Mission_RC_PL_15	Сині монетки: мальовничим шляхом
+MsgMain/Mission/Mission_RC_PL_16	Сині монетки: шлях до Кульбабового гроту
+MsgMain/Mission/Mission_RC_PL_17	Сині монетки: музична пауза
+MsgMain/Mission/Mission_WT_PL_06	Політ над озером: риб не годувати!
+MsgMain/Mission/Mission_WT_PL_07	Рампи приведуть до мети!
+MsgMain/Mission/Mission_WT_PL_08	Устигнути під турбоніг!
+MsgMain/Mission/Mission_WT_PL_09	Сім разів поїж, один раз проїдеш!
+MsgMain/Mission/Mission_WT_PL_10	Проблемне перехрестя
+MsgMain/Mission/Mission_WT_PL_11	Корисні помічники по берегах!
+MsgMain/Mission/Mission_WT_PL_12	Великій вантажівці — швидкий шлях униз
+MsgMain/Mission/Mission_WT_PL_13	Дари суперкуп
+MsgMain/Mission/Mission_WT_PL_14	Музичний шлях через сад Стадіону Піч
+MsgMain/Mission/Mission_WT_PL_16	Угору схилом, поки є час!
+MsgMain/Mission/Mission_WT_PL_17	Униз пагорбом до озера!
+MsgMain/Mission/Mission_WT_PL_19	Таємний шлях до Чіп-чіпових каскадів
+MsgMain/Mission/Mission_WT_PL_20	Швидкісне запливання проти течії до мети
+MsgMain/Mission/Mission_WT2_PL_09	Небезпека з усіх боків!
+MsgMain/Mission/Mission_WT2_PL_10	Короткий, але ризикований шлях
+MsgMain/Mission/Mission_WT2_PL_11	На високих нотах
+MsgMain/Mission/Mission_WT2_PL_12	Скільки піранії-ліані не в’ятися...
+MsgMain/Mission/Mission_WT2_PL_13	З вітерцем узбіччями!
+MsgMain/Mission/Mission_WT2_PL_14	Устигнути на потяг за будь-яку ціну!
+MsgMain/Mission/Mission_WT2_PL_15	Суперзірки звідусіль виручать!
+MsgMain/Mission/Mission_WT2_PL_16	Трюк за трюком — на вершину!
+MsgMain/Mission/Mission_WT2_PL_17	На глісері крізь перешкоди
+MsgMain/Mission/Mission_WT2_PL_18	Погоня за підозрілими підкопувачами
+MsgMain/Mission/Mission_WT2_PL_19	Обережно! Не всі кусалкіни на ланцюгах!
+MsgMain/Mission/Mission_WT2_PL_20	Бездоріжжям — до Шоколадної гори!
+MsgMain/Mission/Mission_WT2_PL_22	Злет із води
+MsgMain/Mission/Mission_WT3_PL_00	Ностальгія: Шоко-острів 2
+MsgMain/Mission/Mission_WT3_PL_01	Ностальгія: Шоко-острів 1
+MsgMain/Mission/Mission_WT3_PL_03	Місцева гонка
+MsgMain/Mission/Mission_WT3_PL_04	У тихому вирі драконовугрі водяться!
+MsgMain/Mission/Mission_RC_Island_00	Сині монетки: у купі золота
+MsgMain/Mission/Mission_WT_PL_18	Обережно, шоколад (і каміння)!
+MsgMain/Mission/Mission_WT2_PL_21	Шоколадними ріками
+MsgMain/Mission/Mission_WT_PL_00	Випробування прототипу! Без гарантій!
+MsgMain/Mission/Mission_WT2_PL_00	Особливо суворе випробування 2
+MsgMain/Mission/Mission_WT2_PL_01	Екскурсія Фабрикою Тоада
+MsgMain/Mission/Mission_WT2_PL_02	На вершину крана!
+MsgMain/Mission/Mission_RC_PL_02	Сині монетки: труба в кутку — недарма!
+MsgMain/Mission/Mission_WT_PL_03	Втеча з корівника
+MsgMain/Mission/Mission_WT2_PL_05	Луками підстрибом — до мети!
+MsgMain/Mission/Mission_RC_PL_03	Сині монетки: довкола башти керування
+MsgMain/Mission/Mission_WT_PL_04	Епічний політ над Стадіоном Піч!
+MsgMain/Mission/Mission_WT2_PL_06	З трюками — на вершину воріт!
+MsgMain/Race/9001	Продовжити
+MsgMain/Race/9002	Вийти
+MsgMain/Race/9003	Змінити трасу
+MsgMain/Race/9004	Змінити персонажа
+MsgMain/Race/9005	Почати заново
+MsgMain/Race/9006	Наступний заїзд
+MsgMain/Race/9007	Дивитися результати
+MsgMain/Race/9008	Ще раз
+MsgMain/Race/9009	Дивитися повтор
+MsgMain/Race/9010	Продовжити перегляд
+MsgMain/Race/9011	Вийти
+MsgMain/Race/9012	Наступний раунд
+MsgMain/Race/9013	Гонка з цим привидом
+MsgMain/Race/9014	Дивитися з початку
+MsgMain/Race/9015	Точно вийти?
+MsgMain/Race/9016	Продовжити спостереження
+MsgMain/Race/9017	Вийти
+MsgMain/Race/9018	Старт
+MsgMain/Race/9019	Продовжити вільну їзду
+MsgMain/Race/9020	Завершити вільну їзду
+MsgMain/Race/9021	Змінити правила
+MsgMain/Race/9022	Інформація про групу
+MsgMain/Race/9023	Налаштування/контролери
+MsgMain/Race/9025	Дивитися правила
+MsgMain/Race/9026	Повернутися до вільної їзди
+MsgMain/Race/9028	Продовжити завдання
+MsgMain/Race/9029	Скасувати завдання
+MsgMain/Race/9034	СЮДИ
+MsgMain/Race/9035	МЕТА
+MsgMain/Race/9036	МИШЕНЬ
+MsgMain/Race/9031	Створено нового привида.
+MsgMain/Race/9032	Результати заїзду!
+MsgMain/Race/9033	Ти надто відстав...
+MsgMain/Race/9037	Дехто надто відстав...
+MsgMain/Race/9101	Завантажити на сервер\nнові дані привида?
+MsgMain/Race/9103	Триває завантаження\nна сервер...
+MsgMain/Race/9104	Дані привида\nзавантажено на сервер!
+MsgMain/Race/9105	Неможливо завантажити дані\nпривида на сервер.
+MsgMain/Race/9106	Тепер доступний\n{0E 0000 0003 0002 0000}особливий кубок{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9107	Розблоковано\n{0E 0000 0003 0002 0000}режим Дзеркало{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9201	Уповільнити
+MsgMain/Race/9202	Меню
+MsgMain/Race/9203	Ракурс
+MsgMain/Race/9204	Пауза
+MsgMain/Race/9205	Пуск
+MsgMain/Race/9221	Налаштування
+MsgMain/Race/9222	Смарт-керування
+MsgMain/Race/9223	УВІМК.
+MsgMain/Race/9224	ВИМК.
+MsgMain/Race/9225	Керув. рухом
+MsgMain/Race/9226	УВІМК.
+MsgMain/Race/9227	ВИМК.
+MsgMain/Race/9228	Автоприскорення
+MsgMain/Race/9229	УВІМК.
+MsgMain/Race/9230	ВИМК.
+MsgMain/Race/9231	Автопредмети
+MsgMain/Race/9232	УВІМК.
+MsgMain/Race/9233	ВИМК.
+MsgMain/Race/9234	Камера (гориз.)
+MsgMain/Race/9235	Звичайна
+MsgMain/Race/9236	Інвертована
+MsgMain/Race/9237	Камера (верт.)
+MsgMain/Race/9238	Мінікарта
+MsgMain/Race/9239	Турбоїжа
+MsgMain/Race/9240	Перетворює
+MsgMain/Race/9241	Не перетворює
+MsgMain/Race/9281	Предмет
+MsgMain/Race/9282	Керування
+MsgMain/Race/9283	Занос
+MsgMain/Race/9284	Прискорення
+MsgMain/Race/9301	1-й заїзд
+MsgMain/Race/9302	2-й заїзд
+MsgMain/Race/9303	3-й заїзд
+MsgMain/Race/9304	4-й заїзд
+MsgMain/Race/9305	5-й заїзд
+MsgMain/Race/9306	6-й заїзд
+MsgMain/Race/9307	7-й заїзд
+MsgMain/Race/9308	8-й заїзд
+MsgMain/Race/9309	9-й заїзд
+MsgMain/Race/9310	10-й заїзд
+MsgMain/Race/9311	11-й заїзд
+MsgMain/Race/9312	12-й заїзд
+MsgMain/Race/9313	13-й заїзд
+MsgMain/Race/9314	14-й заїзд
+MsgMain/Race/9315	15-й заїзд
+MsgMain/Race/9316	16-й заїзд
+MsgMain/Race/9317	17-й заїзд
+MsgMain/Race/9318	18-й заїзд
+MsgMain/Race/9319	19-й заїзд
+MsgMain/Race/9320	20-й заїзд
+MsgMain/Race/9321	21-й заїзд
+MsgMain/Race/9322	22-й заїзд
+MsgMain/Race/9323	23-й заїзд
+MsgMain/Race/9324	24-й заїзд
+MsgMain/Race/9325	25-й заїзд
+MsgMain/Race/9326	26-й заїзд
+MsgMain/Race/9327	27-й заїзд
+MsgMain/Race/9328	28-й заїзд
+MsgMain/Race/9329	29-й заїзд
+MsgMain/Race/9330	30-й заїзд
+MsgMain/Race/9331	31-й заїзд
+MsgMain/Race/9399	Фінал
+MsgMain/Race/9401	1-й раунд
+MsgMain/Race/9402	2-й раунд
+MsgMain/Race/9403	3-й раунд
+MsgMain/Race/9404	4-й раунд
+MsgMain/Race/9405	5-й раунд
+MsgMain/Race/9406	6-й раунд
+MsgMain/Race/9407	7-й раунд
+MsgMain/Race/9499	Фінал
+MsgMain/Race/9501	Ціль: {0E 0000 0003 0002 0004}перемога{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-4{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!{0E 0000 0002 0002 0064}
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-8{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!{0E 0000 0002 0002 0064}
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!{0E 0000 0002 0002 0064}
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-16{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!{0E 0000 0002 0002 0064}
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}Ціль:{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}топ-20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B}!{0E 0000 0002 0002 0064}
+MsgMain/Race/9604	Ти не потрапив до топ-4.
+MsgMain/Race/9608	Ти не потрапив до топ-8.
+MsgMain/Race/9612	Ти не потрапив до топ-12.
+MsgMain/Race/9616	Ти не потрапив до топ-16.
+MsgMain/Race/9620	Ти не потрапив до топ-20.
+MsgMain/Race/9701	Привіт!
+MsgMain/Race/9702	Успіхів!
+MsgMain/Race/9703	Ласкаво просимо!
+MsgMain/Race/9704	Не будь суворим до мене!
+MsgMain/Race/9705	Зроблю все для перемоги!
+MsgMain/Race/9706	Поїхали!
+MsgMain/Race/9707	Зачекаймо на інших гравців!
+MsgMain/Race/9709	Я трохи нервую...
+MsgMain/Race/9710	Не можу дочекатися початку!
+MsgMain/Race/9711	Зроблю знімок!
+MsgMain/Race/9712	Ура!
+MsgMain/Race/9713	Було весело!
+MsgMain/Race/9714	Класна гра!
+MsgMain/Race/9715	Яка шкода!
+MsgMain/Race/9716	Це нечесно!
+MsgMain/Race/9717	Ще разок!
+MsgMain/Race/9718	Наступного разу я виграю!
+MsgMain/Race/9719	Це моя остання гра.
+MsgMain/Race/9720	Я вже йду...
+MsgMain/Race/9721	Дякую за гру!
+MsgMain/Race/9722	Щиро дякую!
+MsgMain/Race/9723	На добраніч!
+MsgMain/Race/9724	Бувай!
+MsgMain/Race/9726	Вищий клас!
+MsgMain/Race/9727	Круто!
+MsgMain/Race/9728	Обережно!
+MsgMain/Race/9729	Постарайся!
+MsgMain/Race/9730	Так тримати!
+MsgMain/Race/9731	Вперед, вперед!
+MsgMain/Race/9732	Позаду!
+MsgMain/Race/9733	Чудово!
+MsgMain/Race/9750	Я фотографую!
+MsgMain/Race/9751	Я в гонці.
+MsgMain/Race/9752	Я в бою.
+MsgMain/Race/9753	Я дивлюся гонку!
+MsgMain/Race/9936	ПРЯМИЙ ЕФІР
+MsgMain/Race/9939	ОЙ!
+MsgMain/Race/9940	ПОПАВ!
+MsgMain/Sticker/10000	За початок гри в Mario Kart World
+MsgMain/Sticker/10001	За збір монеток: {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}{0E 0001 0000 0004 0000 0000}
+MsgMain/Sticker/10002	За виконання трюків: {0E 0001 0000 0004 0000 0000}
+MsgMain/Sticker/10004	За пробіг: {0E 0001 0000 0004 0000 0000} км
+MsgMain/Sticker/10005	За політ на планері: {0E 0001 0000 0004 0000 0000} км
+MsgMain/Sticker/10006	За кількість заїздів: {0E 0001 0000 0004 0000 0000}
+MsgMain/Sticker/10008	За активацію панелі «?»
+MsgMain/Sticker/10009	За отримання медальйона Піч
+MsgMain/Sticker/10011	За спіймання Кралика
+MsgMain/Sticker/10012	За випробування з нападниками Чаками
+MsgMain/Sticker/10013	За виконання завдання
+MsgMain/Sticker/10014	За змагання за особливий кубок
+Ver110/Ver110/Version_00	Вер. {0E 0001 0001 0004 0000 0000}
+Ver110/Ver110/VideoChat_04	Будь ласка, перевір камеру.
+Ver110/Ver110/VideoChat_06	Розмісти рамки на обличчях.
+Ver110/Ver110/VideoChat_07	Масштаб
+Ver110/Ver110/VideoChat_08	ОК
+Ver110/Ver110/VideoChat_09	Рухати
+Ver110/Ver110/VideoChat_10	Використати камеру?
+Ver110/Ver110/VideoChat_11	Так
+Ver110/Ver110/VideoChat_12	Ні
+Ver110/Ver110/VideoChat_13	Підключися до GameChat, щоб використовувати\nкамеру онлайн. Відео з камери\nі звук з мікрофона надсилатимуться\nлише іншим учасникам GameChat.
+Ver110/Ver110/VideoChat_14	Натисни кнопку C,\nщоб відкрити GameChat.
+Ver120/Ver120/Championship_01	Заходи
+Ver120/Ver120/Championship_02	Шукати захід
+Ver120/Ver120/Championship_03	Введи код заходу.
+Ver120/Ver120/Championship_04	Захід знайдено!
+Ver120/Ver120/Championship_05	Захід із таким\nкодом не знайдено.
+Ver120/Ver120/Championship_06	Перемкнути
+Ver120/Ver120/Championship_07	Тренуватися до\nпочатку заходу?
+Ver120/Ver120/Championship_08	Захід завершено.
+Ver120/Ver120/Championship_09	Задану кількість\nзаїздів уже завершено.
+Ver120/Ver120/Championship_10	Захід розпочато!
+Ver120/Ver120/Championship_12	64 заїзди
+Ver120/Ver120/Championship_13	128 заїздів
+Ver120/Ver120/Championship_14	Без обмежень
+Ver120/Ver120/Championship_15	Не вдалося приєднатися до заходу.
+Ver120/Ver120/Championship_23	Макс. к-сть заїздів
+Ver120/Ver120/Championship_24	Макс. к-сть раундів
+Ver120/Ver120/Championship_17	12 раундів
+Ver120/Ver120/Championship_18	16 раундів
+Ver120/Ver120/Championship_19	32 раунди
+Ver120/Ver120/Championship_20	64 раунди
+Ver120/Ver120/Championship_21	128 раундів
+Ver120/Ver120/Championship_22	Кільцеві
+Ver120/Ver120/Spectate_01	За ким спостерігати?
+Ver120/Ver120/Spectate_02	За лідером
+Ver120/Ver120/VSRace_01	Лише гриби
+Ver120/Ver120/TimeTrials_01	З привидом
+Ver120/Ver120/TimeTrials_02	Дивитися повтор
+Ver130/Ver130/Join_01	Місць більше немає. Зачекай, будь ласка...
+Ver130/Ver130/FreeRun_01	Почати завдання?
+Ver140/Bgm/BgmTitle_23	Розкриваємо таємниці замку
+Ver140/Bgm/BgmTitle_24	Пагорб суперзвоників
+Ver140/Bgm/BgmTitle_25	Битва на дорозі Боузера
+Ver140/Bgm/BgmTitle_26	Болото піраній-виповзунів
+Ver140/Bgm/BgmTitle_27	Прогулянка з подвійною вишнею
+Ver140/Bgm/BgmTitle_28	Змієшество
+Ver140/Bgm/BgmTitle_29	Угору й униз у маєтку бу
+Ver140/Bgm/BgmTitle_30	Капітан Тоад вирушає в дорогу
+Ver140/Bgm/BgmTitle_34	Вечір у савані
+Ver140/Bgm/BgmTitle_61	Долина привидів
+Ver140/Bgm/BgmTitle_62	Замок Боузера
+Ver140/Bgm/BgmTitle_63	Над грою працювали
+Ver140/Bgm/BgmTitle_64	Початковий екран (ф’южн-версія)
+Ver140/Bgm/BgmTitle_65	Ванільне озеро
+Ver140/Bgm/BgmTitle_66	Початковий екран (латиноамериканська джазова версія)
+Ver140/Bgm/BgmTitle_67	Купа-трупа-пляж
+Ver140/Bgm/BgmTitle_68	Траса Райдуга
+Ver140/Bgm/BgmTitle_69	Шоколадний острів (самба-версія)
+Ver140/Bgm/BgmTitle_70	Бубликові поля
+Ver140/Bgm/BgmTitle_71	Шоколадний острів (босанова-версія)
+Ver140/Bgm/BgmTitle_124	Траса Райдуга
+Ver140/Bgm/BgmTitle_125	Висохла пустеля
+Ver140/Bgm/BgmTitle_126	Замок Боузера
+Ver140/Bgm/BgmTitle_127	Над грою працювали
+Ver140/Bgm/BgmTitle_128	Крижана країна
+Ver140/Bgm/BgmTitle_129	Грибний міст
+Ver140/Bgm/BgmTitle_130	Траса Луїджі
+Ver140/Bgm/BgmTitle_131	Луна-парк Малюк
+Ver140/Bgm/BgmTitle_132	Бойова траса
+Ver140/Bgm/BgmTitle_133	Траса Райдуга
+Ver140/Bgm/BgmTitle_134	Бойова траса
+Ver140/Bgm/BgmTitle_135	Купа-трупа-пляж (рок-версія)
+Ver140/Bgm/BgmTitle_136	Екран результатів
+Ver140/Bgm/BgmTitle_137	Початковий екран
+Ver140/Bgm/BgmTitle_138	Ферма му-му
+Ver140/Bgm/BgmTitle_139	Пустеля Калімарі
+Ver140/Bgm/BgmTitle_140	Снігові простори (соул-версія)
+Ver140/Bgm/BgmTitle_141	Снігові простори (джаз-ф’южн-версія)
+Ver140/Bgm/BgmTitle_142	Купа-трупа-пляж (електро-версія)
+Ver140/Bgm/BgmTitle_143	Магістраль Тоада
+Ver140/Bgm/BgmTitle_144	Вибір персонажа
+Ver140/Bgm/BgmTitle_145	Шосе в джунглях ДК
+Ver140/Bgm/BgmTitle_146	Траса Райдуга
+Ver140/Bgm/BgmTitle_147	Пагорби Дейзі
+Ver140/Bgm/BgmTitle_148	Над грою працювали
+Ver140/Bgm/BgmTitle_149	Крутий перевал
+Ver140/Bgm/BgmTitle_150	Канал рослини-піранії
+Ver140/Bgm/BgmTitle_151	Крижаний світ Розаліни
+Ver140/Bgm/BgmTitle_152	Траса Тоада
+Ver140/Bgm/BgmTitle_153	Джунглі ДК
+Ver140/Bgm/BgmTitle_154	Мелодіодром
+Ver140/Bgm/BgmTitle_155	Каньйон солодощів (джаз-версія)
+Ver140/Bgm/BgmTitle_156	Дельфінячі мілини (електро-версія)
+Ver140/Bgm/BgmTitle_157	Підступний маєток
+Ver140/Bgm/BgmTitle_158	Лихі ліси
+Ver140/Bgm/BgmTitle_159	Порт тоадів (рок-версія)
+Ver140/Bgm/BgmTitle_160	Дельфінячі мілини (джаз-ф’южн-версія)
+Ver140/Bgm/BgmTitle_161	Сонячний аеропорт (лаундж-поп-версія)
+Ver140/Bgm/BgmTitle_162	Пустеля бамсів
+Ver140/Bgm/BgmTitle_163	Порт тоадів (електро-версія)
+Ver140/Bgm/BgmTitle_164	Сонячний аеропорт (електро-версія)
+Ver140/Bgm/BgmTitle_165	Дорога дракона
+Ver140/Bgm/BgmTitle_166	Замок Боузера
+Ver140/Bgm/BgmTitle_167	Каньйон солодощів (електро-версія)
+Ver140/Bgm/BgmTitle_168	Аквапарк
+Ver140/Bgm/BgmTitle_169	Гоночна арена
+Ver140/Bgm/BgmTitle_170	Гора Варіо
+Ver140/Bgm/BgmTitle_171	Водоспади сором’язняг
+Ver140/Bgm/BgmTitle_172	Траса Райдуга
+Ver140/Bgm/BgmTitle_173	Круїз над хмарами
+Ver140/Bgm/BgmTitle_174	Метро Маріо
+Ver140/Bgm/BgmTitle_175	Електродром
+Ver140/Bgm/BgmTitle_176	Mario Kart 8 (джаз-ф’южн-версія 1)
+Ver140/Bgm/BgmTitle_177	Дюни скелетів
+Ver140/Bgm/BgmTitle_178	Руїни бамсів
+Ver140/Bgm/BgmTitle_179	Траса Маріо
+Ver140/Bgm/BgmTitle_180	Mario Kart 8 (джаз-ф’южн-версія 2)
+Ver140/Bgm/BgmTitle_181	Полярний пробіг
+Ver140/Bgm/BgmTitle_182	Траса-вісімка
+Ver140/Bgm/BgmTitle_183	Маєток Луїджі
+Ver140/Bgm/BgmTitle_184	Годинник тік-так
+Ver140/Bgm/BgmTitle_185	Каскади Йоші
+Ver140/Bgm/BgmTitle_186	Грибний кряж
+Ver140/Bgm/BgmTitle_187	Над грою працювали
+Ver140/Bgm/BgmTitle_188	Траса Райдуга
+Ver140/Bgm/BgmTitle_189	Пінбол Валуїджі (рок-версія)
+Ver140/Bgm/BgmTitle_190	Сквер Дельфіно
+Ver140/Bgm/BgmTitle_191	Бойова траса
+Ver140/Bgm/BgmTitle_192	Пляж чіп-чіпів
+Ver140/Bgm/BgmTitle_193	Пінбол Валуїджі (фанк-версія)
+Ver140/Bgm/BgmTitle_194	Сади Піч
+Ver140/Bgm/BgmTitle_195	Траса Дейзі (акустична версія)
+Ver140/Bgm/BgmTitle_196	Траса Дейзі (електро-версія)
+Ver140/Bgm/BgmTitle_197	Над грою працювали (А)
+Ver140/Bgm/BgmTitle_198	Місячна магістраль
+Ver140/Bgm/BgmTitle_199	Кленова алея
+Ver140/Bgm/BgmTitle_200	Грибна ущелина
+Ver140/Bgm/BgmTitle_201	Торговий центр
+Ver140/Bgm/BgmTitle_202	Порт Дельфіно
+Ver140/Bgm/BgmTitle_203	Колесо кусак на ланцюгу
+Ver140/Bgm/BgmTitle_204	Сноуборд-крос ДК
+Ver140/Bgm/BgmTitle_205	Бурчливий вулкан
+Ver140/Bgm/BgmTitle_206	Висохлі руїни
+Ver140/Bgm/BgmTitle_207	Траса Райдуга
+Ver140/Bgm/BgmTitle_208	Траса Луїджі
+Ver140/Bgm/BgmTitle_209	Золота копальня Варіо
+Ver140/Bgm/BgmTitle_210	Сирні простори
+Ver140/Bgm/BgmTitle_211	Пляж сором’язняг
+Ver140/Bgm/BgmTitle_212	Траса Піч
+Ver140/Bgm/BgmTitle_213	Траса Райдуга
+Ver140/Bgm/BgmTitle_214	Замок Боузера
+Ver140/Bgm/BgmTitle_215	Серпантин
+Ver140/Bgm/BgmTitle_216	Прибережний парк
+Ver140/Bgm/BgmTitle_217	Пустеля Йоші
+Ver140/Bgm/BgmTitle_218	Година пік у Бангкоку
+Ver140/Bgm/BgmTitle_219	Святкові гори
+Ver140/Bgm/BgmTitle_220	Краєвиди Лос-Анджелеса
+Ver140/Bgm/BgmTitle_221	Дім ніндзя
+Ver140/Bgm/BgmTitle_222	Ванкувер-вояж
+Ver140/Bgm/BgmTitle_223	Токійські перегони
+Ver140/Bgm/BgmTitle_224	Перегони у ванній
+Ver140/Bgm/BgmTitle_225	Метушня в Сінгапурі
+Ver140/Bgm/BgmTitle_226	Трубопровід рослин-піраній
+Ver140/Bgm/BgmTitle_227	Початковий екран
+Ver140/Bgm/BgmTitle_235	Бойова траса
+Ver140/Bgm/BgmTitle_236	Корабельна фортеця
+Ver140/Bgm/BgmTitle_237	Дубові доріжки
+Ver140/Bgm/BgmTitle_238	Кульбабовий грот
+Ver140/Bgm/BgmTitle_239	Стадіон Піч
+Ver140/Bgm/BgmTitle_240	Шоколадна гора
+Ver140/Bgm/BgmTitle_241	Кінотеатр бу
+Ver140/Bgm/BgmTitle_242	Паровозний пік
+Ver140/Bgm/BgmTitle_243	Піщаний шлях
+Ver140/Bgm/BgmTitle_244	Скелетний серпантин
+Ver140/Bgm/BgmTitle_245	Діно-діно джунглі
+Ver140/Bgm/BgmTitle_246	Далека оаза
+Ver140/Bgm/BgmTitle_247	Перевал ДК
+Ver140/Bgm/BgmTitle_248	Космопорт ДК
+Ver140/Bgm/BgmTitle_249	Траса Mario Bros.
+Ver140/Bgm/BgmTitle_250	Пломбірний пробіг
+Ver140/Bgm/BgmTitle_251	Купа-трупа-пляж
+Ver140/Bgm/BgmTitle_252	Водні провулки
+Ver140/Bgm/BgmTitle_253	Замок Боузера
+Ver140/Bgm/BgmTitle_254	Луки му-му
+Ver140/Bgm/BgmTitle_255	Узбережжя Піч
+Ver140/Bgm/BgmTitle_256	Чіп-чіпові каскади
+Ver140/Bgm/BgmTitle_257	Траса Райдуга
+Ver140/Bgm/BgmTitle_258	Траса Маріо
+Ver140/Bgm/BgmTitle_259	Маскарад Сором’язняги
+Ver140/Bgm/BgmTitle_260	Астротрек
+Ver140/Bgm/BgmTitle_261	Золоті руїни «?»
+Ver140/Bgm/BgmTitle_262	Фабрика Тоада
+Ver140/Bgm/BgmTitle_263	Галеон Варіо
+Ver140/Bgm/BgmTitle_264	Стадіон Варіо
+Ver140/Bgm/BgmTitle_265	Кронбридж
+Ver140/Bgm/BgmTitle_266	Основний мотив
+Ver140/Bgm/BgmTitle_267	Спостереження
+Ver140/Bgm/BgmTitle_268	Повтор
+Ver140/Bgm/BgmTitle_269	До Траси Райдуга
+Ver140/Bgm/BgmTitle_270	Шоколадний острів
+Ver140/Bgm/BgmTitle_271	Траса Маріо
+Ver140/Bgm/BgmTitle_272	Долина привидів
+Ver140/Bgm/BgmTitle_273	Ванільне озеро
+Ver140/Bgm/BgmTitle_274	Купа-трупа-пляж
+Ver140/Ver140/ItemSwitch_01	На вибір
+Ver140/Ver140/ItemSwitch_02	Випадкові
+Ver140/Ver140/ItemSwitch_03	Усі предмети
+Ver140/Ver140/ItemSwitch_04	Без предметів
+Ver140/Ver140/BGMVolume_01	Гучність музики
+Ver140/Ver140/BGMVolume_02	Звичайна
+Ver140/Ver140/BGMVolume_03	Висока
+Ver140/Ver140/Accompany_01	Лише група
+Ver140/Ver140/Accompany_02	Усі
+Ver140/Ver140/Accompany_03	Приєднатися з членами цієї\nгрупи до інших гравців онлайн?
+Ver140/Ver140/Accompany_04	Разом приєднатися до інших\nгравців онлайн можуть щонайбільше\nчотири гравці.
+Ver140/Ver140/Accompany_05	Приєднання до інших гравців онлайн...
+Ver160/Ver160/BattleRule_01	Боб-омб-битва
+Ver170/Ver170/PhotoMode170_00	Наклейки
+Ver170/Ver170/PhotoMode170_02	Скинути
+Ver170/Ver170/PhotoMode_Dialog_Reset_00	Скинути всі зміни?
+Ver170/Ver170/PhotoMode_Dialog_Reset_01	Так
+Ver170/Ver170/PhotoMode_Dialog_Reset_02	Ні
+Ver170/Ver170/PhotoSticker_01	Завершити
+Ver170/Ver170/PhotoSticker_03	Меню наклейок
+Ver170/Ver170/PhotoSticker_06	Назад
+Ver170/Ver170/PhotoSticker_08	Розмір
+Ver170/Ver170/PhotoSticker_10	Нахил
+Ver170/Ver170/PhotoSticker_12	Підтвердити
+Ver170/Ver170/Name_GP17	{0E 0000 0002 0002 005F}Ралі «Бур»
+Ver170/Ver170/Name_GP18	{0E 0000 0002 0002 005F}Ралі «Бумеранг»
+Ver170/Ver170/SpectatingMode_01	Режим спостерігача
+Ver170/Ver170/SpectatingMode_02	Почати спостерігати?\n\nТи не зможеш грати\nпід час спостереження.
+Ver170/Ver170/SpectatingMode_03	Припинити спостерігати?
+Ver170/Ver170/SpectatingMode_04	Місць більше немає.\nСпробуй ще раз,\nколи вони з’являться.
+Ver170/Ver170/SpectatingMode_05	Не вдалося перемкнути.
+Ver170/Ver170/SpectatingMode_06	Неможливо вибрати «Усі»,\nбо є гравець у режимі\nспостерігача.
+Ver170/Ver170/SpectatingMode_07	Залишилося замало\nгравців.
+Ver180/Ver180/Name_GP19	{0E 0000 0002 0002 005F}Ралі «Пропелер»
+Ver180/Ver180/Name_GP20	{0E 0000 0002 0002 005F}Ралі «Ріпка»
+Ver180/Ver180/Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 1
+Ver180/Ver180/Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 2
+Ver180/Ver180/Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 3
+Ver180/Ver180/Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 1
+Ver180/Ver180/Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 2
+Ver180/Ver180/Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 3
+Ver180/Ver180/Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Шоколадний острів 1
+Ver180/Ver180/Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Шоколадний острів 2
+Ver180/Ver180/Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Ванільне озеро 1
+Ver180/Ver180/Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Купа-трупа-пляж 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 2
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Траса Маріо 3
+Ver180/Ver180/Adjust_Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 1
+Ver180/Ver180/Adjust_Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 2
+Ver180/Ver180/Adjust_Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Долина привидів 3
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Шоколадний острів 1
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Шоколадний острів 2
+Ver180/Ver180/Adjust_Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Ванільне озеро 1
+Ver180/Ver180/Adjust_Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Купа-трупа-пляж 1
+Ver180/Ver180/PhotoMode_Filter_00	Фільтр
+Ver180/Ver180/PhotoMode_Filter_01	Фільтр: 1
+Ver180/Ver180/PhotoMode_Filter_02	Фільтр: 2
+Ver180/Ver180/PhotoMode_Filter_03	Фільтр: 3
+Ver180/Ver180/PhotoMode_Filter_04	Фільтр: 4
+Ver180/Ver180/PhotoMode_Filter_05	Фільтр: 5
+Ver180/Ver180/PhotoMode_Filter_06	Фільтр: 6
+Ver180/Ver180/PhotoMode_Filter_07	Фільтр: 7
+Ver180/Ver180/PhotoMode_Filter_08	Фільтр: 8

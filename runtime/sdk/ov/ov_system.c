@@ -84,8 +84,11 @@ static const char *switch_language(const char *tag) {
     if (!strcmp(lang, "es")) return *region && strcmp(region, "ES") ? "es-419" : "es";
     // Spain's other languages, which the game does not ship: its Spanish (the menu has their own rows)
     if (!strcmp(lang, "ca") || !strcmp(lang, "gl") || !strcmp(lang, "eu")) return "es";
-    // Turkish, which the game does not ship either: its British English, the texts rebuilt over it (discussion #593)
-    if (!strcmp(lang, "tr")) return "en-GB";
+    // Turkish, Vietnamese, Ukrainian, Indonesian, Arabic and Hindi, which the game does not ship either: its British
+    // English, the texts rebuilt over it (discussion #593, #873)
+    if (!strcmp(lang, "tr") || !strcmp(lang, "vi") || !strcmp(lang, "uk") || !strcmp(lang, "id") ||
+        !strcmp(lang, "ar") || !strcmp(lang, "hi"))
+        return "en-GB";
     // Languages later updates added (Polish 1.5.0, Thai 1.7.0): only when this copy of the game has their texts
     if ((!strcmp(lang, "pl") || !strcmp(lang, "th")) && romfs_has_language(lang)) return !strcmp(lang, "pl") ? "pl" : "th";
     if (!strcmp(lang, "zh"))
@@ -99,7 +102,9 @@ static const char *switch_language(const char *tag) {
 
 // Languages the game does not ship whose texts we rebuild over one it does (tools/i18n/game_texts.py): the game is told
 // the base, and romfs.c serves the rebuilt archives from <exe dir>/lang/<code>/ (ov_text_language).
-static const struct { const char *code, *base; } kRebuilt[] = {{"ca", "es"}, {"gl", "es"}, {"eu", "es"}, {"tr", "en-GB"}};
+static const struct { const char *code, *base; } kRebuilt[] = {{"ca", "es"}, {"gl", "es"}, {"eu", "es"}, {"tr", "en-GB"},
+                                                                {"vi", "en-GB"}, {"uk", "en-GB"},
+                                                                {"id", "en-GB"}, {"ar", "en-GB"}, {"hi", "en-GB"}};
 
 static const char *rebuilt_base(const char *code) {
     for (size_t i = 0; i < sizeof kRebuilt / sizeof *kRebuilt; i++)

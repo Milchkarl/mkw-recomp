@@ -1,0 +1,20 @@
+# Texts 1.8.0 reworded or retagged: used over ../hi.tsv for a 1.8.0 copy or later (tools/i18n/game_texts.py)
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	रीप्ले देखें
+MsgMain/GrandprixCupName/Name_GP09	{0E 0000 0002 0002 005F}गोल्डन रैली
+MsgMain/GrandprixCupName/Name_GP10	{0E 0000 0002 0002 005F}आइस रैली
+MsgMain/GrandprixCupName/Name_GP11	{0E 0000 0002 0002 005F}मून रैली
+MsgMain/GrandprixCupName/Name_GP12	{0E 0000 0002 0002 005F}स्पाइनी रैली
+MsgMain/GrandprixCupName/Name_GP13	{0E 0000 0002 0002 005F}चेरी रैली
+MsgMain/GrandprixCupName/Name_GP14	{0E 0000 0002 0002 005F}एकॉर्न रैली
+MsgMain/GrandprixCupName/Name_GP15	{0E 0000 0002 0002 005F}क्लाउड रैली
+MsgMain/GrandprixCupName/Name_GP16	{0E 0000 0002 0002 005F}हार्ट रैली
+MsgMain/Help/FreeRun_06	फ़ोटो मोड
+MsgMain/Menu/2263	रीप्ले देखें
+MsgMain/Menu/2271	घोस्ट डेटा डाउनलोड हो गया!
+MsgMain/Menu/5202	प्रतिस्पर्धा के लिए रूम बनाएँ?
+MsgMain/Menu/5221	यह रूम छोड़ें?
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}टॉप 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} में आएँ!
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}टॉप 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!

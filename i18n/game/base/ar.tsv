@@ -1,0 +1,1655 @@
+# Arabic (Modern Standard) for the game's own texts (tools/i18n/game_texts.py): "label<TAB>text", over the game's
+# British English (EUen), in reading order: the build joins the letters and writes each line in visual order
+# (arabic.py), and the fonts get Noto Sans Arabic's letters (game_fonts_ar.py). Control tags as the dump gives them.
+LayoutMsg/ChatSelectBtn_00/T_Text_02	شاهد صاحب المركز الأول.
+LayoutMsg/ChatSelectBtn_00/T_Text_03	شاهد صاحب المركز الأول.
+LayoutMsg/Damage_00/T_Msg_00	آه!
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_00/T_Btn_00	الجائزة الكبرى
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_01/T_Btn_00	لعب عبر الشبكة المحلية
+LayoutMsg/DialogTimeAttack_00/DialogTimeAttack_00:L_DialogBtn_02/T_Text_00	موافق
+LayoutMsg/DialogUseCamera_00/T_MainText_00	استخدام الكاميرا؟
+LayoutMsg/DialogUseCamera_00/T_SubText_00	يجب الانضمام إلى GameChat لاستخدام\nالكاميرا عبر الإنترنت. ترسل لقطات الكاميرا\nوصوت الميكروفون إلى أعضاء GameChat فقط.
+LayoutMsg/Dialog_00/L_DialogBtnC_00/T_Text_00	موافق
+LayoutMsg/Dialog_00/T_Group_00	رمز الغرفة
+LayoutMsg/FaceSelect_00/T_Text_00	ضع المؤشر على وجهك.
+LayoutMsg/FaceSelect_00/T_Text_01	تحقق من الكاميرا.
+LayoutMsg/FriendList_00/T_Friend_00	هم
+LayoutMsg/FriendList_00/T_Rec_00	سجل المعارك
+LayoutMsg/FriendList_00/T_You_00	أنت
+LayoutMsg/FriendList_00/FriendList_00:L_Go_00/T_Text_00	انضمام
+LayoutMsg/FriendList_00/T_Rec_01	المشاركون
+LayoutMsg/Hit_00/T_Msg_00	أصبتهم!
+LayoutMsg/MenuGameSelect_01/T_Msg_00	اطمح للذهب في كأس من أربعة سباقات!
+LayoutMsg/MenuGameSelect_01/T_Msg_01	ابق في المقدمة في سباق التحمل!
+LayoutMsg/MenuGameSelect_01/T_Msg_02	تسابق وحدك لتحقيق أرقام جديدة!
+LayoutMsg/MenuGameSelect_01/T_Msg_03	تسابق بقواعد مخصصة!
+LayoutMsg/MenuGameSelect_01/T_Msg_04	قاتل بقواعد مخصصة!
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_00/T_Btn_00	التقنيات
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_01/T_Btn_00	الأغراض
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_02/T_Btn_00	القواعد
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_03/T_Btn_00	تجول حر
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_00/T_Btn_00	لاعب واحد
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_01/T_Btn_00	متعدد اللاعبين
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_02/T_Btn_00	لعب عبر الإنترنت
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_00/T_Text_00	سباق فردي
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_01/T_Text_00	سباق ضد الشبح
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	عرض الشبح
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_03/T_Text_00	عرض الترتيب
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_04/T_Text_00	رفع بيانات الشبح
+LayoutMsg/OnlineMenu_00/L_Btn_00/T_Btn_00	سباق
+LayoutMsg/OnlineMenu_00/L_Btn_01/T_Btn_00	جولة الإقصاء
+LayoutMsg/OnlineMenu_00/L_Btn_02/T_Btn_00	المعركة
+LayoutMsg/OnlineMenu_00/L_Btn_03/T_Btn_00	الأصدقاء
+LayoutMsg/OnlineMenu_00/L_Btn_04/T_Btn_00	فعاليات
+LayoutMsg/PhotoMode_00/T_Attention_00	مواجهة الكاميرا
+LayoutMsg/PhotoMode_00/T_End_00	إنهاء
+LayoutMsg/PhotoMode_00/T_Face_00	تعبير الوجه
+LayoutMsg/PhotoMode_00/T_Gide_00	الدليل
+LayoutMsg/PhotoMode_00/T_Posechange_00	وضعية
+LayoutMsg/PhotoMode_00/T_Roll_00	إمالة
+LayoutMsg/PhotoMode_00/T_Take_00	تصوير
+LayoutMsg/PhotoMode_00/T_Zoom_00	تقريب
+LayoutMsg/Retry_00/T_Retry_00	إعادة
+LayoutMsg/RuleSelect_00/T_Change_00	ضبط القواعد
+LayoutMsg/TeamSelect_00/TeamSelect_00:$DialogBtnS_00/T_Text_00	موافق
+LayoutMsg/TitleLogo_00/T_Press_00	اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} للبدء
+MsgMain/BattleCourse/1701	حلبة الأخوين ماريو
+MsgMain/BattleCourse/1702	صحراء تشين تشومب
+MsgMain/BattleCourse/1703	استاد بيتش
+MsgMain/BattleCourse/1704	غابة الديناصورات
+MsgMain/BattleCourse/1705	الدونات الكبيرة
+MsgMain/BattleCourse/1706	طريق الملح السريع
+MsgMain/BattleCourse/1707	مروج موو موو
+MsgMain/BattleCourse/1708	ممر دونكي كونغ
+MsgMain/Course(adjust)/Adjust_Name_Race_AirshipFortress_A_00	حصن السفن الطائرة
+MsgMain/Course(adjust)/Adjust_Name_Race_BigTree_A_00	مرتفعات البلوط
+MsgMain/Course(adjust)/Adjust_Name_Race_Cave_A_00	أعماق الهندباء
+MsgMain/Course(adjust)/Adjust_Name_Race_Central_A_00	استاد بيتش
+MsgMain/Course(adjust)/Adjust_Name_Race_ChocoMountain_A_00	جبل الشوكولا
+MsgMain/Course(adjust)/Adjust_Name_Race_Cinema_A_00	سينما بو
+MsgMain/Course(adjust)/Adjust_Name_Race_Coaster_A_00	قمة محطة الصافرة
+MsgMain/Course(adjust)/Adjust_Name_Race_DesertHills_A_00	تلال الصحراء
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoBones_A_00	حلبة دراي بونز
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoDinoJungle_A_00	غابة الديناصورات
+MsgMain/Course(adjust)/Adjust_Name_Race_DKJungleParkway_A_00	الواحة البعيدة
+MsgMain/Course(adjust)/Adjust_Name_Race_DKPass_A_00	ممر دونكي كونغ
+MsgMain/Course(adjust)/Adjust_Name_Race_DonkeyKong_A_00	ميناء دونكي كونغ الفضائي
+MsgMain/Course(adjust)/Adjust_Name_Race_FirstCircuit_A_00	حلبة الأخوين ماريو
+MsgMain/Course(adjust)/Adjust_Name_Race_IceBuildings_A_00	آيس كريم السماء
+MsgMain/Course(adjust)/Adjust_Name_Race_KoopaTroopaBeach_A_00	شاطئ كوبا تروبا
+MsgMain/Course(adjust)/Adjust_Name_Race_LagoonCity_A_00	طريق الملح السريع
+MsgMain/Course(adjust)/Adjust_Name_Race_Lava_A_00	قلعة باوزر
+MsgMain/Course(adjust)/Adjust_Name_Race_MooMooFarm_A_00	مروج موو موو
+MsgMain/Course(adjust)/Adjust_Name_Race_RaftingRiver_A_00	شلالات تشيب تشيب
+MsgMain/Course(adjust)/Adjust_Name_Race_Rainbow_A_00	طريق قوس قزح
+MsgMain/Course(adjust)/Adjust_Name_Race_SFCMarioCircuit_G_00	حلبة ماريو
+MsgMain/Course(adjust)/Adjust_Name_Race_ShyGuyBazaar_A_00	سوق شاي غاي
+MsgMain/Course(adjust)/Adjust_Name_Race_SnowMountain_A_00	قمة مشاهدة النجوم
+MsgMain/Course(adjust)/Adjust_Name_Race_StormClouds_A_00	أطلال المكعب ؟ العظيم
+MsgMain/Course(adjust)/Adjust_Name_Race_ToadFactory_A_00	مصنع تود
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioShipyard_A_00	سفينة واريو
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioStadium_A_00	استاد واريو
+MsgMain/Course(adjust)/Adjust_Name_Race_WestCity_D_00	مدينة التاج
+MsgMain/Course(adjust)/Adjust_Name_Race_PeachBeach_D_00	شاطئ بيتش
+MsgMain/Course/Name_Race_AirshipFortress_A_00	حصن السفن الطائرة
+MsgMain/Course/Name_Race_BigTree_A_00	مرتفعات البلوط
+MsgMain/Course/Name_Race_Cave_A_00	أعماق الهندباء
+MsgMain/Course/Name_Race_Central_A_00	استاد بيتش
+MsgMain/Course/Name_Race_ChocoMountain_A_00	جبل الشوكولا
+MsgMain/Course/Name_Race_Cinema_A_00	سينما بو
+MsgMain/Course/Name_Race_Coaster_A_00	قمة محطة الصافرة
+MsgMain/Course/Name_Race_DesertHills_A_00	تلال الصحراء
+MsgMain/Course/Name_Race_DinoBones_A_00	حلبة دراي بونز
+MsgMain/Course/Name_Race_DinoDinoJungle_A_00	غابة الديناصورات
+MsgMain/Course/Name_Race_DKJungleParkway_A_00	الواحة البعيدة
+MsgMain/Course/Name_Race_DKPass_A_00	ممر دونكي كونغ
+MsgMain/Course/Name_Race_DonkeyKong_A_00	ميناء دونكي كونغ الفضائي
+MsgMain/Course/Name_Race_FirstCircuit_A_00	حلبة الأخوين ماريو
+MsgMain/Course/Name_Race_IceBuildings_A_00	آيس كريم السماء
+MsgMain/Course/Name_Race_KoopaTroopaBeach_A_00	شاطئ كوبا تروبا
+MsgMain/Course/Name_Race_LagoonCity_A_00	طريق الملح السريع
+MsgMain/Course/Name_Race_Lava_A_00	قلعة باوزر
+MsgMain/Course/Name_Race_MooMooFarm_A_00	مروج موو موو
+MsgMain/Course/Name_Race_RaftingRiver_A_00	شلالات تشيب تشيب
+MsgMain/Course/Name_Race_Rainbow_A_00	طريق قوس قزح
+MsgMain/Course/Name_Race_SFCMarioCircuit_G_00	حلبة ماريو
+MsgMain/Course/Name_Race_ShyGuyBazaar_A_00	سوق شاي غاي
+MsgMain/Course/Name_Race_SnowMountain_A_00	قمة مشاهدة النجوم
+MsgMain/Course/Name_Race_StormClouds_A_00	أطلال المكعب ؟ العظيم
+MsgMain/Course/Name_Race_ToadFactory_A_00	مصنع تود
+MsgMain/Course/Name_Race_WarioShipyard_A_00	سفينة واريو
+MsgMain/Course/Name_Race_WarioStadium_A_00	استاد واريو
+MsgMain/Course/Name_Race_WestCity_D_00	مدينة التاج
+MsgMain/Course/Name_Race_PeachBeach_D_00	شاطئ بيتش
+MsgMain/CourseArea(adjust)/Name_AirshipFortress_00	حصن السفن الطائرة
+MsgMain/CourseArea(adjust)/Name_BigTree_00	مرتفعات البلوط
+MsgMain/CourseArea(adjust)/Name_Cave_00	أعماق الهندباء
+MsgMain/CourseArea(adjust)/Name_Central_00	استاد بيتش
+MsgMain/CourseArea(adjust)/Name_ChocoMountain_00	جبل الشوكولا
+MsgMain/CourseArea(adjust)/Name_Cinema_00	سينما بو
+MsgMain/CourseArea(adjust)/Name_Coaster	قمة محطة الصافرة
+MsgMain/CourseArea(adjust)/Name_DesertHills_00	تلال الصحراء
+MsgMain/CourseArea(adjust)/Name_DinoBones_00	حلبة دراي بونز
+MsgMain/CourseArea(adjust)/Name_DinoDinoJungle_00	غابة الديناصورات
+MsgMain/CourseArea(adjust)/Name_DKJungleParkway_00	الواحة البعيدة
+MsgMain/CourseArea(adjust)/Name_DKPass_00	ممر دونكي كونغ
+MsgMain/CourseArea(adjust)/Name_DonkeyKong	ميناء دونكي كونغ الفضائي
+MsgMain/CourseArea(adjust)/Name_FirstCircuit	حلبة الأخوين ماريو
+MsgMain/CourseArea(adjust)/Name_IceBuildings_00	آيس كريم السماء
+MsgMain/CourseArea(adjust)/Name_KoopaTroopaBeach_00	شاطئ كوبا تروبا
+MsgMain/CourseArea(adjust)/Name_LagoonCity_00	طريق الملح السريع
+MsgMain/CourseArea(adjust)/Name_Lava_00	قلعة باوزر
+MsgMain/CourseArea(adjust)/Name_MooMooFarm_00	مروج موو موو
+MsgMain/CourseArea(adjust)/Name_PeachBeach_00	شاطئ بيتش
+MsgMain/CourseArea(adjust)/Name_RaftingRiver_00	شلالات تشيب تشيب
+MsgMain/CourseArea(adjust)/Name_Rainbow_00	طريق قوس قزح
+MsgMain/CourseArea(adjust)/Name_SFCMarioCircuit_00	حلبة ماريو
+MsgMain/CourseArea(adjust)/Name_ShyGuyBazaar_00	سوق شاي غاي
+MsgMain/CourseArea(adjust)/Name_SnowMountain_00	قمة مشاهدة النجوم
+MsgMain/CourseArea(adjust)/Name_StormClouds_00	أطلال المكعب ؟ العظيم
+MsgMain/CourseArea(adjust)/Name_ToadFactory_00	مصنع تود
+MsgMain/CourseArea(adjust)/Name_WarioShipyard_00	سفينة واريو
+MsgMain/CourseArea(adjust)/Name_WarioStadium	استاد واريو
+MsgMain/CourseArea(adjust)/Name_WestCity	مدينة التاج
+MsgMain/CourseArea/Name_AirshipFortress_00	حصن السفن الطائرة
+MsgMain/CourseArea/Name_BigTree_00	مرتفعات البلوط
+MsgMain/CourseArea/Name_Cave_00	أعماق الهندباء
+MsgMain/CourseArea/Name_Central_00	استاد بيتش
+MsgMain/CourseArea/Name_ChocoMountain_00	جبل الشوكولا
+MsgMain/CourseArea/Name_Cinema_00	سينما بو
+MsgMain/CourseArea/Name_Coaster	قمة محطة الصافرة
+MsgMain/CourseArea/Name_DesertHills_00	تلال الصحراء
+MsgMain/CourseArea/Name_DinoBones_00	حلبة دراي بونز
+MsgMain/CourseArea/Name_DinoDinoJungle_00	غابة الديناصورات
+MsgMain/CourseArea/Name_DKJungleParkway_00	الواحة البعيدة
+MsgMain/CourseArea/Name_DKPass_00	ممر دونكي كونغ
+MsgMain/CourseArea/Name_DonkeyKong	ميناء دونكي كونغ الفضائي
+MsgMain/CourseArea/Name_FirstCircuit	حلبة الأخوين ماريو
+MsgMain/CourseArea/Name_IceBuildings_00	آيس كريم السماء
+MsgMain/CourseArea/Name_KoopaTroopaBeach_00	شاطئ كوبا تروبا
+MsgMain/CourseArea/Name_LagoonCity_00	طريق الملح السريع
+MsgMain/CourseArea/Name_Lava_00	قلعة باوزر
+MsgMain/CourseArea/Name_MooMooFarm_00	مروج موو موو
+MsgMain/CourseArea/Name_PeachBeach_00	شاطئ بيتش
+MsgMain/CourseArea/Name_RaftingRiver_00	شلالات تشيب تشيب
+MsgMain/CourseArea/Name_Rainbow_00	طريق قوس قزح
+MsgMain/CourseArea/Name_SFCMarioCircuit_00	حلبة ماريو
+MsgMain/CourseArea/Name_ShyGuyBazaar_00	سوق شاي غاي
+MsgMain/CourseArea/Name_SnowMountain_00	قمة مشاهدة النجوم
+MsgMain/CourseArea/Name_StormClouds_00	أطلال المكعب ؟ العظيم
+MsgMain/CourseArea/Name_ToadFactory_00	مصنع تود
+MsgMain/CourseArea/Name_WarioShipyard_00	سفينة واريو
+MsgMain/CourseArea/Name_WarioStadium	استاد واريو
+MsgMain/CourseArea/Name_WestCity	مدينة التاج
+MsgMain/Driver/Driver_MarioRacing_00	سائق محترف
+MsgMain/Driver/Driver_MarioSheriff_00	راعي بقر
+MsgMain/Driver/Driver_MarioDesert_00	فارس الكثبان
+MsgMain/Driver/Driver_MarioOmatsuri_00	هابي
+MsgMain/Driver/Driver_MarioCasual_00	جولة
+MsgMain/Driver/Driver_MarioPilot_00	طيار
+MsgMain/Driver/Driver_MarioVacance_00	سياحة
+MsgMain/Driver/Driver_MarioOffroad_00	كل التضاريس
+MsgMain/Driver/Driver_MarioMechanic_00	ميكانيكي
+MsgMain/Driver/Driver_LuigiRacing_00	سائق محترف
+MsgMain/Driver/Driver_LuigiLagoonCity_00	جونديلي
+MsgMain/Driver/Driver_LuigiDesert_00	واحة
+MsgMain/Driver/Driver_LuigiOmatsuri_00	هابي
+MsgMain/Driver/Driver_LuigiFarmer_00	مزارع
+MsgMain/Driver/Driver_LuigiCasual_00	جولة
+MsgMain/Driver/Driver_LuigiMechanic_00	ميكانيكي
+MsgMain/Driver/Driver_LuigiOffroad_00	كل التضاريس
+MsgMain/Driver/Driver_PeachCasual_00	جولة
+MsgMain/Driver/Driver_PeachLagoonCity_00	سياحة
+MsgMain/Driver/Driver_PeachFarmer_00	مزارع
+MsgMain/Driver/Driver_PeachRacing_00	سائق محترف
+MsgMain/Driver/Driver_PeachPilot_00	طيار
+MsgMain/Driver/Driver_PeachResort_00	عطلة
+MsgMain/Driver/Driver_PeachOffroad_00	إيرو
+MsgMain/Driver/Driver_PeachYukata_00	يوكاتا
+MsgMain/Driver/Driver_DaisySwim_00	ملابس سباحة
+MsgMain/Driver/Driver_DaisyLagoonCity_00	عطلة
+MsgMain/Driver/Driver_DaisyDesert_00	واحة
+MsgMain/Driver/Driver_DaisyRacing_00	سائق محترف
+MsgMain/Driver/Driver_DaisyCasual_00	جولة
+MsgMain/Driver/Driver_DaisyOffroad_00	إيرو
+MsgMain/Driver/Driver_YoshiDelivery_00	بائع الطعام
+MsgMain/Driver/Driver_YoshiIce_00	بائع المثلجات
+MsgMain/Driver/Driver_YoshiRacing_00	سائق محترف
+MsgMain/Driver/Driver_YoshiSwim_00	ملابس سباحة
+MsgMain/Driver/Driver_YoshiStadium_00	دراج
+MsgMain/Driver/Driver_YoshiCasual_00	جولة
+MsgMain/Driver/Driver_YoshiHachimaki_00	ماتسوري
+MsgMain/Driver/Driver_YoshiMovie_00	نبيل
+MsgMain/Driver/Driver_KinopioEngineer_00	مهندس
+MsgMain/Driver/Driver_KinopioDiner_00	صديق البرغر
+MsgMain/Driver/Driver_KinopioRacing_00	سائق محترف
+MsgMain/Driver/Driver_KinopioExplore_00	مستكشف
+MsgMain/Driver/Driver_KoopaRiders_00	دراج
+MsgMain/Driver/Driver_KoopaRacing_00	سائق محترف
+MsgMain/Driver/Driver_KoopaOffroad_00	كل التضاريس
+MsgMain/Driver/Driver_KoopaHotrod_00	معزز
+MsgMain/Driver/Driver_DKOffroad_00	كل التضاريس
+MsgMain/Driver/Driver_WarioDesert_00	واحة
+MsgMain/Driver/Driver_WarioDiner_00	دراج
+MsgMain/Driver/Driver_WarioFactory_00	طاقم عمل
+MsgMain/Driver/Driver_WarioRacing_00	سائق محترف
+MsgMain/Driver/Driver_WarioFairy_00	الدبور الشرير
+MsgMain/Driver/Driver_WarioPirate_00	قرصان
+MsgMain/Driver/Driver_WarioStadium_00	بلطجي الطريق
+MsgMain/Driver/Driver_WaluigiRacing_00	سائق محترف
+MsgMain/Driver/Driver_WaluigiHorror_00	وامباير
+MsgMain/Driver/Driver_WaluigiDiner_00	دراج
+MsgMain/Driver/Driver_WaluigiStadium_00	بلطجي الطريق
+MsgMain/Driver/Driver_WaluigiMariachi_00	ماريتشي
+MsgMain/Driver/Driver_RosettaRacing_00	سائق محترف
+MsgMain/Driver/Driver_RosettaCasual_00	جولة
+MsgMain/Driver/Driver_RosettaAurora_00	الشفق
+MsgMain/Driver/Driver_RosettaOffroad_00	إيرو
+MsgMain/Driver/Driver_PaulineOffroad_00	إيرو
+MsgMain/Driver/Driver_BabyMarioSwim_00	ملابس سباحة
+MsgMain/Driver/Driver_BabyMarioFactory_00	طاقم عمل
+MsgMain/Driver/Driver_BabyMarioRacing_00	سائق محترف
+MsgMain/Driver/Driver_BabyLuigiFactory_00	طاقم عمل
+MsgMain/Driver/Driver_BabyLuigiRacing_00	سائق محترف
+MsgMain/Driver/Driver_BabyPeachMarine_00	بحار
+MsgMain/Driver/Driver_BabyPeachExplore_00	مستكشف
+MsgMain/Driver/Driver_BabyPeachCasual_00	جولة
+MsgMain/Driver/Driver_BabyPeachRacing_00	سائق محترف
+MsgMain/Driver/Driver_BabyDaisyMarine_00	بحار
+MsgMain/Driver/Driver_BabyDaisyExplore_00	مستكشف
+MsgMain/Driver/Driver_BabyDaisyRacing_00	سائق محترف
+MsgMain/Driver/Driver_BabyDaisyCasual_00	جولة
+MsgMain/Driver/Driver_BabyRosettaMarine_00	بحار
+MsgMain/Driver/Driver_BabyRosettaExplore_00	مستكشف
+MsgMain/Driver/Driver_BabyRosettaCasual_00	جولة
+MsgMain/Driver/Driver_BabyRosettaRacing_00	سائق محترف
+MsgMain/Driver/Driver_KinopicoConductor_00	قائد القطار
+MsgMain/Driver/Driver_KinopicoIce_00	بائع المثلجات
+MsgMain/Driver/Driver_KinopicoRacing_00	سائق محترف
+MsgMain/Driver/Driver_KinopicoExplore_00	مستكشف
+MsgMain/Driver/Driver_KoopaJrRiders_00	دراج صغير
+MsgMain/Driver/Driver_KoopaJrScout_00	مستكشف
+MsgMain/Driver/Driver_KoopaJrRacing_00	سائق محترف
+MsgMain/Driver/Driver_CatherineLagoonCity_00	عطلة
+MsgMain/Driver/Driver_CatherineRacing_00	سائق محترف
+MsgMain/Driver/Driver_NokonokoRunner_00	عداء
+MsgMain/Driver/Driver_NokonokoRacing_00	سائق محترف
+MsgMain/Driver/Driver_NokonokoFlagman_00	طاقم عمل
+MsgMain/Driver/Driver_NokonokoSailor_00	بحار
+MsgMain/Driver/Driver_NokonokoOffroad_00	كل التضاريس
+MsgMain/Driver/Driver_HeyhoSnow_00	متزلج أنيق
+MsgMain/Driver/Driver_HeyhoRacing_00	طاقم الصيانة
+MsgMain/Driver/Driver_JugemAngler_00	صياد
+MsgMain/Driver/Driver_JugemRacing_00	طاقم الصيانة
+MsgMain/Driver/Driver_KingTeresaMovie_00	نبيل
+MsgMain/Driver/Driver_KingTeresaPirate_00	قرصان
+MsgMain/Driver/Driver_KingTeresaRacing_00	سائق محترف
+MsgMain/DriverCategoryName/Driver_BabyDaisy	بيبي ديزي
+MsgMain/DriverCategoryName/Driver_BabyLuigi	بيبي لويجي
+MsgMain/DriverCategoryName/Driver_BabyMario	بيبي ماريو
+MsgMain/DriverCategoryName/Driver_BabyPeach	بيبي بيتش
+MsgMain/DriverCategoryName/Driver_BabyRosetta	بيبي روزالينا
+MsgMain/DriverCategoryName/Driver_Catherine	بيردو
+MsgMain/DriverCategoryName/Driver_DK	دونكي كونغ
+MsgMain/DriverCategoryName/Driver_Daisy	ديزي
+MsgMain/DriverCategoryName/Driver_Heyho	شاي غاي
+MsgMain/DriverCategoryName/Driver_Jugem	لاكيتو
+MsgMain/DriverCategoryName/Driver_KingTeresa	الملك بو
+MsgMain/DriverCategoryName/Driver_Kinopico	توديت
+MsgMain/DriverCategoryName/Driver_Kinopio	تود
+MsgMain/DriverCategoryName/Driver_Koopa	باوزر
+MsgMain/DriverCategoryName/Driver_KoopaJr	باوزر الصغير
+MsgMain/DriverCategoryName/Driver_Luigi	لويجي
+MsgMain/DriverCategoryName/Driver_Mario	ماريو
+MsgMain/DriverCategoryName/Driver_Nokonoko	كوبا تروبا
+MsgMain/DriverCategoryName/Driver_Pauline	بولين
+MsgMain/DriverCategoryName/Driver_Peach	بيتش
+MsgMain/DriverCategoryName/Driver_Rosetta	روزالينا
+MsgMain/DriverCategoryName/Driver_Waluigi	والويجي
+MsgMain/DriverCategoryName/Driver_Wario	واريو
+MsgMain/DriverCategoryName/Driver_Yoshi	يوشي
+MsgMain/DriverCategoryName/Driver_Basabasa	سواب
+MsgMain/DriverCategoryName/Driver_Bull	تشاك المندفع
+MsgMain/DriverCategoryName/Driver_Choropoo	مونتي مول
+MsgMain/DriverCategoryName/Driver_Cow	بقرة
+MsgMain/DriverCategoryName/Driver_Crab	سرطان جانبي
+MsgMain/DriverCategoryName/Driver_Gabon	سبايك
+MsgMain/DriverCategoryName/Driver_Hacchin	ستينغبي
+MsgMain/DriverCategoryName/Driver_HammerBros	الأخ المطرقة
+MsgMain/DriverCategoryName/Driver_Lifton	دلفين
+MsgMain/DriverCategoryName/Driver_PackunFlower	نبتة البيرانا
+MsgMain/DriverCategoryName/Driver_Penguin	بطريق
+MsgMain/DriverCategoryName/Driver_Pukupuku	تشيب تشيب
+MsgMain/DriverCategoryName/Driver_Sambo	بوكي
+MsgMain/DriverCategoryName/Driver_Kuribo	غومبا
+MsgMain/DriverCategoryName/Driver_FishBone	سمكة عظمية
+MsgMain/DriverCategoryName/Driver_Gamane	صندوق العملات
+MsgMain/DriverCategoryName/Driver_Karon	دراي بونز
+MsgMain/DriverCategoryName/Driver_Poihana	كاتاكواك
+MsgMain/DriverCategoryName/Driver_Snowman	رجل الثلج
+MsgMain/DriverCategoryName/Driver_Teren	بيبا
+MsgMain/DriverCategoryName/Driver_Monte	بيانتا
+MsgMain/DriverCategoryName/Driver_Tuccondor	كونكدور
+MsgMain/DriverCategoryName/Driver_Patatenten	بارا بيدي بد
+MsgMain/DriverCategoryName/Driver_Totten	نابيت
+MsgMain/DriverCategoryName/Driver_Hanachan	ويغلر
+MsgMain/DriverCategoryName/Driver_Poo	روكي رينش
+MsgMain/GrandprixCupName/Name_Banana	كأس الموز
+MsgMain/GrandprixCupName/Name_Flower	كأس الزهرة
+MsgMain/GrandprixCupName/Name_Kinoko	كأس الفطر
+MsgMain/GrandprixCupName/Name_Konoha	كأس الورقة
+MsgMain/GrandprixCupName/Name_Koura	كأس القوقعة
+MsgMain/GrandprixCupName/Name_Star	كأس النجمة
+MsgMain/GrandprixCupName/Name_Thunder	كأس البرق
+MsgMain/GrandprixCupName/Name_Special	الكأس الخاصة
+MsgMain/GrandprixCupName/Name_GP09	رالي الذهب
+MsgMain/GrandprixCupName/Name_GP10	رالي الجليد
+MsgMain/GrandprixCupName/Name_GP11	رالي القمر
+MsgMain/GrandprixCupName/Name_GP12	رالي سبايني
+MsgMain/GrandprixCupName/Name_GP13	رالي الكرز
+MsgMain/GrandprixCupName/Name_GP14	رالي البلوط
+MsgMain/GrandprixCupName/Name_GP15	رالي السحاب
+MsgMain/GrandprixCupName/Name_GP16	رالي القلب
+MsgMain/Help/HelpButton_01	الدليل
+MsgMain/Help/HelpMenu_01	التقنيات
+MsgMain/Help/HelpMenu_02	الأغراض
+MsgMain/Help/HelpMenu_03	القواعد
+MsgMain/Help/HelpMenu_04	تجول حر
+MsgMain/Help/Technique_01	انطلاقة صاروخية
+MsgMain/Help/Technique_02	انزلاق
+MsgMain/Help/Technique_03	تيربو صغير
+MsgMain/Help/Technique_04	دفعة القفز
+MsgMain/Help/Technique_05	انعطاف دوار
+MsgMain/Help/Technique_06	قفزة مشحونة
+MsgMain/Help/Technique_07	السير على السكة
+MsgMain/Help/Technique_08	السير على الجدار
+MsgMain/Help/Technique_09	إرجاع
+MsgMain/Help/Technique_101	انطلاقة صاروخية
+MsgMain/Help/Technique_102	انزلاق
+MsgMain/Help/Technique_103	تيربو صغير
+MsgMain/Help/Technique_104	دفعة القفز
+MsgMain/Help/Technique_105	انعطاف دوار
+MsgMain/Help/Technique_106	قفزة مشحونة
+MsgMain/Help/Technique_107	السير على السكة
+MsgMain/Help/Technique_108	السير على الجدار
+MsgMain/Help/Technique_109	إرجاع
+MsgMain/Help/Technique_201	أثناء العد التنازلي في بداية السباق، اضغط باستمرار على\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) عند ظهور الرقم 2 لتحصل على\nدفعة عند انطلاق السباق.
+MsgMain/Help/Technique_202	إذا أملت {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} نحو اتجاه الانعطاف أثناء\nالضغط على {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}، يمكنك تضييق الانعطاف\nدون فقدان السرعة.
+MsgMain/Help/Technique_203	إذا كنت تنزلق وتظهر شرارات تحت عجلاتك،\nيمكنك الحصول على دفعة بترك {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}.\nكلما تغير لون الشرارات أثناء الانزلاق،\nقويت الدفعة قليلا! عند إيقاف التوجيه الذكي،\nيمكن أن يتغير لون الشرارات حتى\nثلاث مرات.
+MsgMain/Help/Technique_204	يمكنك تنفيذ حركات (والحصول على دفعة صغيرة)\nبالضغط على {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} لحظة القفز من المنحدر!
+MsgMain/Help/Technique_205	إذا أملت {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} يمينا أو يسارا وضغطت على\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) و{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) معا، يمكنك تغيير\nاتجاهك بسرعة.
+MsgMain/Help/Technique_206	إذا ضغطت على {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) ثم {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} وواصلت\nالقيادة مستقيما، ستظهر شرارات تحت عجلاتك.\nثم أمل {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} نحو اتجاه واترك {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}،\nلتقفز قفزة صغيرة نحوه.
+MsgMain/Help/Technique_207	يمكنك القيادة على الأسطح الضيقة مثل\nالدرابزين وأسلاك الكهرباء. ويمكنك حتى القفز\nعليها بالقفزة المشحونة.
+MsgMain/Help/Technique_208	إذا نفذت دفعة القفز أو القفزة المشحونة\nمواجها جدارا، يمكنك القيادة على الجدار لوقت قصير.
+MsgMain/Help/Technique_209	إذا ضغطت على {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}، يمكنك إعادة مركبتك\nإلى موضع سابق.
+MsgMain/Help/Item_01	موزة
+MsgMain/Help/Item_02	ثلاث موزات
+MsgMain/Help/Item_03	فطر التسارع
+MsgMain/Help/Item_04	ثلاث فطرات تسارع
+MsgMain/Help/Item_05	فطر التسارع الذهبي
+MsgMain/Help/Item_06	الفطر الضخم
+MsgMain/Help/Item_07	قوقعة خضراء
+MsgMain/Help/Item_08	ثلاث قواقع خضراء
+MsgMain/Help/Item_09	قوقعة حمراء
+MsgMain/Help/Item_10	ثلاث قواقع حمراء
+MsgMain/Help/Item_11	القوقعة الشائكة
+MsgMain/Help/Item_12	قوقعة العملات
+MsgMain/Help/Item_13	زهرة النار
+MsgMain/Help/Item_14	زهرة الجليد
+MsgMain/Help/Item_15	زهرة البوميرانغ
+MsgMain/Help/Item_16	بوليت بيل
+MsgMain/Help/Item_17	بوب أومب
+MsgMain/Help/Item_18	مطرقة
+MsgMain/Help/Item_19	البوق الخارق
+MsgMain/Help/Item_20	مكعب ؟
+MsgMain/Help/Item_21	عملة
+MsgMain/Help/Item_22	بو
+MsgMain/Help/Item_23	بلوبر
+MsgMain/Help/Item_24	كاميك
+MsgMain/Help/Item_25	ريشة
+MsgMain/Help/Item_26	النجمة الخارقة
+MsgMain/Help/Item_27	صاعقة
+MsgMain/Help/Item_28	طعام التسارع
+MsgMain/Help/Item_101	عائق زلق يجعل المركبة\nتدور بلا تحكم عند إصابتها.
+MsgMain/Help/Item_102	ثلاث موزات تدور حول مركبة\nالسائق. اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} لوضع\nموزة واحدة في كل مرة.
+MsgMain/Help/Item_103	غرض لذيذ يمنح السائق\nدفعة سرعة قصيرة عند أكله.
+MsgMain/Help/Item_104	ثلاث فطرات تدور حول مركبة\nالسائق. اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} لاستخدام\nفطرة واحدة في كل مرة.
+MsgMain/Help/Item_105	فطرة لامعة يمكن استخدامها\nعدة مرات لفترة قصيرة لمنح السائق\nعدة دفعات سرعة.\nاضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} مرارا\nلتفعيلها.
+MsgMain/Help/Item_106	فطرة كبيرة تضخم السائق ومركبته\nعند استخدامها، وتمنحه دفعة سرعة\nوتتيح له سحق\nالمتسابقين الآخرين.
+MsgMain/Help/Item_107	غرض خطير يسير في خط مستقيم\nويجعل السائق الذي يصيبه\nيصطدم ويتوقف.
+MsgMain/Help/Item_108	ثلاث قواقع خضراء تدور حول\nمركبة السائق. اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nلرمي قوقعة خضراء واحدة في كل مرة.
+MsgMain/Help/Item_109	قوقعة تطارد المركبات وتستهدف\nمن هو أمام السائق الذي\nرماها.
+MsgMain/Help/Item_110	ثلاث قواقع حمراء تدور حول\nمركبة السائق. اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nلرمي قوقعة حمراء واحدة في كل مرة.
+MsgMain/Help/Item_111	قوقعة تلاحق سائق المقدمة وتصطدم\nبه. تواصل طريقها حتى لو أصابت\nمتسابقين آخرين في الطريق\nلتصطدم بصاحب المركز الأول.
+MsgMain/Help/Item_112	قوقعة لامعة تسقط العملات\nوتصطدم بالسائقين أثناء سيرها\nعلى المضمار.
+MsgMain/Help/Item_113	غرض قوي يتيح للسائق رمي\nكرات نارية بالضغط على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nالسائقون الذين تصيبهم الكرات\nيدورون بلا تحكم.
+MsgMain/Help/Item_114	غرض قوي يتيح للسائق رمي\nكرات جليدية بالضغط على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nالسائقون الذين تصيبهم الكرات\nيدورون بلا تحكم.
+MsgMain/Help/Item_115	غرض يتيح للسائق رمي بوميرانغ\nبالضغط على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. السائقون\nالذين يصيبهم يدورون بلا تحكم.
+MsgMain/Help/Item_116	غرض يحول السائق الذي يستخدمه\nإلى بوليت بيل لفترة قصيرة. ينطلق\nكالصاروخ على المضمار ويقذف\nأي سائق يصطدم به\nبعيدا.
+MsgMain/Help/Item_117	قنبلة تمشي تنفجر بعد وقت قصير\nأو إذا اصطدم بها سائق.\nالسائقون القريبون قد\nيتأثرون بالانفجار!
+MsgMain/Help/Item_118	مطارق قابلة للرمي يمكن رميها\nبالضغط على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} مرارا.\nكل من تصيبه يصطدم.
+MsgMain/Help/Item_119	بوق قوي للغاية يدفع\nالسائقين والأغراض القريبة بعيدا.
+MsgMain/Help/Item_120	مكعب ؟ ينتج عملات كلما\nضغط السائق على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. ويمنح\nأيضا دفعة سرعة خفيفة.
+MsgMain/Help/Item_121	غرض يمنح السائق الذي يستخدمه\nعملتين. كلما زادت عملاتك\nزادت سرعتك.
+MsgMain/Help/Item_122	غرض يجعل السائق شفافا\nلفترة قصيرة، فيمر بأمان عبر\nالأغراض الخطرة مثل الموز\nوالقواقع. ويسرق أيضا\nأغراض المنافسين.
+MsgMain/Help/Item_123	غرض مزعج يرش الحبر على\nالمنافسين، فيصعب عليهم\nالرؤية لفترة.
+MsgMain/Help/Item_124	غرض يستدعي كاميك، الذي يسبب\nسحره أحداثا غريبة.
+MsgMain/Help/Item_125	غرض يرفع السائق عاليا\nفي الهواء ليتجنب الأغراض\nالخطرة مثل الموز\nوالقواقع. في وضع المعركة، التحليق فوق\nمنافس يسرق البالونات\nأو العملات.
+MsgMain/Help/Item_126	غرض يجعل السائق الذي يستخدمه\nأسرع ومنيعا لفترة\nويجعل كل سائق يصطدم به\nيدور حول نفسه.
+MsgMain/Help/Item_127	غرض يسقط الصواعق على\nالسائقين الآخرين، فيدمر\nما يحملونه من أغراض ويبطئهم\nويصغر حجمهم\nلفترة.
+MsgMain/Help/Item_128	وجبة لذيذة تمنح السائق\nدفعة سرعة وقد تغير\nزيه.
+MsgMain/Help/Rule_01	الجائزة الكبرى
+MsgMain/Help/Rule_02	جولة الإقصاء
+MsgMain/Help/Rule_03	سباق مع الزمن
+MsgMain/Help/Rule_04	سباق حر
+MsgMain/Help/Rule_05	معركة البالونات
+MsgMain/Help/Rule_06	سباق العملات
+MsgMain/Help/Rule_07	انفجار بوب أومب
+MsgMain/Help/Rule_101	الجائزة الكبرى
+MsgMain/Help/Rule_102	جولة الإقصاء
+MsgMain/Help/Rule_103	سباق مع الزمن
+MsgMain/Help/Rule_104	سباق حر
+MsgMain/Help/Rule_105	معركة البالونات
+MsgMain/Help/Rule_106	سباق العملات
+MsgMain/Help/Rule_107	انفجار بوب أومب
+MsgMain/Help/Rule_201	نافس على المركز الأول في كأس من أربعة سباقات!
+MsgMain/Help/Rule_202	اصمد في سباق يمتد حول العالم!
+MsgMain/Help/Rule_203	تسابق وحدك وسجل أسرع أوقاتك!
+MsgMain/Help/Rule_204	تسابق بقواعد مخصصة!
+MsgMain/Help/Rule_205	استخدم الأغراض وفجر البالونات!
+MsgMain/Help/Rule_206	اجمع أكثر عدد من العملات لتفوز!
+MsgMain/Help/Rule_207	فجر بالونات منافسيك!
+MsgMain/Help/Rule_301	يمنح كل سباق نقاطا بحسب مركزك\nعند عبور خط النهاية. يتحدد ترتيبك\nفي الجائزة الكبرى بمجموع\nنقاط السباقات الأربعة.
+MsgMain/Help/Rule_302	سلسلة سباقات متواصلة يجب على\nالسائقين فيها احتلال مركز متقدم للاستمرار.
+MsgMain/Help/Rule_303	اختر أي مضمار متاح.\nمفتاح تسجيل وقت ممتاز هو\nاستخدام الفطر بحكمة.
+MsgMain/Help/Rule_304	وضع يمكنك فيه تعديل القواعد،\nمثل عدد السباقات في المجموعة\nأو وجود فرق أثناء السباق.
+MsgMain/Help/Rule_305	اكسب نقاطا بتفجير بالونات منافسيك.\nيمكنك حتى سرقة البالونات بالاصطدام بهم\nأثناء دفعة الفطر!
+MsgMain/Help/Rule_306	أسقط عملات منافسيك بضربهم\nبالأغراض، أو اصطدم بهم أثناء دفعة\nالفطر لسرقة العملات مباشرة!
+MsgMain/Help/Rule_307	معركة بوب أومب فقط يمكنك فيها حمل\nما يصل إلى 10 بوب أومب في وقت واحد.
+MsgMain/Help/Rule_401	هناك سبعة كؤوس مختلفة في الجائزة الكبرى.\nماذا يحدث عندما تنهيها\nكلها؟
+MsgMain/Help/Rule_402	لكل جولة خمس نقاط تفتيش، وعند كل\nنقطة يقصى بعض أصحاب المراكز الأخيرة.\nابق في المقدمة وابدأ بالمركز\nالأول في النهاية!
+MsgMain/Help/Rule_403	تحد نفسك ضد بيانات الشبح\nللمتسابقين الآخرين. ربما\nيعلمونك شيئا جديدا!
+MsgMain/Help/Rule_404	اختيار متصل في الإعدادات يربط سباقاتك\nمن مضمار إلى المضمار التالي!
+MsgMain/Help/Rule_405	إذا فقدت كل بالوناتك ستخرج من اللعبة...
+MsgMain/Help/Rule_406	ستظهر العملات على الخريطة المصغرة،\nفراقبها جيدا!
+MsgMain/Help/Rule_407	تعتمد المسافة التي يطير بها بوب أومب\nعلى مدة ضغطك على {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.
+MsgMain/Help/FreeRun_01	مفاتيح P
+MsgMain/Help/FreeRun_02	ألواح ؟
+MsgMain/Help/FreeRun_03	ميداليات بيتش
+MsgMain/Help/FreeRun_04	العملات
+MsgMain/Help/FreeRun_05	مطعم يوشي
+MsgMain/Help/FreeRun_06	الصور
+MsgMain/Help/FreeRun_101	اعبر فوق مفتاح P لبدء مهمة. لا تقلق\nإذا واجهت صعوبة في تحد معين.\nثابر وستنجح!
+MsgMain/Help/FreeRun_102	قد تجد ألواح ؟ مخبأة في أماكن\nغير متوقعة. انظر كم لوحا تجد!
+MsgMain/Help/FreeRun_103	ميداليات بيتش المتلألئة منتشرة في\nأنحاء العالم. كم عددها يا ترى؟
+MsgMain/Help/FreeRun_104	يمكنك فتح مركبات إضافية بجمع\nالعملات. يقال إن هناك أكواما من العملات\nفي انتظار من يجمعها...
+MsgMain/Help/FreeRun_105	توجد في العالم محلات كثيرة تبيع طعام التسارع،\nولديها أطعمة متنوعة.\nيغير كثير من السائقين مظهرهم\nبحسب الطعام الذي يأكلونه!
+MsgMain/Help/FreeRun_106	يمكنك استخدام {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} لالتقاط الصور. انطلق،\nواقتنص اللحظات المثالية، ولا تنس\nأن تقول "سيييز!"
+MsgMain/MachineType/Vehicle_Amb	دراجة دبليو توين
+MsgMain/MachineType/Vehicle_Bds	بي داشر
+MsgMain/MachineType/Vehicle_Blk	ميكا تريك
+MsgMain/MachineType/Vehicle_Bsn	بيغ هورن
+MsgMain/MachineType/Vehicle_Bul	شاحنة تشارجن
+MsgMain/MachineType/Vehicle_Crp	فين توين
+MsgMain/MachineType/Vehicle_Dkn	هايبر بايب
+MsgMain/MachineType/Vehicle_Dmp	ليل دامبي
+MsgMain/MachineType/Vehicle_Esp	زلاجة نجمية
+MsgMain/MachineType/Vehicle_H2o	كلاود 9
+MsgMain/MachineType/Vehicle_Hrl	رالي رومبر
+MsgMain/MachineType/Vehicle_Kgs	بيبي بلوبر
+MsgMain/MachineType/Vehicle_Lob	لوبستر رولر
+MsgMain/MachineType/Vehicle_Mhb	ماخ روكت
+MsgMain/MachineType/Vehicle_Mov	ريل ريسر
+MsgMain/MachineType/Vehicle_Mqn	بامبل 5
+MsgMain/MachineType/Vehicle_Ocn	ريبيت ريفستر
+MsgMain/MachineType/Vehicle_Ptn	باغي باد
+MsgMain/MachineType/Vehicle_Rbn	بلاش باغي
+MsgMain/MachineType/Vehicle_Rcb	تيون ثامبر
+MsgMain/MachineType/Vehicle_Rcc	هوت رود
+MsgMain/MachineType/Vehicle_Rlb	دراجة رالي
+MsgMain/MachineType/Vehicle_Rlk	عربة رالي
+MsgMain/MachineType/Vehicle_Sct	سكوتر لطيف
+MsgMain/MachineType/Vehicle_Skl	بايب فريم
+MsgMain/MachineType/Vehicle_Snd	زوم باغي
+MsgMain/MachineType/Vehicle_Snm	دريد سليد
+MsgMain/MachineType/Vehicle_Stb	دراجة عادية
+MsgMain/MachineType/Vehicle_Stk	عربة عادية
+MsgMain/MachineType/Vehicle_Stm	لوكو موتو
+MsgMain/MachineType/Vehicle_Tbt	جانكيارد هوغ
+MsgMain/MachineType/Vehicle_Dlp	دلفين داشر
+MsgMain/MachineType/Vehicle_Rkt	بلاستروناوت 3
+MsgMain/MachineType/Vehicle_Pfm	رودستر رويال
+MsgMain/MachineType/Vehicle_Cpt	بساط طائر
+MsgMain/MachineType/Vehicle_Wtm	فانكي دوري
+MsgMain/MachineType/Vehicle_Alt	رالي غيتور
+MsgMain/MachineType/Vehicle_Kpv	باوزر برويزر
+MsgMain/MachineType/Vehicle_Bil	بيلدوزر
+MsgMain/Menu/2001	موافق
+MsgMain/Menu/2003	نعم
+MsgMain/Menu/2004	لا
+MsgMain/Menu/2051	اضغط {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} للبدء
+MsgMain/Menu/2053	ترتيب
+MsgMain/Menu/2054	التفاصيل
+MsgMain/Menu/2055	السرعة
+MsgMain/Menu/2056	التسارع
+MsgMain/Menu/2057	الوزن
+MsgMain/Menu/2058	التحكم
+MsgMain/Menu/2059	عشوائي
+MsgMain/Menu/2101	لاعب واحد
+MsgMain/Menu/2102	متعدد اللاعبين
+MsgMain/Menu/2103	لعب عبر الإنترنت
+MsgMain/Menu/2104	لعب لاسلكي
+MsgMain/Menu/2105	ملصقات
+MsgMain/Menu/2106	لعب عبر الشبكة المحلية
+MsgMain/Menu/2110	الخريطة
+MsgMain/Menu/2111	تجول حر
+MsgMain/Menu/2201	الجائزة الكبرى
+MsgMain/Menu/2202	جولة الإقصاء
+MsgMain/Menu/2203	سباق مع الزمن
+MsgMain/Menu/2204	سباق حر
+MsgMain/Menu/2205	المعركة
+MsgMain/Menu/2211	اطمح للذهب في كأس من أربعة سباقات!
+MsgMain/Menu/2212	ابق في المقدمة في سباق التحمل!
+MsgMain/Menu/2213	تسابق وحدك لتحقيق أرقام جديدة!
+MsgMain/Menu/2214	تسابق بقواعد مخصصة!
+MsgMain/Menu/2215	قاتل بقواعد مخصصة!
+MsgMain/Menu/2216	يتسابق معا حتى 24 لاعبا!
+MsgMain/Menu/2217	اصمد في سباق إقصاء بين 24 لاعبا!
+MsgMain/Menu/2219	يتقاتل معا حتى 24 لاعبا!
+MsgMain/Menu/2231	اجمع أصدقاءك وتنافسوا!
+MsgMain/Menu/2221	بدء الجائزة الكبرى؟
+MsgMain/Menu/2222	بدء جولة الإقصاء؟
+MsgMain/Menu/2223	بدء سباق مع الزمن؟
+MsgMain/Menu/2224	بدء الإعادة؟
+MsgMain/Menu/2225	بدء السباق؟
+MsgMain/Menu/2226	بدء المعركة؟
+MsgMain/Menu/2227	هل تريد الخروج؟
+MsgMain/Menu/2228	هل تريد الخروج؟
+MsgMain/Menu/2229	العودة إلى شاشة العنوان؟
+MsgMain/Menu/2235	مرآة
+MsgMain/Menu/2261	سباق فردي
+MsgMain/Menu/2262	سباق ضد الشبح
+MsgMain/Menu/2263	عرض الشبح
+MsgMain/Menu/2264	عرض الترتيب
+MsgMain/Menu/2272	رفع بيانات الشبح
+MsgMain/Menu/2266	تنزيل بيانات الشبح هذه؟
+MsgMain/Menu/2268	حذف بيانات الشبح؟
+MsgMain/Menu/2269	تم حذف بيانات الشبح.
+MsgMain/Menu/2270	جار تنزيل بيانات الشبح...
+MsgMain/Menu/2271	تم تنزيل بيانات الشبح!\nبدء السباق؟
+MsgMain/Menu/2273	رفع بيانات الشبح؟
+MsgMain/Menu/2274	لم تنشئ بيانات شبح\nلهذا المضمار بعد!
+MsgMain/Menu/2275	لا يمكنك تنزيل\nبيانات الشبح الخاصة بك.
+MsgMain/Menu/2276	لا يمكنك تنزيل المزيد من\nبيانات الشبح. هل تريد {0E 0000 0003 0002 0000}حذف{0E 0000 0003 0002 FFFF}\nكل بيانات الشبح لتوفير مساحة؟
+MsgMain/Menu/2277	{0E 0000 0003 0002 0000}بيانات الشبح التي تحذفها\nستفقد نهائيا.{0E 0000 0003 0002 FFFF}\nهل تريد المتابعة؟
+MsgMain/Menu/2278	تم حذف كل بيانات الشبح\nالتي نزلتها.
+MsgMain/Menu/2281	لقد نزلت بيانات\nالشبح هذه من قبل.
+MsgMain/Menu/2282	بيانات الشبح هذه {0E 0000 0003 0002 0000}خاصة بك{0E 0000 0003 0002 FFFF}.\nهل تريد حذفها رغم ذلك؟
+MsgMain/Menu/2301	الفئة
+MsgMain/Menu/2306	مرآة
+MsgMain/Menu/2308	تخطي
+MsgMain/Menu/2311	صعوبة الكمبيوتر
+MsgMain/Menu/2312	سهل
+MsgMain/Menu/2313	عادي
+MsgMain/Menu/2314	صعب
+MsgMain/Menu/2315	بلا كمبيوتر
+MsgMain/Menu/2321	اختيار المضمار
+MsgMain/Menu/2322	متصل
+MsgMain/Menu/2323	حر
+MsgMain/Menu/2324	عشوائي
+MsgMain/Menu/2331	عدد السباقات
+MsgMain/Menu/2332	3 سباقات
+MsgMain/Menu/2333	4 سباقات
+MsgMain/Menu/2334	5 سباقات
+MsgMain/Menu/2335	6 سباقات
+MsgMain/Menu/2336	8 سباقات
+MsgMain/Menu/2337	12 سباقا
+MsgMain/Menu/2338	16 سباقا
+MsgMain/Menu/2339	32 سباقا
+MsgMain/Menu/2351	الفرق
+MsgMain/Menu/2352	بلا فرق
+MsgMain/Menu/2353	فريقان
+MsgMain/Menu/2354	ثلاثة فرق
+MsgMain/Menu/2355	أربعة فرق
+MsgMain/Menu/2371	عدد الجولات
+MsgMain/Menu/2372	3 جولات
+MsgMain/Menu/2373	4 جولات
+MsgMain/Menu/2374	5 جولات
+MsgMain/Menu/2375	6 جولات
+MsgMain/Menu/2376	8 جولات
+MsgMain/Menu/2381	الاستراحة
+MsgMain/Menu/2382	10 ثوان
+MsgMain/Menu/2383	دقيقة واحدة
+MsgMain/Menu/2384	خمس دقائق
+MsgMain/Menu/2391	الأغراض
+MsgMain/Menu/2392	عادي
+MsgMain/Menu/2393	جنوني
+MsgMain/Menu/2402	سباق حر
+MsgMain/Menu/2404	جولة الإقصاء
+MsgMain/Menu/2405	معركة البالونات
+MsgMain/Menu/2406	سباق العملات
+MsgMain/Menu/3003	بدء التجول الحر؟
+MsgMain/Menu/3004	جار العودة إلى\nشاشة العنوان.
+MsgMain/Menu/5001	سباق
+MsgMain/Menu/5002	جولة الإقصاء
+MsgMain/Menu/5004	الأصدقاء
+MsgMain/Menu/5005	إنشاء غرفة
+MsgMain/Menu/5006	بحث برمز الغرفة
+MsgMain/Menu/5007	انضمام
+MsgMain/Menu/5008	غرفة
+MsgMain/Menu/5009	المعركة
+MsgMain/Menu/5013	جار البحث عن لاعبين...
+MsgMain/Menu/5014	سيبدأ السباق قريبا!
+MsgMain/Menu/5017	تم اختيار المضمار!
+MsgMain/Menu/5019	لا يمكنك الانضمام الآن. انتظر.
+MsgMain/Menu/5020	لقد انضممت!
+MsgMain/Menu/5021	انضم {0E 0001 0001 0004 0000 0000}!
+MsgMain/Menu/5022	تم تحديد القواعد!
+MsgMain/Menu/5023	حتى السباق التالي: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5024	حتى المعركة التالية: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5026	ستنضم إلى أول سباق متاح. انتظر!
+MsgMain/Menu/5027	ستنضم إلى أول معركة متاحة. استعد!
+MsgMain/Menu/5028	بانتظار انضمام اللاعبين...
+MsgMain/Menu/5029	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} بدء اللعبة
+MsgMain/Menu/5030	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} بدء اللعبة
+MsgMain/Menu/5031	ستبدأ المعركة قريبا!
+MsgMain/Menu/5032	انتظر حتى يتم تحديد القواعد.
+MsgMain/Menu/5033	انقطع اتصالك.
+MsgMain/Menu/5034	تعذر الانضمام إلى جولة الإقصاء.
+MsgMain/Menu/5035	سائقان متباعدان جدا. جار تقريب المسافة.
+MsgMain/Menu/5101	عشوائي
+MsgMain/Menu/5102	تغيير
+MsgMain/Menu/5202	إنشاء مجموعة للتنافس؟
+MsgMain/Menu/5204	الرمز الذي أدخلته لا\nيطابق أي غرفة.
+MsgMain/Menu/5209	رمز الغرفة
+MsgMain/Menu/5212	سجل المعارك
+MsgMain/Menu/5213	أنت
+MsgMain/Menu/5214	هم
+MsgMain/Menu/5218	أدخل رمز الغرفة
+MsgMain/Menu/5220	انتظر من فضلك...
+MsgMain/Menu/5221	مغادرة هذه المجموعة؟
+MsgMain/Menu/5301	الغرفة ممتلئة.\nانتظر من فضلك...
+MsgMain/Menu/5302	حدث خطأ\nفي الاتصال.
+MsgMain/Menu/5304	تعذر العثور على الغرفة\nالتي حاولت الانضمام إليها.
+MsgMain/Menu/5305	حدث خطأ\nفي الاتصال.
+MsgMain/Menu/5307	حدث خطأ\nفي الاتصال.
+MsgMain/Menu/5308	حدث خطأ\nفي الاتصال.
+MsgMain/Menu/5320	لقد جمعت {0E 0001 0000 0004 0000 0000} عملة\nوفتحت {0E 0000 0003 0002 0000}مركبة{0E 0000 0003 0002 FFFF} جديدة!
+MsgMain/Menu/5313	لا يوجد أصدقاء مسجلون.
+MsgMain/Menu/5314	لا توجد غرفة يمكنك الانضمام إليها.
+MsgMain/Menu/5315	ضبط القواعد
+MsgMain/Menu/5316	المشاركون
+MsgMain/Menu/5347	وضع التصوير
+MsgMain/Menu/5328	مواجهة الكاميرا
+MsgMain/Menu/5329	التركيز
+MsgMain/Menu/5333	إنهاء
+MsgMain/Menu/5334	تعبير الوجه
+MsgMain/Menu/5335	الإطار
+MsgMain/Menu/5336	الدليل
+MsgMain/Menu/5340	وضعية
+MsgMain/Menu/5341	إمالة
+MsgMain/Menu/5342	تصوير
+MsgMain/Menu/5345	تقريب
+MsgMain/Menu/5348	التركيز: بلا
+MsgMain/Menu/5349	التركيز: الشخصية
+MsgMain/Menu/5350	التركيز: المركز
+MsgMain/Menu/5353	إيقاف التصوير؟
+MsgMain/Menu/5354	نعم
+MsgMain/Menu/5355	لا
+MsgMain/Menu/5370	الإطار: بلا
+MsgMain/Menu/5371	الإطار: 1
+MsgMain/Menu/5372	الإطار: 2
+MsgMain/Menu/5373	الإطار: 3
+MsgMain/Menu/5374	الإطار: 4
+MsgMain/Menu/5375	الإطار: 5
+MsgMain/Menu/5376	الإطار: 6
+MsgMain/Menu/5377	الإطار: 7
+MsgMain/Menu/5378	الإطار: 8
+MsgMain/Menu/5379	الإطار: 9
+MsgMain/Menu/5380	الإطار: 10
+MsgMain/Menu/5381	الإطار: 11
+MsgMain/Menu/5382	الإطار: 12
+MsgMain/Menu/5383	الإطار: 13
+MsgMain/Mission/Mission_RC_WL_00	اجمع العملات الزرقاء وتفاد الغومبا!
+MsgMain/Mission/Mission_RC_WL_03	اجمع العملات الزرقاء على امتداد الجسر!
+MsgMain/Mission/Mission_RC_WL_04	تفقد ساحة السكك بحثا عن العملات الزرقاء!
+MsgMain/Mission/Mission_RC_WL_05	اجمع العملات وأنت تنفذ حركات عالية في الهواء!
+MsgMain/Mission/Mission_RC_WL_08	انطلق من أنبوب إلى أنبوب نحو الهضاب!
+MsgMain/Mission/Mission_WT_WL_00	اقتحم خط الدفاع!
+MsgMain/Mission/Mission_WT_WL_01	اقفز عبر الطريق المختصر المكعب إلى استاد واريو!
+MsgMain/Mission/Mission_WT_WL_04	تسابق عبر تحدي الإطارات الغادر!
+MsgMain/Mission/Mission_WT_WL_05	تجاوز القطار العابر للجسر الحديدي!
+MsgMain/Mission/Mission_WT_WL_06	اصعد المنحدر وتخط الجسر المعلق!
+MsgMain/Mission/Mission_WT_WL_08	حلق في الهواء وعبر الجسر!
+MsgMain/Mission/Mission_WT_WL_09	انطلق على الطريق في مشهد أكشن متفجر!
+MsgMain/Mission/Mission_WT_WL_10	اسلك الطريق الوعر المختصر إلى حلبة الأخوين ماريو!
+MsgMain/Mission/Mission_WT_WL_11	اقصد عمود النهاية فوق الفطر العملاق!
+MsgMain/Mission/Mission_WT_WL_12	اعتمد على رياح الأعاصير للوصول إلى عمود النهاية!
+MsgMain/Mission/Mission_WT_WL_13	انطلق إلى النهاية ولا تغرق!
+MsgMain/Mission/Mission_WT2_WL_00	استخدم الأغراض لتجتاح رمال الصحراء!
+MsgMain/Mission/Mission_WT2_WL_01	أر شاي غاي كيف يتسابق مع مجرى النهر!
+MsgMain/Mission/Mission_WT2_WL_05	تسابق عكس التيار عبر وادي النهر!
+MsgMain/Mission/Mission_WT2_WL_06	شق طريقك عبر الطريق الخلفي!
+MsgMain/Mission/Mission_WT2_WL_07	تسابق فوق المنحدرات والعوارض للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_WL_08	اصعد المنحدر فوق حافة الجرف إلى النهاية!
+MsgMain/Mission/Mission_WT2_WL_09	أظهر مهارتك في السير على الجدران!
+MsgMain/Mission/Mission_WT2_WL_10	نفذ حركة تلو أخرى عبر الجسر!
+MsgMain/Mission/Mission_WT2_WL_11	حلق إلى مطعم يوشي لتناول وجبة سريعة!
+MsgMain/Mission/Mission_WT2_WL_12	نفذ حركات من فوق الصبار لتزداد ارتفاعا!
+MsgMain/Mission/Mission_WT2_WL_13	تفاد المدرعات في طريقك إلى النهاية!
+MsgMain/Mission/Mission_WT2_WL_14	اتبع تلك المروحية!
+MsgMain/Mission/Mission_WT2_WL_15	أثبت نفسك في اختبار المهارة الخاص رقم 6!
+MsgMain/Mission/Mission_WT2_WL_18	حلق من هضبة إلى هضبة عبر منحدرات الفولاذ!
+MsgMain/Mission/Mission_WT3_WL_01	خض تحدي التحمل في الأرض القاحلة!
+MsgMain/Mission/Mission_WT3_WL_02	انضم إلى السباق العفوي في الوادي!
+MsgMain/Mission/Mission_WT3_WL_03	انضم إلى حلقة الوادي الجريئة!
+MsgMain/Mission/Mission_WT3_WL_04	زر المتسابقين فوق الصخور!
+MsgMain/Mission/Mission_RC_WL_02	سر على السكة لتجمع العملات الزرقاء للبرغر!
+MsgMain/Mission/Mission_WT_WL_03	تسابق عبر المدرجات إلى النهاية!
+MsgMain/Mission/Mission_WT2_WL_04	أحضر شهيتك وتسابق إلى النهاية!
+MsgMain/Mission/Mission_RC_WL_07	أكثر من الحركات لتجمع كل العملات الزرقاء!
+MsgMain/Mission/Mission_WT_WL_02	أر القطار مدى سرعتك!
+MsgMain/Mission/Mission_WT2_WL_02	تسابق إلى قمة محطة الصافرة!
+MsgMain/Mission/Mission_RC_WL_06	اجمع العملات الزرقاء من فوق الأسطح!
+MsgMain/Mission/Mission_WT2_WL_16	اعبر الحلقات والنيران عبر المنحدرات!
+MsgMain/Mission/Mission_WT2_WL_17	اتبع الحلقات فوق الأسطح!
+MsgMain/Mission/Mission_RC_DT_00	التقط العملات الزرقاء ولا تغرق!
+MsgMain/Mission/Mission_RC_DT_01	أنقذ العملات الزرقاء من الرمال!
+MsgMain/Mission/Mission_RC_DT_03	التقط العملات الزرقاء المبعثرة!
+MsgMain/Mission/Mission_RC_DT_04	اجمع العملات الزرقاء في الواحة الجافة!
+MsgMain/Mission/Mission_RC_DT_05	استكشف السوق والتقط العملات الزرقاء!
+MsgMain/Mission/Mission_RC_DT_06	اركب لتجمع العملات الزرقاء المحلقة!
+MsgMain/Mission/Mission_RC_DT_07	انتعش في الواحة وأنت تجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_DT_08	اتبع الحبل لتصل إلى عملات الأطلال الزرقاء!
+MsgMain/Mission/Mission_WT_DT_00	تلو بين الأعاصير الغادرة!
+MsgMain/Mission/Mission_WT_DT_01	اخترق حصار الأخوة المطرقة!
+MsgMain/Mission/Mission_WT_DT_02	تفاد تشين تشومب أثناء الصعود!
+MsgMain/Mission/Mission_WT_DT_03	تجاوز شاي غاي في سباق عكس النهر!
+MsgMain/Mission/Mission_WT_DT_04	اندفع إلى النهاية عبر بحر من الرمال!
+MsgMain/Mission/Mission_WT_DT_05	انطلق للأمام واقفز نحو عمود النهاية!
+MsgMain/Mission/Mission_WT_DT_06	تسارع بحكمة لتصل إلى النهاية في الوقت المحدد!
+MsgMain/Mission/Mission_WT_DT_07	سر على الطريق المنحني للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_DT_08	خض تحدي شاي غاي رقم 2!
+MsgMain/Mission/Mission_WT_DT_09	خض تحدي شاي غاي رقم 1!
+MsgMain/Mission/Mission_WT_DT_10	استغل قوة 18 عجلة للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_DT_11	انطلق من أنبوب إلى أنبوب للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_DT_12	تسارع، تسارع، تسارع نحو النهاية!
+MsgMain/Mission/Mission_WT_DT_13	تفاد توكوتوكو أثناء صعود التل!
+MsgMain/Mission/Mission_WT_DT_14	اكسر طريقك عبر متاهة المكعبات!
+MsgMain/Mission/Mission_WT_DT_15	استخدم حطام السفن القديمة للحصول على دفعة!
+MsgMain/Mission/Mission_WT_DT_16	تسلل من حواجز باتادون!
+MsgMain/Mission/Mission_WT_DT_17	سر على السكة لمسافة طويلة إلى النهاية!
+MsgMain/Mission/Mission_WT2_DT_00	تسابق مع النهر واهرب إلى البحر!
+MsgMain/Mission/Mission_WT2_DT_01	نفذ قفزات صعبة من عمود إلى عمود!
+MsgMain/Mission/Mission_WT2_DT_02	سر على الجدار الخارجي لتتسلل إلى الداخل!
+MsgMain/Mission/Mission_WT2_DT_03	اعبر الجسر ونفذ الحركات طوال الطريق!
+MsgMain/Mission/Mission_WT2_DT_04	تجنب أفاعي النار في النفق!
+MsgMain/Mission/Mission_WT2_DT_05	مر بين بوكي الكثيرين المحتفلين على الطريق!
+MsgMain/Mission/Mission_WT2_DT_06	حلق إلى عمود النهاية عند محطة القطار!
+MsgMain/Mission/Mission_WT2_DT_07	خض تحدي شاي غاي رقم 3!
+MsgMain/Mission/Mission_WT2_DT_08	طارد كل توكوتوكو حتى التالي!
+MsgMain/Mission/Mission_WT2_DT_09	حلق في السماء لتهرب من الصحراء!
+MsgMain/Mission/Mission_WT2_DT_10	اعبر سماء الصحراء والتلال العشبية إلى النهاية!
+MsgMain/Mission/Mission_WT2_DT_11	قم بجولة صعبة في سوق شاي غاي!
+MsgMain/Mission/Mission_WT2_DT_12	تسابق عبر عاصفة من المطر والعملات!
+MsgMain/Mission/Mission_WT3_DT_00	خض اختبار التحمل الرملي!
+MsgMain/Mission/Mission_RC_VL_02	اجمع العملات الزرقاء على طريق ضيق!
+MsgMain/Mission/Mission_RC_VL_04	اجمع العملات الزرقاء في الينابيع الساخنة!
+MsgMain/Mission/Mission_RC_VL_05	اجمع العملات الزرقاء واحذر من ثومب!
+MsgMain/Mission/Mission_RC_VL_06	تجاوز المتنمرين بسرعة وأنت تجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_VL_07	التقط العملات الزرقاء وأنت تسير على السكة!
+MsgMain/Mission/Mission_RC_VL_08	التقط العملات الزرقاء حول المقبرة المخيفة!
+MsgMain/Mission/Mission_RC_VL_09	اجمع العملات الزرقاء المتناثرة!
+MsgMain/Mission/Mission_RC_VL_11	اجمع العملات الزرقاء على الدرج الكبير!
+MsgMain/Mission/Mission_RC_VL_12	اقفز من سكة إلى سكة لتلتقط العملات الزرقاء!
+MsgMain/Mission/Mission_WT_VL_02	حلق بأمان فوق بحيرة الحمم!
+MsgMain/Mission/Mission_WT_VL_03	تلو بين ووامب!
+MsgMain/Mission/Mission_WT_VL_04	استعر الشاحنة واقتحم الطريق!
+MsgMain/Mission/Mission_WT_VL_05	تلو في الطريق المزدحم بدراي بونز!
+MsgMain/Mission/Mission_WT_VL_06	انطلق بين السمك العظمي في طريقك إلى الينابيع الساخنة!
+MsgMain/Mission/Mission_WT_VL_07	قد عبر معبر غرول المجنزر!
+MsgMain/Mission/Mission_WT_VL_08	اعبر عوارض الجسر المحطم!
+MsgMain/Mission/Mission_WT_VL_10	اندفع كبوليت بيل عبر القصف الناري!
+MsgMain/Mission/Mission_WT_VL_11	استقل رحلة ربط إلى حصن السفن الطائرة!
+MsgMain/Mission/Mission_WT_VL_12	انزلق بين موجات الكرات النارية! لا تحترق!
+MsgMain/Mission/Mission_WT2_VL_04	أر الحمم أنك نجم خارق!
+MsgMain/Mission/Mission_WT2_VL_05	استخدم الفطر لتنطلق في المسار الأيمن!
+MsgMain/Mission/Mission_WT2_VL_06	أظهر مهارتك في السير على الحبل!
+MsgMain/Mission/Mission_WT2_VL_07	انطلق في المسار الأيسر بلا فطر!
+MsgMain/Mission/Mission_WT2_VL_08	اركب الينابيع النارية وانطلق عبر الحلقات إلى النهاية!
+MsgMain/Mission/Mission_WT2_VL_09	اصمد في ممر نباتات البيرانا النارية الحارة!
+MsgMain/Mission/Mission_WT2_VL_10	اركب المروحية واهرب من مصير ناري!
+MsgMain/Mission/Mission_WT2_VL_11	مزق المضمار بحركة تلو أخرى!
+MsgMain/Mission/Mission_WT2_VL_12	شق طريقك بين الأنابيب والحلقات!
+MsgMain/Mission/Mission_WT2_VL_13	تسلل من دعسات السومو الصادمة!
+MsgMain/Mission/Mission_WT2_VL_16	مر عبر الفجوات بين الدعامات الفولاذية!
+MsgMain/Mission/Mission_WT2_VL_17	تسابق إلى أعلى سور القلعة!
+MsgMain/Mission/Mission_WT2_VL_18	اصعد رافعة، ثم تفاد الأخرى!
+MsgMain/Mission/Mission_WT2_VL_20	حلق مسافة طويلة لتصيب الهدف من أول ضربة!
+MsgMain/Mission/Mission_WT3_VL_01	التقط بعض الوجبات الخفيفة في سباق حول الدونات الكبيرة!
+MsgMain/Mission/Mission_WT_VL_00	تسلل بين صف تلو صف من روكي رينش!
+MsgMain/Mission/Mission_WT2_VL_00	انزلق إلى قمة البرج الملتوي!
+MsgMain/Mission/Mission_WT2_VL_02	أظهر قدراتك في سباق حصن السفن الطائرة مع الزمن!
+MsgMain/Mission/Mission_RC_VL_01	اجمع العملات الزرقاء حول ساحة المطاعم الحارة!
+MsgMain/Mission/Mission_WT_VL_01	اقفز على جدران قلعة باوزر!
+MsgMain/Mission/Mission_WT2_VL_03	نفذ الحركات دون السقوط في برك الحمم!
+MsgMain/Mission/Mission_WT3_VL_00	تسابق في مضمار مليء بأتباع باوزر!
+MsgMain/Mission/Mission_RC_VL_10	حافظ على توازنك على الحبل لتجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_VL_15	تفاد الكرات النارية واجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT2_VL_14	أر الجميع كيف يسير على الجدار!
+MsgMain/Mission/Mission_RC_FS_03	اجمع العملات الزرقاء على مسار على شكل رقم 8!
+MsgMain/Mission/Mission_RC_FS_04	اجمع العملات الزرقاء التي كدسها ويغلر!
+MsgMain/Mission/Mission_RC_FS_05	تغلب على الغرق لتجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_FS_06	اخترق الزحام والتقط العملات الزرقاء!
+MsgMain/Mission/Mission_RC_FS_07	التقط العملات الزرقاء في بركة سكيتر!
+MsgMain/Mission/Mission_RC_FS_08	اجمع العملات الزرقاء في مخيم ضفة النهر!
+MsgMain/Mission/Mission_RC_FS_09	اقتحم الغابة المخيفة بحثا عن العملات الزرقاء!
+MsgMain/Mission/Mission_WT_FS_02	ناور بين قطيع الأيائل المتمهل!
+MsgMain/Mission/Mission_WT_FS_03	اركب الحبل وحلق إلى النهاية!
+MsgMain/Mission/Mission_WT_FS_04	قل "مرحبا" لتمثال ماريو وأنت تحلق بجانبه!
+MsgMain/Mission/Mission_WT_FS_05	استخدم بتلات الزهرة للوصول إلى التفاحة العملاقة!
+MsgMain/Mission/Mission_WT_FS_06	اقفز، اقفز، اقفز عبر حلبة ماريو!
+MsgMain/Mission/Mission_WT_FS_07	طارد القطار واتبع القضبان!
+MsgMain/Mission/Mission_WT_FS_08	تفاد هجمات سبايك وصل إلى النهاية!
+MsgMain/Mission/Mission_WT_FS_09	تدرب على الأكروبات وهبط هبوطا صعبا!
+MsgMain/Mission/Mission_WT_FS_10	خض مغامرة برية وصل إلى خط النهاية!
+MsgMain/Mission/Mission_WT_FS_11	أرشدنا يا نبتة بيرانا اللبلاب!
+MsgMain/Mission/Mission_WT_FS_12	اصعد عكس التيار بقوة النجوم!
+MsgMain/Mission/Mission_WT_FS_13	اركب السكة! اركب الحبل! وصل إلى النهاية!
+MsgMain/Mission/Mission_WT2_FS_05	اقتحم الغابة المسكونة!
+MsgMain/Mission/Mission_WT2_FS_06	انزلق عبر قمم الأشجار!
+MsgMain/Mission/Mission_WT2_FS_07	تسابق من جسر إلى جسر في المستنقع المسكون!
+MsgMain/Mission/Mission_WT2_FS_08	أسرع عكس التيار وصل إلى النهاية!
+MsgMain/Mission/Mission_WT2_FS_09	أظهر للمستنقع قوة النجمة الخارقة!
+MsgMain/Mission/Mission_WT2_FS_10	تعرج بمهارة وانطلق على الجدران بين السيارات!
+MsgMain/Mission/Mission_WT2_FS_11	اجتز قفزات الطرق الخلفية الضيقة!
+MsgMain/Mission/Mission_WT2_FS_12	انزل مع التيار إلى مرتفعات البلوط!
+MsgMain/Mission/Mission_WT2_FS_13	تجنب نبتات البيرانا في طريقك!
+MsgMain/Mission/Mission_WT2_FS_14	تعرج بين السيارات وتشارجن تشاك!
+MsgMain/Mission/Mission_WT3_FS_01	تسابق في تحية لوادي الأشباح 1!
+MsgMain/Mission/Mission_WT3_FS_02	تسابق في تحية لوادي الأشباح 2!
+MsgMain/Mission/Mission_WT3_FS_03	تسابق في تحية لوادي الأشباح 3!
+MsgMain/Mission/Mission_WT3_FS_05	تسابق في طريق بري وسط الغابات!
+MsgMain/Mission/Mission_RC_FS_01	اجمع العملات الزرقاء أثناء نزولك وادي الزنبق!
+MsgMain/Mission/Mission_WT_FS_01	اصمد أمام عاصفة من ثمار البلوط!
+MsgMain/Mission/Mission_WT2_FS_00	اصعد عاليا فوق نبتات بيرانا اللبلاب!
+MsgMain/Mission/Mission_WT2_FS_02	تلو بين ويغلر في طريقك إلى النهاية!
+MsgMain/Mission/Mission_RC_FS_00	اجمع العملات الزرقاء حول برج المراقبة!
+MsgMain/Mission/Mission_WT_FS_00	انطلق من المنحدر واقفز عاليا!
+MsgMain/Mission/Mission_WT2_FS_01	اختبر نفسك في تحدي سباق مع الزمن صعب!
+MsgMain/Mission/Mission_RC_FS_02	اصعد رافعات الكاميرا! جاهز... انطلق!
+MsgMain/Mission/Mission_WT2_FS_03	ألق نظرة على عالم سينمائي مسكون!
+MsgMain/Mission/Mission_WT2_FS_04	انزلق على السكك إلى ردهة السينما!
+MsgMain/Mission/Mission_WT3_FS_04	تسابق في تجربة سينمائية غامرة حقا!
+MsgMain/Mission/Mission_RC_IC_05	تعرج نزولا واجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_IC_07	اجمع العملات الزرقاء بين بوكي الثلج!
+MsgMain/Mission/Mission_RC_IC_09	اجمع العملات الزرقاء بينما يستعرض البطريق!
+MsgMain/Mission/Mission_RC_IC_10	اصعد وانزل بسرعة لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_IC_11	تجنب هجمات بيرانا الصقيع لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_IC_12	خذ كل عملات رجال الثلج الزرقاء!
+MsgMain/Mission/Mission_RC_IC_13	خذ العملات الزرقاء بين هجمات بيرانا الصقيع!
+MsgMain/Mission/Mission_RC_IC_14	استعرض حيل السكك أثناء جمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_IC_15	اندفع بين فازي أثناء جمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_IC_16	خذ العملات الزرقاء بينما تتدحرج كرات الثلج!
+MsgMain/Mission/Mission_WT2_IC_02	حلق عاليا فوق المنحدرات!
+MsgMain/Mission/Mission_WT2_IC_03	تسابق ضد هجوم الطيور الجليدية!
+MsgMain/Mission/Mission_WT2_IC_04	اندفع عبر طريق وعر للسباق الريفي!
+MsgMain/Mission/Mission_WT2_IC_07	انتبه للريح في طريقك إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_08	أسرع إلى القمة المتجمدة!
+MsgMain/Mission/Mission_WT2_IC_09	شق طريقك بين الزحام إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_10	اركب القطار للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_15	افتح طريقك بكرات النار!
+MsgMain/Mission/Mission_WT2_IC_16	انزلق في تدريب التزلج على الجليد!
+MsgMain/Mission/Mission_WT2_IC_17	انضم إلى كرات الثلج في سباق نزولا!
+MsgMain/Mission/Mission_WT2_IC_18	احذر مخاطر كرات الثلج أمامك!
+MsgMain/Mission/Mission_WT2_IC_19	اقتحم الزحام للوصول إلى المنحدرات!
+MsgMain/Mission/Mission_WT2_IC_20	استخدم الفطر للانطلاق نحو المحطة!
+MsgMain/Mission/Mission_WT2_IC_22	اجتز الحلبة الباردة على البحيرة!
+MsgMain/Mission/Mission_WT2_IC_23	حلق في السماء وانطلق إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_24	خذ بعض القواقع الخضراء لحسن الحظ!
+MsgMain/Mission/Mission_WT2_IC_26	تسلق المنحدر الزلق للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_30	اقتحم الطريق المختصر غير المكتمل!
+MsgMain/Mission/Mission_WT2_IC_31	أظهر مهارتك بالانزلاق لمسافة طويلة جدا!
+MsgMain/Mission/Mission_WT3_IC_00	تسابق في تحية لبحيرة الفانيليا!
+MsgMain/Mission/Mission_RC_IC_02	در حول المرصد واجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT2_IC_05	احذر هجمات الأخوين الجليد!
+MsgMain/Mission/Mission_WT2_IC_28	اضغط على دواسة الوقود! هيا، هيا، هيا!
+MsgMain/Mission/Mission_WT_IC_02	صل إلى قمة مخروط البوظة الدوار!
+MsgMain/Mission/Mission_WT2_IC_11	اهرب بجرأة عبر وادي البوظة!
+MsgMain/Mission/Mission_WT2_IC_32	اضبط توقيت الفطر لتشق طريقك إلى النهاية!
+MsgMain/Mission/Mission_RC_IC_04	اج-ج-ج-مع العملات الزرقاء في ممر دونكي كونغ!
+MsgMain/Mission/Mission_WT2_IC_12	أثبت نفسك في اختبار مهارة خاص رقم 5!
+MsgMain/Mission/Mission_WT2_IC_13	تسابق عبر المدرجات الفارغة إلى النهاية!
+MsgMain/Mission/Mission_WT2_IC_14	شارك في مسابقة التزلج على الثلج لشاي غاي!
+MsgMain/Mission/Mission_RC_PL_01	اجمع العملات الزرقاء في الكهوف الغامضة!
+MsgMain/Mission/Mission_WT_PL_02	تسابق فوق الجسر المغطى ببارا-بيديبد!
+MsgMain/Mission/Mission_WT2_PL_03	اقفز، اقفز، اقفز، اقفز، اقفز، اقفز... اقفز!
+MsgMain/Mission/Mission_WT2_PL_04	أثبت نفسك في اختبار مهارة خاص رقم 3!
+MsgMain/Mission/Mission_RC_PL_04	اطلب السكينة بجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT_PL_05	ابحث عن السلام بتسلق الشلالات!
+MsgMain/Mission/Mission_WT2_PL_07	انسجم مع العالم بقرع الجرس!
+MsgMain/Mission/Mission_RC_RT_03	أظهر قيادة دقيقة لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_RT_04	أنقذ العملات الزرقاء من الدوامة!
+MsgMain/Mission/Mission_RC_RT_05	اقتحم العاصفة واجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_RT_06	التقط العملات الزرقاء بحذر واستمتع بهواء البحر!
+MsgMain/Mission/Mission_RC_RT_07	التقط العملات الزرقاء من منتجع جومبا!
+MsgMain/Mission/Mission_RC_RT_08	اقتحم حفلة العملات الزرقاء على الشاطئ!
+MsgMain/Mission/Mission_WT_RT_02	اقفز عاليا للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_RT_03	صل إلى حورية البحر التي تنادي من عبر البحر!
+MsgMain/Mission/Mission_WT_RT_04	حلق إلى مضمار الملح المالح!
+MsgMain/Mission/Mission_WT_RT_05	اعبر المنحدرات الغادرة إلى عمود النهاية!
+MsgMain/Mission/Mission_WT_RT_06	خض تدريبا متقدما على قيادة المياه!
+MsgMain/Mission/Mission_WT_RT_07	ثق في رياح الأعاصير المائية!
+MsgMain/Mission/Mission_WT_RT_08	اخترق حصار الأخوين بوميرانغ!
+MsgMain/Mission/Mission_WT_RT_09	اجتز طاحونة الهواء!
+MsgMain/Mission/Mission_WT_RT_10	انطلق إلى الشاطئ! هيا، هيا، هيا!
+MsgMain/Mission/Mission_WT2_RT_04	اقفز للحصول على دفعات بينما يشجعك تشيب تشيب!
+MsgMain/Mission/Mission_WT2_RT_05	تجول بين الجزر في طريقك إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_06	ركب الأمواج بينما يراقبك بولبر!
+MsgMain/Mission/Mission_WT2_RT_07	أتقن استخدام الريشة للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_08	اضغط على دواسة الوقود فوق بتلات الزهور!
+MsgMain/Mission/Mission_WT2_RT_09	ابحث عن نسيم البحر عند طواحين الهواء!
+MsgMain/Mission/Mission_WT2_RT_10	اقتحم الأعاصير المائية في أعالي البحار!
+MsgMain/Mission/Mission_WT2_RT_11	مارس الباركور على أسطح مضمار الملح المالح!
+MsgMain/Mission/Mission_WT2_RT_12	تعرج نزولا للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_13	اتبع الأنابيب والممرات الضيقة إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_14	تجرأ على ركوب دراغونيل!
+MsgMain/Mission/Mission_WT3_RT_00	انضم إلى السباق حول الجزيرة المهجورة!
+MsgMain/Mission/Mission_RC_RT_01	تسلق حطام السفن لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT_RT_01	اتبع الطريق المليء بالعملات إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_01	استقل رحلة مباشرة من برج إلى برج!
+MsgMain/Mission/Mission_RC_RT_00	اجمع العملات الزرقاء لحورية البحر الساحرة!
+MsgMain/Mission/Mission_WT_RT_00	حطم بعض الصناديق للحصول على دفعة!
+MsgMain/Mission/Mission_WT2_RT_00	اسلك طريقا مختصرا لتبقى جافا وتصل إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_02	حلق إلى برج المقاعد المميزة!
+MsgMain/Mission/Mission_WT2_RT_03	انطلق بالفطر عبر البلدة إلى النهاية!
+MsgMain/Mission/Mission_WT2_RT_15	اخترق عرض شاي غاي المائي!
+MsgMain/Mission/Mission_RC_JG_02	صل إلى العملات الزرقاء بمساعدة التماسيح!
+MsgMain/Mission/Mission_RC_JG_03	اتبع الخطوط واجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_JG_05	اتبع نبتات بيرانا اللبلاب إلى العملات الزرقاء!
+MsgMain/Mission/Mission_RC_JG_06	انزلق على السكك في الأدغال لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_JG_07	اقطف العملات الزرقاء من سماء السافانا!
+MsgMain/Mission/Mission_RC_JG_08	اركب كروم نبتة بيرانا اللبلاب لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_JG_09	خذ العملات الزرقاء التي تريدها نبتات البيرانا!
+MsgMain/Mission/Mission_RC_JG_10	احذر الزرافات وأنت تنطلق نحو العملات الزرقاء!
+MsgMain/Mission/Mission_RC_JG_11	أدر دورة ذكية لجمع العملات الزرقاء في الوقت المناسب!
+MsgMain/Mission/Mission_RC_JG_12	اجمع العملات الزرقاء في سفاري ضفة النهر!
+MsgMain/Mission/Mission_RC_JG_13	اجمع العملات الزرقاء حول حقل الينابيع الحارة!
+MsgMain/Mission/Mission_WT_JG_02	حلق في السماء وانزلق عبر وادي النهر!
+MsgMain/Mission/Mission_WT_JG_03	اقفز من كتلة إلى سحابة للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_JG_04	واجه اندفاع الجاموس من الجانبين!
+MsgMain/Mission/Mission_WT_JG_05	تعرج وسط اندفاع الحمير الوحشية!
+MsgMain/Mission/Mission_WT_JG_06	استخدم الريش جيدا للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_JG_07	حلق فوق الشلالات!
+MsgMain/Mission/Mission_WT_JG_08	اقفز قفزة إيمان من حافة الشلال!
+MsgMain/Mission/Mission_WT_JG_09	انطلق من فوق التريسيراتوبس!
+MsgMain/Mission/Mission_WT_JG_10	استعن بالقطيع للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_JG_11	اشكر التماسيح على مساعدتها القيمة!
+MsgMain/Mission/Mission_WT_JG_12	تسير على جدار شلال؟ ربما ينجح الأمر!
+MsgMain/Mission/Mission_WT_JG_13	تجنب الحطام وانزلق عبر الشلال!
+MsgMain/Mission/Mission_WT2_JG_04	اقفز داخل جولات النهر وخارجها!
+MsgMain/Mission/Mission_WT2_JG_05	حلق بحماس! ولا تدع التيرانوصور يخيفك!
+MsgMain/Mission/Mission_WT2_JG_06	اصعد بمساعدة البراكيوصورات!
+MsgMain/Mission/Mission_WT2_JG_08	اصعد إلى ارتفاعات شاهقة للوصول إلى كتلة السماء!
+MsgMain/Mission/Mission_WT2_JG_09	اندفع من صخرة إلى صخرة عبر سافانا مزدحمة!
+MsgMain/Mission/Mission_WT2_JG_11	تجول في السافانا وزر الشلالات العملاقة!
+MsgMain/Mission/Mission_WT2_JG_12	تسابق خارج الطريق في أدغال مليئة بالديناصورات!
+MsgMain/Mission/Mission_WT2_JG_13	اركب الشاحنة الجامحة!
+MsgMain/Mission/Mission_WT2_JG_14	اجتز الطريق الصعب صعودا إلى الجبل!
+MsgMain/Mission/Mission_WT3_JG_00	انضم إلى سباق التحمل في السافانا!
+MsgMain/Mission/Mission_WT3_JG_01	انطلق بين الديناصورات البرية وفوقها!
+MsgMain/Mission/Mission_RC_JG_01	اجمع العملات الزرقاء بين ذهب الأطلال!
+MsgMain/Mission/Mission_WT_JG_01	اقفز فوق قمم السحب!
+MsgMain/Mission/Mission_WT2_JG_03	تسابق في طريق صعب فوق الأطلال القديمة!
+MsgMain/Mission/Mission_RC_JG_00	اقتحم قبة الديناصورات لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT2_JG_00	قم بجولة جوية عبر القبة وما وراءها!
+MsgMain/Mission/Mission_WT2_JG_01	أثبت نفسك في اختبار مهارة خاص رقم 4!
+MsgMain/Mission/Mission_WT2_JG_02	ثق في ظهورها لتوصلك!
+MsgMain/Mission/Mission_WT2_JG_10	انطلق عاليا، عاليا، عاليا إلى السحب!
+MsgMain/Mission/Mission_RC_BS_04	أطلق البوق إن أحببت جمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_BS_05	ارسم رقم ثمانية لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_BS_06	أنقذ العملات الزرقاء من أمواج الدوامة!
+MsgMain/Mission/Mission_RC_BS_08	اجمع العملات الزرقاء في تحدي ركوب السكك الصعب!
+MsgMain/Mission/Mission_RC_BS_09	تدرب على القيادة الدقيقة لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_BS_10	خذ العملات الزرقاء... وربما دونات في النهاية؟
+MsgMain/Mission/Mission_WT_BS_03	تسابق لتسبق المتفجرات!
+MsgMain/Mission/Mission_WT_BS_04	استعر بعض التحسينات للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT_BS_05	اركب القطار السريع إلى المدينة!
+MsgMain/Mission/Mission_WT_BS_07	اسلك طريق الكروم إلى كأس الكؤوس!
+MsgMain/Mission/Mission_WT_BS_08	اقفز، اقفز، اقفز إلى نقطة مشاهدة رائعة!
+MsgMain/Mission/Mission_WT2_BS_04	نفذ حيلا من فوق المركبات في طريقك إلى الميناء الفضائي!
+MsgMain/Mission/Mission_WT2_BS_05	اكتشف اختصار البراميل السري في الطريق الخلفي!
+MsgMain/Mission/Mission_WT2_BS_06	اسلك طريق النهر إلى المدينة!
+MsgMain/Mission/Mission_WT2_BS_07	اصعد رحلتك المستأجرة إلى المدينة!
+MsgMain/Mission/Mission_WT2_BS_08	استخدم لمسة رقيقة للوصول إلى عمود النهاية!
+MsgMain/Mission/Mission_WT2_BS_10	انطلق بين السيارات على الطرق المغطاة!
+MsgMain/Mission/Mission_WT2_BS_11	أخرج كل حيلك في هذا الاختبار الصعب!
+MsgMain/Mission/Mission_WT2_BS_12	اشق طريقك بين أسراب الأسماك للوصول إلى النهاية!
+MsgMain/Mission/Mission_WT2_BS_13	توجه إلى الشاطئ!
+MsgMain/Mission/Mission_WT2_BS_14	تسابق في سباق مع الزمن على شكل ثمانية!
+MsgMain/Mission/Mission_WT2_BS_15	أثبت نفسك في اختبار مهارة خاص رقم 1!
+MsgMain/Mission/Mission_WT2_BS_16	اسلك طريقا هادئا نوعا ما إلى النهاية!
+MsgMain/Mission/Mission_WT2_BS_17	اقفز إلى شاطئ كوبا تروبا!
+MsgMain/Mission/Mission_WT2_BS_18	احظ باستقبال حوتي في ملعب بيتش!
+MsgMain/Mission/Mission_WT2_BS_19	قم برحلة خطرة إلى المدينة البعيدة!
+MsgMain/Mission/Mission_WT2_BS_20	اقتحم مخابئ هيرميتي كون!
+MsgMain/Mission/Mission_WT2_BS_21	تسابق في شوارع مليئة بالديناصورات!
+MsgMain/Mission/Mission_WT3_BS_02	اقتحم الرمل والأمواج في سباق على الشاطئ!
+MsgMain/Mission/Mission_RC_BS_03	اجمع العملات الزرقاء على مضمار العقبات العائم!
+MsgMain/Mission/Mission_WT2_BS_03	انزلق على الحبال إلى القمة!
+MsgMain/Mission/Mission_WT3_BS_01	تسابق في تحية لشاطئ كوبا 1!
+MsgMain/Mission/Mission_RC_BS_01	اركب الأنابيب لتحصل على عملات منصة الإطلاق الزرقاء!
+MsgMain/Mission/Mission_WT_BS_01	تسابق عائدا عبر ميناء دونكي كونغ الفضائي!
+MsgMain/Mission/Mission_WT2_BS_01	تذكر لعبة DONKEY KONG الكلاسيكية!
+MsgMain/Mission/Mission_RC_BS_00	اجمع العملات الزرقاء في منعطفات الحديقة!
+MsgMain/Mission/Mission_RC_BS_02	انزلق على الدرابزين الحضري لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT_BS_00	تجنب أتباع باوزر في طريقك إلى النهاية!
+MsgMain/Mission/Mission_WT_BS_02	احجز مكان الوقوف ذاك! بسرعة!
+MsgMain/Mission/Mission_WT2_BS_00	قم بجولة باركور في مدينة التاج!
+MsgMain/Mission/Mission_WT2_BS_02	انحرف في موقف السيارات كالأساطير!
+MsgMain/Mission/Mission_WT3_BS_00	اختبر تحملك في سباق عبر المدينة كلها!
+MsgMain/Mission/Mission_RC_PL_05	التقط العملات الزرقاء برشاقة بين الأوراق المتساقطة!
+MsgMain/Mission/Mission_RC_PL_06	اقفز من خط إلى خط لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_PL_07	خذ العملات الزرقاء بين بارا-بيديبد!
+MsgMain/Mission/Mission_RC_PL_08	ابحث في الحقول. اخطف العملات الزرقاء.
+MsgMain/Mission/Mission_RC_PL_09	اجمع العملات الزرقاء على جدار ثومبي-ومبي!
+MsgMain/Mission/Mission_RC_PL_10	اجمع العملات الزرقاء على مضمار الحبل المشدود!
+MsgMain/Mission/Mission_RC_PL_11	اتبع التيار لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_PL_12	اقفز للأعلى! اهبط للأسفل! خذ العملات الزرقاء!
+MsgMain/Mission/Mission_RC_PL_13	اخترق أكوام القش لجمع العملات الزرقاء!
+MsgMain/Mission/Mission_RC_PL_14	خذ بعض العملات الزرقاء السهلة... وواحدة صعبة!
+MsgMain/Mission/Mission_RC_PL_15	اجمع العملات الزرقاء على طريق خلفي خلاب!
+MsgMain/Mission/Mission_RC_PL_16	خذ العملات الزرقاء في طريقك إلى أعماق الهندباء!
+MsgMain/Mission/Mission_RC_PL_17	اعزف بعض الألحان أثناء جمع العملات الزرقاء!
+MsgMain/Mission/Mission_WT_PL_06	اجتز البحيرة! لا تصبح طعاما للسمك!
+MsgMain/Mission/Mission_WT_PL_07	اصعد المنحدرات ووصل إلى النهاية!
+MsgMain/Mission/Mission_WT_PL_08	مر تحت حشرات الإشارة في الوقت المناسب!
+MsgMain/Mission/Mission_WT_PL_09	خذ كيس يوشي الجاهز! أو سبعة! أو أحد عشر!
+MsgMain/Mission/Mission_WT_PL_10	تعرج في أخطر زحام على الإطلاق!
+MsgMain/Mission/Mission_WT_PL_11	استفد من المركبات على ضفاف النهر!
+MsgMain/Mission/Mission_WT_PL_12	اركب الشاحنة لتخترق الطرق المختصرة!
+MsgMain/Mission/Mission_WT_PL_13	التقط ما يسقطه سوبر كوبا!
+MsgMain/Mission/Mission_WT_PL_14	انتبه للطريق المختصر عبر حديقة الملعب!
+MsgMain/Mission/Mission_WT_PL_16	اجتز الممر الجبلي قبل أن ينتهي الوقت!
+MsgMain/Mission/Mission_WT_PL_17	انزل التل مسرعا لتصل البحيرة في الوقت!
+MsgMain/Mission/Mission_WT_PL_19	حلق عبر طريق سري إلى شلالات تشيب تشيب!
+MsgMain/Mission/Mission_WT_PL_20	اندفع عكس النهر وصل إلى النهاية!
+MsgMain/Mission/Mission_WT2_PL_09	احذر! احذر مجددا! احذر أكثر!
+MsgMain/Mission/Mission_WT2_PL_10	تسابق في طريق مختصر محفوف بالمخاطر!
+MsgMain/Mission/Mission_WT2_PL_11	انتبه لتوقيت قفزاتك!
+MsgMain/Mission/Mission_WT2_PL_12	وجه كرمة نبتة بيرانا اللبلاب نحو النهاية!
+MsgMain/Mission/Mission_WT2_PL_13	أظهر للجميع أن المنحدرات ليست ممنوعة!
+MsgMain/Mission/Mission_WT2_PL_14	استعرض طريقة شديدة الخطورة لركوب القطار!
+MsgMain/Mission/Mission_WT2_PL_15	تألق بقوة النجمة الخارقة!
+MsgMain/Mission/Mission_WT2_PL_16	أخرج كل حيلك للوصول إلى قمة الجبل!
+MsgMain/Mission/Mission_WT2_PL_17	استعر قاربا وكن لا يقهر!
+MsgMain/Mission/Mission_WT2_PL_18	طارد من يحفر الفناء!
+MsgMain/Mission/Mission_WT2_PL_19	اشق طريقك بين قطيع من تشين تشومب!
+MsgMain/Mission/Mission_WT2_PL_20	اسلك طريقا وعرا إلى جبل الشوكولاتة!
+MsgMain/Mission/Mission_WT2_PL_22	إلى الجو! إلى الماء!
+MsgMain/Mission/Mission_WT3_PL_00	تسابق في تحية لجزيرة الشوكولاتة 2!
+MsgMain/Mission/Mission_WT3_PL_01	تسابق في تحية لجزيرة الشوكولاتة 1!
+MsgMain/Mission/Mission_WT3_PL_03	انضم إلى سباق هواة محلي!
+MsgMain/Mission/Mission_WT3_PL_04	احذر دراغونيل أثناء السباق على البحيرة!
+MsgMain/Mission/Mission_RC_Island_00	ركز على العملات الزرقاء في بحر من الذهب!
+MsgMain/Mission/Mission_WT_PL_18	احذر الشوكولاتة المتساقطة! والصخور!
+MsgMain/Mission/Mission_WT2_PL_21	اندفع، اندفع، اندفع عبر الشوكولاتة الكثيفة!
+MsgMain/Mission/Mission_WT_PL_00	سامح فوضى اختبار النموذج الأولي!
+MsgMain/Mission/Mission_WT2_PL_00	أثبت نفسك في اختبار مهارة خاص رقم 2!
+MsgMain/Mission/Mission_WT2_PL_01	قم بجولة في مصنع تود!
+MsgMain/Mission/Mission_WT2_PL_02	تسابق إلى قمة الرافعة!
+MsgMain/Mission/Mission_RC_PL_02	ثق أن للأنبوب سببا يتعلق بالعملات الزرقاء!
+MsgMain/Mission/Mission_WT_PL_03	شق طريقك بين قطيع الأبقار!
+MsgMain/Mission/Mission_WT2_PL_05	اقفز فوق المروج وانطلق إلى النهاية!
+MsgMain/Mission/Mission_RC_PL_03	اجمع العملات الزرقاء حول برج المراقبة!
+MsgMain/Mission/Mission_WT_PL_04	حلق عاليا في السماء فوق ملعب بيتش!
+MsgMain/Mission/Mission_WT2_PL_06	اصعد بحيلك إلى قمة البوابة!
+MsgMain/Race/9001	متابعة
+MsgMain/Race/9002	خروج
+MsgMain/Race/9003	تغيير الحلبة
+MsgMain/Race/9004	تغيير الشخصية
+MsgMain/Race/9005	إعادة البدء
+MsgMain/Race/9006	السباق التالي
+MsgMain/Race/9007	التالي
+MsgMain/Race/9008	إعادة المحاولة
+MsgMain/Race/9009	عرض الإعادة
+MsgMain/Race/9010	متابعة المشاهدة
+MsgMain/Race/9011	خروج
+MsgMain/Race/9012	الدور التالي
+MsgMain/Race/9013	سباق ضد شبح
+MsgMain/Race/9014	إعادة من البداية
+MsgMain/Race/9015	هل تريد الخروج حقا؟
+MsgMain/Race/9016	متابعة المشاهدة
+MsgMain/Race/9017	خروج
+MsgMain/Race/9018	بدء اللعبة
+MsgMain/Race/9019	متابعة التجول الحر
+MsgMain/Race/9020	إنهاء التجول الحر
+MsgMain/Race/9021	تغيير القواعد
+MsgMain/Race/9022	عرض معلومات الغرفة
+MsgMain/Race/9023	الإعدادات/وحدة التحكم
+MsgMain/Race/9025	عرض القواعد
+MsgMain/Race/9026	العودة إلى التجول الحر
+MsgMain/Race/9028	متابعة المهمة
+MsgMain/Race/9029	إنهاء المهمة
+MsgMain/Race/9034	التالي
+MsgMain/Race/9035	النهاية
+MsgMain/Race/9036	الهدف
+MsgMain/Race/9031	تم إنشاء بيانات شبح جديدة.
+MsgMain/Race/9032	هذه نتائج السباق!
+MsgMain/Race/9033	تأخرت كثيرا...
+MsgMain/Race/9037	تأخر بعض المتسابقين كثيرا...
+MsgMain/Race/9101	هل تريد رفع بيانات\nالشبح الجديدة؟
+MsgMain/Race/9103	جار الرفع...
+MsgMain/Race/9104	تم رفع بيانات الشبح.
+MsgMain/Race/9105	تعذر رفع بيانات الشبح.
+MsgMain/Race/9106	{0E 0000 0003 0002 0000}الكأس الخاص{0E 0000 0003 0002 FFFF} متاح الآن!
+MsgMain/Race/9107	تم فتح {0E 0000 0003 0002 0000}وضع المرآة {0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9201	بطيء
+MsgMain/Race/9202	القائمة
+MsgMain/Race/9203	تبديل
+MsgMain/Race/9204	إيقاف مؤقت
+MsgMain/Race/9205	استئناف
+MsgMain/Race/9221	الإعدادات
+MsgMain/Race/9222	التوجيه الذكي
+MsgMain/Race/9223	تشغيل
+MsgMain/Race/9224	إيقاف
+MsgMain/Race/9225	التحكم بالإمالة
+MsgMain/Race/9226	تشغيل
+MsgMain/Race/9227	إيقاف
+MsgMain/Race/9228	تسارع تلقائي
+MsgMain/Race/9229	تشغيل
+MsgMain/Race/9230	إيقاف
+MsgMain/Race/9231	استخدام تلقائي للأداة
+MsgMain/Race/9232	تشغيل
+MsgMain/Race/9233	إيقاف
+MsgMain/Race/9234	الكاميرا الأفقية
+MsgMain/Race/9235	عادي
+MsgMain/Race/9236	معكوس
+MsgMain/Race/9237	الكاميرا العمودية
+MsgMain/Race/9238	الخريطة المصغرة
+MsgMain/Race/9239	طعام الاندفاع
+MsgMain/Race/9240	يتحول
+MsgMain/Race/9241	لا يتحول
+MsgMain/Race/9281	استخدام الأداة
+MsgMain/Race/9282	توجيه
+MsgMain/Race/9283	انحراف
+MsgMain/Race/9284	تسارع
+MsgMain/Race/9301	السباق 1
+MsgMain/Race/9302	السباق 2
+MsgMain/Race/9303	السباق 3
+MsgMain/Race/9304	السباق 4
+MsgMain/Race/9305	السباق 5
+MsgMain/Race/9306	السباق 6
+MsgMain/Race/9307	السباق 7
+MsgMain/Race/9308	السباق 8
+MsgMain/Race/9309	السباق 9
+MsgMain/Race/9310	السباق 10
+MsgMain/Race/9311	السباق 11
+MsgMain/Race/9312	السباق 12
+MsgMain/Race/9313	السباق 13
+MsgMain/Race/9314	السباق 14
+MsgMain/Race/9315	السباق 15
+MsgMain/Race/9316	السباق 16
+MsgMain/Race/9317	السباق 17
+MsgMain/Race/9318	السباق 18
+MsgMain/Race/9319	السباق 19
+MsgMain/Race/9320	السباق 20
+MsgMain/Race/9321	السباق 21
+MsgMain/Race/9322	السباق 22
+MsgMain/Race/9323	السباق 23
+MsgMain/Race/9324	السباق 24
+MsgMain/Race/9325	السباق 25
+MsgMain/Race/9326	السباق 26
+MsgMain/Race/9327	السباق 27
+MsgMain/Race/9328	السباق 28
+MsgMain/Race/9329	السباق 29
+MsgMain/Race/9330	السباق 30
+MsgMain/Race/9331	السباق 31
+MsgMain/Race/9399	السباق الأخير
+MsgMain/Race/9401	الدور 1
+MsgMain/Race/9402	الدور 2
+MsgMain/Race/9403	الدور 3
+MsgMain/Race/9404	الدور 4
+MsgMain/Race/9405	الدور 5
+MsgMain/Race/9406	الدور 6
+MsgMain/Race/9407	الدور 7
+MsgMain/Race/9499	الدور الأخير
+MsgMain/Race/9501	اطمح إلى {0E 0000 0003 0002 0004}المركز الأول{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}احتل{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}المركز 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!{0E 0000 0002 0002 0064}
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!{0E 0000 0002 0002 0064}
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} أو أفضل!{0E 0000 0002 0002 0064}
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}احتل {0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}المركز 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!{0E 0000 0002 0002 0064}
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}احتل{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}المركز 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}أو أفضل!{0E 0000 0002 0002 0064}
+MsgMain/Race/9604	لم تكن ضمن أفضل 4.
+MsgMain/Race/9608	لم تكن ضمن أفضل 8.
+MsgMain/Race/9612	لم تكن ضمن أفضل 12.
+MsgMain/Race/9616	لم تكن ضمن أفضل 16.
+MsgMain/Race/9620	لم تكن ضمن أفضل 20.
+MsgMain/Race/9701	مرحبا!
+MsgMain/Race/9702	حظا موفقا!
+MsgMain/Race/9703	أهلا بك!
+MsgMain/Race/9704	ارفق بي!
+MsgMain/Race/9705	سأبذل قصارى جهدي!
+MsgMain/Race/9706	هيا بنا!
+MsgMain/Race/9707	لننتظر المزيد من اللاعبين.
+MsgMain/Race/9708	حسنا!
+MsgMain/Race/9709	أنا متوتر قليلا...
+MsgMain/Race/9710	أنا متحمس!
+MsgMain/Race/9711	سألتقط صورة!
+MsgMain/Race/9712	هورا!
+MsgMain/Race/9713	كان ذلك ممتعا!
+MsgMain/Race/9714	لعبة رائعة!
+MsgMain/Race/9715	يا للأسف!
+MsgMain/Race/9716	هذا غير عادل!
+MsgMain/Race/9717	مرة أخرى!
+MsgMain/Race/9718	سأهزمك المرة القادمة!
+MsgMain/Race/9719	هذه لعبتي الأخيرة.
+MsgMain/Race/9720	سأغادر الآن.
+MsgMain/Race/9721	شكرا على اللعب!
+MsgMain/Race/9722	شكرا لك!
+MsgMain/Race/9723	تصبح على خير!
+MsgMain/Race/9724	إلى اللقاء!
+MsgMain/Race/9726	أنت ماهر!
+MsgMain/Race/9727	هذا مذهل!
+MsgMain/Race/9728	احذر!
+MsgMain/Race/9729	قدم أفضل ما عندك!
+MsgMain/Race/9730	هكذا تماما!
+MsgMain/Race/9731	هيا، هيا، هيا!
+MsgMain/Race/9732	انظر خلفك!
+MsgMain/Race/9733	رائع!
+MsgMain/Race/9750	ألتقط صورة!
+MsgMain/Race/9751	أنا في سباق!
+MsgMain/Race/9752	أنا في معركة!
+MsgMain/Race/9753	أنا أشاهد!
+MsgMain/Race/9936	مباشر
+MsgMain/Race/9939	آه!
+MsgMain/Race/9940	أصبتهم!
+MsgMain/Sticker/10000	لقد بدأت ماريو كارت وورلد!
+MsgMain/Sticker/10001	لقد جمعت{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}{0E 0001 0000 0004 0000 0000} في المجموع!
+MsgMain/Sticker/10002	لقد نفذت {0E 0001 0000 0004 0000 0000} حيلة في المجموع!
+MsgMain/Sticker/10004	لقد قدت {0E 0001 0000 0004 0000 0000} كم في المجموع!
+MsgMain/Sticker/10005	لقد انزلقت {0E 0001 0000 0004 0000 0000} كم في المجموع!
+MsgMain/Sticker/10006	لقد تسابقت {0E 0001 0000 0004 0000 0000} مرة في المجموع!
+MsgMain/Sticker/10008	لقد فعلت لوحة ؟!
+MsgMain/Sticker/10009	لقد حصلت على وسام بيتش!
+MsgMain/Sticker/10011	لقد أمسكت نابيت!
+MsgMain/Sticker/10012	لقد أنهيت تحدي تشارجن تشاك!
+MsgMain/Sticker/10013	لقد أكملت مهمة!
+MsgMain/Sticker/10014	لقد تسابقت في الكأس الخاص!
+Ver110/Ver110/VideoChat_04	تحقق من الكاميرا.
+Ver110/Ver110/VideoChat_06	ضع المؤشر على وجهك.
+Ver110/Ver110/VideoChat_07	تكبير
+Ver110/Ver110/VideoChat_08	حسنا
+Ver110/Ver110/VideoChat_09	تحريك
+Ver110/Ver110/VideoChat_10	استخدام الكاميرا؟
+Ver110/Ver110/VideoChat_11	تشغيل الكاميرا
+Ver110/Ver110/VideoChat_12	إيقاف الكاميرا
+Ver110/Ver110/VideoChat_13	عليك الانضمام إلى GameChat لاستخدام\nالكاميرا عبر الإنترنت. يرسل فيديو الكاميرا\nوصوت الميكروفون إلى أعضاء GameChat فقط.
+Ver110/Ver110/VideoChat_14	اضغط الزر C\nلفتح GameChat.
+Ver120/Ver120/Championship_01	الفعاليات
+Ver120/Ver120/Championship_02	البحث عن فعالية
+Ver120/Ver120/Championship_03	أدخل رمز الفعالية.
+Ver120/Ver120/Championship_04	تم العثور على الفعالية!
+Ver120/Ver120/Championship_05	تعذر العثور على فعالية\nبالرمز المدخل.
+Ver120/Ver120/Championship_06	إظهار التفاصيل
+Ver120/Ver120/Championship_07	التدرب حتى\nتبدأ الفعالية؟
+Ver120/Ver120/Championship_08	انتهت الفعالية.
+Ver120/Ver120/Championship_09	لقد أنهيت بالفعل\nعدد السباقات المحدد.
+Ver120/Ver120/Championship_10	بدأت الفعالية!
+Ver120/Ver120/Championship_12	64 سباقا
+Ver120/Ver120/Championship_13	128 سباقا
+Ver120/Ver120/Championship_14	غير محدود
+Ver120/Ver120/Championship_15	تعذر الانضمام إلى الفعالية.
+Ver120/Ver120/Championship_23	الحد الأقصى للسباقات
+Ver120/Ver120/Championship_24	الحد الأقصى للأدوار
+Ver120/Ver120/Championship_17	12 دورا
+Ver120/Ver120/Championship_18	16 دورا
+Ver120/Ver120/Championship_19	32 دورا
+Ver120/Ver120/Championship_20	64 دورا
+Ver120/Ver120/Championship_21	128 دورا
+Ver120/Ver120/Championship_22	الحلبات المغلقة فقط
+Ver120/Ver120/Spectate_01	اختر سائقا لمشاهدته
+Ver120/Ver120/Spectate_02	المتصدر
+Ver120/Ver120/VSRace_01	الفطر فقط
+Ver120/Ver120/TimeTrials_01	سباق ضد شبح
+Ver120/Ver120/TimeTrials_02	عرض الإعادة
+Ver130/Ver130/Join_01	الغرفة ممتلئة. انتظر من فضلك...
+Ver130/Ver130/FreeRun_01	بدء المهمة
+Ver140/Bgm/BgmTitle_00	موسيقى الأرض
+Ver140/Bgm/BgmTitle_01	موسيقى القلعة
+Ver140/Bgm/BgmTitle_02	لحن الأرض
+Ver140/Bgm/BgmTitle_03	موسيقى القلعة
+Ver140/Bgm/BgmTitle_04	موسيقى الصحراء
+Ver140/Bgm/BgmTitle_05	موسيقى تحت الماء
+Ver140/Bgm/BgmTitle_06	موسيقى البركان
+Ver140/Bgm/BgmTitle_07	لحن الختام 1
+Ver140/Bgm/BgmTitle_08	لحن الشاطئ
+Ver140/Bgm/BgmTitle_09	زعيم القلعة
+Ver140/Bgm/BgmTitle_10	أغنية رسم ماريو
+Ver140/Bgm/BgmTitle_11	أرجوحة جزيرة دونكي كونغ
+Ver140/Bgm/BgmTitle_12	باوزر
+Ver140/Bgm/BgmTitle_13	موسيقى حقل الزهور (نسخة سكا)
+Ver140/Bgm/BgmTitle_14	زعيم المرحلة (نسخة جاز)
+Ver140/Bgm/BgmTitle_15	موسيقى المغامرة
+Ver140/Bgm/BgmTitle_16	زعيم المرحلة (نسخة روك أند رول)
+Ver140/Bgm/BgmTitle_17	لحن الافتتاح
+Ver140/Bgm/BgmTitle_18	موسيقى حقل الزهور (نسخة جاز)
+Ver140/Bgm/BgmTitle_19	لحن الأرض
+Ver140/Bgm/BgmTitle_20	لحن الشاطئ (نسخة بوسا نوفا)
+Ver140/Bgm/BgmTitle_21	لحن الشاطئ (نسخة جاز)
+Ver140/Bgm/BgmTitle_22	لحن جبل الثلج
+Ver140/Bgm/BgmTitle_23	قاعة التجربة
+Ver140/Bgm/BgmTitle_24	تل الجرس الخارق
+Ver140/Bgm/BgmTitle_25	مواجهة باوزر على الطريق السريع
+Ver140/Bgm/BgmTitle_26	خور نبتة بيرانا المتسلقة
+Ver140/Bgm/BgmTitle_27	ممر الكرزتين
+Ver140/Bgm/BgmTitle_28	هيستوكرات
+Ver140/Bgm/BgmTitle_29	قصر بو المراوغ
+Ver140/Bgm/BgmTitle_30	الكابتن تود ينطلق
+Ver140/Bgm/BgmTitle_31	العالم 8
+Ver140/Bgm/BgmTitle_32	لحن المغامرة (نسخة سول)
+Ver140/Bgm/BgmTitle_33	لحن المغامرة (نسخة جاز)
+Ver140/Bgm/BgmTitle_34	السافانا الممتدة
+Ver140/Bgm/BgmTitle_35	هجوم! غضب باوزر
+Ver140/Bgm/BgmTitle_36	ركوب بليسي!
+Ver140/Bgm/BgmTitle_37	قلعة بيتش
+Ver140/Bgm/BgmTitle_38	المنزلق
+Ver140/Bgm/BgmTitle_39	عرض الطاقم
+Ver140/Bgm/BgmTitle_40	لحن العنوان (نسخة بيغ باند)
+Ver140/Bgm/BgmTitle_41	لحن باوزر
+Ver140/Bgm/BgmTitle_42	طريق باوزر
+Ver140/Bgm/BgmTitle_43	الأرصفة الرهيبة
+Ver140/Bgm/BgmTitle_44	ترنيمة نبتة بيرانا
+Ver140/Bgm/BgmTitle_45	لحن العنوان (نسخة لاتينية)
+Ver140/Bgm/BgmTitle_46	اختيار الملف
+Ver140/Bgm/BgmTitle_47	الجبل البارد جدا
+Ver140/Bgm/BgmTitle_48	اختر اللاعب من فضلك
+Ver140/Bgm/BgmTitle_49	موسيقى تحت الأرض
+Ver140/Bgm/BgmTitle_50	موسيقى الأرض
+Ver140/Bgm/BgmTitle_51	تحرر (قد الطريق)
+Ver140/Bgm/BgmTitle_52	بلدة شيفيريا
+Ver140/Bgm/BgmTitle_53	شلالات الأحافير
+Ver140/Bgm/BgmTitle_54	قلعة باوزر: الفناء الرئيسي
+Ver140/Bgm/BgmTitle_55	أطلال توستارينا
+Ver140/Bgm/BgmTitle_56	حدائق البخار (نسخة روك)
+Ver140/Bgm/BgmTitle_57	حدائق البخار (نسخة سول)
+Ver140/Bgm/BgmTitle_58	ساحة بيرونزا
+Ver140/Bgm/BgmTitle_59	بحيرة لاموده
+Ver140/Bgm/BgmTitle_60	اقفز، أيتها النجمة الخارقة!
+Ver140/Bgm/BgmTitle_61	وادي الأشباح
+Ver140/Bgm/BgmTitle_62	قلعة باوزر
+Ver140/Bgm/BgmTitle_63	عرض الطاقم
+Ver140/Bgm/BgmTitle_64	شاشة العنوان (نسخة فيوجن)
+Ver140/Bgm/BgmTitle_65	بحيرة الفانيليا
+Ver140/Bgm/BgmTitle_66	شاشة العنوان (نسخة لاتين جاز)
+Ver140/Bgm/BgmTitle_67	شاطئ كوبا
+Ver140/Bgm/BgmTitle_68	طريق قوس قزح
+Ver140/Bgm/BgmTitle_69	جزيرة الشوكولاتة (نسخة سامبا)
+Ver140/Bgm/BgmTitle_70	سهول الدونات
+Ver140/Bgm/BgmTitle_71	جزيرة الشوكولاتة (نسخة بوسا نوفا)
+Ver140/Bgm/BgmTitle_73	كوكب البيضة
+Ver140/Bgm/BgmTitle_74	مجرة قاعدة العوامة
+Ver140/Bgm/BgmTitle_75	المذنب الأرجواني
+Ver140/Bgm/BgmTitle_76	مجرة الحديقة العاصفة
+Ver140/Bgm/BgmTitle_77	ظهور باوزر الابن!
+Ver140/Bgm/BgmTitle_78	روزالينا في المرصد 3
+Ver140/Bgm/BgmTitle_79	المعركة الأخيرة مع باوزر
+Ver140/Bgm/BgmTitle_80	طريق خردة الفضاء
+Ver140/Bgm/BgmTitle_81	مجرة محطة السماء
+Ver140/Bgm/BgmTitle_82	رحلة المركبة النجمية
+Ver140/Bgm/BgmTitle_83	ديغا-ليغ
+Ver140/Bgm/BgmTitle_84	مجرة لوح الألغاز
+Ver140/Bgm/BgmTitle_85	مركبة ماريو النجمية 1
+Ver140/Bgm/BgmTitle_86	مجرة الانزلاق البري
+Ver140/Bgm/BgmTitle_87	مجرة ساحة الغيوم
+Ver140/Bgm/BgmTitle_88	مولد مجرة باوزر
+Ver140/Bgm/BgmTitle_89	مجرة الوحش الذائب
+Ver140/Bgm/BgmTitle_90	مجرة نجمة يوشي
+Ver140/Bgm/BgmTitle_91	ساحة دلفينو
+Ver140/Bgm/BgmTitle_92	المرحلة السرية - السماء والبحر
+Ver140/Bgm/BgmTitle_93	تلال بيانكو
+Ver140/Bgm/BgmTitle_94	ميناء ريكو
+Ver140/Bgm/BgmTitle_95	موسيقى تحت الماء
+Ver140/Bgm/BgmTitle_96	موسيقى تحت الأرض (نسخة جاز فيوجن)
+Ver140/Bgm/BgmTitle_97	موسيقى الأرض (نسخة لاتينية)
+Ver140/Bgm/BgmTitle_98	موسيقى تحت الأرض (نسخة أكوستيك)
+Ver140/Bgm/BgmTitle_99	موسيقى الأرض (نسخة أكوستيك)
+Ver140/Bgm/BgmTitle_100	موسيقى تحت الماء
+Ver140/Bgm/BgmTitle_101	مزيج العالم العلوي
+Ver140/Bgm/BgmTitle_102	موسيقى المغامرة
+Ver140/Bgm/BgmTitle_103	موسيقى زعيم الحصن
+Ver140/Bgm/BgmTitle_104	موسيقى الأرض
+Ver140/Bgm/BgmTitle_105	موسيقى المنطاد
+Ver140/Bgm/BgmTitle_106	النهاية
+Ver140/Bgm/BgmTitle_107	شاشة العنوان
+Ver140/Bgm/BgmTitle_108	موسيقى الأرض
+Ver140/Bgm/BgmTitle_109	موسيقى تحت الأرض
+Ver140/Bgm/BgmTitle_110	اللحن الرئيسي
+Ver140/Bgm/BgmTitle_111	اللحن الرئيسي
+Ver140/Bgm/BgmTitle_112	موسيقى الكوبالينغز
+Ver140/Bgm/BgmTitle_113	موسيقى تحت الماء
+Ver140/Bgm/BgmTitle_114	موسيقى الأرض (نسخة روك أند رول 1)
+Ver140/Bgm/BgmTitle_115	موسيقى لعبة المكافأة
+Ver140/Bgm/BgmTitle_116	موسيقى تحت الأرض
+Ver140/Bgm/BgmTitle_117	النهاية
+Ver140/Bgm/BgmTitle_118	موسيقى القلعة
+Ver140/Bgm/BgmTitle_119	مزيج العالم العلوي
+Ver140/Bgm/BgmTitle_120	موسيقى الأرض (نسخة كانتري)
+Ver140/Bgm/BgmTitle_121	موسيقى الأرض (نسخة سكا)
+Ver140/Bgm/BgmTitle_122	موسيقى الأرض (نسخة روك أند رول 2)
+Ver140/Bgm/BgmTitle_123	موسيقى العنوان
+Ver140/Bgm/BgmTitle_124	طريق قوس قزح
+Ver140/Bgm/BgmTitle_125	الصحراء الجافة جدا
+Ver140/Bgm/BgmTitle_126	قلعة باوزر
+Ver140/Bgm/BgmTitle_127	عرض الطاقم
+Ver140/Bgm/BgmTitle_128	أرض الشربات
+Ver140/Bgm/BgmTitle_129	جسر الفطر
+Ver140/Bgm/BgmTitle_130	حلبة لويجي
+Ver140/Bgm/BgmTitle_131	حديقة الأطفال
+Ver140/Bgm/BgmTitle_132	حلبة المعركة
+Ver140/Bgm/BgmTitle_133	طريق قوس قزح
+Ver140/Bgm/BgmTitle_134	حلبة المعركة
+Ver140/Bgm/BgmTitle_135	شاطئ كوبا تروبا (نسخة روك)
+Ver140/Bgm/BgmTitle_136	شاشة النتائج
+Ver140/Bgm/BgmTitle_137	شاشة العنوان
+Ver140/Bgm/BgmTitle_138	مزرعة مو مو
+Ver140/Bgm/BgmTitle_139	صحراء كاليماري
+Ver140/Bgm/BgmTitle_140	أرض ثلج فرابيه (نسخة سول)
+Ver140/Bgm/BgmTitle_141	أرض ثلج فرابيه (نسخة جاز فيوجن)
+Ver140/Bgm/BgmTitle_142	شاطئ كوبا تروبا (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_143	طريق تود السريع
+Ver140/Bgm/BgmTitle_144	اختيار الشخصية
+Ver140/Bgm/BgmTitle_145	طريق أدغال دونكي كونغ
+Ver140/Bgm/BgmTitle_146	طريق قوس قزح
+Ver140/Bgm/BgmTitle_147	تلال ديزي
+Ver140/Bgm/BgmTitle_148	عرض الطاقم
+Ver140/Bgm/BgmTitle_149	ممر الألب
+Ver140/Bgm/BgmTitle_150	ممر أنابيب نبتة بيرانا
+Ver140/Bgm/BgmTitle_151	عالم روزالينا الجليدي
+Ver140/Bgm/BgmTitle_152	حلبة تود
+Ver140/Bgm/BgmTitle_153	أدغال دونكي كونغ
+Ver140/Bgm/BgmTitle_154	طريق الألحان
+Ver140/Bgm/BgmTitle_155	وادي الحلوى الحلوة (نسخة جاز)
+Ver140/Bgm/BgmTitle_156	ضحضاح الدلفين (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_157	القصر الملتوي
+Ver140/Bgm/BgmTitle_158	الغابات البرية
+Ver140/Bgm/BgmTitle_159	ميناء تود (نسخة روك)
+Ver140/Bgm/BgmTitle_160	ضحضاح الدلفين (نسخة جاز فيوجن)
+Ver140/Bgm/BgmTitle_161	مطار صن شاين (نسخة لاونج بوب)
+Ver140/Bgm/BgmTitle_162	صحراء ثومب
+Ver140/Bgm/BgmTitle_163	ميناء تود (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_164	مطار صن شاين (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_165	طريق انحراف التنين
+Ver140/Bgm/BgmTitle_166	قلعة باوزر
+Ver140/Bgm/BgmTitle_167	وادي الحلوى الحلوة (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_168	الحديقة المائية
+Ver140/Bgm/BgmTitle_169	ملعب المعركة
+Ver140/Bgm/BgmTitle_170	جبل واريو
+Ver140/Bgm/BgmTitle_171	شلالات شاي غاي
+Ver140/Bgm/BgmTitle_172	طريق قوس قزح
+Ver140/Bgm/BgmTitle_173	رحلة قمم الغيوم
+Ver140/Bgm/BgmTitle_174	مترو الجرس الخارق
+Ver140/Bgm/BgmTitle_175	ملهى الكهرباء
+Ver140/Bgm/BgmTitle_176	ماريو كارت 8 (نسخة جاز فيوجن 1)
+Ver140/Bgm/BgmTitle_177	كثبان العظام الجافة
+Ver140/Bgm/BgmTitle_178	أطلال ثومب
+Ver140/Bgm/BgmTitle_179	حلبة ماريو
+Ver140/Bgm/BgmTitle_180	ماريو كارت 8 (نسخة جاز فيوجن 2)
+Ver140/Bgm/BgmTitle_181	موقع الجليد الجليدي
+Ver140/Bgm/BgmTitle_182	حلبة الثمانية
+Ver140/Bgm/BgmTitle_183	قصر لويجي
+Ver140/Bgm/BgmTitle_184	ساعة تيك توك
+Ver140/Bgm/BgmTitle_185	شلالات يوشي
+Ver140/Bgm/BgmTitle_186	حافة الفطر
+Ver140/Bgm/BgmTitle_187	عرض الطاقم
+Ver140/Bgm/BgmTitle_188	طريق قوس قزح
+Ver140/Bgm/BgmTitle_189	بينبول والويجي (نسخة روك)
+Ver140/Bgm/BgmTitle_190	ميدان دلفينو
+Ver140/Bgm/BgmTitle_191	حلبة المعركة
+Ver140/Bgm/BgmTitle_192	شاطئ تشيب تشيب
+Ver140/Bgm/BgmTitle_193	بينبول والويجي (نسخة فانك)
+Ver140/Bgm/BgmTitle_194	حدائق بيتش
+Ver140/Bgm/BgmTitle_195	حلبة ديزي (نسخة أكوستيك)
+Ver140/Bgm/BgmTitle_196	حلبة ديزي (نسخة إلكترو)
+Ver140/Bgm/BgmTitle_197	عرض الطاقم أ
+Ver140/Bgm/BgmTitle_198	طريق منظر القمر السريع
+Ver140/Bgm/BgmTitle_199	ممر شجر القيقب
+Ver140/Bgm/BgmTitle_200	مضيق الفطر
+Ver140/Bgm/BgmTitle_201	مركز جوز الهند
+Ver140/Bgm/BgmTitle_202	رصيف دلفينو
+Ver140/Bgm/BgmTitle_203	روليت تشين تشومب
+Ver140/Bgm/BgmTitle_204	تزلج دونكي كونغ عبر البلاد
+Ver140/Bgm/BgmTitle_205	بركان غرامبل
+Ver140/Bgm/BgmTitle_206	أطلال الجفاف الشديد
+Ver140/Bgm/BgmTitle_207	طريق قوس قزح
+Ver140/Bgm/BgmTitle_208	حلبة لويجي
+Ver140/Bgm/BgmTitle_209	منجم ذهب واريو
+Ver140/Bgm/BgmTitle_210	أرض الجبن
+Ver140/Bgm/BgmTitle_211	شاطئ شاي غاي
+Ver140/Bgm/BgmTitle_212	حلبة بيتش
+Ver140/Bgm/BgmTitle_213	طريق قوس قزح
+Ver140/Bgm/BgmTitle_214	قلعة باوزر
+Ver140/Bgm/BgmTitle_215	طريق الشريط
+Ver140/Bgm/BgmTitle_216	حديقة ضفة النهر
+Ver140/Bgm/BgmTitle_217	صحراء يوشي
+Ver140/Bgm/BgmTitle_218	اندفاع بانكوك
+Ver140/Bgm/BgmTitle_219	الجبل المرح
+Ver140/Bgm/BgmTitle_220	جولات لوس أنجلوس
+Ver140/Bgm/BgmTitle_221	مخبأ النينجا
+Ver140/Bgm/BgmTitle_222	سرعة فانكوفر
+Ver140/Bgm/BgmTitle_223	طمس طوكيو
+Ver140/Bgm/BgmTitle_224	عدو النظافة التامة
+Ver140/Bgm/BgmTitle_225	مضمار سنغافورة
+Ver140/Bgm/BgmTitle_226	خط أنابيب نبتة بيرانا
+Ver140/Bgm/BgmTitle_227	شاشة العنوان
+Ver140/Bgm/BgmTitle_228	وضع الرسم 1
+Ver140/Bgm/BgmTitle_229	مضرب الذباب المستوى 1
+Ver140/Bgm/BgmTitle_230	أصوات تحملها الأمواج
+Ver140/Bgm/BgmTitle_231	أغنية يوشي (نسخة لاتينية)
+Ver140/Bgm/BgmTitle_232	أغنية يوشي (نسخة بوسا نوفا)
+Ver140/Bgm/BgmTitle_233	حكاية يوشي
+Ver140/Bgm/BgmTitle_234	لحن العنوان (دندنة)
+Ver140/Bgm/BgmTitle_235	حلبة المعركة
+Ver140/Bgm/BgmTitle_236	حصن المنطاد
+Ver140/Bgm/BgmTitle_237	مرتفعات البلوط
+Ver140/Bgm/BgmTitle_238	أعماق الهندباء
+Ver140/Bgm/BgmTitle_239	ملعب بيتش
+Ver140/Bgm/BgmTitle_240	جبل الشوكولاتة
+Ver140/Bgm/BgmTitle_241	سينما بو
+Ver140/Bgm/BgmTitle_242	قمة محطة الصفير
+Ver140/Bgm/BgmTitle_243	تلال الصحراء
+Ver140/Bgm/BgmTitle_244	احتراق دراي بونز
+Ver140/Bgm/BgmTitle_245	أدغال الديناصورات
+Ver140/Bgm/BgmTitle_246	الواحة البعيدة
+Ver140/Bgm/BgmTitle_247	ممر دونكي كونغ
+Ver140/Bgm/BgmTitle_248	ميناء دونكي كونغ الفضائي
+Ver140/Bgm/BgmTitle_249	حلبة الأخوين ماريو
+Ver140/Bgm/BgmTitle_250	مثلجات السماء العالية
+Ver140/Bgm/BgmTitle_251	شاطئ كوبا تروبا
+Ver140/Bgm/BgmTitle_252	مضمار الملح المالح
+Ver140/Bgm/BgmTitle_253	قلعة باوزر
+Ver140/Bgm/BgmTitle_254	مروج مو مو
+Ver140/Bgm/BgmTitle_255	شاطئ بيتش
+Ver140/Bgm/BgmTitle_256	شلالات تشيب تشيب
+Ver140/Bgm/BgmTitle_257	طريق قوس قزح
+Ver140/Bgm/BgmTitle_258	حلبة ماريو
+Ver140/Bgm/BgmTitle_259	سوق شاي غاي
+Ver140/Bgm/BgmTitle_260	قمة رؤية النجوم
+Ver140/Bgm/BgmTitle_261	أطلال كتلة ؟ العظمى
+Ver140/Bgm/BgmTitle_262	مصنع تود
+Ver140/Bgm/BgmTitle_263	سفينة واريو الشراعية
+Ver140/Bgm/BgmTitle_264	ملعب واريو
+Ver140/Bgm/BgmTitle_265	مدينة التاج
+Ver140/Bgm/BgmTitle_266	اللحن الرئيسي
+Ver140/Bgm/BgmTitle_267	المشاهدة
+Ver140/Bgm/BgmTitle_268	الإعادة
+Ver140/Bgm/BgmTitle_269	إلى طريق قوس قزح
+Ver140/Bgm/BgmTitle_270	جزيرة الشوكولاتة
+Ver140/Bgm/BgmTitle_271	حلبة ماريو
+Ver140/Bgm/BgmTitle_272	وادي الأشباح
+Ver140/Bgm/BgmTitle_273	بحيرة الفانيليا
+Ver140/Bgm/BgmTitle_274	شاطئ كوبا تروبا
+Ver140/Ver140/ItemSwitch_01	أدوات مخصصة
+Ver140/Ver140/ItemSwitch_02	عشوائي
+Ver140/Ver140/ItemSwitch_03	تشغيل الكل
+Ver140/Ver140/ItemSwitch_04	إيقاف الكل
+Ver140/Ver140/BGMVolume_01	مستوى الموسيقى
+Ver140/Ver140/BGMVolume_02	عادي
+Ver140/Ver140/BGMVolume_03	عال
+Ver140/Ver140/Accompany_01	الغرفة فقط
+Ver140/Ver140/Accompany_02	الجميع
+Ver140/Ver140/Accompany_03	هل تريد اصطحاب أعضاء الغرفة\nوالانضمام إلى لاعبين آخرين؟
+Ver140/Ver140/Accompany_04	يمكن لأربعة لاعبين فقط\nالانضمام معا إلى اللاعبين.
+Ver140/Ver140/Accompany_05	جار الانضمام إلى لاعبين آخرين.
+Ver160/Ver160/BattleRule_01	انفجار بوب-أومب
+Ver170/Ver170/PhotoMode170_00	الملصقات
+Ver170/Ver170/PhotoMode170_02	إعادة ضبط
+Ver170/Ver170/PhotoMode_Dialog_Reset_00	إزالة كل التعديلات؟
+Ver170/Ver170/PhotoMode_Dialog_Reset_01	نعم
+Ver170/Ver170/PhotoMode_Dialog_Reset_02	لا
+Ver170/Ver170/PhotoSticker_01	إنهاء
+Ver170/Ver170/PhotoSticker_03	قائمة الملصقات
+Ver170/Ver170/PhotoSticker_06	رجوع
+Ver170/Ver170/PhotoSticker_08	الحجم
+Ver170/Ver170/PhotoSticker_10	الإمالة
+Ver170/Ver170/PhotoSticker_12	تثبيت
+Ver170/Ver170/Name_GP17	{0E 0000 0002 0002 005F}رالي المثقاب
+Ver170/Ver170/Name_GP18	{0E 0000 0002 0002 005F}رالي البوميرانغ
+Ver170/Ver170/SpectatingMode_01	وضع المشاهدة
+Ver170/Ver170/SpectatingMode_02	بدء المشاهدة؟\n\nلن تتمكن من اللعب\nأثناء المشاهدة.
+Ver170/Ver170/SpectatingMode_03	إيقاف المشاهدة؟
+Ver170/Ver170/SpectatingMode_04	الغرفة ممتلئة. حاول مجددا\nعند توفر مكان.
+Ver170/Ver170/SpectatingMode_05	تعذر التبديل.
+Ver170/Ver170/SpectatingMode_06	يشاهد لاعب حاليا،\nلذا لا يمكنك\nاختيار الجميع.
+Ver170/Ver170/SpectatingMode_07	عدد اللاعبين المتبقين\nغير كاف.
+Ver180/Ver180/Name_GP19	{0E 0000 0002 0002 005F}رالي المروحة
+Ver180/Ver180/Name_GP20	{0E 0000 0002 0002 005F}رالي اللفت
+Ver180/Ver180/Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 1
+Ver180/Ver180/Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 2
+Ver180/Ver180/Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 3
+Ver180/Ver180/Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 1
+Ver180/Ver180/Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 2
+Ver180/Ver180/Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 3
+Ver180/Ver180/Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} جزيرة الشوكولاتة 1
+Ver180/Ver180/Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} جزيرة الشوكولاتة 2
+Ver180/Ver180/Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} بحيرة الفانيليا 1
+Ver180/Ver180/Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} شاطئ كوبا 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 2
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} حلبة ماريو 3
+Ver180/Ver180/Adjust_Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 1
+Ver180/Ver180/Adjust_Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 2
+Ver180/Ver180/Adjust_Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} وادي الأشباح 3
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} جزيرة الشوكولاتة 1
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} جزيرة الشوكولاتة 2
+Ver180/Ver180/Adjust_Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} بحيرة الفانيليا 1
+Ver180/Ver180/Adjust_Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} شاطئ كوبا 1
+Ver180/Ver180/PhotoMode_Filter_00	المرشح
+Ver180/Ver180/PhotoMode_Filter_01	المرشح: 1
+Ver180/Ver180/PhotoMode_Filter_02	المرشح: 2
+Ver180/Ver180/PhotoMode_Filter_03	المرشح: 3
+Ver180/Ver180/PhotoMode_Filter_04	المرشح: 4
+Ver180/Ver180/PhotoMode_Filter_05	المرشح: 5
+Ver180/Ver180/PhotoMode_Filter_06	المرشح: 6
+Ver180/Ver180/PhotoMode_Filter_07	المرشح: 7
+Ver180/Ver180/PhotoMode_Filter_08	المرشح: 8

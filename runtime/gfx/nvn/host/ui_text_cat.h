@@ -13,7 +13,10 @@
     [UI_MENU_LANGNAME_ES_419] = "Español (Latinoamérica)", [UI_MENU_LANGNAME_CA] = "Català", \
     [UI_MENU_LANGNAME_GL] = "Galego", [UI_MENU_LANGNAME_EU] = "Euskara", [UI_MENU_LANGNAME_PL] = "Polski", \
     [UI_MENU_LANGNAME_TR] = "Türkçe", [UI_MENU_LANGNAME_UK] = "Українська", \
-    [UI_MENU_LANGNAME_TH] = "ไทย"
+    [UI_MENU_LANGNAME_TH] = "ไทย", [UI_MENU_LANGNAME_VI] = "Tiếng Việt", \
+    [UI_MENU_LANGNAME_ID] = "Bahasa Indonesia", \
+    [UI_MENU_LANGNAME_AR] = "ﺍﻟﻌﺮﺑﻴﺔ" /* العربية joined, as tools/i18n/arabic.py writes the catalog */, \
+    [UI_MENU_LANGNAME_HI] = text_hi_name /* हिन्दी as syllables (tools/i18n/devanagari.py), in ui_text_hi.c */
 
 extern const char *const text_en[UI_TEXT_COUNT], *const text_ru[UI_TEXT_COUNT], *const text_es[UI_TEXT_COUNT],
     *const text_ja[UI_TEXT_COUNT], *const text_fr[UI_TEXT_COUNT], *const text_de[UI_TEXT_COUNT],
@@ -21,4 +24,7 @@ extern const char *const text_en[UI_TEXT_COUNT], *const text_ru[UI_TEXT_COUNT], 
     *const text_pt_br[UI_TEXT_COUNT], *const text_zh_hans[UI_TEXT_COUNT], *const text_zh_hant[UI_TEXT_COUNT],
     *const text_ko[UI_TEXT_COUNT], *const text_es_419[UI_TEXT_COUNT], *const text_ca[UI_TEXT_COUNT],
     *const text_gl[UI_TEXT_COUNT], *const text_eu[UI_TEXT_COUNT], *const text_pl[UI_TEXT_COUNT],
-    *const text_tr[UI_TEXT_COUNT], *const text_uk[UI_TEXT_COUNT], *const text_th[UI_TEXT_COUNT];
+    *const text_tr[UI_TEXT_COUNT], *const text_uk[UI_TEXT_COUNT], *const text_th[UI_TEXT_COUNT],
+    *const text_vi[UI_TEXT_COUNT], *const text_id[UI_TEXT_COUNT], *const text_ar[UI_TEXT_COUNT],
+    *const text_hi[UI_TEXT_COUNT];
+extern const char text_hi_name[];

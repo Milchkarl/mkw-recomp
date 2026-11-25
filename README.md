@@ -35,7 +35,8 @@
   <a href="docs/i18n/README.hi.md">हिन्दी</a> ·
   <a href="docs/i18n/README.pt-BR.md">Português (Brasil)</a> ·
   <a href="docs/i18n/README.pt-PT.md">Português (Portugal)</a> ·
-  <a href="docs/i18n/README.de.md">Deutsch</a>
+  <a href="docs/i18n/README.de.md">Deutsch</a> ·
+  <a href="docs/i18n/README.vi.md">Tiếng Việt</a>
 </p>
 <!-- i18n-bar:end -->
 
@@ -98,7 +99,8 @@ into the library).
 
 <a href="https://recomplauncher.com/game/mkw-recomp"><img src="https://recomplauncher.com/assets/press/launcher/badge-dark.svg" alt="Get it on RecompLauncher" height="56"></a>
 
-Requirements: x86-64 CPU with AVX2 (or, on Linux, AArch64 with ARMv8.2: LSE, FP16, RCpc, DotProd, CRC32), a GPU with
+Requirements: x86-64 CPU with AVX2 (on Windows, without it: the `-windows-x64-noavx2.zip` package, SSE4.2; or, on
+Linux, AArch64 with ARMv8.2: LSE, FP16, RCpc, DotProd, CRC32), a GPU with
 Vulkan 1.3 (`VK_EXT_mesh_shader` recommended), 16 GB of RAM recommended. In a Docker or Podman container on Linux,
 allow `userfaultfd` in the seccomp profile (Docker's default refuses it), or it runs several times slower.
 
@@ -110,8 +112,10 @@ To add your machine to the performance list, open a
 Beyond the console, all optional and off (or at the console's value) by default:
 
 - **Display**: any internal resolution, 21:9 / 32:9 / 48:9, AMD FSR 1 scaling, HDR, VSync, mailbox or immediate presentation.
-- **Frame generation**: frames made between the game's (30 fps shown at 60, or 240). Smoother, not faster; fast motion
-  and the minimap can smear.
+- **DLSS and FSR 3.1**: NVIDIA DLSS and AMD FSR 3.1 upscaling (or DLAA at full resolution) and NVIDIA Reflex, in
+  Graphics > Resolution; on Windows their libraries download from NVIDIA's and AMD's own releases when you pick them.
+- **Frame generation**: frames made between the game's (30 fps shown at 60, or 240), by our own engine, DLSS or
+  FSR 3.1. Smoother, not faster; fast motion and the minimap can smear.
 - **Frame rate**: 20 and 15 fps besides 60 and 30; Automatic drops to them when frames take too long, so a slow GPU
   keeps the race at real speed. **Low latency** (on by default) starts each frame as late as the GPU allows.
 - **Graphics**: texture filtering and quality, detail distance, shadow quality.
@@ -124,7 +128,8 @@ Beyond the console, all optional and off (or at the console's value) by default:
   where they are). While the game uses the network, as in a LAN race, it runs on out of focus and silent instead, as on
   the console.
 - **Hacks**: turbo (F2), skip movies, unlock everything, fixed randomness, straight to time trial or free roam.
-- **Languages**: menus in 20 languages; the game also in Catalan, Galician, Basque and Turkish.
+- **Languages**: menus in 25 languages; the game also in Catalan, Galician, Basque, Turkish, Vietnamese, Ukrainian,
+  Indonesian, Arabic and Hindi.
 - **Tools**: performance overlay and a one-click system info for bug reports.
 
 ### Switch 2 controllers over USB on Windows
@@ -228,8 +233,9 @@ it went in.
 [MIT License](LICENSE). Code taken from other projects keeps its own license next to it (`LICENSE.*` files in
 [recomp/](recomp/), [runtime/](runtime/), [sm86/decode/](sm86/decode/) and
 [runtime/third_party/](runtime/third_party/README.md)): totk-pc-recomp, nvsass-disassembler, Dear ImGui, bc7enc,
-stb_image, AMD FidelityFX FSR 1 and Roboto. Every source, with its license and what was taken (code from MIT projects
-only; from GPL projects, ideas only): [docs/project/research.md](docs/project/research.md#sources).
+stb_image, AMD FidelityFX FSR 1, Roboto, Noto Sans Arabic and Noto Sans Devanagari. Every source, with its license and
+what was taken (code from MIT projects only; from GPL projects, ideas only):
+[docs/project/research.md](docs/project/research.md#sources).
 
 This product uses **NVIDIA DLSS** (Super Resolution and Frame Generation, NVIDIA DLSS SDK, © NVIDIA Corporation),
 **AMD FidelityFX Super Resolution 3.1** (© Advanced Micro Devices, MIT) and **RenHDrum** (MIT) for HD vibration. They

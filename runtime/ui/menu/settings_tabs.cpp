@@ -119,7 +119,9 @@ static void row_game_lang(void) {
         {"zh-CN", UI_MENU_LANGNAME_ZH_HANS}, {"zh-TW", UI_MENU_LANGNAME_ZH_HANT}, {"ko", UI_MENU_LANGNAME_KO},
         // ours, rebuilt over the game's Spanish and British English (tools/i18n/game_texts.py)
         {"ca", UI_MENU_LANGNAME_CA}, {"gl", UI_MENU_LANGNAME_GL}, {"eu", UI_MENU_LANGNAME_EU},
-        {"tr", UI_MENU_LANGNAME_TR},
+        {"tr", UI_MENU_LANGNAME_TR}, {"vi", UI_MENU_LANGNAME_VI}, {"uk", UI_MENU_LANGNAME_UK},
+        {"id", UI_MENU_LANGNAME_ID},
+        {"ar", UI_MENU_LANGNAME_AR}, {"hi", UI_MENU_LANGNAME_HI},
         // added by updates (Polish 1.5.0, Thai 1.7.0): listed only when this copy of the game ships them
         {"pl", UI_MENU_LANGNAME_PL}, {"th", UI_MENU_LANGNAME_TH},
     };
@@ -491,6 +493,7 @@ static void tab_sound(float scale) {
         opt_choice_list("MKW_AUDIO_CHANNELS", UI_MENU_SPEAKERS, vals, names, 3, UI_MENU_SPEAKERS_DESC);
     }
     opt_toggle("MKW_BACKGROUND_MUTE", UI_MENU_BACKGROUND_MUTE, UI_MENU_BACKGROUND_MUTE_DESC);   // audio/audio_mixer.c
+    opt_toggle("MKW_MUTE", UI_MENU_MUTE, UI_MENU_MUTE_DESC);   // also the Mute Toggle key (Controls tab, menu_mute_key)
     opt_end();
 }
 
@@ -605,7 +608,7 @@ static void tab_general(float scale) {
         UI_MENU_LANGNAME_PT, UI_MENU_LANGNAME_PT_BR, UI_MENU_LANGNAME_RU, UI_MENU_LANGNAME_ZH_HANS,
         UI_MENU_LANGNAME_ZH_HANT, UI_MENU_LANGNAME_KO, UI_MENU_LANGNAME_ES_419, UI_MENU_LANGNAME_CA,
         UI_MENU_LANGNAME_GL, UI_MENU_LANGNAME_EU, UI_MENU_LANGNAME_PL, UI_MENU_LANGNAME_TR, UI_MENU_LANGNAME_UK,
-        UI_MENU_LANGNAME_TH,
+        UI_MENU_LANGNAME_TH, UI_MENU_LANGNAME_VI, UI_MENU_LANGNAME_ID, UI_MENU_LANGNAME_AR, UI_MENU_LANGNAME_HI,
     };
     opt_choice("MKW_MENU_LANG", UI_MENU_MENU_LANG, langs, sizeof langs / sizeof *langs, UI_MENU_MENU_LANG_DESC);
     opt_toggle("MKW_LAN", UI_MENU_LAN, UI_MENU_LAN_DESC);   // sdk/ov/ov_socket.c, the lan set of recomp/patches-mkw.txt

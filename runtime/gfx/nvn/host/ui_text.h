@@ -90,7 +90,7 @@ typedef enum {
     // Sound
     UI_MENU_VOLUME, UI_MENU_VOLUME_DESC,
     UI_MENU_SPEAKERS, UI_MENU_SPEAKERS_DESC, UI_MENU_SPEAKERS_STEREO, UI_MENU_SPEAKERS_51,   // and UI_MENU_FPS_AUTO
-    UI_MENU_BACKGROUND_MUTE, UI_MENU_BACKGROUND_MUTE_DESC,
+    UI_MENU_BACKGROUND_MUTE, UI_MENU_BACKGROUND_MUTE_DESC, UI_MENU_MUTE, UI_MENU_MUTE_DESC,
 
     // Controls
     UI_MENU_MOTION, UI_MENU_MOTION_DESC,
@@ -133,11 +133,11 @@ typedef enum {
     UI_BIND_A, UI_BIND_B, UI_BIND_X, UI_BIND_Y, UI_BIND_LCLICK, UI_BIND_RCLICK, UI_BIND_L, UI_BIND_R, UI_BIND_ZL,
     UI_BIND_ZR, UI_BIND_PLUS, UI_BIND_MINUS, UI_BIND_LEFT, UI_BIND_UP, UI_BIND_RIGHT, UI_BIND_DOWN,
     UI_BIND_LSTICK_LEFT, UI_BIND_LSTICK_UP, UI_BIND_LSTICK_RIGHT, UI_BIND_LSTICK_DOWN,
-    UI_BIND_RSTICK_LEFT, UI_BIND_RSTICK_UP, UI_BIND_RSTICK_RIGHT, UI_BIND_RSTICK_DOWN,
+    UI_BIND_RSTICK_LEFT, UI_BIND_RSTICK_UP, UI_BIND_RSTICK_RIGHT, UI_BIND_RSTICK_DOWN, UI_BIND_MUTE,
     // what an action does in the world, in action order up to Minus
     UI_BIND_DESC_A, UI_BIND_DESC_B, UI_BIND_DESC_X, UI_BIND_DESC_Y, UI_BIND_DESC_LCLICK, UI_BIND_DESC_RCLICK,
     UI_BIND_DESC_L, UI_BIND_DESC_R, UI_BIND_DESC_ZL, UI_BIND_DESC_ZR, UI_BIND_DESC_PLUS, UI_BIND_DESC_MINUS,
-    UI_BIND_DESC_DPAD, UI_BIND_DESC_MOVE, UI_BIND_DESC_CAMERA,
+    UI_BIND_DESC_DPAD, UI_BIND_DESC_MOVE, UI_BIND_DESC_CAMERA, UI_BIND_DESC_MUTE,
     // key names, in key id order KEY_SPACE .. KEY_PAGEDOWN (letters, digits, F keys and punctuation show as themselves)
     UI_KEY_SPACE, UI_KEY_TAB, UI_KEY_LSHIFT, UI_KEY_LCTRL, UI_KEY_UP, UI_KEY_DOWN, UI_KEY_LEFT, UI_KEY_RIGHT,
     UI_KEY_MOUSE_L, UI_KEY_MOUSE_R, UI_KEY_MOUSE_M, UI_KEY_MOUSE_X1, UI_KEY_MOUSE_X2,
@@ -162,7 +162,9 @@ typedef enum {
     UI_MENU_LANGNAME_TR, UI_MENU_LANGNAME_UK,
     // game language added by update 1.7.0 (Polish came in 1.5.0): offered when the RomFS ships its Mals folder
     UI_MENU_LANGNAME_TH,
-    UI_MENU_LANGNAME_LAST = UI_MENU_LANGNAME_TH,
+    // menu languages the game does not ship (its texts rebuilt over the English)
+    UI_MENU_LANGNAME_VI, UI_MENU_LANGNAME_ID, UI_MENU_LANGNAME_AR, UI_MENU_LANGNAME_HI,
+    UI_MENU_LANGNAME_LAST = UI_MENU_LANGNAME_HI,
 
     // Advanced
     UI_MENU_ADV_WARNING,
@@ -308,7 +310,8 @@ typedef enum {
 // UTF-8 text for id in the language of ov_language(); English when the catalog has no row for that language.
 const char *ui_text(UiTextId id);
 // The same for an explicit catalog language ("en", "ja", "fr", "de", "it", "es", "nl", "pt", "pt-BR", "ru",
-// "zh-Hans", "zh-Hant", "ko", "es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th"); an empty entry gives the English text.
+// "zh-Hans", "zh-Hant", "ko", "es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th", "vi", "id", "ar",
+// "hi"); an empty entry gives the English text.
 const char *ui_text_in(const char *lang, UiTextId id);
 // 1 when the row of lang has its own text for id (no fallback to English), for the probe.
 int ui_text_defined(const char *lang, UiTextId id);

@@ -57,6 +57,8 @@ GAME_MARKER = "MKW_RECOMP_" + "GENERATED_FROM_GAME_CODE"
 # notice naming each downloaded library, NVIDIA DLSS's attribution included (its SDK licence, RTX supplement 7.1b).
 THIRD_PARTY = {"FidelityFX-LICENSE.txt": "runtime/third_party/ffx_sdk/LICENSE.txt",
                "RenHDrum-LICENSE-MIT": "runtime/input/renhdrum_LICENSE-MIT",
+               "NotoSansArabic-OFL.txt": "runtime/ui/fonts/LICENSE-NotoSansArabic.txt",
+               "NotoSansDevanagari-OFL.txt": "runtime/ui/fonts/LICENSE-NotoSansDevanagari.txt",
                "THIRD_PARTY_NOTICES.txt": "tools/build/THIRD_PARTY_NOTICES.txt"}  # fmt: skip
 
 APPRUN = """#!/bin/sh

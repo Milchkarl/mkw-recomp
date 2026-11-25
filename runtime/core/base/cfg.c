@@ -105,6 +105,7 @@ static const CfgRow rows[] = {
     S("VOLUME", "audio", "100", "0..100", LIVE),
     S("AUDIO_CHANNELS", "audio", "auto", "auto|2|6", RESTART),
     S("BACKGROUND_MUTE", "audio", "0", "0|1", LIVE),
+    S("MUTE", "audio", "0", "0|1", LIVE),
     S("MOTION", "input", "1", "0|1", LIVE),
     S("RUMBLE_STRENGTH", "input", "130", "0..300", LIVE),
     S("RUMBLE_CURVE", "input", "0.6", "0.2..1.5", LIVE),
@@ -124,7 +125,7 @@ static const CfgRow rows[] = {
     S("DSU", "input", "0", "0|1", LIVE),
     S("DSU_SERVER", "input", "127.0.0.1:26760", NULL, LIVE),
     S("DSU_SLOT", "input", "0", "0..3", LIVE),
-    S("MENU_LANG", "language", "", "en|ja|fr|de|it|es|nl|pt|pt-BR|ru|zh-Hans|zh-Hant|ko|es-419|ca|gl|eu|pl|tr|uk|th", LIVE),
+    S("MENU_LANG", "language", "", "en|ja|fr|de|it|es|nl|pt|pt-BR|ru|zh-Hans|zh-Hant|ko|es-419|ca|gl|eu|pl|tr|uk|th|vi|id|ar|hi", LIVE),
     S("UPDATE_CHECK", "launcher", "1", "0|1", LIVE),
     S("START_SCREEN", "launcher", "auto", "auto|always|skip", LIVE),   // ui/launcher/launcher.cpp console_start
     S("DISCORD", "launcher", "0", "0|1", LIVE),   // Discord Rich Presence (core/presence): off by default, the player's friends see it
@@ -350,6 +351,7 @@ static const CfgRow rows[] = {
     K("TRACE_UBO"),
     K("TRACE_UBO_OUT"),
     K("UBO_SNAPSHOT"),
+    K("UI_PANE_MAP"),
     K("UPDATE_AS"),
     K("UPDATE_REPO"),
     K("USNAP_CMP"),

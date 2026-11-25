@@ -129,7 +129,11 @@ PINS = {
 # tools/mod: the Mods page's import, merge, GameBanana and .ips tools (the launcher runs them; tests/launcher/test_setup.py checks
 # every tool it names is here: until 13/11/2026 none was, and the page failed with "no setup tools" in every package)
 SOURCES = ["recomp", "sm86", "tools/build/build.py", "tools/build/icon.py", "tools/prepare", "tools/mod", "tools/romfs/resolution.py",
-           "tools/i18n/catalog.py", "tools/i18n/game_texts.py", "tools/i18n/game_fonts.py", "i18n/game",
+           "tools/i18n/catalog.py", "tools/i18n/game_texts.py", "tools/i18n/game_fonts.py", "tools/i18n/game_fonts_vi.py",
+           "tools/i18n/game_fonts_ar.py", "tools/i18n/arabic.py", "runtime/ui/fonts/NotoSansArabic-ExtraBold.ttf",
+           "tools/i18n/game_fonts_hi.py", "tools/i18n/devanagari.py", "i18n/syllables",
+           "runtime/ui/fonts/NotoSansDevanagari-Syllables-ExtraBold.ttf",
+           "tools/i18n/game_fonts_uk.py", "tools/i18n/glyph_shapes.py", "i18n/game",
            "tools/shaders/extract.py", "tools/shaders/translate.py", "tools/shaders/shaderc_lib.py",
            "tools/shaders/pipeline_pairs.py", "tools/shaders/pack.py", "tools/shaders/renodx.py",
            "runtime/cpu",

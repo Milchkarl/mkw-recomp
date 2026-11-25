@@ -9,7 +9,8 @@ The dump is the vocabulary a menu translation reuses (Time Trials, Free Roam, th
 (i18n/game/base/<lang>.tsv, same lines) holds only our text, never Nintendo's: build reads the player's own copy, replaces
 each translated label (the rest stays in the base language: a partial translation works) and writes the archives with
 the manifest.tsv of a RomFS overlay (runtime/sdk/fs/romfs.c), which the runtime serves in place of the originals. A
-letter the game's fonts lack (Turkish ğ ş İ) is composed into a copy of them in the same overlay (game_fonts.py).
+letter the game's fonts lack (Turkish ğ ş İ, Vietnamese ă ơ ấ..., Ukrainian є ї) is composed into a copy of them in the
+same overlay (game_fonts.py).
 
 Labels are "<archive>/<msbt>/<label>", e.g. MsgMain/Menu/2203, the same in every language. A text's control tags
 (colours, the player's name, plurals) are written {0E gggg tttt llll ...} and {0F gggg tttt}, in UTF-16 units as
@@ -35,8 +36,13 @@ ROOT = Path(__file__).resolve().parents[2]
 TRANSLATIONS = ROOT / "i18n" / "game"
 BASE_TSV = TRANSLATIONS / "base"  # <lang>.tsv; the <version>/ folders beside it hold what each update reworded
 # The game language each translation replaces (the one the game is told): Spain's languages over its Spanish, Turkish
-# over the British English (discussion #593)
-BASE = {"ca": "EUes", "gl": "EUes", "eu": "EUes", "tr": "EUen"}
+# over the British English (discussion #593), Vietnamese (#873), Ukrainian, Indonesian and Arabic too
+BASE = {"ca": "EUes", "gl": "EUes", "eu": "EUes", "tr": "EUen", "vi": "EUen", "uk": "EUen", "id": "EUen",
+        "ar": "EUen", "hi": "EUen"}
+# Written right to left: joined and put in visual order at build (arabic.py), as the game draws one character at a time
+RTL = {"ar"}
+# Shaped by syllable: each written as one private-use character at build (devanagari.py), for the same reason
+SYLLABIC = {"hi"}
 TAG = re.compile(r"\{(0[EF](?: [0-9A-F]{4})*)\}")
 
 
@@ -274,6 +280,14 @@ def build(lang: str, out: Path, romfs: Path | None = None, strict: bool = True, 
         )
         drop = set(bad)
         texts = {k: v for k, v in texts.items() if k not in drop}
+    if lang in RTL:
+        import arabic
+
+        texts = {k: arabic.visual(v) for k, v in texts.items()}
+    if lang in SYLLABIC:
+        import devanagari
+
+        texts = {k: devanagari.encode(v) for k, v in texts.items()}
     manifest = []
     for arc in sorted(folder.glob("*.msarc")):
         orig = arc.read_bytes()

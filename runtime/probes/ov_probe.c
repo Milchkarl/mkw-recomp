@@ -288,7 +288,10 @@ static void probe_oe(void) {
         {NULL, "fr-CA", "fr-CA"}, {NULL, "es-MX", "es-419"}, {NULL, "es_ES", "es"},     {NULL, "zh-Hant-TW", "zh-Hant"},
         {NULL, "zh-CN", "zh-Hans"}, {NULL, "en-GB", "en-GB"}, {NULL, "ru", "ru"},       {"ja", "fr-FR", "ja"},
         {"en-US", NULL, "en-US"}, {NULL, "ca-ES", "es"}, {NULL, "eu", "es"},       {NULL, "pl-PL", "en-US"}, {"ca", NULL, "es"},
-        {NULL, "tr-TR", "en-GB"}, {"tr", NULL, "en-GB"}};
+        {NULL, "tr-TR", "en-GB"}, {"tr", NULL, "en-GB"}, {NULL, "vi-VN", "en-GB"}, {"vi", NULL, "en-GB"},
+        {NULL, "uk-UA", "en-GB"}, {"uk", NULL, "en-GB"}, {NULL, "id-ID", "en-GB"},
+        {"id", NULL, "en-GB"}, {NULL, "ar-SA", "en-GB"}, {"ar", NULL, "en-GB"}, {NULL, "hi-IN", "en-GB"},
+        {"hi", NULL, "en-GB"}};
     int bad = 0;
     for (size_t i = 0; i < sizeof cases / sizeof *cases; i++) {
         set_env("MKW_LANG", cases[i].lang);
@@ -302,7 +305,7 @@ static void probe_oe(void) {
     }
     // Automatic follows a menu language the game ships or we rebuild (ca, tr); the menu's "en" keeps the locale's English
     static const struct { const char *menu, *locale, *want; } menus[] = {
-        {"ja", "en-US", "ja"}, {"en", "en-GB", "en-GB"}, {"en", "de-DE", "en-US"}, {"uk", "de-DE", "de"}, {"tr", "de-DE", "en-GB"},
+        {"ja", "en-US", "ja"}, {"en", "en-GB", "en-GB"}, {"en", "de-DE", "en-US"}, {"uk", "de-DE", "en-GB"}, {"tr", "de-DE", "en-GB"}, {"vi", "de-DE", "en-GB"},
         {"zh-Hant", "en-US", "zh-Hant"}, {"pt-BR", "pt-PT", "pt-BR"}, {"ca", "en-US", "es"}};
     set_env("MKW_LANG", NULL);
     for (size_t i = 0; i < sizeof menus / sizeof *menus; i++) {
@@ -998,7 +1001,8 @@ static void probe_fonts(void) {
 // software keyboard keeps its game-language rows, and menu_text follows MKW_MENU_LANG in each language.
 static void probe_menu_text(void) {
     static const char *const langs[] = {"en", "ja", "fr", "de", "it", "es", "nl", "pt", "pt-BR", "ru", "zh-Hans",
-                                        "zh-Hant", "ko", "es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th"};
+                                        "zh-Hant", "ko", "es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th", "vi", "id",
+                                        "ar", "hi"};
     enum { N = sizeof langs / sizeof *langs };
     for (size_t i = 0; i < N; i++)
         for (int id = UI_MENU_FIRST; id <= UI_MENU_LAST_ID; id++)

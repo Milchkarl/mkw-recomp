@@ -23,13 +23,19 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import arabic  # the letters of a right-to-left language joined, as ImGui draws one glyph at a time
+import devanagari  # Hindi's syllables as one character each, for the same reason
+
 ROOT = Path(__file__).resolve().parents[2]
 I18N = ROOT / "i18n" / "ui"
 POT = I18N / "mkw.pot"
 # The catalog languages after English, as ui_text.c's rows name them (Switch language codes: ui_text_lang): the game's,
 # then menu languages it does not ship
 LANGS = ["ja", "fr", "de", "it", "es", "nl", "pt", "pt-BR", "ru", "zh-Hans", "zh-Hant", "ko"]
-LANGS += ["es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th"]
+LANGS += ["es-419", "ca", "gl", "eu", "pl", "tr", "uk", "th", "vi", "id", "ar", "hi"]
+RTL = {"ar"}  # stored joined, in reading order; ImGui puts each line in visual order (runtime/ui/menu/ui_bidi.cpp)
+SYLLABIC = {"hi"}  # stored as private-use syllables (devanagari.py) drawn from NotoSansDevanagari-Syllables-Medium.ttf
+DEVANAGARI_NAMES = {"hi": "हिन्दी"}
 WRAP = 100
 
 
@@ -161,7 +167,14 @@ def generate(out: Path) -> list[Path]:
     for lang in LANGS:
         entries = parse(po_path(lang))[1] if po_path(lang).exists() else []
         texts = {e.ctx: e.msgstr for e in entries if e.msgstr and not e.fuzzy and english.get(e.ctx) == e.msgid}
+        if lang in RTL:
+            texts = {k: arabic.shape(v) for k, v in texts.items()}
+        if lang in SYLLABIC:
+            texts = {k: devanagari.encode(v) for k, v in texts.items()}
         files[lang] = c_array(symbol(lang), f"{lang}.", texts)
+        if lang in SYLLABIC:  # the language's own name, which every catalog's language list shows (ui_text_cat.h)
+            name = devanagari.encode(DEVANAGARI_NAMES[lang])
+            files[lang] += f'const char {symbol(lang)}_name[] = "{name}";\n'
     out.mkdir(parents=True, exist_ok=True)
     paths = []
     for lang, text in files.items():

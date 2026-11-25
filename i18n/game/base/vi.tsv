@@ -1,0 +1,1314 @@
+# Vietnamese for the game's own texts (tools/i18n/game_texts.py): "label<TAB>text", over the game's British English (EUen).
+# Untranslated labels (names, other games' titles) stay in English. Control tags ({0E ...}, {0F ...}) are kept as the
+# dump gives them. The fonts' missing letters (ă đ ơ ư and those with two marks) are composed at setup (game_fonts.py).
+LayoutMsg/Damage_00/T_Msg_00	ÁI!
+LayoutMsg/DialogTimeAttack_00/DialogTimeAttack_00:L_DialogBtn_00/T_Text_00	Có
+LayoutMsg/DialogTimeAttack_00/DialogTimeAttack_00:L_DialogBtn_01/T_Text_00	Không
+LayoutMsg/Dialog_00/T_Group_00	ID phòng
+LayoutMsg/FriendList_00/T_Friend_00	Họ
+LayoutMsg/FriendList_00/T_Rec_00	Lịch sử đối đầu
+LayoutMsg/FriendList_00/T_You_00	Bạn
+LayoutMsg/FriendList_00/FriendList_00:L_Go_00/T_Text_00	Vào
+LayoutMsg/FriendList_00/T_Rec_01	Người tham gia
+LayoutMsg/Hit_00/T_Msg_00	TRÚNG RỒI!
+LayoutMsg/MenuGameSelect_01/T_Msg_00	Tranh huy chương vàng trong cúp 4 chặng!
+LayoutMsg/MenuGameSelect_01/T_Msg_01	Dẫn đầu trong cuộc đua sức bền!
+LayoutMsg/MenuGameSelect_01/T_Msg_02	Đua một mình để lập kỷ lục mới!
+LayoutMsg/MenuGameSelect_01/T_Msg_03	Đua theo luật tùy chỉnh!
+LayoutMsg/MenuGameSelect_01/T_Msg_04	Đấu theo luật tùy chỉnh!
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_00/T_Btn_00	Kỹ thuật
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_01/T_Btn_00	Vật phẩm
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_02/T_Btn_00	Luật
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_03/T_Btn_00	Dạo chơi tự do
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_00/T_Btn_00	Một người chơi
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_01/T_Btn_00	Nhiều người
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_02/T_Btn_00	Chơi online
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_00/T_Text_00	Đua đơn
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_01/T_Text_00	Đua với bóng ma
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	Xem bóng ma
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_03/T_Text_00	Xem xếp hạng
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_04/T_Text_00	Tải lên bóng ma
+LayoutMsg/OnlineMenu_00/L_Btn_00/T_Btn_00	Đua
+LayoutMsg/OnlineMenu_00/L_Btn_02/T_Btn_00	Đấu
+LayoutMsg/OnlineMenu_00/L_Btn_03/T_Btn_00	Bạn bè
+LayoutMsg/PhotoMode_00/T_Attention_00	Nhìn camera
+LayoutMsg/PhotoMode_00/T_End_00	Xong
+LayoutMsg/PhotoMode_00/T_Face_00	Biểu cảm
+LayoutMsg/PhotoMode_00/T_Gide_00	Lưới
+LayoutMsg/PhotoMode_00/T_Posechange_00	Dáng
+LayoutMsg/PhotoMode_00/T_Roll_00	Nghiêng
+LayoutMsg/PhotoMode_00/T_Take_00	Chụp
+LayoutMsg/Retry_00/T_Retry_00	Thử lại
+LayoutMsg/RuleSelect_00/T_Change_00	Đặt luật chơi
+LayoutMsg/TitleLogo_00/T_Press_00	Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để bắt đầu
+MsgMain/BattleCourse/1701	Đường đua Mario Bros.
+MsgMain/BattleCourse/1702	Sa mạc Chain Chomp
+MsgMain/BattleCourse/1703	Sân Peach
+MsgMain/BattleCourse/1704	Rừng Dino Dino
+MsgMain/BattleCourse/1705	Donut Lớn
+MsgMain/BattleCourse/1706	Đường đua Salty Salty
+MsgMain/BattleCourse/1707	Đồng cỏ Moo Moo
+MsgMain/BattleCourse/1708	Đèo DK
+MsgMain/Course(adjust)/Adjust_Name_Race_AirshipFortress_A_00	Pháo đài Tàu bay
+MsgMain/Course(adjust)/Adjust_Name_Race_BigTree_A_00	Đồi Quả sồi
+MsgMain/Course(adjust)/Adjust_Name_Race_Cave_A_00	Hang Bồ công anh
+MsgMain/Course(adjust)/Adjust_Name_Race_Central_A_00	Sân Peach
+MsgMain/Course(adjust)/Adjust_Name_Race_ChocoMountain_A_00	Núi Sô-cô-la
+MsgMain/Course(adjust)/Adjust_Name_Race_Cinema_A_00	Rạp chiếu Boo
+MsgMain/Course(adjust)/Adjust_Name_Race_Coaster_A_00	Đỉnh Ga Còi
+MsgMain/Course(adjust)/Adjust_Name_Race_DesertHills_A_00	Đồi Sa mạc
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoBones_A_00	Dry Bones Rực Lửa
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoDinoJungle_A_00	Rừng Dino Dino
+MsgMain/Course(adjust)/Adjust_Name_Race_DKJungleParkway_A_00	Ốc đảo Xa xôi
+MsgMain/Course(adjust)/Adjust_Name_Race_DKPass_A_00	Đèo DK
+MsgMain/Course(adjust)/Adjust_Name_Race_DonkeyKong_A_00	Cảng Vũ trụ DK
+MsgMain/Course(adjust)/Adjust_Name_Race_FirstCircuit_A_00	Đường đua Mario Bros.
+MsgMain/Course(adjust)/Adjust_Name_Race_IceBuildings_A_00	Tháp Kem Chọc Trời
+MsgMain/Course(adjust)/Adjust_Name_Race_KoopaTroopaBeach_A_00	Bãi biển Koopa Troopa
+MsgMain/Course(adjust)/Adjust_Name_Race_LagoonCity_A_00	Đường đua Salty Salty
+MsgMain/Course(adjust)/Adjust_Name_Race_Lava_A_00	Lâu đài Bowser
+MsgMain/Course(adjust)/Adjust_Name_Race_MooMooFarm_A_00	Đồng cỏ Moo Moo
+MsgMain/Course(adjust)/Adjust_Name_Race_RaftingRiver_A_00	Thác Cheep Cheep
+MsgMain/Course(adjust)/Adjust_Name_Race_Rainbow_A_00	Đường Cầu Vồng
+MsgMain/Course(adjust)/Adjust_Name_Race_SFCMarioCircuit_G_00	Đường đua Mario
+MsgMain/Course(adjust)/Adjust_Name_Race_ShyGuyBazaar_A_00	Chợ Shy Guy
+MsgMain/Course(adjust)/Adjust_Name_Race_SnowMountain_A_00	Đỉnh Ngắm Sao
+MsgMain/Course(adjust)/Adjust_Name_Race_StormClouds_A_00	Tàn tích Khối ? Khổng lồ
+MsgMain/Course(adjust)/Adjust_Name_Race_ToadFactory_A_00	Nhà máy của Toad
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioShipyard_A_00	Tàu buồm Wario
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioStadium_A_00	Sân Wario
+MsgMain/Course(adjust)/Adjust_Name_Race_WestCity_D_00	Phố Vương miện
+MsgMain/Course(adjust)/Adjust_Name_Race_PeachBeach_D_00	Bãi biển Peach
+MsgMain/Course/Name_Race_AirshipFortress_A_00	Pháo đài Tàu bay
+MsgMain/Course/Name_Race_BigTree_A_00	Đồi Quả sồi
+MsgMain/Course/Name_Race_Cave_A_00	Hang Bồ công anh
+MsgMain/Course/Name_Race_Central_A_00	Sân Peach
+MsgMain/Course/Name_Race_ChocoMountain_A_00	Núi Sô-cô-la
+MsgMain/Course/Name_Race_Cinema_A_00	Rạp chiếu Boo
+MsgMain/Course/Name_Race_Coaster_A_00	Đỉnh Ga Còi
+MsgMain/Course/Name_Race_DesertHills_A_00	Đồi Sa mạc
+MsgMain/Course/Name_Race_DinoBones_A_00	Dry Bones Rực Lửa
+MsgMain/Course/Name_Race_DinoDinoJungle_A_00	Rừng Dino Dino
+MsgMain/Course/Name_Race_DKJungleParkway_A_00	Ốc đảo Xa xôi
+MsgMain/Course/Name_Race_DKPass_A_00	Đèo DK
+MsgMain/Course/Name_Race_DonkeyKong_A_00	Cảng Vũ trụ DK
+MsgMain/Course/Name_Race_FirstCircuit_A_00	Đường đua Mario Bros.
+MsgMain/Course/Name_Race_IceBuildings_A_00	Tháp Kem Chọc Trời
+MsgMain/Course/Name_Race_KoopaTroopaBeach_A_00	Bãi biển Koopa Troopa
+MsgMain/Course/Name_Race_LagoonCity_A_00	Đường đua Salty Salty
+MsgMain/Course/Name_Race_Lava_A_00	Lâu đài Bowser
+MsgMain/Course/Name_Race_MooMooFarm_A_00	Đồng cỏ Moo Moo
+MsgMain/Course/Name_Race_RaftingRiver_A_00	Thác Cheep Cheep
+MsgMain/Course/Name_Race_Rainbow_A_00	Đường Cầu Vồng
+MsgMain/Course/Name_Race_SFCMarioCircuit_G_00	Đường đua Mario
+MsgMain/Course/Name_Race_ShyGuyBazaar_A_00	Chợ Shy Guy
+MsgMain/Course/Name_Race_SnowMountain_A_00	Đỉnh Ngắm Sao
+MsgMain/Course/Name_Race_StormClouds_A_00	Tàn tích Khối ? Khổng lồ
+MsgMain/Course/Name_Race_ToadFactory_A_00	Nhà máy của Toad
+MsgMain/Course/Name_Race_WarioShipyard_A_00	Tàu buồm Wario
+MsgMain/Course/Name_Race_WarioStadium_A_00	Sân Wario
+MsgMain/Course/Name_Race_WestCity_D_00	Phố Vương miện
+MsgMain/Course/Name_Race_PeachBeach_D_00	Bãi biển Peach
+MsgMain/CourseArea(adjust)/Name_AirshipFortress_00	Pháo đài Tàu bay
+MsgMain/CourseArea(adjust)/Name_BigTree_00	Đồi Quả sồi
+MsgMain/CourseArea(adjust)/Name_Cave_00	Hang Bồ công anh
+MsgMain/CourseArea(adjust)/Name_Central_00	Sân Peach
+MsgMain/CourseArea(adjust)/Name_ChocoMountain_00	Núi Sô-cô-la
+MsgMain/CourseArea(adjust)/Name_Cinema_00	Rạp chiếu Boo
+MsgMain/CourseArea(adjust)/Name_Coaster	Đỉnh Ga Còi
+MsgMain/CourseArea(adjust)/Name_DesertHills_00	Đồi Sa mạc
+MsgMain/CourseArea(adjust)/Name_DinoBones_00	Dry Bones Rực Lửa
+MsgMain/CourseArea(adjust)/Name_DinoDinoJungle_00	Rừng Dino Dino
+MsgMain/CourseArea(adjust)/Name_DKJungleParkway_00	Ốc đảo Xa xôi
+MsgMain/CourseArea(adjust)/Name_DKPass_00	Đèo DK
+MsgMain/CourseArea(adjust)/Name_DonkeyKong	Cảng Vũ trụ DK
+MsgMain/CourseArea(adjust)/Name_FirstCircuit	Đường đua Mario Bros.
+MsgMain/CourseArea(adjust)/Name_IceBuildings_00	Tháp Kem Chọc Trời
+MsgMain/CourseArea(adjust)/Name_KoopaTroopaBeach_00	Bãi biển Koopa Troopa
+MsgMain/CourseArea(adjust)/Name_LagoonCity_00	Đường đua Salty Salty
+MsgMain/CourseArea(adjust)/Name_Lava_00	Lâu đài Bowser
+MsgMain/CourseArea(adjust)/Name_MooMooFarm_00	Đồng cỏ Moo Moo
+MsgMain/CourseArea(adjust)/Name_PeachBeach_00	Bãi biển Peach
+MsgMain/CourseArea(adjust)/Name_RaftingRiver_00	Thác Cheep Cheep
+MsgMain/CourseArea(adjust)/Name_Rainbow_00	Đường Cầu Vồng
+MsgMain/CourseArea(adjust)/Name_SFCMarioCircuit_00	Đường đua Mario
+MsgMain/CourseArea(adjust)/Name_ShyGuyBazaar_00	Chợ Shy Guy
+MsgMain/CourseArea(adjust)/Name_SnowMountain_00	Đỉnh Ngắm Sao
+MsgMain/CourseArea(adjust)/Name_StormClouds_00	Tàn tích Khối ? Khổng lồ
+MsgMain/CourseArea(adjust)/Name_ToadFactory_00	Nhà máy của Toad
+MsgMain/CourseArea(adjust)/Name_WarioShipyard_00	Tàu buồm Wario
+MsgMain/CourseArea(adjust)/Name_WarioStadium	Sân Wario
+MsgMain/CourseArea(adjust)/Name_WestCity	Phố Vương miện
+MsgMain/CourseArea/Name_AirshipFortress_00	Pháo đài Tàu bay
+MsgMain/CourseArea/Name_BigTree_00	Đồi Quả sồi
+MsgMain/CourseArea/Name_Cave_00	Hang Bồ công anh
+MsgMain/CourseArea/Name_Central_00	Sân Peach
+MsgMain/CourseArea/Name_ChocoMountain_00	Núi Sô-cô-la
+MsgMain/CourseArea/Name_Cinema_00	Rạp chiếu Boo
+MsgMain/CourseArea/Name_Coaster	Đỉnh Ga Còi
+MsgMain/CourseArea/Name_DesertHills_00	Đồi Sa mạc
+MsgMain/CourseArea/Name_DinoBones_00	Dry Bones Rực Lửa
+MsgMain/CourseArea/Name_DinoDinoJungle_00	Rừng Dino Dino
+MsgMain/CourseArea/Name_DKJungleParkway_00	Ốc đảo Xa xôi
+MsgMain/CourseArea/Name_DKPass_00	Đèo DK
+MsgMain/CourseArea/Name_DonkeyKong	Cảng Vũ trụ DK
+MsgMain/CourseArea/Name_FirstCircuit	Đường đua Mario Bros.
+MsgMain/CourseArea/Name_IceBuildings_00	Tháp Kem Chọc Trời
+MsgMain/CourseArea/Name_KoopaTroopaBeach_00	Bãi biển Koopa Troopa
+MsgMain/CourseArea/Name_LagoonCity_00	Đường đua Salty Salty
+MsgMain/CourseArea/Name_Lava_00	Lâu đài Bowser
+MsgMain/CourseArea/Name_MooMooFarm_00	Đồng cỏ Moo Moo
+MsgMain/CourseArea/Name_PeachBeach_00	Bãi biển Peach
+MsgMain/CourseArea/Name_RaftingRiver_00	Thác Cheep Cheep
+MsgMain/CourseArea/Name_Rainbow_00	Đường Cầu Vồng
+MsgMain/CourseArea/Name_SFCMarioCircuit_00	Đường đua Mario
+MsgMain/CourseArea/Name_ShyGuyBazaar_00	Chợ Shy Guy
+MsgMain/CourseArea/Name_SnowMountain_00	Đỉnh Ngắm Sao
+MsgMain/CourseArea/Name_StormClouds_00	Tàn tích Khối ? Khổng lồ
+MsgMain/CourseArea/Name_ToadFactory_00	Nhà máy của Toad
+MsgMain/CourseArea/Name_WarioShipyard_00	Tàu buồm Wario
+MsgMain/CourseArea/Name_WarioStadium	Sân Wario
+MsgMain/CourseArea/Name_WestCity	Phố Vương miện
+MsgMain/Driver/Driver_MarioRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_MarioSheriff_00	Cao bồi
+MsgMain/Driver/Driver_MarioDesert_00	Kỵ sĩ cồn cát
+MsgMain/Driver/Driver_MarioCasual_00	Du lịch
+MsgMain/Driver/Driver_MarioPilot_00	Phi công
+MsgMain/Driver/Driver_MarioVacance_00	Ngắm cảnh
+MsgMain/Driver/Driver_MarioOffroad_00	Mọi địa hình
+MsgMain/Driver/Driver_MarioMechanic_00	Thợ máy
+MsgMain/Driver/Driver_LuigiRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_LuigiLagoonCity_00	Gondola
+MsgMain/Driver/Driver_LuigiDesert_00	Ốc đảo
+MsgMain/Driver/Driver_LuigiFarmer_00	Nông dân
+MsgMain/Driver/Driver_LuigiCasual_00	Du lịch
+MsgMain/Driver/Driver_LuigiMechanic_00	Thợ máy
+MsgMain/Driver/Driver_LuigiOffroad_00	Mọi địa hình
+MsgMain/Driver/Driver_PeachCasual_00	Du lịch
+MsgMain/Driver/Driver_PeachLagoonCity_00	Ngắm cảnh
+MsgMain/Driver/Driver_PeachFarmer_00	Nông dân
+MsgMain/Driver/Driver_PeachRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_PeachPilot_00	Phi công
+MsgMain/Driver/Driver_PeachResort_00	Nghỉ dưỡng
+MsgMain/Driver/Driver_DaisySwim_00	Đồ bơi
+MsgMain/Driver/Driver_DaisyLagoonCity_00	Nghỉ dưỡng
+MsgMain/Driver/Driver_DaisyDesert_00	Ốc đảo
+MsgMain/Driver/Driver_DaisyRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_DaisyCasual_00	Du lịch
+MsgMain/Driver/Driver_YoshiDelivery_00	Người giao đồ ăn
+MsgMain/Driver/Driver_YoshiIce_00	Người bán kem
+MsgMain/Driver/Driver_YoshiRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_YoshiSwim_00	Đồ bơi
+MsgMain/Driver/Driver_YoshiCasual_00	Du lịch
+MsgMain/Driver/Driver_YoshiMovie_00	Quý tộc
+MsgMain/Driver/Driver_KinopioEngineer_00	Kỹ sư
+MsgMain/Driver/Driver_KinopioDiner_00	Chàng Burger
+MsgMain/Driver/Driver_KinopioRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_KinopioExplore_00	Thám hiểm
+MsgMain/Driver/Driver_KoopaRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_KoopaOffroad_00	Mọi địa hình
+MsgMain/Driver/Driver_KoopaHotrod_00	Siêu tăng áp
+MsgMain/Driver/Driver_DKOffroad_00	Mọi địa hình
+MsgMain/Driver/Driver_WarioDesert_00	Ốc đảo
+MsgMain/Driver/Driver_WarioFactory_00	Công nhân
+MsgMain/Driver/Driver_WarioRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_WarioFairy_00	Ong độc ác
+MsgMain/Driver/Driver_WarioPirate_00	Hải tặc
+MsgMain/Driver/Driver_WarioStadium_00	Côn đồ đường phố
+MsgMain/Driver/Driver_WaluigiRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_WaluigiStadium_00	Côn đồ đường phố
+MsgMain/Driver/Driver_RosettaRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_RosettaCasual_00	Du lịch
+MsgMain/Driver/Driver_BabyMarioSwim_00	Đồ bơi
+MsgMain/Driver/Driver_BabyMarioFactory_00	Công nhân
+MsgMain/Driver/Driver_BabyMarioRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_BabyLuigiFactory_00	Công nhân
+MsgMain/Driver/Driver_BabyLuigiRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_BabyPeachMarine_00	Thủy thủ
+MsgMain/Driver/Driver_BabyPeachExplore_00	Thám hiểm
+MsgMain/Driver/Driver_BabyPeachCasual_00	Du lịch
+MsgMain/Driver/Driver_BabyPeachRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_BabyDaisyMarine_00	Thủy thủ
+MsgMain/Driver/Driver_BabyDaisyExplore_00	Thám hiểm
+MsgMain/Driver/Driver_BabyDaisyRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_BabyDaisyCasual_00	Du lịch
+MsgMain/Driver/Driver_BabyRosettaMarine_00	Thủy thủ
+MsgMain/Driver/Driver_BabyRosettaExplore_00	Thám hiểm
+MsgMain/Driver/Driver_BabyRosettaCasual_00	Du lịch
+MsgMain/Driver/Driver_BabyRosettaRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_KinopicoConductor_00	Trưởng tàu
+MsgMain/Driver/Driver_KinopicoIce_00	Người bán kem
+MsgMain/Driver/Driver_KinopicoRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_KinopicoExplore_00	Thám hiểm
+MsgMain/Driver/Driver_KoopaJrScout_00	Thám hiểm
+MsgMain/Driver/Driver_KoopaJrRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_CatherineLagoonCity_00	Nghỉ dưỡng
+MsgMain/Driver/Driver_CatherineRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_NokonokoRunner_00	Chạy bộ
+MsgMain/Driver/Driver_NokonokoRacing_00	Tay đua Pro
+MsgMain/Driver/Driver_NokonokoFlagman_00	Công nhân
+MsgMain/Driver/Driver_NokonokoSailor_00	Thủy thủ
+MsgMain/Driver/Driver_NokonokoOffroad_00	Mọi địa hình
+MsgMain/Driver/Driver_HeyhoSnow_00	Tay trượt tuyết
+MsgMain/Driver/Driver_HeyhoRacing_00	Đội pit
+MsgMain/Driver/Driver_JugemAngler_00	Ngư dân
+MsgMain/Driver/Driver_JugemRacing_00	Đội pit
+MsgMain/Driver/Driver_KingTeresaMovie_00	Quý tộc
+MsgMain/Driver/Driver_KingTeresaPirate_00	Hải tặc
+MsgMain/Driver/Driver_KingTeresaRacing_00	Tay đua Pro
+MsgMain/DriverCategoryName/Driver_Cow	Bò
+MsgMain/DriverCategoryName/Driver_Lifton	Cá heo
+MsgMain/DriverCategoryName/Driver_Penguin	Cánh cụt
+MsgMain/DriverCategoryName/Driver_Snowman	Người tuyết
+MsgMain/GrandprixCupName/Name_Banana	Cúp Chuối
+MsgMain/GrandprixCupName/Name_Flower	Cúp Hoa
+MsgMain/GrandprixCupName/Name_Kinoko	Cúp Nấm
+MsgMain/GrandprixCupName/Name_Konoha	Cúp Lá
+MsgMain/GrandprixCupName/Name_Koura	Cúp Mai rùa
+MsgMain/GrandprixCupName/Name_Star	Cúp Sao
+MsgMain/GrandprixCupName/Name_Thunder	Cúp Tia chớp
+MsgMain/GrandprixCupName/Name_Special	Cúp Đặc biệt
+MsgMain/GrandprixCupName/Name_GP09	Rally Vàng
+MsgMain/GrandprixCupName/Name_GP10	Rally Băng
+MsgMain/GrandprixCupName/Name_GP11	Rally Trăng
+MsgMain/GrandprixCupName/Name_GP12	Rally Spiny
+MsgMain/GrandprixCupName/Name_GP13	Rally Anh đào
+MsgMain/GrandprixCupName/Name_GP14	Rally Quả sồi
+MsgMain/GrandprixCupName/Name_GP15	Rally Mây
+MsgMain/GrandprixCupName/Name_GP16	Rally Trái tim
+MsgMain/Help/HelpButton_01	Hướng dẫn
+MsgMain/Help/HelpMenu_01	Kỹ thuật
+MsgMain/Help/HelpMenu_02	Vật phẩm
+MsgMain/Help/HelpMenu_03	Luật
+MsgMain/Help/HelpMenu_04	Dạo chơi tự do
+MsgMain/Help/Technique_01	Phóng tên lửa
+MsgMain/Help/Technique_04	Tăng tốc nhảy
+MsgMain/Help/Technique_05	Xoay đầu xe
+MsgMain/Help/Technique_06	Nhảy tích lực
+MsgMain/Help/Technique_07	Trượt ray
+MsgMain/Help/Technique_08	Chạy tường
+MsgMain/Help/Technique_09	Tua lại
+MsgMain/Help/Technique_101	Phóng tên lửa
+MsgMain/Help/Technique_104	Tăng tốc nhảy
+MsgMain/Help/Technique_105	Xoay đầu xe
+MsgMain/Help/Technique_106	Nhảy tích lực
+MsgMain/Help/Technique_107	Trượt ray
+MsgMain/Help/Technique_108	Chạy tường
+MsgMain/Help/Technique_109	Tua lại
+MsgMain/Help/Technique_201	Trong lúc đếm ngược đầu cuộc đua, hãy nhấn giữ\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) khi số 2 hiện lên để được\ntăng tốc lúc cuộc đua bắt đầu.
+MsgMain/Help/Technique_202	Nếu nghiêng {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} theo hướng muốn rẽ trong khi\ngiữ {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, bạn sẽ ôm cua gắt hơn mà\nkhông mất tốc độ.
+MsgMain/Help/Technique_203	Khi đang drift và có tia lửa dưới bánh xe, bạn sẽ\nđược tăng tốc nếu thả {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}. Mỗi lần tia lửa\nđổi màu khi drift, lực tăng tốc lại mạnh hơn một\nchút! Khi lái thông minh TẮT, tia lửa có thể\nđổi màu tối đa ba lần.
+MsgMain/Help/Technique_204	Bạn có thể làm trick (và được tăng tốc nhẹ)\nbằng cách nhấn {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} ngay khi nhảy khỏi dốc!
+MsgMain/Help/Technique_205	Nếu nghiêng {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} sang trái hoặc phải và giữ cả\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) lẫn {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}), bạn có thể nhanh\nchóng đổi hướng xe.
+MsgMain/Help/Technique_206	Nếu giữ {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) rồi {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} và tiếp tục chạy thẳng,\ntia lửa sẽ xuất hiện dưới bánh xe. Sau đó nghiêng\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} theo một hướng và thả {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}\nđể nhảy nhỏ theo hướng đó.
+MsgMain/Help/Technique_207	Bạn có thể chạy trên các bề mặt hẹp như\nlan can và dây điện. Thậm chí còn có thể\nnhảy lên đó bằng Nhảy tích lực.
+MsgMain/Help/Technique_208	Nếu dùng Tăng tốc nhảy hoặc Nhảy tích lực khi\nhướng vào tường, bạn có thể chạy dọc tường một lúc.
+MsgMain/Help/Technique_209	Nếu giữ {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}, bạn có thể đưa\nxe về vị trí trước đó.
+MsgMain/Help/Item_01	Chuối
+MsgMain/Help/Item_02	Ba quả chuối
+MsgMain/Help/Item_03	Nấm tăng tốc
+MsgMain/Help/Item_04	Ba nấm tăng tốc
+MsgMain/Help/Item_05	Nấm tăng tốc vàng
+MsgMain/Help/Item_06	Nấm khổng lồ
+MsgMain/Help/Item_07	Mai rùa xanh
+MsgMain/Help/Item_08	Ba mai rùa xanh
+MsgMain/Help/Item_09	Mai rùa đỏ
+MsgMain/Help/Item_10	Ba mai rùa đỏ
+MsgMain/Help/Item_11	Mai rùa gai
+MsgMain/Help/Item_12	Mai rùa xu
+MsgMain/Help/Item_13	Hoa lửa
+MsgMain/Help/Item_14	Hoa băng
+MsgMain/Help/Item_15	Hoa boomerang
+MsgMain/Help/Item_18	Búa
+MsgMain/Help/Item_19	Siêu còi
+MsgMain/Help/Item_20	Khối ?
+MsgMain/Help/Item_21	Xu
+MsgMain/Help/Item_25	Lông vũ
+MsgMain/Help/Item_26	Siêu sao
+MsgMain/Help/Item_27	Tia chớp
+MsgMain/Help/Item_28	Đồ ăn tốc độ
+MsgMain/Help/Item_101	Chướng ngại vật trơn trượt, nếu trúng\nsẽ khiến xe quay mất kiểm soát.
+MsgMain/Help/Item_102	Bộ ba quả chuối xoay quanh xe của tay\nđua. Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để đặt\nmỗi lần một quả chuối.
+MsgMain/Help/Item_103	Món ngon giúp tay đua ăn vào\nlà được tăng tốc trong chốc lát.
+MsgMain/Help/Item_104	Bộ ba cây nấm xoay quanh xe của\ntay đua. Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để dùng\nmỗi lần một cây nấm.
+MsgMain/Help/Item_105	Cây nấm lấp lánh dùng được nhiều\nlần trong thời gian ngắn để tay đua\ntăng tốc liên tục. Nhấn liên tục {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nđể kích hoạt.
+MsgMain/Help/Item_106	Cây nấm lớn giúp tay đua và xe phóng to\nkhi dùng, được tăng tốc và có thể\nnghiền bẹp các tay đua khác.
+MsgMain/Help/Item_107	Vật phẩm nguy hiểm lao thẳng về phía\ntrước và khiến tay đua bị trúng\nva mạnh rồi dừng lại.
+MsgMain/Help/Item_108	Bộ ba mai rùa xanh lá xoay quanh xe của\ntay đua. Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để\nném mỗi lần một mai rùa xanh lá.
+MsgMain/Help/Item_109	Mai rùa tự dẫn hướng, nhắm vào\ntay đua đang ở phía trước người ném.
+MsgMain/Help/Item_110	Bộ ba mai rùa đỏ xoay quanh xe của\ntay đua. Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để\nném mỗi lần một mai rùa đỏ.
+MsgMain/Help/Item_111	Mai rùa truy đuổi và đâm vào tay đua\ndẫn đầu. Dù trúng các tay đua khác\ntrên đường, nó vẫn tiếp tục lao tới\ntay đua đang xếp nhất.
+MsgMain/Help/Item_112	Mai rùa lấp lánh rải xu và lao vào\ncác tay đua khi chạy dọc\nđường đua.
+MsgMain/Help/Item_113	Vật phẩm mạnh giúp tay đua ném\nquả cầu lửa bằng cách nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nTay đua trúng cầu lửa sẽ\nquay mất kiểm soát.
+MsgMain/Help/Item_114	Vật phẩm mạnh giúp tay đua ném\nquả cầu băng bằng cách nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}.\nTay đua trúng cầu băng sẽ\nquay mất kiểm soát.
+MsgMain/Help/Item_115	Vật phẩm giúp tay đua ném boomerang\nbằng cách nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Tay đua\ntrúng boomerang sẽ quay mất kiểm soát.
+MsgMain/Help/Item_116	Vật phẩm biến tay đua dùng nó thành\nBullet Bill trong thời gian ngắn. Họ sẽ\nphóng dọc đường đua và húc\nbay mọi tay đua khác mà họ đụng phải.
+MsgMain/Help/Item_117	Quả bom biết đi, phát nổ sau một lúc\nhoặc khi có tay đua đâm vào. Các tay\nđua ở gần có thể dính vụ nổ!
+MsgMain/Help/Item_118	Bộ búa có thể ném bằng cách nhấn liên tục\n{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Ai bị trúng sẽ va chạm\nvà dừng lại.
+MsgMain/Help/Item_119	Chiếc còi cực mạnh đẩy lùi các tay\nđua và vật phẩm ở gần.
+MsgMain/Help/Item_120	Khối ? tạo ra xu mỗi khi tay đua nhấn\n{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}. Nó cũng giúp\ntăng tốc nhẹ.
+MsgMain/Help/Item_121	Vật phẩm cho tay đua dùng nó hai xu.\nCàng nhiều xu, tay đua càng chạy nhanh.
+MsgMain/Help/Item_122	Vật phẩm khiến tay đua trong suốt một lúc,\ncho phép đi xuyên qua chuối, mai rùa và\nvật phẩm nguy hiểm khác an toàn.\nNó còn cướp vật phẩm của đối thủ.
+MsgMain/Help/Item_123	Vật phẩm gây rối, phun mực lên khắp\ncác đối thủ khiến họ khó nhìn\ntrong một lúc.
+MsgMain/Help/Item_124	Vật phẩm triệu hồi Kamek, người dùng\nphép thuật gây ra những chuyện kỳ lạ.
+MsgMain/Help/Item_125	Vật phẩm đưa tay đua bay lên cao, tránh được\nchuối, mai rùa và vật phẩm nguy hiểm khác.\nỞ chế độ Đấu, bay qua đối thủ sẽ\ncướp được bóng bay hoặc xu.
+MsgMain/Help/Item_126	Vật phẩm giúp tay đua chạy nhanh hơn và\nbất khả chiến bại một lúc, khiến mọi tay\nđua mà họ đâm vào bị quay tít.
+MsgMain/Help/Item_127	Vật phẩm giáng sét xuống các tay đua\nkhác, phá hủy vật phẩm họ đang cầm,\nvừa làm họ chậm lại\nvừa thu nhỏ họ một lúc.
+MsgMain/Help/Item_128	Món ăn vặt ngon giúp tay đua tăng tốc\nvà có thể đổi sang một bộ trang phục khác.
+MsgMain/Help/Rule_03	Đua tính giờ
+MsgMain/Help/Rule_04	Đua VS
+MsgMain/Help/Rule_05	Đấu bóng bay
+MsgMain/Help/Rule_06	Đua nhặt xu
+MsgMain/Help/Rule_103	Đua tính giờ
+MsgMain/Help/Rule_104	Đua VS
+MsgMain/Help/Rule_105	Đấu bóng bay
+MsgMain/Help/Rule_106	Đua nhặt xu
+MsgMain/Help/Rule_201	Tranh hạng nhất chung cuộc trong cúp 4 chặng!
+MsgMain/Help/Rule_202	Sống sót qua cuộc đua trải dài khắp thế giới!
+MsgMain/Help/Rule_203	Đua một mình và lập thời gian nhanh nhất!
+MsgMain/Help/Rule_204	Đua theo luật tùy chỉnh!
+MsgMain/Help/Rule_205	Dùng vật phẩm và làm nổ bóng bay!
+MsgMain/Help/Rule_206	Thu thập và về đích với nhiều xu nhất để thắng!
+MsgMain/Help/Rule_301	Mỗi chặng đua cho điểm theo thứ hạng khi bạn\nqua vạch đích. Thứ hạng chung cuộc của\nGrand Prix được tính theo tổng điểm\ncủa cả bốn chặng.
+MsgMain/Help/Rule_302	Chuỗi chặng đua liên tục, trong đó các tay đua\nphải xếp đủ cao để tiếp tục đi tiếp.
+MsgMain/Help/Rule_303	Chọn bất kỳ đường đua nào có sẵn.\nBí quyết để đạt thời gian thật tốt là\ndùng nấm một cách khôn ngoan.
+MsgMain/Help/Rule_304	Chế độ cho bạn chỉnh nhiều luật, như\nsố chặng đua trong một bộ hoặc\ncó chia đội trong cuộc đua hay không.
+MsgMain/Help/Rule_305	Kiếm điểm bằng cách làm nổ bóng bay của đối thủ.\nBạn thậm chí có thể cướp bóng bay bằng cách\ntông vào họ khi đang tăng tốc nhờ nấm!
+MsgMain/Help/Rule_306	Đánh văng xu của đối thủ bằng vật phẩm,\nhoặc tông vào họ khi đang tăng tốc\nnhờ nấm để cướp xu trực tiếp!
+MsgMain/Help/Rule_401	Grand Prix có bảy cúp khác nhau.\nĐiều gì xảy ra khi bạn đua qua\ntất cả chúng?
+MsgMain/Help/Rule_402	Mỗi tour có năm điểm kiểm tra, và ở mỗi điểm,\nmột vài tay đua xếp thấp sẽ bị loại. Hãy dẫn\nđầu và nhắm tới vị trí nhất ở đích!
+MsgMain/Help/Rule_403	Thử sức với dữ liệu bóng ma\ncủa các tay đua khác. Biết đâu họ\nsẽ dạy bạn điều mới!
+MsgMain/Help/Rule_404	Chọn Liên tục trong cài đặt sẽ nối các\nchặng đua từ đường đua này sang đường khác!
+MsgMain/Help/Rule_405	Mất hết bóng bay là bạn bị loại...
+MsgMain/Help/Rule_406	Xu sẽ hiện trên bản đồ nhỏ, nên\nhãy luôn để mắt tới nó!
+MsgMain/Help/FreeRun_01	Công tắc P
+MsgMain/Help/FreeRun_02	Bảng ?
+MsgMain/Help/FreeRun_03	Huy chương Peach
+MsgMain/Help/FreeRun_04	Xu
+MsgMain/Help/FreeRun_06	Ảnh
+MsgMain/Help/FreeRun_101	Chạy qua Công tắc P để bắt đầu nhiệm vụ. Đừng lo\nnếu bạn khó vượt qua một thử thách nào đó.\nKiên trì rồi bạn sẽ thành công!
+MsgMain/Help/FreeRun_102	Bạn có thể thấy Bảng ? ẩn ở những nơi\nbất ngờ. Xem bạn tìm được bao nhiêu nhé!
+MsgMain/Help/FreeRun_103	Huy chương Peach lấp lánh nằm rải rác khắp\nthế giới. Có thể có bao nhiêu cái nhỉ?
+MsgMain/Help/FreeRun_104	Bạn có thể mở khóa thêm xe bằng cách gom xu.\nCó tin đồn về những đống xu ngoài kia,\nđang chờ được thu thập...
+MsgMain/Help/FreeRun_105	Khắp thế giới có đủ loại cửa hàng bán Đồ ăn tăng tốc\nvới vô số món để chọn. Nhiều tay đua sẽ đổi\nvẻ ngoài tùy theo món họ ăn!
+MsgMain/Help/FreeRun_106	Bạn có thể dùng {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để chụp ảnh. Hãy ra ngoài,\nlưu lại những khoảnh khắc hoàn hảo, và đừng\nquên nói "Cheese!"
+MsgMain/MachineType/Vehicle_Stb	Mô-tô tiêu chuẩn
+MsgMain/MachineType/Vehicle_Stk	Kart tiêu chuẩn
+MsgMain/Menu/2003	Có
+MsgMain/Menu/2004	Không
+MsgMain/Menu/2051	Nhấn {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} để bắt đầu
+MsgMain/Menu/2053	Xếp
+MsgMain/Menu/2054	Chi tiết
+MsgMain/Menu/2055	Tốc độ
+MsgMain/Menu/2056	Gia tốc
+MsgMain/Menu/2057	Cân nặng
+MsgMain/Menu/2058	Điều khiển
+MsgMain/Menu/2059	Xáo trộn
+MsgMain/Menu/2101	Một người chơi
+MsgMain/Menu/2102	Nhiều người
+MsgMain/Menu/2103	Chơi online
+MsgMain/Menu/2104	Chơi không dây
+MsgMain/Menu/2105	Sticker
+MsgMain/Menu/2106	Chơi LAN
+MsgMain/Menu/2110	Bản đồ
+MsgMain/Menu/2111	Dạo chơi tự do
+MsgMain/Menu/2203	Đua tính giờ
+MsgMain/Menu/2204	Đua VS
+MsgMain/Menu/2205	Đấu
+MsgMain/Menu/2211	Tranh huy chương vàng trong cúp 4 chặng!
+MsgMain/Menu/2212	Dẫn đầu trong cuộc đua sức bền!
+MsgMain/Menu/2213	Đua một mình để lập kỷ lục mới!
+MsgMain/Menu/2214	Đua theo luật tùy chỉnh!
+MsgMain/Menu/2215	Đấu theo luật tùy chỉnh!
+MsgMain/Menu/2216	Tối đa 24 người cùng đua!
+MsgMain/Menu/2217	Sống sót trong cuộc đua loại 24 người!
+MsgMain/Menu/2219	Tối đa 24 người cùng đấu!
+MsgMain/Menu/2231	Rủ bạn bè cùng thi đấu!
+MsgMain/Menu/2221	Bắt đầu Grand Prix?
+MsgMain/Menu/2222	Bắt đầu Knockout Tour?
+MsgMain/Menu/2223	Bắt đầu đua tính giờ?
+MsgMain/Menu/2224	Phát lại?
+MsgMain/Menu/2225	Bắt đầu đua?
+MsgMain/Menu/2226	Bắt đầu đấu?
+MsgMain/Menu/2227	Bạn muốn thoát không?
+MsgMain/Menu/2228	Bạn muốn thoát không?
+MsgMain/Menu/2229	Quay về màn hình tiêu đề?
+MsgMain/Menu/2235	Gương
+MsgMain/Menu/2261	Đua đơn
+MsgMain/Menu/2262	Đua với bóng ma
+MsgMain/Menu/2263	Xem bóng ma
+MsgMain/Menu/2264	Xem xếp hạng
+MsgMain/Menu/2272	Tải lên bóng ma
+MsgMain/Menu/2266	Tải xuống dữ liệu bóng ma này?
+MsgMain/Menu/2268	Xóa dữ liệu bóng ma?
+MsgMain/Menu/2269	Đã xóa dữ liệu bóng ma.
+MsgMain/Menu/2270	Đang tải dữ liệu bóng ma...
+MsgMain/Menu/2271	Đã tải xong dữ liệu bóng ma!\nBắt đầu đua?
+MsgMain/Menu/2273	Tải lên bóng ma?
+MsgMain/Menu/2274	Bạn chưa tạo dữ liệu bóng ma\ncho đường đua này!
+MsgMain/Menu/2275	Bạn không thể tải xuống\ndữ liệu bóng ma của mình.
+MsgMain/Menu/2276	Bạn không thể tải xuống thêm dữ liệu\nbóng ma. Bạn có muốn {0E 0000 0003 0002 0000}xóa{0E 0000 0003 0002 FFFF}\ntoàn bộ dữ liệu bóng ma để lấy chỗ không?
+MsgMain/Menu/2277	{0E 0000 0003 0002 0000}Dữ liệu bóng ma đã xóa sẽ\nmất vĩnh viễn.{0E 0000 0003 0002 FFFF}\nBạn có muốn tiếp tục không?
+MsgMain/Menu/2278	Đã xóa toàn bộ dữ liệu bóng ma\nbạn đã tải xuống.
+MsgMain/Menu/2281	Bạn đã tải xuống\ndữ liệu bóng ma này rồi.
+MsgMain/Menu/2282	Dữ liệu bóng ma này {0E 0000 0003 0002 0000}là của bạn{0E 0000 0003 0002 FFFF}.\nBạn vẫn muốn xóa nó chứ?
+MsgMain/Menu/2301	Hạng
+MsgMain/Menu/2302	50cc
+MsgMain/Menu/2303	100cc
+MsgMain/Menu/2304	150cc
+MsgMain/Menu/2306	Phản chiếu
+MsgMain/Menu/2308	Bỏ qua
+MsgMain/Menu/2311	Độ khó COM
+MsgMain/Menu/2312	Dễ
+MsgMain/Menu/2313	Thường
+MsgMain/Menu/2314	Khó
+MsgMain/Menu/2315	Không có COM
+MsgMain/Menu/2321	Chọn đường đua
+MsgMain/Menu/2322	Đã kết nối
+MsgMain/Menu/2323	Mở
+MsgMain/Menu/2324	Ngẫu nhiên
+MsgMain/Menu/2331	Số cuộc đua
+MsgMain/Menu/2332	3 cuộc đua
+MsgMain/Menu/2333	4 cuộc đua
+MsgMain/Menu/2334	5 cuộc đua
+MsgMain/Menu/2335	6 cuộc đua
+MsgMain/Menu/2336	8 cuộc đua
+MsgMain/Menu/2337	12 cuộc đua
+MsgMain/Menu/2338	16 cuộc đua
+MsgMain/Menu/2339	32 cuộc đua
+MsgMain/Menu/2351	Đội
+MsgMain/Menu/2352	Không chia đội
+MsgMain/Menu/2353	Hai đội
+MsgMain/Menu/2354	Ba đội
+MsgMain/Menu/2355	Bốn đội
+MsgMain/Menu/2371	Số hiệp
+MsgMain/Menu/2372	3 hiệp
+MsgMain/Menu/2373	4 hiệp
+MsgMain/Menu/2374	5 hiệp
+MsgMain/Menu/2375	6 hiệp
+MsgMain/Menu/2376	8 hiệp
+MsgMain/Menu/2381	Thời gian nghỉ
+MsgMain/Menu/2382	10 giây
+MsgMain/Menu/2383	Một phút
+MsgMain/Menu/2384	Năm phút
+MsgMain/Menu/2391	Vật phẩm
+MsgMain/Menu/2392	Thường
+MsgMain/Menu/2393	Hỗn loạn
+MsgMain/Menu/2402	Đua VS
+MsgMain/Menu/2404	Giải loại trực tiếp
+MsgMain/Menu/2405	Đấu bóng bay
+MsgMain/Menu/2406	Chạy đua xu
+MsgMain/Menu/3003	Bắt đầu dạo chơi tự do?
+MsgMain/Menu/3004	Đang quay về\nmàn hình tiêu đề.
+MsgMain/Menu/5001	Đua
+MsgMain/Menu/5002	Giải loại trực tiếp
+MsgMain/Menu/5004	Bạn bè
+MsgMain/Menu/5005	Tạo phòng
+MsgMain/Menu/5006	Tìm theo ID phòng
+MsgMain/Menu/5007	Tham gia
+MsgMain/Menu/5008	Phòng
+MsgMain/Menu/5009	Đấu
+MsgMain/Menu/5013	Đang tìm người chơi...
+MsgMain/Menu/5014	Cuộc đua sắp bắt đầu!
+MsgMain/Menu/5017	Đã chọn xong đường đua!
+MsgMain/Menu/5019	Bạn chưa thể tham gia. Vui lòng chờ.
+MsgMain/Menu/5020	Bạn đã tham gia!
+MsgMain/Menu/5021	{0E 0001 0001 0004 0000 0000} đã tham gia!
+MsgMain/Menu/5022	Đã quyết định xong luật chơi!
+MsgMain/Menu/5023	Đến cuộc đua tiếp theo: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5024	Đến trận đấu tiếp theo: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5026	Bạn sẽ vào cuộc đua gần nhất. Chờ chút nhé!
+MsgMain/Menu/5027	Bạn sẽ vào trận đấu gần nhất. Sẵn sàng nhé!
+MsgMain/Menu/5028	Đang chờ người chơi tham gia...
+MsgMain/Menu/5029	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Bắt đầu
+MsgMain/Menu/5030	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} Bắt đầu
+MsgMain/Menu/5031	Trận đấu sắp bắt đầu!
+MsgMain/Menu/5032	Vui lòng chờ đến khi luật chơi được quyết định.
+MsgMain/Menu/5033	Bạn đã bị ngắt kết nối.
+MsgMain/Menu/5034	Không thể tham gia giải loại trực tiếp.
+MsgMain/Menu/5035	Hai tay đua cách nhau quá xa. Đang thu hẹp khoảng cách.
+MsgMain/Menu/5101	Ngẫu nhiên
+MsgMain/Menu/5102	Thay đổi
+MsgMain/Menu/5202	Lập phòng để thi đấu?
+MsgMain/Menu/5204	ID bạn nhập không khớp\nvới phòng nào hiện có.
+MsgMain/Menu/5209	ID phòng
+MsgMain/Menu/5212	Lịch sử đấu
+MsgMain/Menu/5213	Bạn
+MsgMain/Menu/5214	Đối thủ
+MsgMain/Menu/5218	Nhập ID phòng
+MsgMain/Menu/5220	Vui lòng chờ...
+MsgMain/Menu/5221	Rời phòng này?
+MsgMain/Menu/5301	Phòng đã đầy.\nVui lòng chờ...
+MsgMain/Menu/5302	Đã xảy ra lỗi\nkết nối.
+MsgMain/Menu/5304	Không tìm thấy phòng\nbạn muốn tham gia.
+MsgMain/Menu/5305	Đã xảy ra lỗi\nkết nối.
+MsgMain/Menu/5307	Đã xảy ra lỗi\nkết nối.
+MsgMain/Menu/5308	Đã xảy ra lỗi\nkết nối.
+MsgMain/Menu/5320	Bạn đã thu thập {0E 0001 0000 0004 0000 0000} xu\nvà mở khóa {0E 0000 0003 0002 0000}phương tiện{0E 0000 0003 0002 FFFF} mới!
+MsgMain/Menu/5313	Bạn chưa đăng ký bạn bè nào.
+MsgMain/Menu/5314	Không có phòng nào để tham gia.
+MsgMain/Menu/5315	Đặt luật chơi
+MsgMain/Menu/5316	Người tham gia
+MsgMain/Menu/5347	Chế độ chụp ảnh
+MsgMain/Menu/5328	Hướng camera
+MsgMain/Menu/5329	Lấy nét
+MsgMain/Menu/5333	Xong
+MsgMain/Menu/5334	Biểu cảm
+MsgMain/Menu/5335	Khung
+MsgMain/Menu/5336	Đường kẻ
+MsgMain/Menu/5340	Tạo dáng
+MsgMain/Menu/5341	Nghiêng
+MsgMain/Menu/5342	Chụp
+MsgMain/Menu/5345	Thu phóng
+MsgMain/Menu/5348	Lấy nét: Không
+MsgMain/Menu/5349	Lấy nét: Nhân vật
+MsgMain/Menu/5350	Lấy nét: Giữa
+MsgMain/Menu/5353	Dừng chụp ảnh?
+MsgMain/Menu/5354	Có
+MsgMain/Menu/5355	Không
+MsgMain/Menu/5370	Khung: Không
+MsgMain/Menu/5371	Khung: 1
+MsgMain/Menu/5372	Khung: 2
+MsgMain/Menu/5373	Khung: 3
+MsgMain/Menu/5374	Khung: 4
+MsgMain/Menu/5375	Khung: 5
+MsgMain/Menu/5376	Khung: 6
+MsgMain/Menu/5377	Khung: 7
+MsgMain/Menu/5378	Khung: 8
+MsgMain/Menu/5379	Khung: 9
+MsgMain/Menu/5380	Khung: 10
+MsgMain/Menu/5381	Khung: 11
+MsgMain/Menu/5382	Khung: 12
+MsgMain/Menu/5383	Khung: 13
+MsgMain/Menu/5309	#MARIO KART WORLD\n\n#ĐỘI NGŨ SẢN XUẤT\n\n\n\n\n\n\n\n\n\n\n#NHÀ SẢN XUẤT\nKosuke Yabuki\n\n\n#GIÁM ĐỐC LẬP TRÌNH\nKenta Sato\n\n\n#GIÁM ĐỐC MỸ THUẬT\nMasaaki Ishikawa\n\n\n#GIÁM ĐỐC HOẠCH ĐỊNH\nShintaro Jikumaru\n\n\n#TRƯỞNG NHÓM LẬP TRÌNH\nTatsuya Takadera\nShoichi Obayashi\nJun Ito\nTomohiro Nakatani\nJunya Osada\n\n\n#LẬP TRÌNH\nTakeshi Miyamoto\nMasahiro Nakamura\nMifune Hayata\nMasahiro Kishi\nWataru Hinoshita\nAkihiro Umehara\nHiroki Omosako\nKentaro Kawai\nHiroaki Sata\nTatsuya Ogawa\nKenta Isasaka\nKeisuke Niwa\nRei Miyake\nTakanori Tamanaha\nRyota Ishida\nRyota Shigemasa\nRiki Fukunari\nNaoki Motoyama\nShuntaro Yamaguchi\nErika Abe\nRyuya Fujita\nTakumi Saito\nShun Utsugi\nYuto Kobayashi\nAkira Mizukami\nKoichi Sato\nTabi Morinaga\nYusuke Uchida\nMasahiro Miyakami\nMasanobu Yano\nShinya Yano\n\n\n#TRƯỞNG NHÓM HOẠCH ĐỊNH\nHideaki Nishihara\nMasashi Onishi\nOlivier Nizard\nYugo Hayashi\nMizuki Ebihara\n\n\n#HOẠCH ĐỊNH\nShinichi Ikematsu\nKeiichiro Omura\nRyutaro Kanno\nTetsuya Yamaura\nYuta Yamashita\nKazuhiro Hosoi\nYoji Kamikawa\nKai Kikui\nAyako Akaza\nKo Yamamoto\nKaito Alexander Sumida\nSumire Nakamura\nYusuke Nodama\nRyosuke Takahashi\nMasamichi Yamazaki\n\n\n#TRƯỞNG NHÓM THIẾT KẾ MÀN CHƠI\nYoshikazu Hara\nMasahiro Kawanishi\nNorihiro Morita\nNoriko Kitao\nMikiya Hosoi\nAkito Ota\nDaisuke Taneda\nKazue Kaneoka\nHirofumi Orita\n\n\n#THIẾT KẾ MÀN CHƠI\nTsubasa Fujii\nRyohei Totsuka\nZhaojun Chen\nKeita Tsuji\nHiroshi Yamane\nKanako Okabe\nMari Kubota\nHaruka Tsuchiya\nKanako Matsubara\nKazuki Okamoto\nAoi Aso\nItsuki Nakagawa\nRyota Iwai\nKana Ichigaya\nMaria Kawaguchi\nShoma Kokubo\nMifuyu Kojima\nRisa Takeuchi\nDaichi Dobashi\nShogo Nagata\nYudai Nagata\nTetsuya Kobayashi\nYasutomo Nishibe\nMasato Amma\nAi Kobayashi\nSota Yagiuchi\nHikaru Ishimine\nMie Kobayashi\nMinami Akao\nRikuo Hata\nMayuko Nakamura\nHomi Hada\nTomoko Horii\nTatsuo Shioda\nMiku Ohara\nShigyo To\nShizuka Shiino\nToshikatsu Terashima\nKaori Shoji\nKiyotaka Ujiie\nNanami Aruga\nHiroko Ito\nKotaro Kitada\nMisato Tamai\nSawako Kawana\nJunko Sato\nYoshiko Iida\nTakahiro Haga\nSako Hayashi\nRyota Shida\nShinji Yato\nKanako Uno\nFumiya Ito\nNatsuo Komatsubara\nSatoki Kiriu\nMio Kikuchi\nTeppei Kamata\nNaoya Nihei\nKoji Aoyama\nHiroki Sano\nNobuaki Kuroda\nWakana Imai\nKotono Mizuno\nMamiko Narita\nShiho Fukushima\nHinako Maeda\nRyosuke Kanai\nEriko Kasai\nHikari Konno\nNatsuko Yamashiro\nHatsune Takeshita\nKureha Naito\nYuiko Matsubara\nKanoko Myoken\n\n\n#THIẾT KẾ KỸ THUẬT MÀN CHƠI\nKoshi Watamura\nShunichi Shirai\nNaoki Mineta\nYuki Terada\nHiroyuki Yamahira\n\n\n#TRƯỞNG NHÓM THIẾT KẾ NHÂN VẬT\nNaoki Yamada\nHikari Harada\nAkane Usami\nSora Nagaoka\nAmi Takai\n\n\n#THIẾT KẾ NHÂN VẬT\nAi Yamada\nYuko Miyakawa\nYuka Kashima\nKojo Tsukamoto\nKomaki Mo\nMikito Imamura\nRino Taguchi\nYu Hamada\nKaori Mitsuzawa\nMakoto Tada\nRiki Kobayashi\nTomomi Sumaki\nRiko Shibanuma\nSaori Asoma\nKei Ogawa\nRikitaka Ota\nTaisei Negami\nMoeko Hijikata\nRina Eda\nHiroyuki Morishima\nArata Takahashi\nRina Honda\nOsamu Komura\nToshiaki Abe\nTakaharu Tanaka\nHideki Tanaami\nAkira Nakajima\nShihomi Yamamoto\nKenichi Nishizono\nDaisuke Abe\nYoshiya Sasaki\nRyutaro Asami\nRika Aoki\nMakiko Nihari\nAkari Iwakiri\nYuji Watanabe\nJun Kitaoka\nTakamasa Yamaguchi\nHiroaki Todo\nShota Akita\nAkinobu Yamakawa\nYuria Hamada\nRyunosuke Ogami\nKana Yamamoto\nHiroko Kiyonari\nShinya Gima\nAyaka Sugimoto\nYuhei Iwasa\nRisa Sakai\nTomoyo Yamanaka\nTakaaki Koido\nYo Nakajima\n\n\n#TRƯỞNG NHÓM HOẠT ẢNH\nMizuki Okunaka\n\n\n#HOẠT ẢNH\nChiharu Iki\nTatsuya Sakai\nKanata Jitsusue\nShota Matsuura\nShoei Sato\nHirohisa Togase\n\n\n#THIẾT KẾ KỸ THUẬT NHÂN VẬT\nShikou Yamaue\nYohei Mori\n\n\n#TRƯỞNG NHÓM HIỆU ỨNG HÌNH ẢNH\nSosuke Takada\n\n\n#HIỆU ỨNG HÌNH ẢNH\nRyo Kodama\nRyosuke Hagiwara\nKyosuke Kashima\nTomotaka Ishikawa\nKaede Ogi\n\n\n#TRƯỞNG NHÓM THIẾT KẾ UI\nMariko Tachibana\n\n\n#THIẾT KẾ UI\nJunya Nishino\nKotone Sasaki\nMizuki Homma\nChiharu Takabayashi\nNaoki Nishimura\n\n\n#ĐỒ HỌA 2D\nMisaki Imura\nFuta Ikeda\nToko Minakuchi\n\n\n#THIẾT KẾ CẢNH PHIM\nHiroki Hirano\nDaisuke Nobori\nYunju Cho\n\n\n#TRƯỞNG NHÓM ÂM NHẠC\nAtsuko Asahi\n\n\n#ÂM NHẠC\nMaasa Miyoshi\nTakuhiro Honda\nYutaro Takakuwa\n\n\n#TRƯỞNG NHÓM HIỆU ỨNG ÂM THANH\nTakahisa Yamamoto\n\n\n#HIỆU ỨNG ÂM THANH\nMitsutoshi Kodama\nTakuya Kojima\nRintaro Sato\nEka Chin\nKyosuke Nagano\nYohei Miyagawa\nNatsuko Yokoyama\n\n\n#QUẢN LÝ THIẾT KẾ\nYoshihisa Morimoto\nManabu Takehara\nTakafumi Kiuchi\nManabu Okano\nToshitaka Mukasa\nShunsuke Otsuka\nAkihiro Ando\n\n\n#QUẢN LÝ DỰ ÁN\nJunhiro Nishiyama\nAkane Ishikawa\nBungo Takahashi\n\n\n#TRANH MINH HỌA\nChiaki Ogura\nChiharu Sakiyama\nHikaru Ueda\nTaku Ito\nYoshiki Haruhana\nYuki Ijiri\nYuki Shimizu\nYuri Adachi\n\n\n#HỖ TRỢ LẬP TRÌNH\nTakumi Sekino\nJun Ito\nTomohisa Saito\nDaisuke Shimizu\nShun Hayami\nNao Ueda\nMengyang Wang\nYuki Kaji\nAtsushi Asakura\nYoshimitsu Yamada\nTakuma Oiso\nShoka Ochi\nYuki Yamada\nShogo Tsuji\nMasafumi Kawamura\nRyosuke Kawakatsu\nJoe Griffiths Oba\nWataru Tanaka\nMasakaze Sato\nHideyuki Sugawara\nSatoshi Miyama\nYuki Onozawa\nShunto Kawae\nJunta Fujinaga\nYuichiro Hiramoto\nGo Mimura\nMasaki Muto\nTakahiro Matsuda\nTakumi Masuda\nKojiro Taguchi\nTakeshi Wakasugi\nMizuki Fujisawa\nTetsuya Nakata\nMakoto Takano\nShuhei Matsuo\nTakahiro Okuda\nYusuke Shiraiwa\nTakuhiro Dohta\n\n\n#HỖ TRỢ THIẾT KẾ\nKeijiro Inoue\nRyuji Kobayashi\nSatoru Takizawa\nYoshiyuki Oyama\n\n\n#HỖ TRỢ ÂM THANH\nKenta Nagata\nMahito Yokota\nTakahiro Watanabe\n\n\n#HỖ TRỢ KỸ THUẬT\nKoichiro Hirano\nSumio Itou\nRyoma Kumamoto\nTomoatsu Nagafuji\nMikiya Ode\nShinji Yamada\nYoshinori Yamazoe\nYujiro Mori\nYoshiki Kawanishi\nTomonori Hiraishi\nYuichi Kurata\n\n\n#KIỂM THỬ\nDaiki Moriyama\nShoichiro Takeyoshi\nAsuka Nishiura\nTakeshi Kiriyama\nSayaka Takagi\nKensuke Oishi\nDaiki Yokouchi\nNaoya Takechi\nMasaki Furukawa\nMario Club Co., Ltd.\n\n\n#NOA ĐỊA PHƯƠNG HÓA\nSam AbouHarb\nLauren Ammerman\nGab Bergollo Drouyn\nBilly Carroll\nYanett Cepeda Valor\nOwen Cooney\nMarjolaine Drouin\nDan Fazio\nDutch Hixenbaugh\nMichio Koide\nEgon Lessa\nAlex Lied\nMiya Seeley\nJoe Talbot\nBabi Velho Barreto\nScott Willson\nFelipe Zylbersztajn\n\n\n#NOA KIỂM TRA NGÔN NGỮ\nJordon Galloway\nPedro Neves do Souto\nPascal Ramirez\nMakiko Szolas\nGabriel Vinado\n\n\n#NOA QUẢN LÝ ĐỊA PHƯƠNG HÓA\nReiko Ninomiya\nRich Amtower\nMichael Benedetto\nRaymond Elliget\nBerenice Hofsetz\nNoriko Kaji\nZaher Khan\nLars Knudson\nAnn Lin\nTim O'Leary\nScot Ritchey\nMorgan Ritchie\nGalia Rodríguez Hornedo\nWilliam Romick\nThaddée Wiseur\nKaren Yuen\nÁlex Zarza\n\n\n#NOE NHÀ SẢN XUẤT ĐỊA PHƯƠNG HÓA\nMarko Sistermann\nPete Sheppard\n\n\n#NOE BIÊN DỊCH\nMatthew Fosbrook\nPatrick Joyce\nMatthieu Lamouroux\nDavid Caussèque\nAlessandro Tardito\nKent Robello\nGiovanna Prati\nKatharina Glowotz\nHannah Siebert\nEnrique Sánchez Rosa\nJónatan Marcos Millán\nMarijke Pustjens\nChristian Buter\nCarsten Harmans\nRui Mendes\nDaniel Aleixo\nAnton Ivanchikov\nPolina Shenoeva\n\n\n#NOE ĐẢM BẢO CHẤT LƯỢNG\nStefania Montagnese\nLaurence Uhlen\nVeronica Casi\nSascha Michalke\nJulio Manzaneda Medina\nNils Dudal\nMariña Vieira Vázquez\nSandra de la Peña Rodríguez\nIrina Kaffka\n\n\n#ĐỊA PHƯƠNG HÓA CHÂU Á\niQue (China) Ltd.\nMario Club Co., Ltd.\nNintendo (Hong Kong) Limited Taiwan Branch\nNintendo of Korea Co., Ltd.\n\n\n#QUẢN LÝ ĐỊA PHƯƠNG HÓA CHÂU Á\nDongyeon Kim\nKyoungim Na\nTakaaki Ueno\nWang Zhonglong\nMisa Matsumoto\n\n\n#ĐIỀU PHỐI ĐỊA PHƯƠNG HÓA CHÂU Á\nSoonil Kim\nChen Yufeng\n\n\n#BIÊN DỊCH NGÔN NGỮ CHÂU Á\nCheng Wenyen\nDaeho Jeong\nXia Tinghui\nZhang Xi\nSean Shen\n\n\n#KIỂM TRA NGÔN NGỮ CHÂU Á\nHu Huiming\nJeewan Chun\nChien Chihhsien\nEiju Umemura\nChen Weiming\nPu Xinyi\n\n\n#DIỄN VIÊN LỒNG TIẾNG\nKevin Afghani\nDawn M Bennett\nLaila Berzins\nNate Bihldorff\nKo Bonkobara\nPaul Castro Jr.\nGiselle Fernandez\nYuu Hayashi\nKate Higgins\nEri Inagawa\nKenny James\nCourtney Lin\nTsuguo Mogami\nTadd Morgan\nNatsuki Mori\nTakashi Oohara\nCaety Sagoian\nLaura Faye Smith\nLaura Stahl\nKouji Takeda\nSatoshi Taki\nKazumi Totaka\n\n\n#ĐẠO DIỄN LỒNG TIẾNG\nPatrick Seitz\n\n\n#THU ÂM LỒNG TIẾNG\nJonathan Abarca\nPaul Eric Miller\n\n\n#HỖ TRỢ PHÒNG THU LỒNG TIẾNG\nLainie Bushey\nCheryl Cowan\nDanny Hunt\nWendi Wills\n\n\n#PHỐI KHÍ ÂM NHẠC\nMasanori Sasaji\nJun Abe\nShoya Kitagawa\nMaoki Yamamoto\nYoichi Murata\nJun Tomoda\nKeiji Matsumoto\nYoshihiro Arita\nTetsuya Ohyama\nSatoru Shionoya\nTetsuro Toyama\n\n\n#KỸ SƯ THU ÂM VÀ PHỐI TRỘN\nNobuyuki Aoyagi\nTakehiko Naito\n\n\n#KỸ SƯ ÂM NHẠC PHỤ TRÁCH\nChie Sato\nSo Shiiba\nAsuka Anzai\n\n\n#TRÌNH DIỄN ÂM NHẠC\nMARIO KART BAND\n\n\n#CẢM ƠN ĐẶC BIỆT\nFumihiro Suzuki\nDaisuke Masui\nMakoto Ishii\nDaisuke Uchiyama\nBandai Namco Studios Inc.\nIMAGICA GEEQ Inc.\nHiroshi Uchiyama\nGen Kadoi\nMakiko Takada\nNoriko Sekiya\nFace Music\nSOUND INN STUDIOS Inc.\nARTSVISION Co., Ltd.\nBad Animals\nCup of Tea Productions, Inc.\nKenproduction Co., Ltd.\nHokWai Ng\nShinya Wada\nPedro Avelar\nRyuhei Matsuura\nSébastien Faber\nEmily Itagaki\nTakayuki Haga\nMasato Kimura\nYasuyuki Oyagi\nHideki Konno\n\n\n#TỔNG NHÀ SẢN XUẤT\nShinya Takahashi\n\n\n#NHÀ SẢN XUẤT ĐIỀU HÀNH\nShuntaro Furukawa\n\n\nNintendo là tác giả của\nphần mềm này theo luật\nbản quyền. Bảo lưu mọi quyền.\n© 2025 Nintendo\n\n\n\n\n\n\n\n
+MsgMain/Mission/Mission_RC_WL_00	Thu thập xu xanh và né Goomba!
+MsgMain/Mission/Mission_RC_WL_03	Thu thập xu xanh dọc cây cầu!
+MsgMain/Mission/Mission_RC_WL_04	Lùng xu xanh trong bãi tàu hỏa!
+MsgMain/Mission/Mission_RC_WL_05	Nhặt xu khi thực hiện trick trên không!
+MsgMain/Mission/Mission_RC_WL_08	Bắn từ ống này sang ống khác lên các cao nguyên!
+MsgMain/Mission/Mission_WT_WL_00	Xông qua hàng phòng thủ!
+MsgMain/Mission/Mission_WT_WL_01	Nhảy theo lối tắt toàn khối đến Sân Wario!
+MsgMain/Mission/Mission_WT_WL_04	Đua qua thử thách lốp xe hiểm trở!
+MsgMain/Mission/Mission_WT_WL_05	Vượt đoàn tàu trên cầu giàn thép!
+MsgMain/Mission/Mission_WT_WL_06	Lao qua dốc và vượt cầu treo!
+MsgMain/Mission/Mission_WT_WL_08	Bay vút qua không trung và xuyên qua cây cầu!
+MsgMain/Mission/Mission_WT_WL_09	Gầm vang trên đường trong cảnh hành động nổ tung!
+MsgMain/Mission/Mission_WT_WL_10	Đi lối tắt địa hình đến Đường đua Mario Bros.!
+MsgMain/Mission/Mission_WT_WL_11	Nhắm tới Cột đích trên đỉnh cây nấm khổng lồ!
+MsgMain/Mission/Mission_WT_WL_12	Nhờ gió xoáy lốc đẩy bạn đến Cột đích!
+MsgMain/Mission/Mission_WT_WL_13	Phóng nấm đến đích và đừng để chìm!
+MsgMain/Mission/Mission_WT2_WL_00	Dùng vật phẩm để lao qua cát sa mạc!
+MsgMain/Mission/Mission_WT2_WL_01	Chỉ cho các Shy Guy cách đua xuôi sông!
+MsgMain/Mission/Mission_WT2_WL_05	Đua ngược dòng qua thung lũng sông!
+MsgMain/Mission/Mission_WT2_WL_06	Mở đường qua lối đường nhỏ phía sau!
+MsgMain/Mission/Mission_WT2_WL_07	Đua qua dốc và xà để đến đích!
+MsgMain/Mission/Mission_WT2_WL_08	Lao lên dốc qua mép vách đá để đến đích!
+MsgMain/Mission/Mission_WT2_WL_09	Khoe kỹ năng đua trên tường!
+MsgMain/Mission/Mission_WT2_WL_10	Hết trick này đến trick khác trên cầu!
+MsgMain/Mission/Mission_WT2_WL_11	Bay tới chỗ Yoshi ăn nhanh một bữa!
+MsgMain/Mission/Mission_WT2_WL_12	Trick trên xương rồng để lên cao thêm!
+MsgMain/Mission/Mission_WT2_WL_13	Né tatu giáp trên đường đến đích!
+MsgMain/Mission/Mission_WT2_WL_14	Bám theo chiếc trực thăng kia!
+MsgMain/Mission/Mission_WT2_WL_15	Chứng tỏ bản thân trong thử thách kỹ năng ĐẶC BIỆT #6!
+MsgMain/Mission/Mission_WT2_WL_18	Bay từ cao nguyên này sang cao nguyên khác bằng dốc thép!
+MsgMain/Mission/Mission_WT3_WL_01	Vượt thử thách sức bền trong vùng đất hoang!
+MsgMain/Mission/Mission_WT3_WL_02	Tham gia cuộc đua bất chợt trong hẻm núi!
+MsgMain/Mission/Mission_WT3_WL_03	Tham gia vòng đua liều mạng trong hẻm núi!
+MsgMain/Mission/Mission_WT3_WL_04	Lao xuống chỗ các tay đua trên đỉnh đá!
+MsgMain/Mission/Mission_RC_WL_02	Trượt ray để gom xu xanh của chiếc burger!
+MsgMain/Mission/Mission_WT_WL_03	Đua qua khán đài để đến đích!
+MsgMain/Mission/Mission_WT2_WL_04	Mang theo cái bụng đói và đua đến đích!
+MsgMain/Mission/Mission_RC_WL_07	Tăng cường trick để thu hết xu xanh!
+MsgMain/Mission/Mission_WT_WL_02	Cho tàu hỏa thấy bạn nhanh cỡ nào!
+MsgMain/Mission/Mission_WT2_WL_02	Đua lên Đỉnh Ga Còi!
+MsgMain/Mission/Mission_RC_WL_06	Thu thập xu xanh trên các mái nhà!
+MsgMain/Mission/Mission_WT2_WL_16	Lao qua vòng và vượt lửa!
+MsgMain/Mission/Mission_WT2_WL_17	Đi theo các vòng dọc mái nhà!
+MsgMain/Mission/Mission_RC_DT_00	Chộp xu xanh và đừng để chìm!
+MsgMain/Mission/Mission_RC_DT_01	Cứu xu xanh khỏi cát!
+MsgMain/Mission/Mission_RC_DT_03	Vớt các xu xanh rải rác!
+MsgMain/Mission/Mission_RC_DT_04	Thu thập xu xanh ở ốc đảo khô cạn!
+MsgMain/Mission/Mission_RC_DT_05	Dạo chợ và vơ xu xanh!
+MsgMain/Mission/Mission_RC_DT_06	Đi nhờ để lấy xu xanh trên không!
+MsgMain/Mission/Mission_RC_DT_07	Giải nhiệt ở ốc đảo khi nhặt xu xanh!
+MsgMain/Mission/Mission_RC_DT_08	Theo sợi dây để lấy xu xanh của tàn tích!
+MsgMain/Mission/Mission_WT_DT_00	Len lỏi qua những cơn lốc xoáy hiểm nguy!
+MsgMain/Mission/Mission_WT_DT_01	Phá vỡ chốt chặn của Hammer Bro.!
+MsgMain/Mission/Mission_WT_DT_02	Né Chain Chomp khi leo lên!
+MsgMain/Mission/Mission_WT_DT_03	Vượt các Shy Guy trong cuộc đua ngược sông!
+MsgMain/Mission/Mission_WT_DT_04	Chạy nước rút đến đích qua biển cát!
+MsgMain/Mission/Mission_WT_DT_05	Phóng tới rồi bật lên Cột đích!
+MsgMain/Mission/Mission_WT_DT_06	Tăng tốc khôn ngoan để đến đích kịp giờ!
+MsgMain/Mission/Mission_WT_DT_07	Lướt theo đường cong để đến đích!
+MsgMain/Mission/Mission_WT_DT_08	Chinh phục Thử thách Shy Guy #2!
+MsgMain/Mission/Mission_WT_DT_09	Chinh phục Thử thách Shy Guy #1!
+MsgMain/Mission/Mission_WT_DT_10	Dùng sức mạnh 18 bánh để đến đích!
+MsgMain/Mission/Mission_WT_DT_11	Bắn từ ống này sang ống khác để đến đích!
+MsgMain/Mission/Mission_WT_DT_12	Tăng tốc, tăng tốc, tăng tốc đến đích!
+MsgMain/Mission/Mission_WT_DT_13	Né Tokotoko trên đường lên đồi!
+MsgMain/Mission/Mission_WT_DT_14	Húc mở đường qua mê cung khối!
+MsgMain/Mission/Mission_WT_DT_15	Dùng xác tàu đắm cổ để lấy đà!
+MsgMain/Mission/Mission_WT_DT_16	Luồn qua chốt chặn Batadon!
+MsgMain/Mission/Mission_WT_DT_17	Trượt ray đường dài đến đích!
+MsgMain/Mission/Mission_WT2_DT_00	Đua xuôi sông và thoát ra biển!
+MsgMain/Mission/Mission_WT2_DT_01	Thực hiện cú nhảy khó từ cột này sang cột khác!
+MsgMain/Mission/Mission_WT2_DT_02	Chạy dọc tường ngoài để lẻn vào!
+MsgMain/Mission/Mission_WT2_DT_03	Băng qua cầu, trick suốt chặng đường!
+MsgMain/Mission/Mission_WT2_DT_04	Tránh Fire Snake trong đường hầm!
+MsgMain/Mission/Mission_WT2_DT_05	Lách qua hàng đống Pokey đang quẩy trên đường!
+MsgMain/Mission/Mission_WT2_DT_06	Bay lên Cột đích của nhà ga!
+MsgMain/Mission/Mission_WT2_DT_07	Chinh phục Thử thách Shy Guy #3!
+MsgMain/Mission/Mission_WT2_DT_08	Đuổi theo từng Tokotoko đến con tiếp theo!
+MsgMain/Mission/Mission_WT2_DT_09	Bay lên trời để thoát khỏi sa mạc!
+MsgMain/Mission/Mission_WT2_DT_10	Vượt trời sa mạc và đồi cỏ để đến đích!
+MsgMain/Mission/Mission_WT2_DT_11	Tham quan đầy thử thách Chợ Shy Guy!
+MsgMain/Mission/Mission_WT2_DT_12	Đua qua cơn mưa bão và xu!
+MsgMain/Mission/Mission_WT3_DT_00	Chinh phục thử thách sức bền trên cát!
+MsgMain/Mission/Mission_RC_VL_02	Thu thập xu xanh dọc con đường hẹp!
+MsgMain/Mission/Mission_RC_VL_04	Thu thập xu xanh trong suối nước nóng!
+MsgMain/Mission/Mission_RC_VL_05	Thu thập xu xanh và coi chừng Thwomp!
+MsgMain/Mission/Mission_RC_VL_06	Lao qua Bully khi thu thập xu xanh!
+MsgMain/Mission/Mission_RC_VL_07	Vơ xu xanh khi trượt trên ray!
+MsgMain/Mission/Mission_RC_VL_08	Chộp xu xanh quanh nghĩa địa ma quái!
+MsgMain/Mission/Mission_RC_VL_09	Thu thập các xu xanh rải rác!
+MsgMain/Mission/Mission_RC_VL_11	Thu thập xu xanh của cầu thang lớn!
+MsgMain/Mission/Mission_RC_VL_12	Nhảy từ ray này sang ray khác để chộp xu xanh!
+MsgMain/Mission/Mission_WT_VL_02	Bay an toàn phía trên hồ dung nham!
+MsgMain/Mission/Mission_WT_VL_03	Len lỏi qua đám Whomp!
+MsgMain/Mission/Mission_WT_VL_04	Mượn xe tải và húc nát mọi thứ!
+MsgMain/Mission/Mission_WT_VL_05	Len qua con đường chật kín Dry Bones!
+MsgMain/Mission/Mission_WT_VL_06	Lướt qua Fish Bone trên đường đến suối nước nóng!
+MsgMain/Mission/Mission_WT_VL_07	Lái qua ngã tư Grrrol bánh xích!
+MsgMain/Mission/Mission_WT_VL_08	Băng qua các xà của cây cầu sập!
+MsgMain/Mission/Mission_WT_VL_10	Hóa Bullet Bill xuyên qua loạt đạn lửa!
+MsgMain/Mission/Mission_WT_VL_11	Chuyển chuyến bay đến Pháo đài Tàu bay!
+MsgMain/Mission/Mission_WT_VL_12	Lướt qua từng đợt cầu lửa! Đừng để bị cháy xém!
+MsgMain/Mission/Mission_WT2_VL_04	Cho dung nham thấy bạn là siêu sao!
+MsgMain/Mission/Mission_WT2_VL_05	Dùng Nấm để phóng lên lối bên phải!
+MsgMain/Mission/Mission_WT2_VL_06	Phô diễn kỹ năng đua trên dây thăng bằng!
+MsgMain/Mission/Mission_WT2_VL_07	Phóng lên lối bên trái, không dùng Nấm!
+MsgMain/Mission/Mission_WT2_VL_08	Cưỡi mạch nước phun và bắn qua vòng để đến đích!
+MsgMain/Mission/Mission_WT2_VL_09	Sống sót qua dãy Fire Piranha Plant cay xè!
+MsgMain/Mission/Mission_WT2_VL_10	Đi nhờ trực thăng và trốn khỏi số phận bốc lửa!
+MsgMain/Mission/Mission_WT2_VL_11	Xé toạc đường đua bằng hết trick này đến trick khác!
+MsgMain/Mission/Mission_WT2_VL_12	Tìm đường qua ống và vòng!
+MsgMain/Mission/Mission_WT2_VL_13	Lách qua cú giậm sumo giật điện!
+MsgMain/Mission/Mission_WT2_VL_16	Luồn qua khe giữa các trụ thép!
+MsgMain/Mission/Mission_WT2_VL_17	Đua lên đỉnh tường lâu đài!
+MsgMain/Mission/Mission_WT2_VL_18	Leo một cần cẩu, rồi né cái còn lại!
+MsgMain/Mission/Mission_WT2_VL_20	Bay xa để ghi một cú hole in one!
+MsgMain/Mission/Mission_WT3_VL_01	Chộp vài món ăn vặt khi đua quanh Donut Lớn!
+MsgMain/Mission/Mission_WT_VL_00	Lách qua hàng này đến hàng khác Rocky Wrench!
+MsgMain/Mission/Mission_WT2_VL_00	Drift lên đỉnh tháp xoắn!
+MsgMain/Mission/Mission_WT2_VL_02	Thể hiện bản lĩnh trong màn đua tính giờ Pháo đài Tàu bay!
+MsgMain/Mission/Mission_RC_VL_01	Thu thập xu xanh quanh khu ẩm thực cay nồng!
+MsgMain/Mission/Mission_WT_VL_01	Nhảy dọc các bức tường Lâu đài Bowser!
+MsgMain/Mission/Mission_WT2_VL_03	Trick mà không rơi xuống vũng dung nham!
+MsgMain/Mission/Mission_WT3_VL_00	Đua trên đường đầy tay sai của Bowser!
+MsgMain/Mission/Mission_RC_VL_10	Giữ thăng bằng trên dây để thu xu xanh!
+MsgMain/Mission/Mission_RC_VL_15	Né cầu lửa và thu thập xu xanh!
+MsgMain/Mission/Mission_WT2_VL_14	Cho mọi người thấy cách đua trên tường!
+MsgMain/Mission/Mission_RC_FS_03	Thu thập xu xanh trên đường hình số tám!
+MsgMain/Mission/Mission_RC_FS_04	Thu thập xu xanh mà các Wiggler tích trữ!
+MsgMain/Mission/Mission_RC_FS_05	Vượt cảm giác chìm để thu thập xu xanh!
+MsgMain/Mission/Mission_RC_FS_06	Cắt ngang dòng xe và chộp xu xanh!
+MsgMain/Mission/Mission_RC_FS_07	Vơ xu xanh ở hố nước của Skeeter!
+MsgMain/Mission/Mission_RC_FS_08	Gom xu xanh ở khu cắm trại bên sông!
+MsgMain/Mission/Mission_RC_FS_09	Dũng cảm vào rừng ma quái để tìm xu xanh!
+MsgMain/Mission/Mission_WT_FS_02	Len lỏi qua đàn nai sừng tấm thong thả!
+MsgMain/Mission/Mission_WT_FS_03	Cưỡi dây và bay vút đến đích!
+MsgMain/Mission/Mission_WT_FS_04	Chào "hi" tượng Mario khi bay ngang qua!
+MsgMain/Mission/Mission_WT_FS_05	Dùng cánh hoa để lên quả táo khổng lồ!
+MsgMain/Mission/Mission_WT_FS_06	Nhảy, nhảy, nhảy khắp Đường đua Mario!
+MsgMain/Mission/Mission_WT_FS_07	Đuổi theo tàu hỏa và bám đường ray!
+MsgMain/Mission/Mission_WT_FS_08	Né đòn của Spike và đến đích!
+MsgMain/Mission/Mission_WT_FS_09	Luyện nhào lộn và tiếp đất khéo léo!
+MsgMain/Mission/Mission_WT_FS_10	Phiêu lưu chốn hoang dã và đến đích!
+MsgMain/Mission/Mission_WT_FS_11	Dẫn đường đi, Ivy Piranha Plant!
+MsgMain/Mission/Mission_WT_FS_12	Ngược dòng bằng sức mạnh của các ngôi sao!
+MsgMain/Mission/Mission_WT_FS_13	Trượt ray! Bám đường! Đến đích!
+MsgMain/Mission/Mission_WT2_FS_05	Dũng cảm vào khu rừng ma ám!
+MsgMain/Mission/Mission_WT2_FS_06	Lượn qua tán cây!
+MsgMain/Mission/Mission_WT2_FS_07	Đua từ cầu này sang cầu khác trong đầm lầy ma ám!
+MsgMain/Mission/Mission_WT2_FS_08	Nhanh ngược dòng để đến đích!
+MsgMain/Mission/Mission_WT2_FS_09	Cho đầm lầy thấy sức mạnh của Super Star!
+MsgMain/Mission/Mission_WT2_FS_10	Lách và đua tường điêu luyện qua dòng xe!
+MsgMain/Mission/Mission_WT2_FS_11	Vượt các cú nhảy trên đường nhỏ hẹp phía sau!
+MsgMain/Mission/Mission_WT2_FS_12	Xuôi dòng đến Đồi Quả sồi!
+MsgMain/Mission/Mission_WT2_FS_13	Tránh các Piranha Plant trên đường đi!
+MsgMain/Mission/Mission_WT2_FS_14	Len qua dòng xe và các Chargin' Chuck!
+MsgMain/Mission/Mission_WT3_FS_01	Đua quanh bản tri ân Thung lũng Ma 1!
+MsgMain/Mission/Mission_WT3_FS_02	Đua quanh bản tri ân Thung lũng Ma 2!
+MsgMain/Mission/Mission_WT3_FS_03	Đua quanh bản tri ân Thung lũng Ma 3!
+MsgMain/Mission/Mission_WT3_FS_05	Đua trên tuyến đường hoang dã xuyên rừng!
+MsgMain/Mission/Mission_RC_FS_01	Thu thập xu xanh khi xuống thung lũng hoa huệ!
+MsgMain/Mission/Mission_WT_FS_01	Chịu đựng cơn bão quả sồi!
+MsgMain/Mission/Mission_WT2_FS_00	Leo lên, lên, lên trên Ivy Piranha Plant!
+MsgMain/Mission/Mission_WT2_FS_02	Uốn lượn qua các Wiggler trên đường đến đích!
+MsgMain/Mission/Mission_RC_FS_00	Thu thập xu xanh quanh tháp điều khiển!
+MsgMain/Mission/Mission_WT_FS_00	Phóng khỏi quarter pipe và bay thật cao!
+MsgMain/Mission/Mission_WT2_FS_01	Thử sức trong thử thách đua tính giờ khó nhằn!
+MsgMain/Mission/Mission_RC_FS_02	Leo cần cẩu máy quay! Sẵn sàng... Action!
+MsgMain/Mission/Mission_WT2_FS_03	Ghé nhìn vào vũ trụ điện ảnh ma quái!
+MsgMain/Mission/Mission_WT2_FS_04	Trượt ray ra sảnh rạp chiếu phim!
+MsgMain/Mission/Mission_WT3_FS_04	Đua trong trải nghiệm điện ảnh nhập vai thực sự!
+MsgMain/Mission/Mission_RC_IC_05	Trượt slalom xuống dốc và vơ xu xanh!
+MsgMain/Mission/Mission_RC_IC_07	Thu thập xu xanh giữa các Snow Pokey!
+MsgMain/Mission/Mission_RC_IC_09	Thu thập xu xanh khi chim cánh cụt diễu hành!
+MsgMain/Mission/Mission_RC_IC_10	Chạy lên chạy xuống để thu thập xu xanh!
+MsgMain/Mission/Mission_RC_IC_11	Né đòn Frost Piranha để lấy xu xanh!
+MsgMain/Mission/Mission_RC_IC_12	Chộp hết xu xanh của các người tuyết!
+MsgMain/Mission/Mission_RC_IC_13	Chộp xu xanh giữa các đòn Frost Piranha!
+MsgMain/Mission/Mission_RC_IC_14	Khoe trick trên ray khi thu thập xu xanh!
+MsgMain/Mission/Mission_RC_IC_15	Húc qua Fuzzy khi thu thập xu xanh!
+MsgMain/Mission/Mission_RC_IC_16	Chộp xu xanh khi bóng tuyết lăn xuống dốc!
+MsgMain/Mission/Mission_WT2_IC_02	Bay vút cao trên các sườn dốc!
+MsgMain/Mission/Mission_WT2_IC_03	Đua chống đợt tấn công của đàn chim băng!
+MsgMain/Mission/Mission_WT2_IC_04	Tăng tốc qua tuyến băng đồng gồ ghề!
+MsgMain/Mission/Mission_WT2_IC_07	Chú ý gió trên đường đến đích!
+MsgMain/Mission/Mission_WT2_IC_08	Nhanh lên đỉnh núi băng giá!
+MsgMain/Mission/Mission_WT2_IC_09	Len qua các vụ kẹt xe để đến đích!
+MsgMain/Mission/Mission_WT2_IC_10	Đi nhờ tàu hỏa để đến đích!
+MsgMain/Mission/Mission_WT2_IC_15	Dọn đường bằng vài quả cầu lửa!
+MsgMain/Mission/Mission_WT2_IC_16	Lướt qua buổi tập trượt băng!
+MsgMain/Mission/Mission_WT2_IC_17	Cùng bóng tuyết đua xuống dốc!
+MsgMain/Mission/Mission_WT2_IC_18	Coi chừng bóng tuyết nguy hiểm phía trước!
+MsgMain/Mission/Mission_WT2_IC_19	Xuyên qua dòng xe để đến sườn dốc!
+MsgMain/Mission/Mission_WT2_IC_20	Dùng Nấm để lao tới nhà ga!
+MsgMain/Mission/Mission_WT2_IC_22	Chinh phục đường đua lạnh giá trên hồ!
+MsgMain/Mission/Mission_WT2_IC_23	Lướt qua bầu trời và lao đến đích!
+MsgMain/Mission/Mission_WT2_IC_24	Lấy vài Mai rùa xanh để lấy may!
+MsgMain/Mission/Mission_WT2_IC_26	Leo dốc trơn để đến đích!
+MsgMain/Mission/Mission_WT2_IC_30	Dũng cảm đi lối tắt chưa hoàn thiện!
+MsgMain/Mission/Mission_WT2_IC_31	Phô diễn kỹ năng bằng cách lượn thật xa!
+MsgMain/Mission/Mission_WT3_IC_00	Đua quanh bản tri ân Hồ Vanilla!
+MsgMain/Mission/Mission_RC_IC_02	Vòng quanh đài thiên văn và chộp xu xanh!
+MsgMain/Mission/Mission_WT2_IC_05	Coi chừng đòn tấn công của Ice Bro.!
+MsgMain/Mission/Mission_WT2_IC_28	Đạp ga hết cỡ! Tiến lên, tiến lên!
+MsgMain/Mission/Mission_WT_IC_02	Lên đỉnh chiếc ốc quế kem xoay tròn!
+MsgMain/Mission/Mission_WT2_IC_11	Thoát hiểm táo bạo qua hẻm núi kem!
+MsgMain/Mission/Mission_WT2_IC_32	Canh Nấm đúng lúc để xuyên thẳng đến đích!
+MsgMain/Mission/Mission_RC_IC_04	Thu-thu-thu thập xu xanh ở Đèo DK!
+MsgMain/Mission/Mission_WT2_IC_12	Chứng tỏ bản thân trong thử thách kỹ năng ĐẶC BIỆT #5!
+MsgMain/Mission/Mission_WT2_IC_13	Đua qua khán đài vắng để đến đích!
+MsgMain/Mission/Mission_WT2_IC_14	Nhập cuộc thi trượt ván tuyết của Shy Guy!
+MsgMain/Mission/Mission_RC_PL_01	Thu thập xu xanh trong hang động bí ẩn!
+MsgMain/Mission/Mission_WT_PL_02	Đua lên cây cầu đầy Para-Biddybud!
+MsgMain/Mission/Mission_WT2_PL_03	Nhảy, nhảy, nhảy, nhảy, nhảy, nhảy, nhảy... nhảy!
+MsgMain/Mission/Mission_WT2_PL_04	Chứng tỏ bản thân trong thử thách kỹ năng ĐẶC BIỆT #3!
+MsgMain/Mission/Mission_RC_PL_04	Tìm sự thanh tịnh bằng cách thu thập xu xanh!
+MsgMain/Mission/Mission_WT_PL_05	Tìm sự bình yên khi leo thác nước!
+MsgMain/Mission/Mission_WT2_PL_07	Hòa hợp với thế giới bằng cách rung chuông!
+MsgMain/Mission/Mission_RC_RT_03	Thể hiện lái xe chính xác để thu thập xu xanh!
+MsgMain/Mission/Mission_RC_RT_04	Cứu xu xanh khỏi xoáy nước!
+MsgMain/Mission/Mission_RC_RT_05	Dũng cảm vượt bão và thu thập xu xanh!
+MsgMain/Mission/Mission_RC_RT_06	Cẩn thận chộp xu xanh và tận hưởng gió biển!
+MsgMain/Mission/Mission_RC_RT_07	Chộp xu xanh ở nơi nghỉ mát của các Goomba!
+MsgMain/Mission/Mission_RC_RT_08	Phá bữa tiệc xu xanh bên bờ biển!
+MsgMain/Mission/Mission_WT_RT_02	Bay thật cao để đến đích!
+MsgMain/Mission/Mission_WT_RT_03	Đến chỗ nàng tiên cá đang gọi từ bên kia biển!
+MsgMain/Mission/Mission_WT_RT_04	Bay đến Đường đua Salty Salty!
+MsgMain/Mission/Mission_WT_RT_05	Băng qua vách đá hiểm trở để đến Cột đích!
+MsgMain/Mission/Mission_WT_RT_06	Luyện nâng cao kỹ năng lái trên nước!
+MsgMain/Mission/Mission_WT_RT_07	Tin vào gió từ vòi rồng!
+MsgMain/Mission/Mission_WT_RT_08	Phá chốt chặn của Boomerang Bro.!
+MsgMain/Mission/Mission_WT_RT_09	Vượt qua cối xay gió!
+MsgMain/Mission/Mission_WT_RT_10	Lao ra bãi biển! Tiến lên, tiến lên!
+MsgMain/Mission/Mission_WT2_RT_04	Nhảy lấy đà khi các Cheep Cheep cổ vũ!
+MsgMain/Mission/Mission_WT2_RT_05	Du ngoạn các đảo trên đường đến đích!
+MsgMain/Mission/Mission_WT2_RT_06	Lướt sóng khi các Bulber dõi theo!
+MsgMain/Mission/Mission_WT2_RT_07	Làm chủ Lông vũ để đến đích!
+MsgMain/Mission/Mission_WT2_RT_08	Đạp hết ga trên cánh hoa!
+MsgMain/Mission/Mission_WT2_RT_09	Tìm gió biển qua những cối xay gió!
+MsgMain/Mission/Mission_WT2_RT_10	Dũng cảm vượt vòi rồng ngoài khơi!
+MsgMain/Mission/Mission_WT2_RT_11	Parkour trên mái nhà Đường đua Salty Salty!
+MsgMain/Mission/Mission_WT2_RT_12	Đi zigzag xuống dốc để đến đích!
+MsgMain/Mission/Mission_WT2_RT_13	Theo các ống và lối mảnh để đến đích!
+MsgMain/Mission/Mission_WT2_RT_14	Liều đi nhờ lưng các Dragoneel!
+MsgMain/Mission/Mission_WT3_RT_00	Tham gia cuộc đua quanh hòn đảo hoang!
+MsgMain/Mission/Mission_RC_RT_01	Leo xác tàu đắm để lấy xu xanh!
+MsgMain/Mission/Mission_WT_RT_01	Theo đường rải xu để đến đích!
+MsgMain/Mission/Mission_WT2_RT_01	Bay một mạch từ tháp này sang tháp khác!
+MsgMain/Mission/Mission_RC_RT_00	Thu thập xu xanh của nàng tiên cá mê hoặc!
+MsgMain/Mission/Mission_WT_RT_00	Đập vỡ vài chiếc hộp để lấy đà!
+MsgMain/Mission/Mission_WT2_RT_00	Đi lối tắt để không bị ướt và đến đích!
+MsgMain/Mission/Mission_WT2_RT_02	Bay đến tháp chỗ ngồi VIP!
+MsgMain/Mission/Mission_WT2_RT_03	Phóng nấm qua thị trấn đến đích!
+MsgMain/Mission/Mission_WT2_RT_15	Cắt ngang màn trình diễn nước của Shy Guy!
+MsgMain/Mission/Mission_RC_JG_02	Nhờ cá sấu giúp để lấy xu xanh!
+MsgMain/Mission/Mission_RC_JG_03	Trượt theo dây và thu thập xu xanh!
+MsgMain/Mission/Mission_RC_JG_05	Theo các Ivy Piranha Plant đến xu xanh!
+MsgMain/Mission/Mission_RC_JG_06	Trượt ray trong rừng để chộp xu xanh!
+MsgMain/Mission/Mission_RC_JG_07	Hái xu xanh trên bầu trời savan!
+MsgMain/Mission/Mission_RC_JG_08	Đu dây leo Ivy Piranha Plant để chộp xu xanh!
+MsgMain/Mission/Mission_RC_JG_09	Chộp xu xanh mà các Piranha Plant muốn!
+MsgMain/Mission/Mission_RC_JG_10	Coi chừng hươu cao cổ khi phóng đến xu xanh!
+MsgMain/Mission/Mission_RC_JG_11	Quay đầu khéo léo để thu xu xanh kịp lúc!
+MsgMain/Mission/Mission_RC_JG_12	Gom xu xanh ở khu safari bên sông!
+MsgMain/Mission/Mission_RC_JG_13	Thu thập xu xanh quanh cánh đồng mạch nước phun!
+MsgMain/Mission/Mission_WT_JG_02	Bay lên trời và lượn dọc thung lũng sông!
+MsgMain/Mission/Mission_WT_JG_03	Nhảy từ khối sang mây để đến đích!
+MsgMain/Mission/Mission_WT_JG_04	Dũng cảm vượt đàn trâu rừng chạy loạn từ hai phía!
+MsgMain/Mission/Mission_WT_JG_05	Đi zigzag qua đàn ngựa vằn xô đẩy!
+MsgMain/Mission/Mission_WT_JG_06	Tận dụng Lông vũ để đến đích!
+MsgMain/Mission/Mission_WT_JG_07	Bay vút trên thác nước!
+MsgMain/Mission/Mission_WT_JG_08	Liều nhảy qua mép thác nước!
+MsgMain/Mission/Mission_WT_JG_09	Lao dốc từ con triceratops!
+MsgMain/Mission/Mission_WT_JG_10	Nhờ đàn thú giúp để đến đích!
+MsgMain/Mission/Mission_WT_JG_11	Cảm ơn lũ cá sấu vì sự giúp đỡ đáng kể!
+MsgMain/Mission/Mission_WT_JG_12	Đua tường trên thác nước? Biết đâu... được đấy!
+MsgMain/Mission/Mission_WT_JG_13	Né mảnh vụn và drift qua thác nước!
+MsgMain/Mission/Mission_WT2_JG_04	Nhảy vào rồi ra khỏi các tour xuôi sông!
+MsgMain/Mission/Mission_WT2_JG_05	Lượn hết mình! Đừng để T. rex dọa!
+MsgMain/Mission/Mission_WT2_JG_06	Nhờ các con brachiosaurus nâng lên!
+MsgMain/Mission/Mission_WT2_JG_08	Leo thật cao để đến khối trên trời!
+MsgMain/Mission/Mission_WT2_JG_09	Lao từ đá này sang đá khác qua savan nhộn nhịp!
+MsgMain/Mission/Mission_WT2_JG_11	Du hành savan và ghé các thác nước khổng lồ!
+MsgMain/Mission/Mission_WT2_JG_12	Đua địa hình qua khu rừng đầy khủng long!
+MsgMain/Mission/Mission_WT2_JG_13	Đi nhờ chiếc xe tải mất kiểm soát!
+MsgMain/Mission/Mission_WT2_JG_14	Chinh phục lối khó lên núi!
+MsgMain/Mission/Mission_WT3_JG_00	Tham gia cuộc đua sức bền ở savan!
+MsgMain/Mission/Mission_WT3_JG_01	Lướt qua và vượt những chú khủng long hoang dã!
+MsgMain/Mission/Mission_RC_JG_01	Gom xu xanh giữa đống vàng của di tích!
+MsgMain/Mission/Mission_WT_JG_01	Nảy trên những đỉnh mây!
+MsgMain/Mission/Mission_WT2_JG_03	Đua trên con đường hiểm hóc qua di tích cổ!
+MsgMain/Mission/Mission_RC_JG_00	Vượt mái vòm khủng long để đuổi theo xu xanh!
+MsgMain/Mission/Mission_WT2_JG_00	Bay một vòng qua mái vòm và xa hơn nữa!
+MsgMain/Mission/Mission_WT2_JG_01	Chứng tỏ bản thân trong bài thử kỹ năng ĐẶC BIỆT #4!
+MsgMain/Mission/Mission_WT2_JG_02	Cứ tin vào tấm lưng của chúng để đến nơi!
+MsgMain/Mission/Mission_WT2_JG_10	Phóng lên, lên, lên tận tầng mây!
+MsgMain/Mission/Mission_RC_BS_04	Bấm còi nếu bạn thích gom xu xanh!
+MsgMain/Mission/Mission_RC_BS_05	Tìm cách chạy số 8 để lấy xu xanh!
+MsgMain/Mission/Mission_RC_BS_06	Cứu xu xanh khỏi những con sóng xoáy!
+MsgMain/Mission/Mission_RC_BS_08	Thu thập xu xanh trong thử thách đi trên ray hiểm hóc!
+MsgMain/Mission/Mission_RC_BS_09	Luyện lái chính xác để đuổi theo xu xanh!
+MsgMain/Mission/Mission_RC_BS_10	Nhặt xu xanh... và có thể là một chiếc bánh vòng ở cuối?
+MsgMain/Mission/Mission_WT_BS_03	Đua để vượt lên trước thuốc nổ!
+MsgMain/Mission/Mission_WT_BS_04	Mượn vài món nâng cấp để tới đích!
+MsgMain/Mission/Mission_WT_BS_05	Bắt chuyến tàu tốc hành về thành phố!
+MsgMain/Mission/Mission_WT_BS_07	Tìm đường "dây leo" tới chiếc cúp của mọi chiếc cúp!
+MsgMain/Mission/Mission_WT_BS_08	Nảy, nảy, nảy tới một điểm ngắm cảnh tuyệt vời!
+MsgMain/Mission/Mission_WT2_BS_04	Trick trên các phương tiện trên đường tới cảng vũ trụ!
+MsgMain/Mission/Mission_WT2_BS_05	Khám phá đường tắt bí mật bằng thùng ở đường phụ!
+MsgMain/Mission/Mission_WT2_BS_06	Đi theo đường sông tới thành phố!
+MsgMain/Mission/Mission_WT2_BS_07	Lên chuyến bay thuê riêng tới thành phố!
+MsgMain/Mission/Mission_WT2_BS_08	Khéo tay một chút để tới Cột Đích!
+MsgMain/Mission/Mission_WT2_BS_10	Lao qua dòng xe trên những con đường có mái che!
+MsgMain/Mission/Mission_WT2_BS_11	Trick hết mình trong thử thách khó này!
+MsgMain/Mission/Mission_WT2_BS_12	Len qua các đàn cá để tới đích!
+MsgMain/Mission/Mission_WT2_BS_13	Ra bãi biển nào!
+MsgMain/Mission/Mission_WT2_BS_14	Đua trong chặng tính giờ hình số 8!
+MsgMain/Mission/Mission_WT2_BS_15	Chứng tỏ bản thân trong bài thử kỹ năng ĐẶC BIỆT #1!
+MsgMain/Mission/Mission_WT2_BS_16	Đi theo con đường khá thong thả tới đích!
+MsgMain/Mission/Mission_WT2_BS_17	Nảy một mạch tới Bãi biển Koopa Troopa!
+MsgMain/Mission/Mission_WT2_BS_18	Nhận màn chào đón hoành tráng tại Sân Peach!
+MsgMain/Mission/Mission_WT2_BS_19	Thực hiện chuyến đi nguy hiểm tới thành phố xa xôi!
+MsgMain/Mission/Mission_WT2_BS_20	Đâm xuyên các hang ổ Hermity Cone!
+MsgMain/Mission/Mission_WT2_BS_21	Đua qua những con phố đầy khủng long!
+MsgMain/Mission/Mission_WT3_BS_02	Vượt cát và sóng trong cuộc đua ven biển!
+MsgMain/Mission/Mission_RC_BS_03	Thu thập xu xanh trên đường đua chướng ngại nổi!
+MsgMain/Mission/Mission_WT2_BS_03	Trượt ray theo dây thừng lên tận đỉnh!
+MsgMain/Mission/Mission_WT3_BS_01	Đua quanh bản tri ân Bãi biển Koopa 1!
+MsgMain/Mission/Mission_RC_BS_01	Đi theo các ống để lấy xu xanh của bệ phóng!
+MsgMain/Mission/Mission_WT_BS_01	Đua ngược lại qua Cảng Vũ trụ DK!
+MsgMain/Mission/Mission_WT2_BS_01	Nhớ lại DONKEY KONG kinh điển!
+MsgMain/Mission/Mission_RC_BS_00	Gom xu xanh trên những khúc cua của công viên!
+MsgMain/Mission/Mission_RC_BS_02	Trượt trên lan can đô thị để lấy xu xanh!
+MsgMain/Mission/Mission_WT_BS_00	Né tay sai của Bowser trên đường tới đích!
+MsgMain/Mission/Mission_WT_BS_02	Chiếm chỗ đậu xe đó! Nhanh lên!
+MsgMain/Mission/Mission_WT2_BS_00	Dạo parkour quanh Phố Vương miện!
+MsgMain/Mission/Mission_WT2_BS_02	Drift trong bãi đậu xe như một huyền thoại!
+MsgMain/Mission/Mission_WT3_BS_00	Thử sức bền trong cuộc đua khắp thành phố!
+MsgMain/Mission/Mission_RC_PL_05	Duyên dáng nhặt xu xanh giữa những chiếc lá rơi!
+MsgMain/Mission/Mission_RC_PL_06	Nhảy từ dây này sang dây khác để thu xu xanh!
+MsgMain/Mission/Mission_RC_PL_07	Nhặt xu xanh giữa bầy Para-Biddybud!
+MsgMain/Mission/Mission_RC_PL_08	QUÉT CÁNH ĐỒNG. BẮT CÓC XU XANH.
+MsgMain/Mission/Mission_RC_PL_09	Gom xu xanh trên bức tường Thwompy-Whampy!
+MsgMain/Mission/Mission_RC_PL_10	Thu thập xu xanh trên đường đi trên dây!
+MsgMain/Mission/Mission_RC_PL_11	Xuôi theo dòng chảy để thu xu xanh!
+MsgMain/Mission/Mission_RC_PL_12	Nảy lên! Rơi xuống! Chộp xu xanh!
+MsgMain/Mission/Mission_RC_PL_13	Lao xuyên các bó rơm để gom xu xanh!
+MsgMain/Mission/Mission_RC_PL_14	Chộp vài đồng xu xanh dễ... và một đồng khó nhằn!
+MsgMain/Mission/Mission_RC_PL_15	Thu thập xu xanh dọc đường phụ đẹp như tranh!
+MsgMain/Mission/Mission_RC_PL_16	Nhặt xu xanh trên đường tới Hang Bồ công anh!
+MsgMain/Mission/Mission_RC_PL_17	Chơi vài giai điệu trong lúc gom xu xanh!
+MsgMain/Mission/Mission_WT_PL_06	Vượt qua hồ! Đừng thành mồi cho cá!
+MsgMain/Mission/Mission_WT_PL_07	Lướt qua các dốc nhảy và tới đích!
+MsgMain/Mission/Mission_WT_PL_08	Đi qua dưới Bọ Tín Hiệu đúng lúc!
+MsgMain/Mission/Mission_WT_PL_09	Lấy túi mang đi của Yoshi! Hoặc bảy túi! Hoặc mười một túi!
+MsgMain/Mission/Mission_WT_PL_10	Luồn lách qua dòng xe nguy hiểm nhất từ trước tới nay!
+MsgMain/Mission/Mission_WT_PL_11	Tận dụng các phương tiện dọc bờ sông!
+MsgMain/Mission/Mission_WT_PL_12	Chộp lấy xe tải để lao qua các đường tắt!
+MsgMain/Mission/Mission_WT_PL_13	Hứng những gì Super Koopa thả xuống!
+MsgMain/Mission/Mission_WT_PL_14	Để ý đường tắt qua khu vườn của sân vận động!
+MsgMain/Mission/Mission_WT_PL_16	Phóng trên đèo núi trước khi hết giờ!
+MsgMain/Mission/Mission_WT_PL_17	Đua xuống dốc để tới hồ kịp giờ!
+MsgMain/Mission/Mission_WT_PL_19	Bay trên lối bí mật tới Thác Cheep Cheep!
+MsgMain/Mission/Mission_WT_PL_20	Lao ngược sông và tới đích!
+MsgMain/Mission/Mission_WT2_PL_09	Coi chừng! Lại coi chừng! Vẫn phải coi chừng!
+MsgMain/Mission/Mission_WT2_PL_10	Đua trên đường tắt đầy rủi ro!
+MsgMain/Mission/Mission_WT2_PL_11	Để ý thời điểm nhảy của bạn!
+MsgMain/Mission/Mission_WT2_PL_12	Lái dây leo Ivy Piranha Plant về phía đích!
+MsgMain/Mission/Mission_WT2_PL_13	Cho mọi người thấy sườn dốc không phải là cấm địa!
+MsgMain/Mission/Mission_WT2_PL_14	Khoe cách lên tàu cực kỳ nguy hiểm!
+MsgMain/Mission/Mission_WT2_PL_15	Tỏa sáng rực rỡ với sức mạnh Super Star!
+MsgMain/Mission/Mission_WT2_PL_16	Trick hết mình để lên tới đỉnh núi!
+MsgMain/Mission/Mission_WT2_PL_17	Mượn một chiếc thuyền và trở nên bất khả cản phá!
+MsgMain/Mission/Mission_WT2_PL_18	Đuổi theo kẻ đang phá tung khu sân!
+MsgMain/Mission/Mission_WT2_PL_19	Luồn lách qua bầy Chain Chomp!
+MsgMain/Mission/Mission_WT2_PL_20	Đi đường địa hình tới Núi Sô-cô-la!
+MsgMain/Mission/Mission_WT2_PL_22	Lên không trung! Xuống mặt nước!
+MsgMain/Mission/Mission_WT3_PL_00	Đua quanh bản tri ân Đảo Choco 2!
+MsgMain/Mission/Mission_WT3_PL_01	Đua quanh bản tri ân Đảo Choco 1!
+MsgMain/Mission/Mission_WT3_PL_03	Nhảy vào cuộc đua nghiệp dư địa phương!
+MsgMain/Mission/Mission_WT3_PL_04	Coi chừng Dragoneel khi đua trên hồ!
+MsgMain/Mission/Mission_RC_Island_00	Tập trung vào xu xanh giữa biển vàng!
+MsgMain/Mission/Mission_WT_PL_18	Coi chừng sô-cô-la rơi! Và cả đá nữa!
+MsgMain/Mission/Mission_WT2_PL_21	Lao, lao, lao qua lớp sô-cô-la dày đặc!
+MsgMain/Mission/Mission_WT_PL_00	Thông cảm cho sự lộn xộn của bản thử nghiệm mẫu!
+MsgMain/Mission/Mission_WT2_PL_00	Chứng tỏ bản thân trong bài thử kỹ năng ĐẶC BIỆT #2!
+MsgMain/Mission/Mission_WT2_PL_01	Tham quan Nhà máy của Toad!
+MsgMain/Mission/Mission_WT2_PL_02	Đua lên tận đỉnh cần cẩu!
+MsgMain/Mission/Mission_RC_PL_02	Tin rằng cái ống này tồn tại là vì xu xanh!
+MsgMain/Mission/Mission_WT_PL_03	Mooo qua đàn bò!
+MsgMain/Mission/Mission_WT2_PL_05	Nhảy qua đồng cỏ và phóng tới đích!
+MsgMain/Mission/Mission_RC_PL_03	Gom xu xanh quanh tháp điều khiển!
+MsgMain/Mission/Mission_WT_PL_04	Bay lên bầu trời cao trên Sân Peach!
+MsgMain/Mission/Mission_WT2_PL_06	Trick lên tới đỉnh cổng!
+MsgMain/Race/9001	Tiếp tục
+MsgMain/Race/9002	Thoát
+MsgMain/Race/9003	Đổi đường đua
+MsgMain/Race/9004	Đổi nhân vật
+MsgMain/Race/9005	Chơi lại
+MsgMain/Race/9006	Chặng tiếp
+MsgMain/Race/9007	Tiếp
+MsgMain/Race/9008	Thử lại
+MsgMain/Race/9009	Xem replay
+MsgMain/Race/9010	Tiếp tục xem
+MsgMain/Race/9011	Thoát
+MsgMain/Race/9012	Vòng tiếp theo
+MsgMain/Race/9013	Đua với bóng ma
+MsgMain/Race/9014	Xem lại từ đầu
+MsgMain/Race/9015	Bạn có chắc muốn thoát không?
+MsgMain/Race/9016	Tiếp tục theo dõi
+MsgMain/Race/9017	Thoát
+MsgMain/Race/9018	Bắt đầu game
+MsgMain/Race/9019	Tiếp tục dạo chơi
+MsgMain/Race/9020	Thoát dạo chơi
+MsgMain/Race/9021	Đổi luật chơi
+MsgMain/Race/9022	Xem thông tin phòng
+MsgMain/Race/9023	Cài đặt/Tay cầm
+MsgMain/Race/9025	Xem luật chơi
+MsgMain/Race/9026	Quay lại dạo chơi tự do
+MsgMain/Race/9028	Tiếp tục nhiệm vụ
+MsgMain/Race/9029	Thoát nhiệm vụ
+MsgMain/Race/9034	TIẾP
+MsgMain/Race/9035	ĐÍCH
+MsgMain/Race/9036	MỤC TIÊU
+MsgMain/Race/9031	Đã tạo dữ liệu bóng ma mới.
+MsgMain/Race/9032	Đây là kết quả cuộc đua!
+MsgMain/Race/9033	Bạn tụt lại quá xa...
+MsgMain/Race/9037	Một số tay đua tụt lại quá xa...
+MsgMain/Race/9101	Bạn có muốn tải lên\ndữ liệu bóng ma mới không?
+MsgMain/Race/9103	Đang tải lên...
+MsgMain/Race/9104	Đã tải lên dữ liệu bóng ma.
+MsgMain/Race/9105	Không tải được bóng ma.
+MsgMain/Race/9106	{0E 0000 0003 0002 0000}Cúp Đặc biệt{0E 0000 0003 0002 FFFF} đã sẵn sàng!
+MsgMain/Race/9107	{0E 0000 0003 0002 0000}Chế độ Gương {0E 0000 0003 0002 FFFF}đã được mở khóa!
+MsgMain/Race/9201	Quay chậm
+MsgMain/Race/9203	Chuyển
+MsgMain/Race/9204	Tạm dừng
+MsgMain/Race/9205	Bỏ tạm dừng
+MsgMain/Race/9221	Cài đặt
+MsgMain/Race/9222	Lái thông minh
+MsgMain/Race/9223	Bật
+MsgMain/Race/9224	Tắt
+MsgMain/Race/9225	Cảm biến nghiêng
+MsgMain/Race/9226	Bật
+MsgMain/Race/9227	Tắt
+MsgMain/Race/9228	Tự tăng tốc
+MsgMain/Race/9229	Bật
+MsgMain/Race/9230	Tắt
+MsgMain/Race/9231	Tự dùng vật phẩm
+MsgMain/Race/9232	Bật
+MsgMain/Race/9233	Tắt
+MsgMain/Race/9234	Camera ngang
+MsgMain/Race/9235	Bình thường
+MsgMain/Race/9236	Đảo ngược
+MsgMain/Race/9237	Camera dọc
+MsgMain/Race/9238	Bản đồ nhỏ
+MsgMain/Race/9239	Đồ tăng tốc
+MsgMain/Race/9240	Biến hình
+MsgMain/Race/9241	Không biến hình
+MsgMain/Race/9281	Dùng đồ
+MsgMain/Race/9282	Lái
+MsgMain/Race/9284	Tăng tốc
+MsgMain/Race/9301	Chặng 1
+MsgMain/Race/9302	Chặng 2
+MsgMain/Race/9303	Chặng 3
+MsgMain/Race/9304	Chặng 4
+MsgMain/Race/9305	Chặng 5
+MsgMain/Race/9306	Chặng 6
+MsgMain/Race/9307	Chặng 7
+MsgMain/Race/9308	Chặng 8
+MsgMain/Race/9309	Chặng 9
+MsgMain/Race/9310	Chặng 10
+MsgMain/Race/9311	Chặng 11
+MsgMain/Race/9312	Chặng 12
+MsgMain/Race/9313	Chặng 13
+MsgMain/Race/9314	Chặng 14
+MsgMain/Race/9315	Chặng 15
+MsgMain/Race/9316	Chặng 16
+MsgMain/Race/9317	Chặng 17
+MsgMain/Race/9318	Chặng 18
+MsgMain/Race/9319	Chặng 19
+MsgMain/Race/9320	Chặng 20
+MsgMain/Race/9321	Chặng 21
+MsgMain/Race/9322	Chặng 22
+MsgMain/Race/9323	Chặng 23
+MsgMain/Race/9324	Chặng 24
+MsgMain/Race/9325	Chặng 25
+MsgMain/Race/9326	Chặng 26
+MsgMain/Race/9327	Chặng 27
+MsgMain/Race/9328	Chặng 28
+MsgMain/Race/9329	Chặng 29
+MsgMain/Race/9330	Chặng 30
+MsgMain/Race/9331	Chặng 31
+MsgMain/Race/9399	Chặng cuối
+MsgMain/Race/9401	Vòng 1
+MsgMain/Race/9402	Vòng 2
+MsgMain/Race/9403	Vòng 3
+MsgMain/Race/9404	Vòng 4
+MsgMain/Race/9405	Vòng 5
+MsgMain/Race/9406	Vòng 6
+MsgMain/Race/9407	Vòng 7
+MsgMain/Race/9499	Vòng cuối
+MsgMain/Race/9501	Hãy nhắm tới vị trí {0E 0000 0003 0002 0004}nhất{0E 0000 0003 0002 FFFF}!
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}Đạt{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}hạng 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}trở lên!{0E 0000 0002 0002 0064}
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}Đạt{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}hạng 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}trở lên!{0E 0000 0002 0002 0064}
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}Đạt{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}hạng 12{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}trở lên!{0E 0000 0002 0002 0064}
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}Đạt{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}hạng 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}trở lên!{0E 0000 0002 0002 0064}
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}Đạt{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}hạng 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}trở lên!{0E 0000 0002 0002 0064}
+MsgMain/Race/9604	Bạn không nằm trong top 4.
+MsgMain/Race/9608	Bạn không nằm trong top 8.
+MsgMain/Race/9612	Bạn không nằm trong top 12.
+MsgMain/Race/9616	Bạn không nằm trong top 16.
+MsgMain/Race/9620	Bạn không nằm trong top 20.
+MsgMain/Race/9701	Xin chào!
+MsgMain/Race/9702	Chúc may mắn!
+MsgMain/Race/9703	Chào mừng!
+MsgMain/Race/9704	Nhẹ tay nhé!
+MsgMain/Race/9705	Tôi sẽ cố hết sức!
+MsgMain/Race/9706	Đi nào!
+MsgMain/Race/9707	Chờ thêm người chơi nhé.
+MsgMain/Race/9709	Tôi hơi hồi hộp...
+MsgMain/Race/9710	Tôi háo hức quá!
+MsgMain/Race/9711	Tôi sẽ chụp ảnh!
+MsgMain/Race/9712	Hoan hô!
+MsgMain/Race/9713	Vui quá!
+MsgMain/Race/9714	Chơi hay lắm!
+MsgMain/Race/9715	Tiếc quá!
+MsgMain/Race/9716	Bất công!
+MsgMain/Race/9717	Thêm một lần nữa!
+MsgMain/Race/9718	Lần sau tôi sẽ thắng bạn!
+MsgMain/Race/9719	Đây là ván cuối của tôi.
+MsgMain/Race/9720	Tôi đi đây.
+MsgMain/Race/9721	Cảm ơn đã chơi!
+MsgMain/Race/9722	Cảm ơn bạn!
+MsgMain/Race/9723	Chúc ngủ ngon!
+MsgMain/Race/9724	Tạm biệt!
+MsgMain/Race/9726	Bạn giỏi quá!
+MsgMain/Race/9727	Tuyệt vời!
+MsgMain/Race/9728	Coi chừng!
+MsgMain/Race/9729	Cố lên!
+MsgMain/Race/9730	Cứ như thế!
+MsgMain/Race/9731	Nhanh lên!
+MsgMain/Race/9732	Nhìn sau lưng kìa!
+MsgMain/Race/9733	Hay lắm!
+MsgMain/Race/9750	Tôi đang chụp ảnh!
+MsgMain/Race/9751	Tôi đang đua!
+MsgMain/Race/9752	Tôi đang đấu battle!
+MsgMain/Race/9753	Tôi đang theo dõi!
+MsgMain/Race/9936	TRỰC TIẾP
+MsgMain/Race/9939	ÁI!
+MsgMain/Race/9940	TRÚNG RỒI!
+MsgMain/Sticker/10000	Bạn đã bắt đầu chơi Mario Kart World!
+MsgMain/Sticker/10001	Bạn đã thu thập tổng cộng {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}{0E 0001 0000 0004 0000 0000}!
+MsgMain/Sticker/10002	Bạn đã thực hiện tổng cộng {0E 0001 0000 0004 0000 0000} lần trick!
+MsgMain/Sticker/10004	Bạn đã lái tổng cộng {0E 0001 0000 0004 0000 0000} km!
+MsgMain/Sticker/10005	Bạn đã lượn tổng cộng {0E 0001 0000 0004 0000 0000} km!
+MsgMain/Sticker/10006	Bạn đã đua tổng cộng {0E 0001 0000 0004 0000 0000} lần!
+MsgMain/Sticker/10008	Bạn đã kích hoạt một Ô ?!
+MsgMain/Sticker/10009	Bạn đã nhận Huy chương Peach!
+MsgMain/Sticker/10011	Bạn đã bắt được Nabbit!
+MsgMain/Sticker/10012	Bạn đã vượt qua thử thách Chargin' Chuck!
+MsgMain/Sticker/10013	Bạn đã xong một nhiệm vụ!
+MsgMain/Sticker/10014	Bạn đã đua ở Cúp Đặc biệt!
+LayoutMsg/ChatSelectBtn_00/T_Text_02	Xem người về nhất.
+LayoutMsg/ChatSelectBtn_00/T_Text_03	Xem người về nhất.
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_01/T_Btn_00	Chơi LAN
+LayoutMsg/DialogUseCamera_00/T_MainText_00	Dùng camera?
+LayoutMsg/DialogUseCamera_00/T_SubText_00	Bạn phải tham gia GameChat để dùng\ncamera trực tuyến. Hình ảnh camera và âm thanh\nmic chỉ được gửi cho thành viên GameChat khác.
+LayoutMsg/FaceSelect_00/T_Text_00	Hãy căn con trỏ vào khuôn mặt bạn.
+LayoutMsg/FaceSelect_00/T_Text_01	Hãy kiểm tra camera.
+LayoutMsg/OnlineMenu_00/L_Btn_04/T_Btn_00	Sự kiện
+MsgMain/Help/Rule_207	Thổi bay bóng bay của đối thủ!
+MsgMain/Help/Rule_307	Trận battle chỉ dùng Bob-omb, bạn có thể\ncầm tối đa 10 Bob-omb cùng lúc.
+MsgMain/Help/Rule_407	Bob-omb bay xa bao nhiêu tùy vào việc\nbạn giữ {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} lâu thế nào.
+Ver110/Ver110/VideoChat_04	Hãy kiểm tra camera.
+Ver110/Ver110/VideoChat_06	Hãy căn con trỏ vào khuôn mặt bạn.
+Ver110/Ver110/VideoChat_07	Thu phóng
+Ver110/Ver110/VideoChat_09	Di chuyển
+Ver110/Ver110/VideoChat_10	Dùng camera?
+Ver110/Ver110/VideoChat_11	Bật camera
+Ver110/Ver110/VideoChat_12	Tắt camera
+Ver110/Ver110/VideoChat_13	Bạn phải tham gia GameChat để dùng\ncamera trực tuyến. Hình ảnh camera và âm thanh\nmic chỉ được gửi cho thành viên GameChat khác.
+Ver110/Ver110/VideoChat_14	Nhấn nút C để\nmở GameChat.
+Ver120/Ver120/Championship_01	Sự kiện
+Ver120/Ver120/Championship_02	Tìm sự kiện
+Ver120/Ver120/Championship_03	Hãy nhập ID sự kiện.
+Ver120/Ver120/Championship_04	Đã tìm thấy!
+Ver120/Ver120/Championship_05	Không tìm thấy sự kiện\nvới ID đã nhập.
+Ver120/Ver120/Championship_06	Bật/tắt chi tiết
+Ver120/Ver120/Championship_07	Luyện tập cho tới khi\nsự kiện bắt đầu?
+Ver120/Ver120/Championship_08	Sự kiện đã kết thúc.
+Ver120/Ver120/Championship_09	Bạn đã hoàn thành\nsố chặng quy định.
+Ver120/Ver120/Championship_10	Sự kiện đã bắt đầu!
+Ver120/Ver120/Championship_12	64 chặng
+Ver120/Ver120/Championship_13	128 chặng
+Ver120/Ver120/Championship_14	Vô hạn
+Ver120/Ver120/Championship_15	Không thể tham gia sự kiện.
+Ver120/Ver120/Championship_23	Số chặng tối đa
+Ver120/Ver120/Championship_24	Số vòng tối đa
+Ver120/Ver120/Championship_17	12 vòng
+Ver120/Ver120/Championship_18	16 vòng
+Ver120/Ver120/Championship_19	32 vòng
+Ver120/Ver120/Championship_20	64 vòng
+Ver120/Ver120/Championship_21	128 vòng
+Ver120/Ver120/Championship_22	Chỉ đường đua khép kín
+Ver120/Ver120/Spectate_01	Chọn tay đua để theo dõi
+Ver120/Ver120/Spectate_02	Dẫn đầu
+Ver120/Ver120/VSRace_01	Chỉ Mushroom
+Ver120/Ver120/TimeTrials_01	Đua với bóng ma
+Ver120/Ver120/TimeTrials_02	Xem replay
+Ver130/Ver130/Join_01	Phòng đã đầy. Vui lòng chờ...
+Ver130/Ver130/FreeRun_01	Bắt đầu nhiệm vụ
+Ver140/Bgm/BgmTitle_54	Lâu đài Bowser: Sân chính
+Ver140/Bgm/BgmTitle_61	Thung lũng Ma
+Ver140/Bgm/BgmTitle_65	Hồ Vanilla
+Ver140/Bgm/BgmTitle_67	Bãi biển Koopa
+Ver140/Bgm/BgmTitle_68	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_69	Đảo Choco (Samba Ver.)
+Ver140/Bgm/BgmTitle_71	Đảo Choco (Bossa Nova Ver.)
+Ver140/Bgm/BgmTitle_124	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_126	Lâu đài Bowser
+Ver140/Bgm/BgmTitle_133	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_135	Bãi biển Koopa Troopa (Rock Ver.)
+Ver140/Bgm/BgmTitle_142	Bãi biển Koopa Troopa (Electro Ver.)
+Ver140/Bgm/BgmTitle_146	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_166	Lâu đài Bowser
+Ver140/Bgm/BgmTitle_172	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_179	Đường đua Mario
+Ver140/Bgm/BgmTitle_188	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_207	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_213	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_236	Pháo đài Tàu bay
+Ver140/Bgm/BgmTitle_237	Đồi Quả sồi
+Ver140/Bgm/BgmTitle_238	Hang Bồ công anh
+Ver140/Bgm/BgmTitle_239	Sân Peach
+Ver140/Bgm/BgmTitle_240	Núi Sô-cô-la
+Ver140/Bgm/BgmTitle_241	Rạp chiếu Boo
+Ver140/Bgm/BgmTitle_242	Đỉnh Ga Còi
+Ver140/Bgm/BgmTitle_243	Đồi Sa mạc
+Ver140/Bgm/BgmTitle_244	Dry Bones Rực Lửa
+Ver140/Bgm/BgmTitle_245	Rừng Dino Dino
+Ver140/Bgm/BgmTitle_246	Ốc đảo Xa xôi
+Ver140/Bgm/BgmTitle_247	Đèo DK
+Ver140/Bgm/BgmTitle_248	Cảng Vũ trụ DK
+Ver140/Bgm/BgmTitle_249	Đường đua Mario Bros.
+Ver140/Bgm/BgmTitle_250	Tháp Kem Chọc Trời
+Ver140/Bgm/BgmTitle_251	Bãi biển Koopa Troopa
+Ver140/Bgm/BgmTitle_252	Đường đua Salty Salty
+Ver140/Bgm/BgmTitle_253	Lâu đài Bowser
+Ver140/Bgm/BgmTitle_254	Đồng cỏ Moo Moo
+Ver140/Bgm/BgmTitle_255	Bãi biển Peach
+Ver140/Bgm/BgmTitle_256	Thác Cheep Cheep
+Ver140/Bgm/BgmTitle_257	Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_258	Đường đua Mario
+Ver140/Bgm/BgmTitle_259	Chợ Shy Guy
+Ver140/Bgm/BgmTitle_260	Đỉnh Ngắm Sao
+Ver140/Bgm/BgmTitle_261	Tàn tích Khối ? Khổng lồ
+Ver140/Bgm/BgmTitle_262	Nhà máy của Toad
+Ver140/Bgm/BgmTitle_263	Tàu buồm Wario
+Ver140/Bgm/BgmTitle_264	Sân Wario
+Ver140/Bgm/BgmTitle_265	Phố Vương miện
+Ver140/Bgm/BgmTitle_269	Tới Đường Cầu Vồng
+Ver140/Bgm/BgmTitle_270	Đảo Choco
+Ver140/Bgm/BgmTitle_271	Đường đua Mario
+Ver140/Bgm/BgmTitle_272	Thung lũng Ma
+Ver140/Bgm/BgmTitle_273	Hồ Vanilla
+Ver140/Bgm/BgmTitle_274	Bãi biển Koopa Troopa
+Ver140/Ver140/ItemSwitch_01	Chọn vật phẩm
+Ver140/Ver140/ItemSwitch_02	Ngẫu nhiên
+Ver140/Ver140/ItemSwitch_03	Bật tất cả
+Ver140/Ver140/ItemSwitch_04	Tắt tất cả
+Ver140/Ver140/BGMVolume_01	Âm lượng nhạc
+Ver140/Ver140/BGMVolume_02	Bình thường
+Ver140/Ver140/BGMVolume_03	To
+Ver140/Ver140/Accompany_01	Chỉ phòng
+Ver140/Ver140/Accompany_02	Mọi người
+Ver140/Ver140/Accompany_03	Dẫn cả phòng đi cùng\nchơi với người chơi online khác?
+Ver140/Ver140/Accompany_04	Chỉ tối đa bốn người chơi\ncó thể cùng vào chơi online.
+Ver140/Ver140/Accompany_05	Đang tham gia cùng người chơi online khác.
+Ver160/Ver160/BattleRule_01	Bob-omb Nổ Tung
+Ver170/Ver170/PhotoMode170_00	Nhãn dán
+Ver170/Ver170/PhotoMode170_02	Đặt lại
+Ver170/Ver170/PhotoMode_Dialog_Reset_00	Xóa mọi chỉnh sửa?
+Ver170/Ver170/PhotoMode_Dialog_Reset_01	Có
+Ver170/Ver170/PhotoMode_Dialog_Reset_02	Không
+Ver170/Ver170/PhotoSticker_01	Xong
+Ver170/Ver170/PhotoSticker_03	Menu nhãn dán
+Ver170/Ver170/PhotoSticker_06	Quay lại
+Ver170/Ver170/PhotoSticker_08	Kích thước
+Ver170/Ver170/PhotoSticker_10	Nghiêng
+Ver170/Ver170/PhotoSticker_12	Đặt
+Ver170/Ver170/Name_GP17	{0E 0000 0002 0002 005F}Rally Mũi Khoan
+Ver170/Ver170/Name_GP18	{0E 0000 0002 0002 005F}Rally Boomerang
+Ver170/Ver170/SpectatingMode_01	Chế độ theo dõi
+Ver170/Ver170/SpectatingMode_02	Bắt đầu theo dõi?\n\nBạn sẽ không thể chơi\ntrong khi theo dõi.
+Ver170/Ver170/SpectatingMode_03	Dừng theo dõi?
+Ver170/Ver170/SpectatingMode_04	Phòng đã đầy. Vui lòng thử\nlại khi còn chỗ.
+Ver170/Ver170/SpectatingMode_05	Không thể chuyển.
+Ver170/Ver170/SpectatingMode_06	Hiện có người chơi đang\ntheo dõi nên bạn không thể\nchọn Mọi người.
+Ver170/Ver170/SpectatingMode_07	Không còn đủ\nngười chơi.
+Ver180/Ver180/Name_GP19	{0E 0000 0002 0002 005F}Rally Cánh Quạt
+Ver180/Ver180/Name_GP20	{0E 0000 0002 0002 005F}Rally Củ Cải
+Ver180/Ver180/Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 1
+Ver180/Ver180/Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 2
+Ver180/Ver180/Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 3
+Ver180/Ver180/Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 1
+Ver180/Ver180/Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 2
+Ver180/Ver180/Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 3
+Ver180/Ver180/Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đảo Choco 1
+Ver180/Ver180/Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đảo Choco 2
+Ver180/Ver180/Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Hồ Vanilla 1
+Ver180/Ver180/Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Bãi biển Koopa 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 2
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đường đua Mario 3
+Ver180/Ver180/Adjust_Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 1
+Ver180/Ver180/Adjust_Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 2
+Ver180/Ver180/Adjust_Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Thung lũng Ma 3
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đảo Choco 1
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Đảo Choco 2
+Ver180/Ver180/Adjust_Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Hồ Vanilla 1
+Ver180/Ver180/Adjust_Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} Bãi biển Koopa 1
+Ver180/Ver180/PhotoMode_Filter_00	Bộ lọc
+Ver180/Ver180/PhotoMode_Filter_01	Bộ lọc: 1
+Ver180/Ver180/PhotoMode_Filter_02	Bộ lọc: 2
+Ver180/Ver180/PhotoMode_Filter_03	Bộ lọc: 3
+Ver180/Ver180/PhotoMode_Filter_04	Bộ lọc: 4
+Ver180/Ver180/PhotoMode_Filter_05	Bộ lọc: 5
+Ver180/Ver180/PhotoMode_Filter_06	Bộ lọc: 6
+Ver180/Ver180/PhotoMode_Filter_07	Bộ lọc: 7
+Ver180/Ver180/PhotoMode_Filter_08	Bộ lọc: 8

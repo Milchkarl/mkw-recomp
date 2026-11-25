@@ -1,0 +1,1655 @@
+# Hindi for the game's own texts (tools/i18n/game_texts.py): "label<TAB>text", over the game's British English
+# (EUen), in Devanagari: the build writes each syllable as its private-use character (devanagari.py) and the
+# fonts get Noto Sans Devanagari's syllables (game_fonts_hi.py). Control tags as the dump gives them.
+LayoutMsg/ChatSelectBtn_00/T_Text_02	पहले स्थान वाले को देखें।
+LayoutMsg/ChatSelectBtn_00/T_Text_03	पहले स्थान वाले को देखें।
+LayoutMsg/Damage_00/T_Msg_00	ओह!
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_00/T_Btn_00	ग्रां प्री
+LayoutMsg/DemoMenuGameSelect_00/DemoMenuGameSelect_00:L_Btn_01/T_Btn_00	LAN प्ले
+LayoutMsg/DialogTimeAttack_00/DialogTimeAttack_00:L_DialogBtn_02/T_Text_00	OK
+LayoutMsg/DialogUseCamera_00/T_MainText_00	कैमरा इस्तेमाल करें?
+LayoutMsg/DialogUseCamera_00/T_SubText_00	ऑनलाइन कैमरा इस्तेमाल करने के लिए\nGameChat से जुड़ना होगा। कैमरा वीडियो और माइक\nकी आवाज़ सिर्फ़ दूसरे GameChat सदस्यों को भेजी जाएगी।
+LayoutMsg/Dialog_00/L_DialogBtnC_00/T_Text_00	OK
+LayoutMsg/Dialog_00/T_Group_00	रूम ID
+LayoutMsg/FaceSelect_00/T_Text_00	कृपया कर्सर को अपने चेहरे पर रखें।
+LayoutMsg/FaceSelect_00/T_Text_01	कृपया कैमरा जाँचें।
+LayoutMsg/FriendList_00/T_Friend_00	वे
+LayoutMsg/FriendList_00/T_Rec_00	बैटल इतिहास
+LayoutMsg/FriendList_00/T_You_00	आप
+LayoutMsg/FriendList_00/FriendList_00:L_Go_00/T_Text_00	जुड़ें
+LayoutMsg/FriendList_00/T_Rec_01	प्रतिभागी
+LayoutMsg/Hit_00/T_Msg_00	लग गया!
+LayoutMsg/MenuGameSelect_01/T_Msg_00	चार रेस वाले कप में गोल्ड जीतें!
+LayoutMsg/MenuGameSelect_01/T_Msg_01	सहनशक्ति की रेस में आगे बने रहें!
+LayoutMsg/MenuGameSelect_01/T_Msg_02	अकेले रेस करके नए रिकॉर्ड बनाएँ!
+LayoutMsg/MenuGameSelect_01/T_Msg_03	अपने नियमों से रेस करें!
+LayoutMsg/MenuGameSelect_01/T_Msg_04	अपने नियमों से बैटल करें!
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_00/T_Btn_00	तकनीकें
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_01/T_Btn_00	आइटम
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_02/T_Btn_00	नियम
+LayoutMsg/MenuManual_00/MenuManual_00:L_Headline_03/T_Btn_00	फ़्री रोम
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_00/T_Btn_00	सिंगल प्लेयर
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_01/T_Btn_00	मल्टीप्लेयर
+LayoutMsg/MenuPlayModeSelect_00/MenuPlayModeSelect_00:L_Btn_02/T_Btn_00	ऑनलाइन प्ले
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_00/T_Text_00	अकेले रेस
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_01/T_Text_00	घोस्ट से रेस
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_02/T_Text_00	घोस्ट देखें
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_03/T_Text_00	रैंकिंग देखें
+LayoutMsg/MenuTimeAttack_00/MenuTimeAttack_00:L_MenuBtn_04/T_Text_00	घोस्ट डेटा अपलोड करें
+LayoutMsg/OnlineMenu_00/L_Btn_00/T_Btn_00	रेस
+LayoutMsg/OnlineMenu_00/L_Btn_01/T_Btn_00	नॉकआउट टूर
+LayoutMsg/OnlineMenu_00/L_Btn_02/T_Btn_00	बैटल
+LayoutMsg/OnlineMenu_00/L_Btn_03/T_Btn_00	दोस्त
+LayoutMsg/OnlineMenu_00/L_Btn_04/T_Btn_00	इवेंट
+LayoutMsg/PhotoMode_00/T_Attention_00	कैमरे की ओर देखें
+LayoutMsg/PhotoMode_00/T_End_00	समाप्त
+LayoutMsg/PhotoMode_00/T_Face_00	भाव
+LayoutMsg/PhotoMode_00/T_Gide_00	गाइड
+LayoutMsg/PhotoMode_00/T_Posechange_00	पोज़
+LayoutMsg/PhotoMode_00/T_Roll_00	झुकाव
+LayoutMsg/PhotoMode_00/T_Take_00	फ़ोटो लें
+LayoutMsg/PhotoMode_00/T_Zoom_00	ज़ूम
+LayoutMsg/Retry_00/T_Retry_00	फिर कोशिश करें
+LayoutMsg/RuleSelect_00/T_Change_00	नियम चुनें
+LayoutMsg/TeamSelect_00/TeamSelect_00:$DialogBtnS_00/T_Text_00	OK
+LayoutMsg/TitleLogo_00/T_Press_00	शुरू करने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ
+MsgMain/BattleCourse/1701	मारियो ब्रदर्स सर्किट
+MsgMain/BattleCourse/1702	चेन चॉम्प डेज़र्ट
+MsgMain/BattleCourse/1703	पीच स्टेडियम
+MsgMain/BattleCourse/1704	डिनो डिनो जंगल
+MsgMain/BattleCourse/1705	बिग डोनट
+MsgMain/BattleCourse/1706	सॉल्टी सॉल्टी स्पीडवे
+MsgMain/BattleCourse/1707	मू मू मेडोज़
+MsgMain/BattleCourse/1708	डीके पास
+MsgMain/Course(adjust)/Adjust_Name_Race_AirshipFortress_A_00	एयरशिप फ़ोर्ट्रेस
+MsgMain/Course(adjust)/Adjust_Name_Race_BigTree_A_00	एकॉर्न हाइट्स
+MsgMain/Course(adjust)/Adjust_Name_Race_Cave_A_00	डैंडेलियन डेप्थ्स
+MsgMain/Course(adjust)/Adjust_Name_Race_Central_A_00	पीच स्टेडियम
+MsgMain/Course(adjust)/Adjust_Name_Race_ChocoMountain_A_00	चोको माउंटेन
+MsgMain/Course(adjust)/Adjust_Name_Race_Cinema_A_00	बू सिनेमा
+MsgMain/Course(adjust)/Adjust_Name_Race_Coaster_A_00	विसलस्टॉप समिट
+MsgMain/Course(adjust)/Adjust_Name_Race_DesertHills_A_00	डेज़र्ट हिल्स
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoBones_A_00	ड्राई बोन्स बर्नआउट
+MsgMain/Course(adjust)/Adjust_Name_Race_DinoDinoJungle_A_00	डिनो डिनो जंगल
+MsgMain/Course(adjust)/Adjust_Name_Race_DKJungleParkway_A_00	फ़ेयरअवे ओएसिस
+MsgMain/Course(adjust)/Adjust_Name_Race_DKPass_A_00	डीके पास
+MsgMain/Course(adjust)/Adjust_Name_Race_DonkeyKong_A_00	डीके स्पेसपोर्ट
+MsgMain/Course(adjust)/Adjust_Name_Race_FirstCircuit_A_00	मारियो ब्रदर्स सर्किट
+MsgMain/Course(adjust)/Adjust_Name_Race_IceBuildings_A_00	स्काई-हाई संडे
+MsgMain/Course(adjust)/Adjust_Name_Race_KoopaTroopaBeach_A_00	कूपा ट्रूपा बीच
+MsgMain/Course(adjust)/Adjust_Name_Race_LagoonCity_A_00	सॉल्टी सॉल्टी स्पीडवे
+MsgMain/Course(adjust)/Adjust_Name_Race_Lava_A_00	बाउज़र कैसल
+MsgMain/Course(adjust)/Adjust_Name_Race_MooMooFarm_A_00	मू मू मेडोज़
+MsgMain/Course(adjust)/Adjust_Name_Race_RaftingRiver_A_00	चीप चीप फ़ॉल्स
+MsgMain/Course(adjust)/Adjust_Name_Race_Rainbow_A_00	रेनबो रोड
+MsgMain/Course(adjust)/Adjust_Name_Race_SFCMarioCircuit_G_00	मारियो सर्किट
+MsgMain/Course(adjust)/Adjust_Name_Race_ShyGuyBazaar_A_00	शाई गाई बाज़ार
+MsgMain/Course(adjust)/Adjust_Name_Race_SnowMountain_A_00	स्टारव्यू पीक
+MsgMain/Course(adjust)/Adjust_Name_Race_StormClouds_A_00	ग्रेट ? ब्लॉक रुइन्स
+MsgMain/Course(adjust)/Adjust_Name_Race_ToadFactory_A_00	टोड फ़ैक्टरी
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioShipyard_A_00	वारियो गैलियन
+MsgMain/Course(adjust)/Adjust_Name_Race_WarioStadium_A_00	वारियो स्टेडियम
+MsgMain/Course(adjust)/Adjust_Name_Race_WestCity_D_00	क्राउन सिटी
+MsgMain/Course(adjust)/Adjust_Name_Race_PeachBeach_D_00	पीच बीच
+MsgMain/Course/Name_Race_AirshipFortress_A_00	एयरशिप फ़ोर्ट्रेस
+MsgMain/Course/Name_Race_BigTree_A_00	एकॉर्न हाइट्स
+MsgMain/Course/Name_Race_Cave_A_00	डैंडेलियन डेप्थ्स
+MsgMain/Course/Name_Race_Central_A_00	पीच स्टेडियम
+MsgMain/Course/Name_Race_ChocoMountain_A_00	चोको माउंटेन
+MsgMain/Course/Name_Race_Cinema_A_00	बू सिनेमा
+MsgMain/Course/Name_Race_Coaster_A_00	विसलस्टॉप समिट
+MsgMain/Course/Name_Race_DesertHills_A_00	डेज़र्ट हिल्स
+MsgMain/Course/Name_Race_DinoBones_A_00	ड्राई बोन्स बर्नआउट
+MsgMain/Course/Name_Race_DinoDinoJungle_A_00	डिनो डिनो जंगल
+MsgMain/Course/Name_Race_DKJungleParkway_A_00	फ़ेयरअवे ओएसिस
+MsgMain/Course/Name_Race_DKPass_A_00	डीके पास
+MsgMain/Course/Name_Race_DonkeyKong_A_00	डीके स्पेसपोर्ट
+MsgMain/Course/Name_Race_FirstCircuit_A_00	मारियो ब्रदर्स सर्किट
+MsgMain/Course/Name_Race_IceBuildings_A_00	स्काई-हाई संडे
+MsgMain/Course/Name_Race_KoopaTroopaBeach_A_00	कूपा ट्रूपा बीच
+MsgMain/Course/Name_Race_LagoonCity_A_00	सॉल्टी सॉल्टी स्पीडवे
+MsgMain/Course/Name_Race_Lava_A_00	बाउज़र कैसल
+MsgMain/Course/Name_Race_MooMooFarm_A_00	मू मू मेडोज़
+MsgMain/Course/Name_Race_RaftingRiver_A_00	चीप चीप फ़ॉल्स
+MsgMain/Course/Name_Race_Rainbow_A_00	रेनबो रोड
+MsgMain/Course/Name_Race_SFCMarioCircuit_G_00	मारियो सर्किट
+MsgMain/Course/Name_Race_ShyGuyBazaar_A_00	शाई गाई बाज़ार
+MsgMain/Course/Name_Race_SnowMountain_A_00	स्टारव्यू पीक
+MsgMain/Course/Name_Race_StormClouds_A_00	ग्रेट ? ब्लॉक रुइन्स
+MsgMain/Course/Name_Race_ToadFactory_A_00	टोड फ़ैक्टरी
+MsgMain/Course/Name_Race_WarioShipyard_A_00	वारियो गैलियन
+MsgMain/Course/Name_Race_WarioStadium_A_00	वारियो स्टेडियम
+MsgMain/Course/Name_Race_WestCity_D_00	क्राउन सिटी
+MsgMain/Course/Name_Race_PeachBeach_D_00	पीच बीच
+MsgMain/CourseArea(adjust)/Name_AirshipFortress_00	एयरशिप फ़ोर्ट्रेस
+MsgMain/CourseArea(adjust)/Name_BigTree_00	एकॉर्न हाइट्स
+MsgMain/CourseArea(adjust)/Name_Cave_00	डैंडेलियन डेप्थ्स
+MsgMain/CourseArea(adjust)/Name_Central_00	पीच स्टेडियम
+MsgMain/CourseArea(adjust)/Name_ChocoMountain_00	चोको माउंटेन
+MsgMain/CourseArea(adjust)/Name_Cinema_00	बू सिनेमा
+MsgMain/CourseArea(adjust)/Name_Coaster	विसलस्टॉप समिट
+MsgMain/CourseArea(adjust)/Name_DesertHills_00	डेज़र्ट हिल्स
+MsgMain/CourseArea(adjust)/Name_DinoBones_00	ड्राई बोन्स बर्नआउट
+MsgMain/CourseArea(adjust)/Name_DinoDinoJungle_00	डिनो डिनो जंगल
+MsgMain/CourseArea(adjust)/Name_DKJungleParkway_00	फ़ेयरअवे ओएसिस
+MsgMain/CourseArea(adjust)/Name_DKPass_00	डीके पास
+MsgMain/CourseArea(adjust)/Name_DonkeyKong	डीके स्पेसपोर्ट
+MsgMain/CourseArea(adjust)/Name_FirstCircuit	मारियो ब्रदर्स सर्किट
+MsgMain/CourseArea(adjust)/Name_IceBuildings_00	स्काई-हाई संडे
+MsgMain/CourseArea(adjust)/Name_KoopaTroopaBeach_00	कूपा ट्रूपा बीच
+MsgMain/CourseArea(adjust)/Name_LagoonCity_00	सॉल्टी सॉल्टी स्पीडवे
+MsgMain/CourseArea(adjust)/Name_Lava_00	बाउज़र कैसल
+MsgMain/CourseArea(adjust)/Name_MooMooFarm_00	मू मू मेडोज़
+MsgMain/CourseArea(adjust)/Name_PeachBeach_00	पीच बीच
+MsgMain/CourseArea(adjust)/Name_RaftingRiver_00	चीप चीप फ़ॉल्स
+MsgMain/CourseArea(adjust)/Name_Rainbow_00	रेनबो रोड
+MsgMain/CourseArea(adjust)/Name_SFCMarioCircuit_00	मारियो सर्किट
+MsgMain/CourseArea(adjust)/Name_ShyGuyBazaar_00	शाई गाई बाज़ार
+MsgMain/CourseArea(adjust)/Name_SnowMountain_00	स्टारव्यू पीक
+MsgMain/CourseArea(adjust)/Name_StormClouds_00	ग्रेट ? ब्लॉक रुइन्स
+MsgMain/CourseArea(adjust)/Name_ToadFactory_00	टोड फ़ैक्टरी
+MsgMain/CourseArea(adjust)/Name_WarioShipyard_00	वारियो गैलियन
+MsgMain/CourseArea(adjust)/Name_WarioStadium	वारियो स्टेडियम
+MsgMain/CourseArea(adjust)/Name_WestCity	क्राउन सिटी
+MsgMain/CourseArea/Name_AirshipFortress_00	एयरशिप फ़ोर्ट्रेस
+MsgMain/CourseArea/Name_BigTree_00	एकॉर्न हाइट्स
+MsgMain/CourseArea/Name_Cave_00	डैंडेलियन डेप्थ्स
+MsgMain/CourseArea/Name_Central_00	पीच स्टेडियम
+MsgMain/CourseArea/Name_ChocoMountain_00	चोको माउंटेन
+MsgMain/CourseArea/Name_Cinema_00	बू सिनेमा
+MsgMain/CourseArea/Name_Coaster	विसलस्टॉप समिट
+MsgMain/CourseArea/Name_DesertHills_00	डेज़र्ट हिल्स
+MsgMain/CourseArea/Name_DinoBones_00	ड्राई बोन्स बर्नआउट
+MsgMain/CourseArea/Name_DinoDinoJungle_00	डिनो डिनो जंगल
+MsgMain/CourseArea/Name_DKJungleParkway_00	फ़ेयरअवे ओएसिस
+MsgMain/CourseArea/Name_DKPass_00	डीके पास
+MsgMain/CourseArea/Name_DonkeyKong	डीके स्पेसपोर्ट
+MsgMain/CourseArea/Name_FirstCircuit	मारियो ब्रदर्स सर्किट
+MsgMain/CourseArea/Name_IceBuildings_00	स्काई-हाई संडे
+MsgMain/CourseArea/Name_KoopaTroopaBeach_00	कूपा ट्रूपा बीच
+MsgMain/CourseArea/Name_LagoonCity_00	सॉल्टी सॉल्टी स्पीडवे
+MsgMain/CourseArea/Name_Lava_00	बाउज़र कैसल
+MsgMain/CourseArea/Name_MooMooFarm_00	मू मू मेडोज़
+MsgMain/CourseArea/Name_PeachBeach_00	पीच बीच
+MsgMain/CourseArea/Name_RaftingRiver_00	चीप चीप फ़ॉल्स
+MsgMain/CourseArea/Name_Rainbow_00	रेनबो रोड
+MsgMain/CourseArea/Name_SFCMarioCircuit_00	मारियो सर्किट
+MsgMain/CourseArea/Name_ShyGuyBazaar_00	शाई गाई बाज़ार
+MsgMain/CourseArea/Name_SnowMountain_00	स्टारव्यू पीक
+MsgMain/CourseArea/Name_StormClouds_00	ग्रेट ? ब्लॉक रुइन्स
+MsgMain/CourseArea/Name_ToadFactory_00	टोड फ़ैक्टरी
+MsgMain/CourseArea/Name_WarioShipyard_00	वारियो गैलियन
+MsgMain/CourseArea/Name_WarioStadium	वारियो स्टेडियम
+MsgMain/CourseArea/Name_WestCity	क्राउन सिटी
+MsgMain/Driver/Driver_MarioRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_MarioSheriff_00	काउबॉय
+MsgMain/Driver/Driver_MarioDesert_00	ड्यून राइडर
+MsgMain/Driver/Driver_MarioOmatsuri_00	हैप्पी
+MsgMain/Driver/Driver_MarioCasual_00	टूरिंग
+MsgMain/Driver/Driver_MarioPilot_00	एविएटर
+MsgMain/Driver/Driver_MarioVacance_00	साइटसीइंग
+MsgMain/Driver/Driver_MarioOffroad_00	ऑल-टेरेन
+MsgMain/Driver/Driver_MarioMechanic_00	मैकेनिक
+MsgMain/Driver/Driver_LuigiRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_LuigiLagoonCity_00	गोंडोलियर
+MsgMain/Driver/Driver_LuigiDesert_00	ओएसिस
+MsgMain/Driver/Driver_LuigiOmatsuri_00	हैप्पी
+MsgMain/Driver/Driver_LuigiFarmer_00	फ़ार्मर
+MsgMain/Driver/Driver_LuigiCasual_00	टूरिंग
+MsgMain/Driver/Driver_LuigiMechanic_00	मैकेनिक
+MsgMain/Driver/Driver_LuigiOffroad_00	ऑल-टेरेन
+MsgMain/Driver/Driver_PeachCasual_00	टूरिंग
+MsgMain/Driver/Driver_PeachLagoonCity_00	साइटसीइंग
+MsgMain/Driver/Driver_PeachFarmer_00	फ़ार्मर
+MsgMain/Driver/Driver_PeachRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_PeachPilot_00	एविएटर
+MsgMain/Driver/Driver_PeachResort_00	वेकेशन
+MsgMain/Driver/Driver_PeachOffroad_00	एयरो
+MsgMain/Driver/Driver_PeachYukata_00	युकाता
+MsgMain/Driver/Driver_DaisySwim_00	स्विमवियर
+MsgMain/Driver/Driver_DaisyLagoonCity_00	वेकेशन
+MsgMain/Driver/Driver_DaisyDesert_00	ओएसिस
+MsgMain/Driver/Driver_DaisyRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_DaisyCasual_00	टूरिंग
+MsgMain/Driver/Driver_DaisyOffroad_00	एयरो
+MsgMain/Driver/Driver_YoshiDelivery_00	फ़ूड स्लिंगर
+MsgMain/Driver/Driver_YoshiIce_00	सॉफ़्ट सर्वर
+MsgMain/Driver/Driver_YoshiRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_YoshiSwim_00	स्विमवियर
+MsgMain/Driver/Driver_YoshiStadium_00	बाइकर
+MsgMain/Driver/Driver_YoshiCasual_00	टूरिंग
+MsgMain/Driver/Driver_YoshiHachimaki_00	मात्सुरी
+MsgMain/Driver/Driver_YoshiMovie_00	अरिस्टोक्रैट
+MsgMain/Driver/Driver_KinopioEngineer_00	इंजीनियर
+MsgMain/Driver/Driver_KinopioDiner_00	बर्गर बड
+MsgMain/Driver/Driver_KinopioRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_KinopioExplore_00	एक्सप्लोरर
+MsgMain/Driver/Driver_KoopaRiders_00	बाइकर
+MsgMain/Driver/Driver_KoopaRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_KoopaOffroad_00	ऑल-टेरेन
+MsgMain/Driver/Driver_KoopaHotrod_00	सुपरचार्ज्ड
+MsgMain/Driver/Driver_DKOffroad_00	ऑल-टेरेन
+MsgMain/Driver/Driver_WarioDesert_00	ओएसिस
+MsgMain/Driver/Driver_WarioDiner_00	बाइकर
+MsgMain/Driver/Driver_WarioFactory_00	वर्क क्रू
+MsgMain/Driver/Driver_WarioRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_WarioFairy_00	विक्ड वास्प
+MsgMain/Driver/Driver_WarioPirate_00	पायरेट
+MsgMain/Driver/Driver_WarioStadium_00	रोड रफ़ियन
+MsgMain/Driver/Driver_WaluigiRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_WaluigiHorror_00	वैम्पायर
+MsgMain/Driver/Driver_WaluigiDiner_00	बाइकर
+MsgMain/Driver/Driver_WaluigiStadium_00	रोड रफ़ियन
+MsgMain/Driver/Driver_WaluigiMariachi_00	मारियाची
+MsgMain/Driver/Driver_RosettaRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_RosettaCasual_00	टूरिंग
+MsgMain/Driver/Driver_RosettaAurora_00	ऑरोरा
+MsgMain/Driver/Driver_RosettaOffroad_00	एयरो
+MsgMain/Driver/Driver_PaulineOffroad_00	एयरो
+MsgMain/Driver/Driver_BabyMarioSwim_00	स्विमवियर
+MsgMain/Driver/Driver_BabyMarioFactory_00	वर्क क्रू
+MsgMain/Driver/Driver_BabyMarioRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_BabyLuigiFactory_00	वर्क क्रू
+MsgMain/Driver/Driver_BabyLuigiRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_BabyPeachMarine_00	सेलर
+MsgMain/Driver/Driver_BabyPeachExplore_00	एक्सप्लोरर
+MsgMain/Driver/Driver_BabyPeachCasual_00	टूरिंग
+MsgMain/Driver/Driver_BabyPeachRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_BabyDaisyMarine_00	सेलर
+MsgMain/Driver/Driver_BabyDaisyExplore_00	एक्सप्लोरर
+MsgMain/Driver/Driver_BabyDaisyRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_BabyDaisyCasual_00	टूरिंग
+MsgMain/Driver/Driver_BabyRosettaMarine_00	सेलर
+MsgMain/Driver/Driver_BabyRosettaExplore_00	एक्सप्लोरर
+MsgMain/Driver/Driver_BabyRosettaCasual_00	टूरिंग
+MsgMain/Driver/Driver_BabyRosettaRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_KinopicoConductor_00	कंडक्टर
+MsgMain/Driver/Driver_KinopicoIce_00	सॉफ़्ट सर्वर
+MsgMain/Driver/Driver_KinopicoRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_KinopicoExplore_00	एक्सप्लोरर
+MsgMain/Driver/Driver_KoopaJrRiders_00	बाइकर जूनियर
+MsgMain/Driver/Driver_KoopaJrScout_00	एक्सप्लोरर
+MsgMain/Driver/Driver_KoopaJrRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_CatherineLagoonCity_00	वेकेशन
+MsgMain/Driver/Driver_CatherineRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_NokonokoRunner_00	रनर
+MsgMain/Driver/Driver_NokonokoRacing_00	प्रो रेसर
+MsgMain/Driver/Driver_NokonokoFlagman_00	वर्क क्रू
+MsgMain/Driver/Driver_NokonokoSailor_00	सेलर
+MsgMain/Driver/Driver_NokonokoOffroad_00	ऑल-टेरेन
+MsgMain/Driver/Driver_HeyhoSnow_00	स्लोप स्टाइलर
+MsgMain/Driver/Driver_HeyhoRacing_00	पिट क्रू
+MsgMain/Driver/Driver_JugemAngler_00	फ़िशरमैन
+MsgMain/Driver/Driver_JugemRacing_00	पिट क्रू
+MsgMain/Driver/Driver_KingTeresaMovie_00	अरिस्टोक्रैट
+MsgMain/Driver/Driver_KingTeresaPirate_00	पायरेट
+MsgMain/Driver/Driver_KingTeresaRacing_00	प्रो रेसर
+MsgMain/DriverCategoryName/Driver_BabyDaisy	बेबी डेज़ी
+MsgMain/DriverCategoryName/Driver_BabyLuigi	बेबी लुइजी
+MsgMain/DriverCategoryName/Driver_BabyMario	बेबी मारियो
+MsgMain/DriverCategoryName/Driver_BabyPeach	बेबी पीच
+MsgMain/DriverCategoryName/Driver_BabyRosetta	बेबी रोज़ालिना
+MsgMain/DriverCategoryName/Driver_Catherine	बर्डो
+MsgMain/DriverCategoryName/Driver_DK	डोंकी कोंग
+MsgMain/DriverCategoryName/Driver_Daisy	डेज़ी
+MsgMain/DriverCategoryName/Driver_Heyho	शाई गाई
+MsgMain/DriverCategoryName/Driver_Jugem	लाकीतू
+MsgMain/DriverCategoryName/Driver_KingTeresa	किंग बू
+MsgMain/DriverCategoryName/Driver_Kinopico	टोडेट
+MsgMain/DriverCategoryName/Driver_Kinopio	टोड
+MsgMain/DriverCategoryName/Driver_Koopa	बाउज़र
+MsgMain/DriverCategoryName/Driver_KoopaJr	बाउज़र जूनियर
+MsgMain/DriverCategoryName/Driver_Luigi	लुइजी
+MsgMain/DriverCategoryName/Driver_Mario	मारियो
+MsgMain/DriverCategoryName/Driver_Nokonoko	कूपा ट्रूपा
+MsgMain/DriverCategoryName/Driver_Pauline	पॉलीन
+MsgMain/DriverCategoryName/Driver_Peach	पीच
+MsgMain/DriverCategoryName/Driver_Rosetta	रोज़ालिना
+MsgMain/DriverCategoryName/Driver_Waluigi	वालुइजी
+MsgMain/DriverCategoryName/Driver_Wario	वारियो
+MsgMain/DriverCategoryName/Driver_Yoshi	योशी
+MsgMain/DriverCategoryName/Driver_Basabasa	स्वूप
+MsgMain/DriverCategoryName/Driver_Bull	चार्जिन चक
+MsgMain/DriverCategoryName/Driver_Choropoo	मोंटी मोल
+MsgMain/DriverCategoryName/Driver_Cow	काउ
+MsgMain/DriverCategoryName/Driver_Crab	साइडस्टेपर
+MsgMain/DriverCategoryName/Driver_Gabon	स्पाइक
+MsgMain/DriverCategoryName/Driver_Hacchin	स्टिंगबाय
+MsgMain/DriverCategoryName/Driver_HammerBros	हैमर ब्रो
+MsgMain/DriverCategoryName/Driver_Lifton	डॉल्फ़िन
+MsgMain/DriverCategoryName/Driver_PackunFlower	पिरान्हा प्लांट
+MsgMain/DriverCategoryName/Driver_Penguin	पेंगुइन
+MsgMain/DriverCategoryName/Driver_Pukupuku	चीप चीप
+MsgMain/DriverCategoryName/Driver_Sambo	पोकी
+MsgMain/DriverCategoryName/Driver_Kuribo	गूंबा
+MsgMain/DriverCategoryName/Driver_FishBone	फ़िश बोन
+MsgMain/DriverCategoryName/Driver_Gamane	कॉइन कॉफ़र
+MsgMain/DriverCategoryName/Driver_Karon	ड्राई बोन्स
+MsgMain/DriverCategoryName/Driver_Poihana	कैटाक्वैक
+MsgMain/DriverCategoryName/Driver_Snowman	स्नोमैन
+MsgMain/DriverCategoryName/Driver_Teren	पीपा
+MsgMain/DriverCategoryName/Driver_Monte	पियांटा
+MsgMain/DriverCategoryName/Driver_Tuccondor	कोंकडोर
+MsgMain/DriverCategoryName/Driver_Patatenten	पैरा-बिडीबड
+MsgMain/DriverCategoryName/Driver_Totten	नैबिट
+MsgMain/DriverCategoryName/Driver_Hanachan	विग्लर
+MsgMain/DriverCategoryName/Driver_Poo	रॉकी रेंच
+MsgMain/GrandprixCupName/Name_Banana	बनाना कप
+MsgMain/GrandprixCupName/Name_Flower	फ़्लावर कप
+MsgMain/GrandprixCupName/Name_Kinoko	मशरूम कप
+MsgMain/GrandprixCupName/Name_Konoha	लीफ़ कप
+MsgMain/GrandprixCupName/Name_Koura	शेल कप
+MsgMain/GrandprixCupName/Name_Star	स्टार कप
+MsgMain/GrandprixCupName/Name_Thunder	लाइटनिंग कप
+MsgMain/GrandprixCupName/Name_Special	स्पेशल कप
+MsgMain/GrandprixCupName/Name_GP09	गोल्डन रैली
+MsgMain/GrandprixCupName/Name_GP10	आइस रैली
+MsgMain/GrandprixCupName/Name_GP11	मून रैली
+MsgMain/GrandprixCupName/Name_GP12	स्पाइनी रैली
+MsgMain/GrandprixCupName/Name_GP13	चेरी रैली
+MsgMain/GrandprixCupName/Name_GP14	एकॉर्न रैली
+MsgMain/GrandprixCupName/Name_GP15	क्लाउड रैली
+MsgMain/GrandprixCupName/Name_GP16	हार्ट रैली
+MsgMain/Help/HelpButton_01	मैनुअल
+MsgMain/Help/HelpMenu_01	तकनीकें
+MsgMain/Help/HelpMenu_02	आइटम
+MsgMain/Help/HelpMenu_03	नियम
+MsgMain/Help/HelpMenu_04	फ़्री रोम
+MsgMain/Help/Technique_01	रॉकेट स्टार्ट
+MsgMain/Help/Technique_02	ड्रिफ़्ट
+MsgMain/Help/Technique_03	मिनी-टर्बो
+MsgMain/Help/Technique_04	जंप बूस्ट
+MsgMain/Help/Technique_05	स्पिन टर्न
+MsgMain/Help/Technique_06	चार्ज जंप
+MsgMain/Help/Technique_07	रेल राइड
+MsgMain/Help/Technique_08	वॉल राइड
+MsgMain/Help/Technique_09	रिवाइंड
+MsgMain/Help/Technique_101	रॉकेट स्टार्ट
+MsgMain/Help/Technique_102	ड्रिफ़्ट
+MsgMain/Help/Technique_103	मिनी-टर्बो
+MsgMain/Help/Technique_104	जंप बूस्ट
+MsgMain/Help/Technique_105	स्पिन टर्न
+MsgMain/Help/Technique_106	चार्ज जंप
+MsgMain/Help/Technique_107	रेल राइड
+MsgMain/Help/Technique_108	वॉल राइड
+MsgMain/Help/Technique_109	रिवाइंड
+MsgMain/Help/Technique_201	रेस की शुरुआत में उल्टी गिनती के दौरान, 2 दिखने पर\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) को दबाकर रखें,\nताकि रेस शुरू होते ही बूस्ट मिले।
+MsgMain/Help/Technique_202	{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} दबाए रखते हुए मुड़ने की दिशा में\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} को झुकाएँ, तो आप बिना\nगति खोए तेज़ मोड़ ले सकते हैं।
+MsgMain/Help/Technique_203	ड्रिफ़्ट करते समय पहियों के नीचे चिंगारियाँ दिखें तो\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} छोड़ने पर आपको स्पीड बूस्ट मिलता है।\nड्रिफ़्ट में चिंगारियों का रंग बदलने पर\nबूस्ट थोड़ा और ताकतवर हो जाता है! स्मार्ट स्टीयरिंग\nबंद होने पर चिंगारियाँ अधिकतम\nतीन बार रंग बदल सकती हैं।
+MsgMain/Help/Technique_204	रैंप से उछलते ही {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} दबाकर\nट्रिक करें (और थोड़ा स्पीड बूस्ट पाएँ)!
+MsgMain/Help/Technique_205	{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} को बाएँ या दाएँ झुकाकर\n{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) और {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) दोनों दबाए रखें,\nतो आप तुरंत अपनी दिशा बदल सकते हैं।
+MsgMain/Help/Technique_206	{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}({0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}) दबाए रखें, फिर {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} दबाएँ और सीधे चलते रहें,\nतो पहियों के नीचे चिंगारियाँ बनेंगी।\nफिर {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} को किसी दिशा में झुकाकर {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} छोड़ें,\nतो आप उसी दिशा में छोटी छलाँग लगा सकते हैं।
+MsgMain/Help/Technique_207	रेलिंग और बिजली की तारों जैसी\nपतली सतहों पर चलना संभव है। चार्ज जंप से\nआप उन पर चढ़ भी सकते हैं।
+MsgMain/Help/Technique_208	दीवार के सामने जंप बूस्ट या चार्ज जंप करें,\nतो आप थोड़ी देर उस दीवार पर चल सकते हैं।
+MsgMain/Help/Technique_209	{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} दबाए रखने पर आप अपने वाहन को\nपिछली जगह पर वापस ला सकते हैं।
+MsgMain/Help/Item_01	बनाना
+MsgMain/Help/Item_02	ट्रिपल बनाना
+MsgMain/Help/Item_03	डैश मशरूम
+MsgMain/Help/Item_04	ट्रिपल डैश मशरूम
+MsgMain/Help/Item_05	गोल्डन डैश मशरूम
+MsgMain/Help/Item_06	मेगा मशरूम
+MsgMain/Help/Item_07	ग्रीन शेल
+MsgMain/Help/Item_08	ट्रिपल ग्रीन शेल
+MsgMain/Help/Item_09	रेड शेल
+MsgMain/Help/Item_10	ट्रिपल रेड शेल
+MsgMain/Help/Item_11	स्पाइनी शेल
+MsgMain/Help/Item_12	कॉइन शेल
+MsgMain/Help/Item_13	फ़ायर फ़्लावर
+MsgMain/Help/Item_14	आइस फ़्लावर
+MsgMain/Help/Item_15	बूमरैंग फ़्लावर
+MsgMain/Help/Item_16	बुलेट बिल
+MsgMain/Help/Item_17	बॉब-ओम्ब
+MsgMain/Help/Item_18	हैमर
+MsgMain/Help/Item_19	सुपर हॉर्न
+MsgMain/Help/Item_20	? ब्लॉक
+MsgMain/Help/Item_21	सिक्का
+MsgMain/Help/Item_22	बू
+MsgMain/Help/Item_23	ब्लूपर
+MsgMain/Help/Item_24	कैमेक
+MsgMain/Help/Item_25	फ़ेदर
+MsgMain/Help/Item_26	सुपर स्टार
+MsgMain/Help/Item_27	लाइटनिंग
+MsgMain/Help/Item_28	डैश फ़ूड
+MsgMain/Help/Item_101	फिसलन भरी रुकावट, जिससे टकराने पर\nवाहन बेकाबू होकर घूम जाता है।
+MsgMain/Help/Item_102	तीन बनाना, जो आपके वाहन के\nचारों ओर घूमते हैं। एक बार में एक बनाना\nरखने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ।
+MsgMain/Help/Item_103	एक स्वादिष्ट आइटम, जिसे खाने पर\nथोड़ी देर के लिए गति बढ़ जाती है।
+MsgMain/Help/Item_104	तीन मशरूम, जो आपके वाहन के\nचारों ओर घूमते हैं। एक बार में एक मशरूम\nइस्तेमाल करने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ।
+MsgMain/Help/Item_105	एक चमकदार मशरूम, जिसे थोड़ी देर तक\nकई बार इस्तेमाल करके कई बार\nगति बढ़ाई जा सकती है।\nचालू करने के लिए\n{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} बार-बार दबाएँ।
+MsgMain/Help/Item_106	एक बड़ा मशरूम, जो इस्तेमाल करने पर\nआपको और आपके वाहन को बड़ा कर देता है,\nगति बढ़ाता है और दूसरे रेसरों\nको कुचलने देता है।
+MsgMain/Help/Item_107	एक ख़तरनाक आइटम, जो सीधी रेखा में चलता है\nऔर जिस वाहन से टकराता है उसे\nधड़ाम से रोक देता है।
+MsgMain/Help/Item_108	तीन ग्रीन शेल, जो आपके वाहन के\nचारों ओर घूमते हैं। एक बार में एक शेल\nफेंकने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ।
+MsgMain/Help/Item_109	वाहन खोजने वाला शेल, जो फेंकने\nवाले के सामने मौजूद\nवाहन को निशाना बनाता है।
+MsgMain/Help/Item_110	तीन रेड शेल, जो आपके वाहन के\nचारों ओर घूमते हैं। एक बार में एक शेल\nफेंकने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ।
+MsgMain/Help/Item_111	एक शेल, जो आगे चल रहे रेसर का पीछा करके\nउससे टकराता है। रास्ते में दूसरे रेसरों\nसे टकराकर भी वह नहीं रुकता और\nपहले स्थान वाले तक पहुँचता है।
+MsgMain/Help/Item_112	एक चमकदार शेल, जो ट्रैक पर चलते हुए\nसिक्के गिराता है और रेसरों से\nटकराता है।
+MsgMain/Help/Item_113	एक ताकतवर आइटम, जिससे {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nदबाकर फ़ायरबॉल फेंके जा सकते हैं।\nफ़ायरबॉल लगने पर\nरेसर बेकाबू होकर घूम जाते हैं।
+MsgMain/Help/Item_114	एक ताकतवर आइटम, जिससे {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nदबाकर आइस बॉल फेंके जा सकते हैं।\nआइस बॉल लगने पर\nरेसर बेकाबू होकर घूम जाते हैं।
+MsgMain/Help/Item_115	एक आइटम, जिससे {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाकर बूमरैंग\nफेंका जा सकता है। इससे टकराने पर रेसर\nबेकाबू होकर घूम जाते हैं।
+MsgMain/Help/Item_116	एक आइटम, जो इस्तेमाल करने वाले को\nथोड़ी देर के लिए बुलेट बिल बना देता है।\nफिर वह ट्रैक पर रॉकेट की तरह दौड़ता है\nऔर टकराने वाले दूसरे रेसरों\nको उड़ा देता है।
+MsgMain/Help/Item_117	एक चलता-फिरता बम, जो थोड़ी देर बाद\nया रेसर के टकराने पर फट जाता है।\nआस-पास के रेसर भी विस्फोट की\nचपेट में आ सकते हैं!
+MsgMain/Help/Item_118	फेंकने वाले हैमरों का एक सेट, जिसे\n{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} बार-बार दबाकर फेंका जा सकता है।\nजिसे लगे वह क्रैश हो जाएगा।
+MsgMain/Help/Item_119	एक बेहद ताकतवर हॉर्न, जो आस-पास के\nरेसरों और आइटम को पीछे धकेल देता है।
+MsgMain/Help/Item_120	एक ? ब्लॉक, जो ड्राइवर के हर बार {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}\nदबाने पर सिक्के देता है। इससे गति\nभी थोड़ी बढ़ती है।
+MsgMain/Help/Item_121	एक आइटम, जो इस्तेमाल करने वाले को\nदो सिक्के देता है। ज़्यादा सिक्के होने पर\nगति बढ़ती है।
+MsgMain/Help/Item_122	एक आइटम, जो थोड़ी देर के लिए आपको\nपारदर्शी बना देता है, जिससे आप बनाना और शेल जैसे\nख़तरनाक आइटम के बीच से\nसुरक्षित गुज़र सकते हैं। यह प्रतिद्वंद्वियों\nसे आइटम भी चुरा लेता है।
+MsgMain/Help/Item_123	एक परेशान करने वाला आइटम, जो प्रतिद्वंद्वियों\nपर स्याही छिड़कता है, जिससे उन्हें\nकुछ देर दिखना मुश्किल हो जाता है।
+MsgMain/Help/Item_124	एक आइटम, जो कैमेक को बुलाता है,\nजिसके जादू से अजीब चीज़ें होती हैं।
+MsgMain/Help/Item_125	एक आइटम, जो आपको हवा में ऊँचा उछाल देता है,\nजिससे आप बनाना और शेल जैसे\nख़तरनाक आइटम से बच सकते हैं।\nबैटल मोड में प्रतिद्वंद्वी के ऊपर\nसे उड़कर आप उसके\nबैलून या सिक्के चुरा सकते हैं।
+MsgMain/Help/Item_126	एक आइटम, जो इस्तेमाल करने वाले को कुछ देर\nके लिए तेज़ और अजेय बना देता है और\nजिन रेसरों से यह टकराता है\nउन्हें घुमा देता है।
+MsgMain/Help/Item_127	एक आइटम, जो दूसरे रेसरों पर बिजली गिराता है,\nउनके आइटम नष्ट कर देता है और उन्हें\nधीमा करने के साथ-साथ\nकुछ देर के लिए\nछोटा भी कर देता है।
+MsgMain/Help/Item_128	एक लज़ीज़ स्नैक, जो गति बढ़ाता है\nऔर आपको दूसरी पोशाक में\nभी बदल सकता है।
+MsgMain/Help/Rule_01	ग्रां प्री
+MsgMain/Help/Rule_02	नॉकआउट टूर
+MsgMain/Help/Rule_03	टाइम ट्रायल
+MsgMain/Help/Rule_04	वीएस रेस
+MsgMain/Help/Rule_05	बैलून बैटल
+MsgMain/Help/Rule_06	कॉइन रनर्स
+MsgMain/Help/Rule_07	बॉब-ओम्ब ब्लास्ट
+MsgMain/Help/Rule_101	ग्रां प्री
+MsgMain/Help/Rule_102	नॉकआउट टूर
+MsgMain/Help/Rule_103	टाइम ट्रायल
+MsgMain/Help/Rule_104	वीएस रेस
+MsgMain/Help/Rule_105	बैलून बैटल
+MsgMain/Help/Rule_106	कॉइन रनर्स
+MsgMain/Help/Rule_107	बॉब-ओम्ब ब्लास्ट
+MsgMain/Help/Rule_201	चार रेस वाले कप में कुल मिलाकर पहले स्थान के लिए मुक़ाबला करें!
+MsgMain/Help/Rule_202	पूरी दुनिया में फैली रेस में टिके रहें!
+MsgMain/Help/Rule_203	अकेले रेस करें और अपने सबसे तेज़ समय बनाएँ!
+MsgMain/Help/Rule_204	अपने नियमों से रेस करें!
+MsgMain/Help/Rule_205	आइटम इस्तेमाल करें और बैलून फोड़ें!
+MsgMain/Help/Rule_206	सबसे ज़्यादा सिक्के जमा करके जीतें!
+MsgMain/Help/Rule_207	प्रतिद्वंद्वियों के बैलून उड़ा दें!
+MsgMain/Help/Rule_301	हर रेस में फ़िनिश लाइन पर आपके स्थान के हिसाब से\nअंक मिलते हैं। ग्रां प्री में आपका कुल स्थान\nचारों रेस के कुल अंकों\nसे तय होता है।
+MsgMain/Help/Rule_302	रेसों की एक लगातार कड़ी, जिसमें आगे बढ़ते रहने\nके लिए रेसरों को ऊँचा स्थान पाना होता है।
+MsgMain/Help/Rule_303	उपलब्ध कोर्स में से कोई भी चुनें।\nबढ़िया समय बनाने की कुंजी\nमशरूम का समझदारी से इस्तेमाल है।
+MsgMain/Help/Rule_304	एक गेम मोड, जिसमें आप कई नियम बदल सकते हैं,\nजैसे सेट में रेसों की संख्या या\nरेस में टीमें होंगी या नहीं।
+MsgMain/Help/Rule_305	प्रतिद्वंद्वी के बैलून फोड़कर अंक कमाएँ।\nमशरूम से बूस्ट लेते हुए उनसे टकराकर\nआप बैलून चुरा भी सकते हैं!
+MsgMain/Help/Rule_306	प्रतिद्वंद्वियों पर आइटम मारकर सिक्के गिराएँ,\nया मशरूम से बूस्ट लेते हुए उनसे\nटकराकर सीधे सिक्के चुराएँ!
+MsgMain/Help/Rule_307	सिर्फ़ बॉब-ओम्ब वाली बैटल, जिसमें आप एक\nसमय में 10 बॉब-ओम्ब तक रख सकते हैं।
+MsgMain/Help/Rule_401	ग्रां प्री में सात अलग-अलग कप हैं।\nसबमें रेस करने के बाद\nक्या होगा?
+MsgMain/Help/Rule_402	हर टूर में पाँच चेकपॉइंट हैं, और हर चेकपॉइंट पर\nनिचले स्थान वाले कुछ रेसर बाहर हो जाते हैं।\nआगे रहें और अंत में पहले\nस्थान का लक्ष्य रखें!
+MsgMain/Help/Rule_403	दूसरे रेसरों के घोस्ट डेटा से\nख़ुद को परखें। शायद वे\nआपको कुछ नया सिखा दें!
+MsgMain/Help/Rule_404	सेटिंग्स में "कनेक्टेड" चुनने पर आपकी रेसें\nएक कोर्स से अगले कोर्स तक जुड़ जाती हैं!
+MsgMain/Help/Rule_405	सारे बैलून खत्म हो गए तो आप बाहर हो जाएँगे...
+MsgMain/Help/Rule_406	सिक्के आपके मिनीमैप पर दिखेंगे,\nइसलिए उस पर नज़र रखें!
+MsgMain/Help/Rule_407	बॉब-ओम्ब कितनी दूर उड़ेगा, यह इस पर निर्भर करता है कि\nआप {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} कितनी देर दबाए रखते हैं।
+MsgMain/Help/FreeRun_01	P स्विच
+MsgMain/Help/FreeRun_02	? पैनल
+MsgMain/Help/FreeRun_03	पीच मेडलियन
+MsgMain/Help/FreeRun_04	सिक्के
+MsgMain/Help/FreeRun_05	योशी का
+MsgMain/Help/FreeRun_06	फ़ोटो
+MsgMain/Help/FreeRun_101	मिशन शुरू करने के लिए P स्विच पर चढ़ें। किसी चुनौती\nमें मुश्किल हो तो घबराएँ नहीं।\nडटे रहें, आप सफल होंगे!
+MsgMain/Help/FreeRun_102	? पैनल अनजानी जगहों पर छिपे हो सकते हैं।\nदेखें, आप कितने ढूँढ पाते हैं!
+MsgMain/Help/FreeRun_103	चमकते पीच मेडलियन पूरी दुनिया में बिखरे हैं।\nन जाने कितने होंगे?
+MsgMain/Help/FreeRun_104	सिक्के जमा करके आप और वाहन अनलॉक कर सकते हैं।\nअफ़वाह है कि कहीं सिक्कों के ढेर पड़े हैं,\nजो बस इकट्ठा किए जाने का इंतज़ार कर रहे हैं...
+MsgMain/Help/FreeRun_105	दुनिया भर में डैश फ़ूड परोसने वाली हर तरह की\nदुकानें हैं, जिनमें तरह-तरह के पकवान मिलते हैं।\nकई ड्राइवर अपना खाना खाने पर\nअपना रूप बदल लेंगे!
+MsgMain/Help/FreeRun_106	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} से फ़ोटो ले सकते हैं। बाहर निकलें,\nवे परफ़ेक्ट पल कैद करें, और\n"चीज़!" कहना न भूलें!
+MsgMain/MachineType/Vehicle_Amb	डब्ल्यू-ट्विन चॉपर
+MsgMain/MachineType/Vehicle_Bds	बी डैशर
+MsgMain/MachineType/Vehicle_Blk	मेका ट्राइक
+MsgMain/MachineType/Vehicle_Bsn	बिग हॉर्न
+MsgMain/MachineType/Vehicle_Bul	चार्जिन ट्रक
+MsgMain/MachineType/Vehicle_Crp	फ़िन ट्विन
+MsgMain/MachineType/Vehicle_Dkn	हाइपर पाइप
+MsgMain/MachineType/Vehicle_Dmp	लिल डम्पी
+MsgMain/MachineType/Vehicle_Esp	स्टेलर स्लेड
+MsgMain/MachineType/Vehicle_H2o	क्लाउड 9
+MsgMain/MachineType/Vehicle_Hrl	रैली रॉम्पर
+MsgMain/MachineType/Vehicle_Kgs	बेबी ब्लूपर
+MsgMain/MachineType/Vehicle_Lob	लॉबस्टर रोलर
+MsgMain/MachineType/Vehicle_Mhb	मैक रॉकेट
+MsgMain/MachineType/Vehicle_Mov	रील रेसर
+MsgMain/MachineType/Vehicle_Mqn	बंबल V
+MsgMain/MachineType/Vehicle_Ocn	रिबिट रेवस्टर
+MsgMain/MachineType/Vehicle_Ptn	बगीबड
+MsgMain/MachineType/Vehicle_Rbn	प्लशबगी
+MsgMain/MachineType/Vehicle_Rcb	ट्यून थम्पर
+MsgMain/MachineType/Vehicle_Rcc	हॉट रॉड
+MsgMain/MachineType/Vehicle_Rlb	रैली बाइक
+MsgMain/MachineType/Vehicle_Rlk	रैली कार्ट
+MsgMain/MachineType/Vehicle_Sct	क्यूट स्कूट
+MsgMain/MachineType/Vehicle_Skl	पाइप फ़्रेम
+MsgMain/MachineType/Vehicle_Snd	ज़ूम बगी
+MsgMain/MachineType/Vehicle_Snm	ड्रेड स्लेड
+MsgMain/MachineType/Vehicle_Stb	स्टैंडर्ड बाइक
+MsgMain/MachineType/Vehicle_Stk	स्टैंडर्ड कार्ट
+MsgMain/MachineType/Vehicle_Stm	लोको मोटो
+MsgMain/MachineType/Vehicle_Tbt	जंकयार्ड हॉग
+MsgMain/MachineType/Vehicle_Dlp	डॉल्फ़िन डैशर
+MsgMain/MachineType/Vehicle_Rkt	ब्लास्ट्रोनॉट III
+MsgMain/MachineType/Vehicle_Pfm	रोडस्टर रॉयल
+MsgMain/MachineType/Vehicle_Cpt	कार्पेट फ़्लायर
+MsgMain/MachineType/Vehicle_Wtm	फ़ंकी डोरी
+MsgMain/MachineType/Vehicle_Alt	रैलीगेटर
+MsgMain/MachineType/Vehicle_Kpv	बाउज़र ब्रूज़र
+MsgMain/MachineType/Vehicle_Bil	बिलडोज़र
+MsgMain/Menu/2001	OK
+MsgMain/Menu/2003	हाँ
+MsgMain/Menu/2004	नहीं
+MsgMain/Menu/2051	शुरू करने के लिए {0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF} + {0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} दबाएँ
+MsgMain/Menu/2053	क्रमबद्ध करें
+MsgMain/Menu/2054	ब्योरा
+MsgMain/Menu/2055	गति
+MsgMain/Menu/2056	एक्सेलरेशन
+MsgMain/Menu/2057	वज़न
+MsgMain/Menu/2058	हैंडलिंग
+MsgMain/Menu/2059	फेंटें
+MsgMain/Menu/2101	सिंगल प्लेयर
+MsgMain/Menu/2102	मल्टीप्लेयर
+MsgMain/Menu/2103	ऑनलाइन प्ले
+MsgMain/Menu/2104	वायरलेस प्ले
+MsgMain/Menu/2105	स्टिकर
+MsgMain/Menu/2106	LAN प्ले
+MsgMain/Menu/2110	मैप
+MsgMain/Menu/2111	फ़्री रोम
+MsgMain/Menu/2201	ग्रां प्री
+MsgMain/Menu/2202	नॉकआउट टूर
+MsgMain/Menu/2203	टाइम ट्रायल
+MsgMain/Menu/2204	वीएस रेस
+MsgMain/Menu/2205	बैटल
+MsgMain/Menu/2211	चार रेस वाले कप में गोल्ड जीतें!
+MsgMain/Menu/2212	सहनशक्ति की रेस में आगे बने रहें!
+MsgMain/Menu/2213	अकेले रेस करके नए रिकॉर्ड बनाएँ!
+MsgMain/Menu/2214	अपने नियमों से रेस करें!
+MsgMain/Menu/2215	अपने नियमों से बैटल करें!
+MsgMain/Menu/2216	एक साथ 24 तक रेस कर सकते हैं!
+MsgMain/Menu/2217	24 खिलाड़ियों वाली एलिमिनेशन रेस में टिके रहें!
+MsgMain/Menu/2219	एक साथ 24 तक बैटल कर सकते हैं!
+MsgMain/Menu/2231	दोस्तों को जुटाएँ और मुक़ाबला करें!
+MsgMain/Menu/2221	ग्रां प्री शुरू करें?
+MsgMain/Menu/2222	नॉकआउट टूर शुरू करें?
+MsgMain/Menu/2223	टाइम ट्रायल शुरू करें?
+MsgMain/Menu/2224	रीप्ले शुरू करें?
+MsgMain/Menu/2225	रेस शुरू करें?
+MsgMain/Menu/2226	बैटल शुरू करें?
+MsgMain/Menu/2227	क्या आप बाहर निकलना चाहते हैं?
+MsgMain/Menu/2228	क्या आप बाहर निकलना चाहते हैं?
+MsgMain/Menu/2229	टाइटल स्क्रीन पर लौटें?
+MsgMain/Menu/2235	मिरर
+MsgMain/Menu/2261	अकेले रेस
+MsgMain/Menu/2262	घोस्ट से रेस
+MsgMain/Menu/2263	घोस्ट देखें
+MsgMain/Menu/2264	रैंकिंग देखें
+MsgMain/Menu/2272	घोस्ट डेटा अपलोड करें
+MsgMain/Menu/2266	यह घोस्ट डेटा डाउनलोड करें?
+MsgMain/Menu/2268	घोस्ट डेटा हटाएँ?
+MsgMain/Menu/2269	घोस्ट डेटा हटा दिया गया।
+MsgMain/Menu/2270	घोस्ट डेटा डाउनलोड हो रहा है...
+MsgMain/Menu/2271	घोस्ट डेटा डाउनलोड हो गया!\nरेस शुरू करें?
+MsgMain/Menu/2273	घोस्ट डेटा अपलोड करें?
+MsgMain/Menu/2274	आपने इस कोर्स के लिए अभी तक\nकोई घोस्ट डेटा नहीं बनाया है!
+MsgMain/Menu/2275	आप अपना ख़ुद का घोस्ट डेटा\nडाउनलोड नहीं कर सकते।
+MsgMain/Menu/2276	आप और घोस्ट डेटा डाउनलोड नहीं कर सकते।\nजगह बनाने के लिए क्या आप सारा घोस्ट डेटा\n{0E 0000 0003 0002 0000}हटाना चाहते हैं{0E 0000 0003 0002 FFFF}?
+MsgMain/Menu/2277	{0E 0000 0003 0002 0000}हटाया गया घोस्ट डेटा हमेशा के लिए\nखो जाएगा।{0E 0000 0003 0002 FFFF}\nक्या आप जारी रखना चाहते हैं?
+MsgMain/Menu/2278	आपका डाउनलोड किया हुआ सारा\nघोस्ट डेटा हटा दिया गया है।
+MsgMain/Menu/2281	आप यह घोस्ट डेटा पहले ही\nडाउनलोड कर चुके हैं।
+MsgMain/Menu/2282	यह घोस्ट डेटा {0E 0000 0003 0002 0000}आपका अपना है{0E 0000 0003 0002 FFFF}।\nक्या आप फिर भी इसे हटाना चाहते हैं?
+MsgMain/Menu/2301	क्लास
+MsgMain/Menu/2306	मिरर
+MsgMain/Menu/2308	छोड़ें
+MsgMain/Menu/2311	COM कठिनाई
+MsgMain/Menu/2312	आसान
+MsgMain/Menu/2313	सामान्य
+MsgMain/Menu/2314	कठिन
+MsgMain/Menu/2315	COM नहीं
+MsgMain/Menu/2321	कोर्स चयन
+MsgMain/Menu/2322	कनेक्टेड
+MsgMain/Menu/2323	ओपन
+MsgMain/Menu/2324	रैंडम
+MsgMain/Menu/2331	रेस की संख्या
+MsgMain/Menu/2332	3 रेस
+MsgMain/Menu/2333	4 रेस
+MsgMain/Menu/2334	5 रेस
+MsgMain/Menu/2335	6 रेस
+MsgMain/Menu/2336	8 रेस
+MsgMain/Menu/2337	12 रेस
+MsgMain/Menu/2338	16 रेस
+MsgMain/Menu/2339	32 रेस
+MsgMain/Menu/2351	टीमें
+MsgMain/Menu/2352	कोई टीम नहीं
+MsgMain/Menu/2353	दो टीमें
+MsgMain/Menu/2354	तीन टीमें
+MsgMain/Menu/2355	चार टीमें
+MsgMain/Menu/2371	राउंड की संख्या
+MsgMain/Menu/2372	3 राउंड
+MsgMain/Menu/2373	4 राउंड
+MsgMain/Menu/2374	5 राउंड
+MsgMain/Menu/2375	6 राउंड
+MsgMain/Menu/2376	8 राउंड
+MsgMain/Menu/2381	अंतराल
+MsgMain/Menu/2382	10 सेकंड
+MsgMain/Menu/2383	एक मिनट
+MsgMain/Menu/2384	पाँच मिनट
+MsgMain/Menu/2391	आइटम
+MsgMain/Menu/2392	सामान्य
+MsgMain/Menu/2393	फ़्रैंटिक
+MsgMain/Menu/2402	वीएस रेस
+MsgMain/Menu/2404	नॉकआउट टूर
+MsgMain/Menu/2405	बैलून बैटल
+MsgMain/Menu/2406	कॉइन रनर्स
+MsgMain/Menu/3003	फ़्री रोम शुरू करें?
+MsgMain/Menu/3004	टाइटल स्क्रीन पर\nलौट रहे हैं।
+MsgMain/Menu/5001	रेस
+MsgMain/Menu/5002	नॉकआउट टूर
+MsgMain/Menu/5004	दोस्त
+MsgMain/Menu/5005	रूम बनाएँ
+MsgMain/Menu/5006	रूम ID से खोजें
+MsgMain/Menu/5007	जुड़ें
+MsgMain/Menu/5008	रूम
+MsgMain/Menu/5009	बैटल
+MsgMain/Menu/5013	खिलाड़ी खोजे जा रहे हैं...
+MsgMain/Menu/5014	रेस जल्द शुरू होगी!
+MsgMain/Menu/5017	कोर्स चुन लिया गया है!
+MsgMain/Menu/5019	अभी जुड़ नहीं सकते। कृपया प्रतीक्षा करें।
+MsgMain/Menu/5020	आप जुड़ गए!
+MsgMain/Menu/5021	{0E 0001 0001 0004 0000 0000} जुड़ गया!
+MsgMain/Menu/5022	नियम तय हो गए हैं!
+MsgMain/Menu/5023	अगली रेस तक: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5024	अगली बैटल तक: {0E 0001 0000 0004 0000 0000}
+MsgMain/Menu/5026	आप अगली उपलब्ध रेस में जुड़ेंगे। इंतज़ार करें!
+MsgMain/Menu/5027	आप अगली उपलब्ध बैटल में जुड़ेंगे। तैयार हो जाएँ!
+MsgMain/Menu/5028	खिलाड़ियों के जुड़ने की प्रतीक्षा है...
+MsgMain/Menu/5029	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} गेम शुरू करें
+MsgMain/Menu/5030	{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000} गेम शुरू करें
+MsgMain/Menu/5031	बैटल जल्द शुरू होगी!
+MsgMain/Menu/5032	कृपया नियम तय होने तक प्रतीक्षा करें।
+MsgMain/Menu/5033	आपका कनेक्शन टूट गया है।
+MsgMain/Menu/5034	नॉकआउट टूर में नहीं जुड़ सकते।
+MsgMain/Menu/5035	दो रेसर बहुत दूर हैं। अंतर घटाया जा रहा है।
+MsgMain/Menu/5101	रैंडम
+MsgMain/Menu/5102	बदलें
+MsgMain/Menu/5202	मुक़ाबले के लिए ग्रुप बनाएँ?
+MsgMain/Menu/5204	आपके दर्ज किए ID से कोई\nमौजूदा रूम मेल नहीं खाता।
+MsgMain/Menu/5209	रूम ID
+MsgMain/Menu/5212	बैटल इतिहास
+MsgMain/Menu/5213	आप
+MsgMain/Menu/5214	वे
+MsgMain/Menu/5218	रूम ID दर्ज करें
+MsgMain/Menu/5220	कृपया प्रतीक्षा करें...
+MsgMain/Menu/5221	यह ग्रुप छोड़ें?
+MsgMain/Menu/5301	रूम भर चुका है।\nकृपया प्रतीक्षा करें...
+MsgMain/Menu/5302	संचार में\nत्रुटि हुई है।
+MsgMain/Menu/5304	जिस रूम में जुड़ना चाहा,\nवह नहीं मिला।
+MsgMain/Menu/5305	संचार में\nत्रुटि हुई है।
+MsgMain/Menu/5307	संचार में\nत्रुटि हुई है।
+MsgMain/Menu/5308	संचार में\nत्रुटि हुई है।
+MsgMain/Menu/5320	आपने {0E 0001 0000 0004 0000 0000} सिक्के इकट्ठा किए\nऔर नया {0E 0000 0003 0002 0000}वाहन{0E 0000 0003 0002 FFFF} अनलॉक किया!
+MsgMain/Menu/5313	आपका कोई दोस्त रजिस्टर नहीं है।
+MsgMain/Menu/5314	कोई रूम जुड़ने लायक़ नहीं है।
+MsgMain/Menu/5315	नियम चुनें
+MsgMain/Menu/5316	प्रतिभागी
+MsgMain/Menu/5347	फ़ोटो मोड
+MsgMain/Menu/5328	कैमरे की ओर देखें
+MsgMain/Menu/5329	फ़ोकस
+MsgMain/Menu/5333	समाप्त
+MsgMain/Menu/5334	भाव
+MsgMain/Menu/5335	फ़्रेम
+MsgMain/Menu/5336	गाइड
+MsgMain/Menu/5340	पोज़
+MsgMain/Menu/5341	झुकाव
+MsgMain/Menu/5342	फ़ोटो लें
+MsgMain/Menu/5345	ज़ूम
+MsgMain/Menu/5348	फ़ोकस: कोई नहीं
+MsgMain/Menu/5349	फ़ोकस: किरदार
+MsgMain/Menu/5350	फ़ोकस: केंद्र
+MsgMain/Menu/5353	फ़ोटो लेना बंद करें?
+MsgMain/Menu/5354	हाँ
+MsgMain/Menu/5355	नहीं
+MsgMain/Menu/5370	फ़्रेम: कोई नहीं
+MsgMain/Menu/5371	फ़्रेम: 1
+MsgMain/Menu/5372	फ़्रेम: 2
+MsgMain/Menu/5373	फ़्रेम: 3
+MsgMain/Menu/5374	फ़्रेम: 4
+MsgMain/Menu/5375	फ़्रेम: 5
+MsgMain/Menu/5376	फ़्रेम: 6
+MsgMain/Menu/5377	फ़्रेम: 7
+MsgMain/Menu/5378	फ़्रेम: 8
+MsgMain/Menu/5379	फ़्रेम: 9
+MsgMain/Menu/5380	फ़्रेम: 10
+MsgMain/Menu/5381	फ़्रेम: 11
+MsgMain/Menu/5382	फ़्रेम: 12
+MsgMain/Menu/5383	फ़्रेम: 13
+MsgMain/Mission/Mission_RC_WL_00	नीले सिक्के जमा करें और गूंबा से बचें!
+MsgMain/Mission/Mission_RC_WL_03	पुल के आर-पार बिखरे नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_WL_04	नीले सिक्कों के लिए रेलयार्ड की पड़ताल करें!
+MsgMain/Mission/Mission_RC_WL_05	ऊँचे स्टंट करते हुए सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_WL_08	पाइप से पाइप तक उछलकर पठारों पर चढ़ें!
+MsgMain/Mission/Mission_WT_WL_00	रक्षा पंक्ति को चीरते हुए आगे बढ़ें!
+MsgMain/Mission/Mission_WT_WL_01	ब्लॉक वाले शॉर्टकट से कूदते हुए वारियो स्टेडियम पहुँचें!
+MsgMain/Mission/Mission_WT_WL_04	टायरों की ख़तरनाक परीक्षा में रेस करें!
+MsgMain/Mission/Mission_WT_WL_05	ट्रस ब्रिज पार कर रही ट्रेन को पीछे छोड़ें!
+MsgMain/Mission/Mission_WT_WL_06	सस्पेंशन ब्रिज पर रैंप से ऊपर चढ़कर पार करें!
+MsgMain/Mission/Mission_WT_WL_08	हवा में उड़ें और पुल के आर-पार निकलें!
+MsgMain/Mission/Mission_WT_WL_09	धमाकेदार एक्शन सीन में सड़क पर दहाड़ते हुए दौड़ें!
+MsgMain/Mission/Mission_WT_WL_10	ऑफ़रोड शॉर्टकट से मारियो ब्रदर्स सर्किट पहुँचें!
+MsgMain/Mission/Mission_WT_WL_11	विशाल मशरूम के ऊपर गोल पोल का निशाना लगाएँ!
+MsgMain/Mission/Mission_WT_WL_12	गोल पोल तक पहुँचने के लिए बवंडर की हवा का सहारा लें!
+MsgMain/Mission/Mission_WT_WL_13	गोल तक मशरूम की रफ़्तार से दौड़ें और डूबें नहीं!
+MsgMain/Mission/Mission_WT2_WL_00	रेगिस्तान की रेत पर आइटम से फ़र्राटा भरें!
+MsgMain/Mission/Mission_WT2_WL_01	शाई गाई को नदी की धारा में रेस करना सिखाएँ!
+MsgMain/Mission/Mission_WT2_WL_05	नदी घाटी में धारा के विपरीत रेस करें!
+MsgMain/Mission/Mission_WT2_WL_06	पिछली गलियों के रास्ते से राह बनाएँ!
+MsgMain/Mission/Mission_WT2_WL_07	रैंप और बीम पर रेस करके गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_WL_08	रैंप से चट्टान के किनारे पार करके गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_WL_09	अपनी वॉल-राइडिंग की कला दिखाएँ!
+MsgMain/Mission/Mission_WT2_WL_10	पुल पर एक के बाद एक स्टंट करें!
+MsgMain/Mission/Mission_WT2_WL_11	झटपट खाने के लिए उड़कर योशी के यहाँ पहुँचें!
+MsgMain/Mission/Mission_WT2_WL_12	ऊँचाई बढ़ाने के लिए कैक्टस पर ट्रिक करें!
+MsgMain/Mission/Mission_WT2_WL_13	गोल तक जाते हुए आर्माडिलो से बचें!
+MsgMain/Mission/Mission_WT2_WL_14	उस हेलीकॉप्टर का पीछा करें!
+MsgMain/Mission/Mission_WT2_WL_15	स्पेशल हुनर परीक्षा #6 में ख़ुद को साबित करें!
+MsgMain/Mission/Mission_WT2_WL_18	स्टील रैंप से एक पठार से दूसरे पठार तक उड़ें!
+MsgMain/Mission/Mission_WT3_WL_01	बंजर इलाक़े में सहनशक्ति की चुनौती का सामना करें!
+MsgMain/Mission/Mission_WT3_WL_02	घाटी की अचानक शुरू हुई रेस में शामिल हों!
+MsgMain/Mission/Mission_WT3_WL_03	घाटी के जोखिम भरे चक्कर में शामिल हों!
+MsgMain/Mission/Mission_WT3_WL_04	चट्टानों के ऊपर के रेसरों के बीच कूद पड़ें!
+MsgMain/Mission/Mission_RC_WL_02	बर्गर के नीले सिक्के जमा करने के लिए रेल राइड करें!
+MsgMain/Mission/Mission_WT_WL_03	स्टैंड के बीच से गोल तक रेस करें!
+MsgMain/Mission/Mission_WT2_WL_04	भूख लेकर आएँ और गोल तक रेस करें!
+MsgMain/Mission/Mission_RC_WL_07	सारे नीले सिक्के जमा करने के लिए ट्रिक बढ़ाएँ!
+MsgMain/Mission/Mission_WT_WL_02	ट्रेन को दिखाएँ कि आप कितना तेज़ जा सकते हैं!
+MsgMain/Mission/Mission_WT2_WL_02	विसलस्टॉप समिट की चोटी तक रेस करें!
+MsgMain/Mission/Mission_RC_WL_06	छतों से नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT2_WL_16	रैंप से छल्लों के बीच और लपटों के ऊपर से निकलें!
+MsgMain/Mission/Mission_WT2_WL_17	छतों के साथ-साथ छल्लों का पीछा करें!
+MsgMain/Mission/Mission_RC_DT_00	नीले सिक्के पकड़ें और डूबें नहीं!
+MsgMain/Mission/Mission_RC_DT_01	रेत से नीले सिक्के बचाएँ!
+MsgMain/Mission/Mission_RC_DT_03	बिखरे नीले सिक्के समेटें!
+MsgMain/Mission/Mission_RC_DT_04	सूखे ओएसिस में नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_DT_05	बाज़ार का जायज़ा लें और नीले सिक्के बटोरें!
+MsgMain/Mission/Mission_RC_DT_06	हवा में उड़ते नीले सिक्के जमा करने के लिए सवारी करें!
+MsgMain/Mission/Mission_RC_DT_07	नीले सिक्के पकड़ते हुए ओएसिस में ठंडक पाएँ!
+MsgMain/Mission/Mission_RC_DT_08	खंडहर के नीले सिक्कों के लिए रस्सी के साथ चलें!
+MsgMain/Mission/Mission_WT_DT_00	ख़तरनाक बवंडरों के बीच से निकलें!
+MsgMain/Mission/Mission_WT_DT_01	हैमर ब्रो की नाकेबंदी तोड़ें!
+MsgMain/Mission/Mission_WT_DT_02	ऊपर चढ़ते हुए चेन चॉम्प से बचें!
+MsgMain/Mission/Mission_WT_DT_03	धारा के विपरीत रेस में शाई गाई को पीछे छोड़ें!
+MsgMain/Mission/Mission_WT_DT_04	रेत के समंदर से गोल तक फ़र्राटा भरें!
+MsgMain/Mission/Mission_WT_DT_05	आगे दौड़ें और गोल पोल तक उछलें!
+MsgMain/Mission/Mission_WT_DT_06	समय पर गोल तक पहुँचने के लिए समझदारी से डैश करें!
+MsgMain/Mission/Mission_WT_DT_07	घुमावदार रास्ते पर चलकर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_DT_08	शाई गाई चैलेंज #2 का सामना करें!
+MsgMain/Mission/Mission_WT_DT_09	शाई गाई चैलेंज #1 का सामना करें!
+MsgMain/Mission/Mission_WT_DT_10	गोल तक पहुँचने के लिए 18 पहियों की ताकत लगाएँ!
+MsgMain/Mission/Mission_WT_DT_11	गोल तक पहुँचने के लिए पाइप से पाइप तक उछलें!
+MsgMain/Mission/Mission_WT_DT_12	डैश, डैश, डैश करके गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_DT_13	चढ़ाई पर टोकोटोको से बचें!
+MsgMain/Mission/Mission_WT_DT_14	ब्लॉकों की भूलभुलैया में रास्ता बनाएँ!
+MsgMain/Mission/Mission_WT_DT_15	बूस्ट के लिए प्राचीन जहाज़ों के मलबे का इस्तेमाल करें!
+MsgMain/Mission/Mission_WT_DT_16	बटाडोन की नाकेबंदी से बचकर निकलें!
+MsgMain/Mission/Mission_WT_DT_17	गोल तक रेल की लंबी सवारी करें!
+MsgMain/Mission/Mission_WT2_DT_00	नदी में रेस करें और समंदर में निकल जाएँ!
+MsgMain/Mission/Mission_WT2_DT_01	खंभे से खंभे तक मुश्किल छलाँगें लगाएँ!
+MsgMain/Mission/Mission_WT2_DT_02	चुपके से घुसने के लिए बाहरी दीवार पर चलें!
+MsgMain/Mission/Mission_WT2_DT_03	पुल पार करें और पूरे रास्ते ट्रिक करते जाएँ!
+MsgMain/Mission/Mission_WT2_DT_04	सुरंग में फ़ायर स्नेक से बचें!
+MsgMain/Mission/Mission_WT2_DT_05	रास्ते पर पार्टी कर रहे ढेर सारे पोकी के पास से निकलें!
+MsgMain/Mission/Mission_WT2_DT_06	ट्रेन स्टेशन के गोल पोल तक उड़ान भरें!
+MsgMain/Mission/Mission_WT2_DT_07	शाई गाई चैलेंज #3 का सामना करें!
+MsgMain/Mission/Mission_WT2_DT_08	हर टोकोटोको के पीछे अगले तक दौड़ें!
+MsgMain/Mission/Mission_WT2_DT_09	रेगिस्तान से बचने के लिए आसमान में उड़ें!
+MsgMain/Mission/Mission_WT2_DT_10	रेगिस्तानी आसमान और घास की पहाड़ियों से होकर गोल तक जाएँ!
+MsgMain/Mission/Mission_WT2_DT_11	शाई गाई बाज़ार का मुश्किल दौरा करें!
+MsgMain/Mission/Mission_WT2_DT_12	बारिश और सिक्कों के तूफ़ान में रेस करें!
+MsgMain/Mission/Mission_WT3_DT_00	रेत की सहनशक्ति परीक्षा का सामना करें!
+MsgMain/Mission/Mission_RC_VL_02	संकरी सड़क पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_VL_04	गर्म झरनों में नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_VL_05	नीले सिक्के जमा करें और थ्वॉम्प से सावधान रहें!
+MsgMain/Mission/Mission_RC_VL_06	नीले सिक्के जमा करते हुए बुली को पीछे छोड़ें!
+MsgMain/Mission/Mission_RC_VL_07	रेल पर सवार होकर नीले सिक्के बटोरें!
+MsgMain/Mission/Mission_RC_VL_08	डरावने कब्रिस्तान के आस-पास के नीले सिक्के पकड़ें!
+MsgMain/Mission/Mission_RC_VL_09	बिखरे हुए नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_VL_11	बड़ी सीढ़ियों के नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_VL_12	नीले सिक्के पकड़ने के लिए रेल से रेल पर कूदें!
+MsgMain/Mission/Mission_WT_VL_02	लावा की झील के ऊपर सुरक्षित उड़ें!
+MsgMain/Mission/Mission_WT_VL_03	वॉम्प्स के बीच से रास्ता निकालें!
+MsgMain/Mission/Mission_WT_VL_04	ट्रक उधार लें और सब तोड़ते चलें!
+MsgMain/Mission/Mission_WT_VL_05	ड्राई बोन्स से भरी सड़क से बचकर निकलें!
+MsgMain/Mission/Mission_WT_VL_06	गर्म झरनों के रास्ते में फ़िश बोन्स को पार करें!
+MsgMain/Mission/Mission_WT_VL_07	ग्रोल क्रॉसिंग से गाड़ी निकालें!
+MsgMain/Mission/Mission_WT_VL_08	टूटे पुल की बीमों पर से गुज़रें!
+MsgMain/Mission/Mission_WT_VL_10	बुलेट बिल बनकर आग की बौछार चीरें!
+MsgMain/Mission/Mission_WT_VL_11	एयरशिप फ़ोर्ट्रेस की कनेक्टिंग फ़्लाइट पकड़ें!
+MsgMain/Mission/Mission_WT_VL_12	आग के गोलों की लहरों से बचें! झुलसें नहीं!
+MsgMain/Mission/Mission_WT2_VL_04	लावा को दिखा दें कि आप सुपर स्टार हैं!
+MsgMain/Mission/Mission_WT2_VL_05	मशरूम से दाएँ रास्ते पर दौड़ें!
+MsgMain/Mission/Mission_WT2_VL_06	रस्सी पर चलने की ज़बरदस्त कला दिखाएँ!
+MsgMain/Mission/Mission_WT2_VL_07	मशरूम के बिना बाएँ रास्ते पर दौड़ें!
+MsgMain/Mission/Mission_WT2_VL_08	गीज़र पर सवार हों और छल्लों से गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_VL_09	आग वाले पिरान्हा प्लांट की गली से बचकर निकलें!
+MsgMain/Mission/Mission_WT2_VL_10	हेलीकॉप्टर में बैठें और आग से बचकर भागें!
+MsgMain/Mission/Mission_WT2_VL_11	एक के बाद एक ट्रिक से ट्रैक हिला दें!
+MsgMain/Mission/Mission_WT2_VL_12	पाइप और छल्लों वाले रास्ते से निकलें!
+MsgMain/Mission/Mission_WT2_VL_13	चौंकाने वाले सूमो पैरों से बचें!
+MsgMain/Mission/Mission_WT2_VL_16	स्टील के सहारों के बीच की जगहों से निकलें!
+MsgMain/Mission/Mission_WT2_VL_17	क़िले की दीवार की चोटी तक दौड़ें!
+MsgMain/Mission/Mission_WT2_VL_18	एक क्रेन पर चढ़ें, फिर दूसरी से बचें!
+MsgMain/Mission/Mission_WT2_VL_20	होल इन वन के लिए लंबी उड़ान भरें!
+MsgMain/Mission/Mission_WT3_VL_01	बिग डोनट की रेस में कुछ स्नैक्स लपकें!
+MsgMain/Mission/Mission_WT_VL_00	रॉकी रेंच की कतारों से बचकर निकलें!
+MsgMain/Mission/Mission_WT2_VL_00	घुमावदार टावर की चोटी तक ड्रिफ़्ट करें!
+MsgMain/Mission/Mission_WT2_VL_02	एयरशिप फ़ोर्ट्रेस के टाइम ट्रायल में दम दिखाएँ!
+MsgMain/Mission/Mission_RC_VL_01	तीखे फ़ूड कोर्ट के आसपास नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_VL_01	बाउज़र के क़िले की दीवारों पर उछलें!
+MsgMain/Mission/Mission_WT2_VL_03	लावा के कुंडों में गिरे बिना ट्रिक करें!
+MsgMain/Mission/Mission_WT3_VL_00	बाउज़र के चेलों से भरे कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_RC_VL_10	नीले सिक्के जमा करने के लिए रस्सी पर संतुलन बनाएँ!
+MsgMain/Mission/Mission_RC_VL_15	आग के गोलों से बचें और नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT2_VL_14	सबको दिखाएँ कि दीवार पर कैसे दौड़ते हैं!
+MsgMain/Mission/Mission_RC_FS_03	आठ के आकार के रास्ते पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_FS_04	विगलर्स के जमा किए नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_FS_05	डूबने के डर को हराकर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_FS_06	ट्रैफ़िक काटकर नीले सिक्के लपक लें!
+MsgMain/Mission/Mission_RC_FS_07	स्कीटर्स के जलकुंड से नीले सिक्के समेटें!
+MsgMain/Mission/Mission_RC_FS_08	नदी किनारे के कैंपसाइट पर नीले सिक्के जुटाएँ!
+MsgMain/Mission/Mission_RC_FS_09	नीले सिक्कों की खोज में डरावने जंगल का सामना करें!
+MsgMain/Mission/Mission_WT_FS_02	आराम से चलते मूस के झुंड से बचकर निकलें!
+MsgMain/Mission/Mission_WT_FS_03	रस्सी पर सवार होकर गोल तक उड़ें!
+MsgMain/Mission/Mission_WT_FS_04	उड़ते हुए मारियो की मूर्ति को "हाय" कहें!
+MsgMain/Mission/Mission_WT_FS_05	फूल की पंखुड़ियों से विशाल सेब तक पहुँचें!
+MsgMain/Mission/Mission_WT_FS_06	मारियो सर्किट में कूदते, कूदते, कूदते जाएँ!
+MsgMain/Mission/Mission_WT_FS_07	ट्रेन का पीछा करें और पटरियों पर चलें!
+MsgMain/Mission/Mission_WT_FS_08	स्पाइक्स के हमलों से बचें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_FS_09	कलाबाज़ी का अभ्यास करें और ट्रिक के साथ उतरें!
+MsgMain/Mission/Mission_WT_FS_10	जंगल के सफ़र पर निकलें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_FS_11	रास्ता दिखाओ, आइवी पिरान्हा प्लांट्स!
+MsgMain/Mission/Mission_WT_FS_12	सितारों की ताक़त से धारा के विपरीत दौड़ें!
+MsgMain/Mission/Mission_WT_FS_13	रेल पर चलें! तार पर चलें! गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_FS_05	भूतिया जंगल का सामना करें!
+MsgMain/Mission/Mission_WT2_FS_06	पेड़ों की छतरी के बीच से उड़ें!
+MsgMain/Mission/Mission_WT2_FS_07	भूतिया दलदल में पुल से पुल तक दौड़ें!
+MsgMain/Mission/Mission_WT2_FS_08	धारा के विपरीत तेज़ी से बढ़ें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_FS_09	दलदल को सुपर स्टार की ताक़त दिखाएँ!
+MsgMain/Mission/Mission_WT2_FS_10	कुशलता से ट्रैफ़िक के बीच दीवार पर दौड़ें!
+MsgMain/Mission/Mission_WT2_FS_11	तंग गलियों की छलाँगें पार करें!
+MsgMain/Mission/Mission_WT2_FS_12	धारा के साथ एकॉर्न हाइट्स तक जाएँ!
+MsgMain/Mission/Mission_WT2_FS_13	रास्ते में पिरान्हा प्लांट्स से बचें!
+MsgMain/Mission/Mission_WT2_FS_14	ट्रैफ़िक और चार्जिन चक्स के बीच से निकलें!
+MsgMain/Mission/Mission_WT3_FS_01	घोस्ट वैली 1 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_WT3_FS_02	घोस्ट वैली 2 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_WT3_FS_03	घोस्ट वैली 3 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_WT3_FS_05	जंगल के बीच जंगली रास्ते पर दौड़ें!
+MsgMain/Mission/Mission_RC_FS_01	लिली घाटी से उतरते हुए नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_FS_01	बलूत के फलों की बौछार झेलें!
+MsgMain/Mission/Mission_WT2_FS_00	आइवी पिरान्हा प्लांट्स पर ऊपर, ऊपर, ऊपर चढ़ें!
+MsgMain/Mission/Mission_WT2_FS_02	गोल के रास्ते में विगलर्स के बीच से बलखाकर निकलें!
+MsgMain/Mission/Mission_RC_FS_00	कंट्रोल टावर के आसपास नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_FS_00	क्वार्टर पाइप से उड़ान भरें और ऊँची छलाँग लगाएँ!
+MsgMain/Mission/Mission_WT2_FS_01	कठिन टाइम ट्रायल चुनौती में खुद को परखें!
+MsgMain/Mission/Mission_RC_FS_02	कैमरा क्रेन पर चढ़ें! तैयार... ऐक्शन!
+MsgMain/Mission/Mission_WT2_FS_03	भूतिया फ़िल्मी दुनिया में झाँकें!
+MsgMain/Mission/Mission_WT2_FS_04	रेल पर चलकर सिनेमा लॉबी तक पहुँचें!
+MsgMain/Mission/Mission_WT3_FS_04	सचमुच डुबो देने वाले फ़िल्मी अनुभव में दौड़ें!
+MsgMain/Mission/Mission_RC_IC_05	ढलान पर स्लैलम करें और नीले सिक्के बटोरें!
+MsgMain/Mission/Mission_RC_IC_07	स्नो पोकीज़ के बीच नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_IC_09	पेंगुइन की परेड के बीच नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_IC_10	ऊपर-नीचे दौड़कर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_IC_11	नीले सिक्कों के लिए फ्रॉस्ट पिरान्हा के हमलों से बचें!
+MsgMain/Mission/Mission_RC_IC_12	सभी स्नोमैन के नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_IC_13	फ्रॉस्ट पिरान्हा के हमलों के बीच नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_IC_14	नीले सिक्के जमा करते हुए रेल ट्रिक दिखाएँ!
+MsgMain/Mission/Mission_RC_IC_15	नीले सिक्के जमा करते हुए फज़ीज़ को चीरते निकलें!
+MsgMain/Mission/Mission_RC_IC_16	ढलानों से उतरते स्नोबॉल के बीच नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_WT2_IC_02	ढलानों के ऊपर ऊँचा उड़ें!
+MsgMain/Mission/Mission_WT2_IC_03	बर्फ़ीले पक्षियों के हमले से तेज़ निकलें!
+MsgMain/Mission/Mission_WT2_IC_04	ऊबड़-खाबड़ क्रॉस-कंट्री रास्ते पर बूस्ट लें!
+MsgMain/Mission/Mission_WT2_IC_07	गोल के रास्ते में हवा का ध्यान रखें!
+MsgMain/Mission/Mission_WT2_IC_08	जमी हुई चोटी तक जल्दी पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_09	ट्रैफ़िक जाम से निकलकर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_10	ट्रेन पर सवार होकर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_15	आग के गोलों से रास्ता साफ़ करें!
+MsgMain/Mission/Mission_WT2_IC_16	आइस-स्केटिंग अभ्यास में फिसलते जाएँ!
+MsgMain/Mission/Mission_WT2_IC_17	स्नोबॉल के साथ ढलान पर रेस लगाएँ!
+MsgMain/Mission/Mission_WT2_IC_18	आगे स्नोबॉल के ख़तरों से सावधान!
+MsgMain/Mission/Mission_WT2_IC_19	ट्रैफ़िक चीरकर ढलानों तक पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_20	मशरूम से स्टेशन तक सरपट दौड़ें!
+MsgMain/Mission/Mission_WT2_IC_22	झील पर ठंडे कोर्स का सामना करें!
+MsgMain/Mission/Mission_WT2_IC_23	आसमान में तैरें और गोल तक दौड़ें!
+MsgMain/Mission/Mission_WT2_IC_24	क़िस्मत के लिए कुछ ग्रीन शेल लें!
+MsgMain/Mission/Mission_WT2_IC_26	फिसलन भरी ढलान चढ़कर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_30	अधूरे शॉर्टकट का सामना करें!
+MsgMain/Mission/Mission_WT2_IC_31	बहुत दूर तक ग्लाइड करके हुनर दिखाएँ!
+MsgMain/Mission/Mission_WT3_IC_00	वैनिला लेक को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_RC_IC_02	ऑब्ज़र्वेटरी का चक्कर लगाएँ और नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_WT2_IC_05	आइस ब्रोज़ के हमलों से सावधान!
+MsgMain/Mission/Mission_WT2_IC_28	एक्सीलरेटर दबा दें! चलो, चलो, चलो!
+MsgMain/Mission/Mission_WT_IC_02	घूमते आइसक्रीम कोन की चोटी तक पहुँचें!
+MsgMain/Mission/Mission_WT2_IC_11	आइसक्रीम की घाटी से हिम्मत के साथ निकल भागें!
+MsgMain/Mission/Mission_WT2_IC_32	मशरूम सही समय पर लें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_RC_IC_04	डीके पास पर नी-नी-नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT2_IC_12	कौशल की विशेष परीक्षा #5 में खुद को साबित करें!
+MsgMain/Mission/Mission_WT2_IC_13	ख़ाली स्टैंड से होकर गोल तक दौड़ें!
+MsgMain/Mission/Mission_WT2_IC_14	शाय गाय की स्नोबोर्ड प्रतियोगिता में उतरें!
+MsgMain/Mission/Mission_RC_PL_01	रहस्यमयी गुफाओं में नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_PL_02	पैरा-बिडीबड से ढके पुल पर दौड़ें!
+MsgMain/Mission/Mission_WT2_PL_03	कूदो, कूदो, कूदो, कूदो, कूदो, कूदो, कूदो...कूदो!
+MsgMain/Mission/Mission_WT2_PL_04	कौशल की विशेष परीक्षा #3 में खुद को साबित करें!
+MsgMain/Mission/Mission_RC_PL_04	नीले सिक्के जमा करके ज़ेन पाएँ!
+MsgMain/Mission/Mission_WT_PL_05	झरने पर चढ़कर शांति पाएँ!
+MsgMain/Mission/Mission_WT2_PL_07	घंटा बजाकर दुनिया से तालमेल बिठाएँ!
+MsgMain/Mission/Mission_RC_RT_03	नीले सिक्के जमा करने के लिए सटीक ड्राइविंग दिखाएँ!
+MsgMain/Mission/Mission_RC_RT_04	भँवर से नीले सिक्के बचाएँ!
+MsgMain/Mission/Mission_RC_RT_05	तूफ़ान का सामना करें और नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_RT_06	सावधानी से नीले सिक्के लें और समुद्री हवा का मज़ा लें!
+MsgMain/Mission/Mission_RC_RT_07	गुम्बाओं की छुट्टी की जगह से नीले सिक्के लें!
+MsgMain/Mission/Mission_RC_RT_08	समुद्र किनारे की नीले सिक्कों की पार्टी में घुसें!
+MsgMain/Mission/Mission_WT_RT_02	गोल तक पहुँचने के लिए ऊँची छलाँग लगाएँ!
+MsgMain/Mission/Mission_WT_RT_03	समुद्र पार से पुकारती जलपरी तक पहुँचें!
+MsgMain/Mission/Mission_WT_RT_04	सॉल्टी सॉल्टी स्पीडवे तक उड़ें!
+MsgMain/Mission/Mission_WT_RT_05	धोखेबाज़ चट्टानें पार करके गोल पोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_RT_06	पानी में स्टीयरिंग की एडवांस ट्रेनिंग लें!
+MsgMain/Mission/Mission_WT_RT_07	जलस्तंभ की हवाओं पर भरोसा करें!
+MsgMain/Mission/Mission_WT_RT_08	बूमरैंग ब्रोज़ की नाकाबंदी तोड़ें!
+MsgMain/Mission/Mission_WT_RT_09	पवनचक्की पार करें!
+MsgMain/Mission/Mission_WT_RT_10	तेज़ी से समुद्र तट पहुँचें! चलो, चलो, चलो!
+MsgMain/Mission/Mission_WT2_RT_04	चीप चीप्स के हौसले के साथ बूस्ट के लिए कूदें!
+MsgMain/Mission/Mission_WT2_RT_05	गोल के रास्ते में द्वीपों की सैर करें!
+MsgMain/Mission/Mission_WT2_RT_06	बल्बर्स के देखते-देखते लहरों पर सर्फ़ करें!
+MsgMain/Mission/Mission_WT2_RT_07	गोल तक पहुँचने के लिए फ़ेदर में माहिर बनें!
+MsgMain/Mission/Mission_WT2_RT_08	फूल की पंखुड़ी पर एक्सीलरेटर दबाएँ!
+MsgMain/Mission/Mission_WT2_RT_09	उन पवनचक्कियों के पास समुद्री हवा खोजें!
+MsgMain/Mission/Mission_WT2_RT_10	खुले समुद्र में जलस्तंभों का सामना करें!
+MsgMain/Mission/Mission_WT2_RT_11	सॉल्टी सॉल्टी स्पीडवे की छतों पर पार्कर करें!
+MsgMain/Mission/Mission_WT2_RT_12	गोल तक पहुँचने के लिए ढलान पर ज़िगज़ैग करें!
+MsgMain/Mission/Mission_WT2_RT_13	पाइप और पतले रास्तों से गोल तक जाएँ!
+MsgMain/Mission/Mission_WT2_RT_14	ड्रैगनील्स की सवारी करने की हिम्मत करें!
+MsgMain/Mission/Mission_WT3_RT_00	वीरान द्वीप के चारों ओर की रेस में शामिल हों!
+MsgMain/Mission/Mission_RC_RT_01	नीले सिक्कों के लिए जहाज़ों के मलबे पर चढ़ें!
+MsgMain/Mission/Mission_WT_RT_01	सिक्कों से भरे रास्ते पर गोल तक जाएँ!
+MsgMain/Mission/Mission_WT2_RT_01	टावर से टावर तक नॉनस्टॉप उड़ान भरें!
+MsgMain/Mission/Mission_RC_RT_00	मोहक जलपरी के नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_RT_00	बूस्ट के लिए कुछ बक्से तोड़ें!
+MsgMain/Mission/Mission_WT2_RT_00	सूखे रहकर गोल तक पहुँचने के लिए शॉर्टकट लें!
+MsgMain/Mission/Mission_WT2_RT_02	वीआईपी सीटिंग टावर तक उड़ें!
+MsgMain/Mission/Mission_WT2_RT_03	मशरूम से शहर पार करके गोल तक भागें!
+MsgMain/Mission/Mission_WT2_RT_15	शाय गाय के वॉटर शो को चीरते निकलें!
+MsgMain/Mission/Mission_RC_JG_02	मगरमच्छों की मदद से नीले सिक्कों तक पहुँचें!
+MsgMain/Mission/Mission_RC_JG_03	तारों पर चलकर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_JG_05	आइवी पिरान्हा प्लांट्स के पीछे नीले सिक्कों तक पहुँचें!
+MsgMain/Mission/Mission_RC_JG_06	जंगल की रेल पर चलकर नीले सिक्के लपकें!
+MsgMain/Mission/Mission_RC_JG_07	सवाना के आसमान से नीले सिक्के तोड़ें!
+MsgMain/Mission/Mission_RC_JG_08	आइवी पिरान्हा प्लांट की बेलों पर सवार होकर नीले सिक्के लपकें!
+MsgMain/Mission/Mission_RC_JG_09	पिरान्हा प्लांट्स के चाहे नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_JG_10	नीले सिक्कों की ओर भागते हुए जिराफ़ों का ध्यान रखें!
+MsgMain/Mission/Mission_RC_JG_11	समय पर नीले सिक्के जमा करने के लिए चतुराई से यू-टर्न लें!
+MsgMain/Mission/Mission_RC_JG_12	नदी किनारे के सफ़ारी में नीले सिक्के समेटें!
+MsgMain/Mission/Mission_RC_JG_13	गीज़र के मैदान के आसपास नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_JG_02	आसमान में उड़ें और नदी घाटी में ग्लाइड करें!
+MsgMain/Mission/Mission_WT_JG_03	ब्लॉक से बादल पर कूदकर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_JG_04	दोनों ओर से आते भैंसों की भगदड़ का सामना करें!
+MsgMain/Mission/Mission_WT_JG_05	ज़ेब्रा की दौड़ के बीच ज़िगज़ैग करें!
+MsgMain/Mission/Mission_WT_JG_06	गोल तक पहुँचने के लिए फ़ेदर का पूरा फ़ायदा उठाएँ!
+MsgMain/Mission/Mission_WT_JG_07	झरनों के ऊपर उड़ें!
+MsgMain/Mission/Mission_WT_JG_08	झरने के किनारे से भरोसे की छलाँग लगाएँ!
+MsgMain/Mission/Mission_WT_JG_09	ट्राइसेराटॉप्स से रैंप लें!
+MsgMain/Mission/Mission_WT_JG_10	झुंड की मदद से गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_JG_11	मगरमच्छों की अनोखी मदद के लिए शुक्रिया कहें!
+MsgMain/Mission/Mission_WT_JG_12	झरने पर दीवार दौड़? शायद चल जाए!
+MsgMain/Mission/Mission_WT_JG_13	मलबे से बचें और झरने के पार ड्रिफ़्ट करें!
+MsgMain/Mission/Mission_WT2_JG_04	नदी के सफ़र में कूदें और बाहर आएँ!
+MsgMain/Mission/Mission_WT2_JG_05	जोश से ग्लाइड करें! टी. रेक्स से न डरें!
+MsgMain/Mission/Mission_WT2_JG_06	ब्रैकियोसॉरस से सहारा लें!
+MsgMain/Mission/Mission_WT2_JG_08	आसमानी ब्लॉक तक पहुँचने के लिए ऊँचाइयाँ चढ़ें!
+MsgMain/Mission/Mission_WT2_JG_09	भरे सवाना में चट्टान से चट्टान पर दौड़ें!
+MsgMain/Mission/Mission_WT2_JG_11	सवाना घूमें और विशाल झरनों को देखें!
+MsgMain/Mission/Mission_WT2_JG_12	डायनासोर से भरे जंगल में ऑफ़रोड दौड़ें!
+MsgMain/Mission/Mission_WT2_JG_13	बेक़ाबू ट्रक पर सवारी लें!
+MsgMain/Mission/Mission_WT2_JG_14	पहाड़ पर चढ़ने के कठिन रास्ते का सामना करें!
+MsgMain/Mission/Mission_WT3_JG_00	सवाना की सहनशक्ति रेस में शामिल हों!
+MsgMain/Mission/Mission_WT3_JG_01	जंगली डायनासोर के पास से और ऊपर से निकलें!
+MsgMain/Mission/Mission_RC_JG_01	खंडहरों के सोने के बीच नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_JG_01	बादलों की चोटियों पर उछलें!
+MsgMain/Mission/Mission_WT2_JG_03	प्राचीन खंडहरों के ऊपर कठिन रास्ते पर दौड़ें!
+MsgMain/Mission/Mission_RC_JG_00	नीले सिक्कों की खोज में डायनो डोम का सामना करें!
+MsgMain/Mission/Mission_WT2_JG_00	डोम और उसके आगे उड़ान भरें!
+MsgMain/Mission/Mission_WT2_JG_01	कौशल की विशेष परीक्षा #4 में खुद को साबित करें!
+MsgMain/Mission/Mission_WT2_JG_02	उनकी पीठ पर भरोसा करें, वे पहुँचा देंगे!
+MsgMain/Mission/Mission_WT2_JG_10	ऊपर, ऊपर, ऊपर बादलों में उड़ें!
+MsgMain/Mission/Mission_RC_BS_04	नीले सिक्के जमा करना पसंद हो तो हॉर्न बजाएँ!
+MsgMain/Mission/Mission_RC_BS_05	नीले सिक्के लपकने के लिए आठ का आकार बनाएँ!
+MsgMain/Mission/Mission_RC_BS_06	भँवर की लहरों से नीले सिक्के बचाएँ!
+MsgMain/Mission/Mission_RC_BS_08	रेल सवारी की कठिन चुनौती में नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_BS_09	नीले सिक्कों की खोज में सटीक ड्राइविंग का अभ्यास करें!
+MsgMain/Mission/Mission_RC_BS_10	नीले सिक्के उठाएँ...और अंत में शायद एक डोनट?
+MsgMain/Mission/Mission_WT_BS_03	विस्फोटकों से आगे निकलने की रेस लगाएँ!
+MsgMain/Mission/Mission_WT_BS_04	गोल तक पहुँचने के लिए कुछ अपग्रेड उधार लें!
+MsgMain/Mission/Mission_WT_BS_05	शहर के लिए एक्सप्रेस ट्रेन पकड़ें!
+MsgMain/Mission/Mission_WT_BS_07	बेलों से ट्रॉफ़ियों की ट्रॉफ़ी तक पहुँचें!
+MsgMain/Mission/Mission_WT_BS_08	उछलो, उछलो, उछलो और शानदार नज़ारे तक पहुँचो!
+MsgMain/Mission/Mission_WT2_BS_04	स्पेसपोर्ट के रास्ते में गाड़ियों पर ट्रिक करें!
+MsgMain/Mission/Mission_WT2_BS_05	पिछली सड़क का गुप्त बैरल शॉर्टकट देखें!
+MsgMain/Mission/Mission_WT2_BS_06	शहर के लिए नदी का रास्ता लें!
+MsgMain/Mission/Mission_WT2_BS_07	शहर के लिए अपनी चार्टर फ़्लाइट में सवार हों!
+MsgMain/Mission/Mission_WT2_BS_08	गोल पोल तक पहुँचने के लिए नाज़ुक हाथ दिखाएँ!
+MsgMain/Mission/Mission_WT2_BS_10	ढकी सड़कों पर ट्रैफ़िक के बीच दौड़ें!
+MsgMain/Mission/Mission_WT2_BS_11	इस चुनौती भरी परीक्षा में जी भरकर ट्रिक करें!
+MsgMain/Mission/Mission_WT2_BS_12	मछलियों के झुंडों से निकलकर गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_BS_13	समुद्र तट पर पहुँचें!
+MsgMain/Mission/Mission_WT2_BS_14	आठ के आकार के टाइम ट्रायल में दौड़ें!
+MsgMain/Mission/Mission_WT2_BS_15	कौशल की विशेष परीक्षा #1 में खुद को साबित करें!
+MsgMain/Mission/Mission_WT2_BS_16	गोल तक कुछ आरामदेह रास्ता लें!
+MsgMain/Mission/Mission_WT2_BS_17	उछलते हुए कूपा ट्रूपा बीच तक पहुँचें!
+MsgMain/Mission/Mission_WT2_BS_18	पीच स्टेडियम में व्हेल जैसा स्वागत पाएँ!
+MsgMain/Mission/Mission_WT2_BS_19	दूर के शहर तक ख़तरनाक सफ़र करें!
+MsgMain/Mission/Mission_WT2_BS_20	हर्मिटी कोन के ठिकानों को तोड़ते निकलें!
+MsgMain/Mission/Mission_WT2_BS_21	डायनासोर से भरी गलियों में दौड़ें!
+MsgMain/Mission/Mission_WT3_BS_02	समुद्र तट की रेस में रेत और लहरों का सामना करें!
+MsgMain/Mission/Mission_RC_BS_03	तैरते बाधा कोर्स पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT2_BS_03	रस्सियों पर रेल सवारी करके चोटी तक पहुँचें!
+MsgMain/Mission/Mission_WT3_BS_01	कूपा बीच 1 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_RC_BS_01	लॉन्चपैड के नीले सिक्कों के लिए पाइप पर चलें!
+MsgMain/Mission/Mission_WT_BS_01	डीके स्पेसपोर्ट से वापस दौड़ें!
+MsgMain/Mission/Mission_WT2_BS_01	क्लासिक DONKEY KONG को याद करें!
+MsgMain/Mission/Mission_RC_BS_00	पार्क के मोड़ों पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_BS_02	शहर की रेलिंग पर चलकर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_BS_00	गोल के रास्ते में बाउज़र के चेलों से बचें!
+MsgMain/Mission/Mission_WT_BS_02	वो पार्किंग जगह लपक लें! जल्दी!
+MsgMain/Mission/Mission_WT2_BS_00	क्राउन सिटी में पार्कर टूर करें!
+MsgMain/Mission/Mission_WT2_BS_02	पार्किंग गैराज में दिग्गज की तरह ड्रिफ़्ट करें!
+MsgMain/Mission/Mission_WT3_BS_00	पूरे शहर की रेस में अपनी सहनशक्ति परखें!
+MsgMain/Mission/Mission_RC_PL_05	गिरते पत्तों के बीच शान से नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_PL_06	नीले सिक्के जमा करने के लिए तार से तार पर कूदें!
+MsgMain/Mission/Mission_RC_PL_07	पैरा-बिडीबड के बीच नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_PL_08	खेतों में खोजें। नीले सिक्कों का अपहरण करें।
+MsgMain/Mission/Mission_RC_PL_09	थ्वॉम्पी-वॉम्पी दीवार पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_PL_10	स्लैकलाइन कोर्स पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_PL_11	बहाव के साथ चलकर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_PL_12	ऊपर उछलें! नीचे गिरें! नीले सिक्के लपकें!
+MsgMain/Mission/Mission_RC_PL_13	भूसे की गांठें चीरकर नीले सिक्के बटोरें!
+MsgMain/Mission/Mission_RC_PL_14	कुछ आसान नीले सिक्के उठाएँ...और एक मुश्किल!
+MsgMain/Mission/Mission_RC_PL_15	सुंदर पिछले रास्ते पर नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_RC_PL_16	डैंडेलियन डेप्थ्स के रास्ते में नीले सिक्के उठाएँ!
+MsgMain/Mission/Mission_RC_PL_17	नीले सिक्के जमा करते हुए कुछ धुनें बजाएँ!
+MsgMain/Mission/Mission_WT_PL_06	झील पार करें! मछलियों का खाना न बनें!
+MsgMain/Mission/Mission_WT_PL_07	रैंप पर चढ़ें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT_PL_08	सिग्नल बग्स के नीचे से सही समय पर निकलें!
+MsgMain/Mission/Mission_WT_PL_09	योशी का टू-गो बैग लें! या सात! या ग्यारह!
+MsgMain/Mission/Mission_WT_PL_10	अब तक के सबसे ख़तरनाक ट्रैफ़िक से बचकर निकलें!
+MsgMain/Mission/Mission_WT_PL_11	नदी किनारे की गाड़ियों का इस्तेमाल करें!
+MsgMain/Mission/Mission_WT_PL_12	ट्रक लपकें और शॉर्टकट चीरते निकलें!
+MsgMain/Mission/Mission_WT_PL_13	सुपर कूपा जो गिराएँ, उसे समेट लें!
+MsgMain/Mission/Mission_WT_PL_14	स्टेडियम के बाग़ से शॉर्टकट पर ध्यान दें!
+MsgMain/Mission/Mission_WT_PL_16	समय ख़त्म होने से पहले पहाड़ी दर्रा पार करें!
+MsgMain/Mission/Mission_WT_PL_17	समय पर झील तक पहुँचने के लिए ढलान पर दौड़ें!
+MsgMain/Mission/Mission_WT_PL_19	चीप चीप फ़ॉल्स के गुप्त रास्ते से उड़ें!
+MsgMain/Mission/Mission_WT_PL_20	नदी के ऊपर की ओर दौड़ें और गोल तक पहुँचें!
+MsgMain/Mission/Mission_WT2_PL_09	सावधान! फिर सावधान! और सावधान!
+MsgMain/Mission/Mission_WT2_PL_10	जोखिम भरे शॉर्टकट पर दौड़ें!
+MsgMain/Mission/Mission_WT2_PL_11	अपनी छलाँगों के समय का ध्यान रखें!
+MsgMain/Mission/Mission_WT2_PL_12	आइवी पिरान्हा प्लांट की बेल को गोल की ओर मोड़ें!
+MsgMain/Mission/Mission_WT2_PL_13	सबको दिखाएँ कि ढलानें वर्जित नहीं हैं!
+MsgMain/Mission/Mission_WT2_PL_14	ट्रेन में चढ़ने का बेहद ख़तरनाक तरीक़ा दिखाएँ!
+MsgMain/Mission/Mission_WT2_PL_15	सुपर स्टार की ताक़त से चमकें!
+MsgMain/Mission/Mission_WT2_PL_16	पहाड़ की चोटी तक पहुँचने के लिए जी भरकर ट्रिक करें!
+MsgMain/Mission/Mission_WT2_PL_17	नाव उधार लें और रुकने का नाम न लें!
+MsgMain/Mission/Mission_WT2_PL_18	जो भी यार्ड खोद रहा है, उसका पीछा करें!
+MsgMain/Mission/Mission_WT2_PL_19	चेन चॉम्प्स के झुंड के बीच से रास्ता निकालें!
+MsgMain/Mission/Mission_WT2_PL_20	चोको माउंटेन तक ऑफ़रोड रास्ता लें!
+MsgMain/Mission/Mission_WT2_PL_22	हवा में! पानी में!
+MsgMain/Mission/Mission_WT3_PL_00	चोको आइलैंड 2 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_WT3_PL_01	चोको आइलैंड 1 को श्रद्धांजलि देते कोर्स पर दौड़ें!
+MsgMain/Mission/Mission_WT3_PL_03	स्थानीय शौक़िया रेस में कूद पड़ें!
+MsgMain/Mission/Mission_WT3_PL_04	झील पर रेस करते समय ड्रैगनील्स से सावधान रहें!
+MsgMain/Mission/Mission_RC_Island_00	सोने के समंदर में नीले सिक्कों पर ध्यान दें!
+MsgMain/Mission/Mission_WT_PL_18	गिरती चॉकलेट से सावधान! और चट्टानों से भी!
+MsgMain/Mission/Mission_WT2_PL_21	गाढ़ी चॉकलेट में सरपट, सरपट, सरपट दौड़ें!
+MsgMain/Mission/Mission_WT_PL_00	प्रोटोटाइप टेस्टिंग की गड़बड़ी माफ़ करें!
+MsgMain/Mission/Mission_WT2_PL_00	कौशल की विशेष परीक्षा #2 में खुद को साबित करें!
+MsgMain/Mission/Mission_WT2_PL_01	टोड की फ़ैक्टरी का टूर करें!
+MsgMain/Mission/Mission_WT2_PL_02	क्रेन की सबसे ऊँची चोटी तक दौड़ें!
+MsgMain/Mission/Mission_RC_PL_02	भरोसा रखें कि पाइप के पीछे नीले सिक्कों की वजह है!
+MsgMain/Mission/Mission_WT_PL_03	गायों के झुंड के बीच से निकल जाएँ!
+MsgMain/Mission/Mission_WT2_PL_05	घास के मैदानों पर कूदें और गोल तक उड़ें!
+MsgMain/Mission/Mission_RC_PL_03	कंट्रोल टावर के आसपास नीले सिक्के जमा करें!
+MsgMain/Mission/Mission_WT_PL_04	पीच स्टेडियम के ऊपर आसमान में उड़ें!
+MsgMain/Mission/Mission_WT2_PL_06	ट्रिक करते हुए गेट की चोटी तक पहुँचें!
+MsgMain/Race/9001	जारी रखें
+MsgMain/Race/9002	बाहर निकलें
+MsgMain/Race/9003	कोर्स बदलें
+MsgMain/Race/9004	किरदार बदलें
+MsgMain/Race/9005	फिर से शुरू करें
+MsgMain/Race/9006	अगली रेस
+MsgMain/Race/9007	अगला
+MsgMain/Race/9008	फिर कोशिश करें
+MsgMain/Race/9009	रीप्ले देखें
+MsgMain/Race/9010	देखना जारी रखें
+MsgMain/Race/9011	बाहर निकलें
+MsgMain/Race/9012	अगला राउंड
+MsgMain/Race/9013	घोस्ट के साथ रेस
+MsgMain/Race/9014	शुरू से रीप्ले
+MsgMain/Race/9015	क्या आप सच में बाहर निकलना चाहते हैं?
+MsgMain/Race/9016	देखना जारी रखें
+MsgMain/Race/9017	बाहर निकलें
+MsgMain/Race/9018	गेम शुरू करें
+MsgMain/Race/9019	फ़्री रोम जारी रखें
+MsgMain/Race/9020	फ़्री रोम छोड़ें
+MsgMain/Race/9021	नियम बदलें
+MsgMain/Race/9022	रूम की जानकारी देखें
+MsgMain/Race/9023	सेटिंग्स/कंट्रोलर
+MsgMain/Race/9025	नियम देखें
+MsgMain/Race/9026	फ़्री रोम पर लौटें
+MsgMain/Race/9028	मिशन जारी रखें
+MsgMain/Race/9029	मिशन छोड़ें
+MsgMain/Race/9034	अगला
+MsgMain/Race/9035	गोल
+MsgMain/Race/9036	लक्ष्य
+MsgMain/Race/9031	नया घोस्ट डेटा बन गया।
+MsgMain/Race/9032	ये रेस के नतीजे हैं!
+MsgMain/Race/9033	आप बहुत पीछे रह गए...
+MsgMain/Race/9037	कुछ रेसर बहुत पीछे रह गए...
+MsgMain/Race/9101	क्या आप अपना नया घोस्ट डेटा\nअपलोड करना चाहते हैं?
+MsgMain/Race/9103	अपलोड हो रहा है...
+MsgMain/Race/9104	घोस्ट डेटा अपलोड हो गया।
+MsgMain/Race/9105	घोस्ट डेटा अपलोड नहीं हो सका।
+MsgMain/Race/9106	{0E 0000 0003 0002 0000}स्पेशल कप{0E 0000 0003 0002 FFFF} अब उपलब्ध है!
+MsgMain/Race/9107	{0E 0000 0003 0002 0000}मिरर मोड {0E 0000 0003 0002 FFFF}अनलॉक हो गया!
+MsgMain/Race/9201	स्लो-मो
+MsgMain/Race/9202	मेन्यू
+MsgMain/Race/9203	बदलें
+MsgMain/Race/9204	रोकें
+MsgMain/Race/9205	चालू करें
+MsgMain/Race/9221	सेटिंग्स
+MsgMain/Race/9222	स्मार्ट स्टीयरिंग
+MsgMain/Race/9223	चालू
+MsgMain/Race/9224	बंद
+MsgMain/Race/9225	झुकाव नियंत्रण
+MsgMain/Race/9226	चालू
+MsgMain/Race/9227	बंद
+MsgMain/Race/9228	ऑटो-एक्सीलरेट
+MsgMain/Race/9229	चालू
+MsgMain/Race/9230	बंद
+MsgMain/Race/9231	ऑटो आइटम उपयोग
+MsgMain/Race/9232	चालू
+MsgMain/Race/9233	बंद
+MsgMain/Race/9234	क्षैतिज कैमरा
+MsgMain/Race/9235	सामान्य
+MsgMain/Race/9236	उलटा
+MsgMain/Race/9237	ऊर्ध्वाधर कैमरा
+MsgMain/Race/9238	मिनीमैप
+MsgMain/Race/9239	डैश फ़ूड
+MsgMain/Race/9240	बदलता है
+MsgMain/Race/9241	नहीं बदलता
+MsgMain/Race/9281	आइटम उपयोग
+MsgMain/Race/9282	स्टीयर
+MsgMain/Race/9283	ड्रिफ़्ट
+MsgMain/Race/9284	एक्सीलरेट
+MsgMain/Race/9301	रेस 1
+MsgMain/Race/9302	रेस 2
+MsgMain/Race/9303	रेस 3
+MsgMain/Race/9304	रेस 4
+MsgMain/Race/9305	रेस 5
+MsgMain/Race/9306	रेस 6
+MsgMain/Race/9307	रेस 7
+MsgMain/Race/9308	रेस 8
+MsgMain/Race/9309	रेस 9
+MsgMain/Race/9310	रेस 10
+MsgMain/Race/9311	रेस 11
+MsgMain/Race/9312	रेस 12
+MsgMain/Race/9313	रेस 13
+MsgMain/Race/9314	रेस 14
+MsgMain/Race/9315	रेस 15
+MsgMain/Race/9316	रेस 16
+MsgMain/Race/9317	रेस 17
+MsgMain/Race/9318	रेस 18
+MsgMain/Race/9319	रेस 19
+MsgMain/Race/9320	रेस 20
+MsgMain/Race/9321	रेस 21
+MsgMain/Race/9322	रेस 22
+MsgMain/Race/9323	रेस 23
+MsgMain/Race/9324	रेस 24
+MsgMain/Race/9325	रेस 25
+MsgMain/Race/9326	रेस 26
+MsgMain/Race/9327	रेस 27
+MsgMain/Race/9328	रेस 28
+MsgMain/Race/9329	रेस 29
+MsgMain/Race/9330	रेस 30
+MsgMain/Race/9331	रेस 31
+MsgMain/Race/9399	आख़िरी रेस
+MsgMain/Race/9401	राउंड 1
+MsgMain/Race/9402	राउंड 2
+MsgMain/Race/9403	राउंड 3
+MsgMain/Race/9404	राउंड 4
+MsgMain/Race/9405	राउंड 5
+MsgMain/Race/9406	राउंड 6
+MsgMain/Race/9407	राउंड 7
+MsgMain/Race/9499	आख़िरी राउंड
+MsgMain/Race/9501	{0E 0000 0003 0002 0004}पहले{0E 0000 0003 0002 FFFF} स्थान का लक्ष्य रखें!
+MsgMain/Race/9504	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}टॉप 4{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!{0E 0000 0002 0002 0064}
+MsgMain/Race/9508	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 8{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!{0E 0000 0002 0002 0064}
+MsgMain/Race/9512	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 12{0E 0000 0003 0002 FFFF}{0E 0000 0002 0002 004B} में आएँ!{0E 0000 0002 0002 0064}
+MsgMain/Race/9516	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 0004}टॉप 16{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!{0E 0000 0002 0002 0064}
+MsgMain/Race/9520	{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064} {0E 0000 0003 0002 0004}टॉप 20{0E 0000 0002 0002 004B}{0E 0000 0002 0002 0064}{0E 0000 0003 0002 FFFF} {0E 0000 0002 0002 004B}में आएँ!{0E 0000 0002 0002 0064}
+MsgMain/Race/9604	आप टॉप 4 में नहीं थे।
+MsgMain/Race/9608	आप टॉप 8 में नहीं थे।
+MsgMain/Race/9612	आप टॉप 12 में नहीं थे।
+MsgMain/Race/9616	आप टॉप 16 में नहीं थे।
+MsgMain/Race/9620	आप टॉप 20 में नहीं थे।
+MsgMain/Race/9701	नमस्ते!
+MsgMain/Race/9702	शुभकामनाएँ!
+MsgMain/Race/9703	स्वागत है!
+MsgMain/Race/9704	मुझ पर रहम करना!
+MsgMain/Race/9705	मैं पूरी कोशिश करूँगा!
+MsgMain/Race/9706	चलो!
+MsgMain/Race/9707	और खिलाड़ियों का इंतज़ार करें।
+MsgMain/Race/9708	ठीक है!
+MsgMain/Race/9709	मैं थोड़ा घबरा रहा हूँ...
+MsgMain/Race/9710	मैं उत्साहित हूँ!
+MsgMain/Race/9711	मैं फ़ोटो लेता हूँ!
+MsgMain/Race/9712	हुर्रे!
+MsgMain/Race/9713	मज़ा आ गया!
+MsgMain/Race/9714	अच्छा खेले!
+MsgMain/Race/9715	कितने अफ़सोस की बात है!
+MsgMain/Race/9716	ये ठीक नहीं है!
+MsgMain/Race/9717	एक बार और!
+MsgMain/Race/9718	अगली बार देख लूँगा!
+MsgMain/Race/9719	ये मेरा आख़िरी गेम है।
+MsgMain/Race/9720	मैं चलता हूँ।
+MsgMain/Race/9721	खेलने के लिए शुक्रिया!
+MsgMain/Race/9722	शुक्रिया!
+MsgMain/Race/9723	शुभ रात्रि!
+MsgMain/Race/9724	टाटा!
+MsgMain/Race/9726	आप तो कमाल हैं!
+MsgMain/Race/9727	ये कमाल है!
+MsgMain/Race/9728	संभलकर!
+MsgMain/Race/9729	अपना पूरा ज़ोर लगाओ!
+MsgMain/Race/9730	बिल्कुल ऐसे ही!
+MsgMain/Race/9731	चलो, चलो, चलो!
+MsgMain/Race/9732	पीछे देखो!
+MsgMain/Race/9733	बढ़िया!
+MsgMain/Race/9750	मैं फ़ोटो ले रहा हूँ!
+MsgMain/Race/9751	मैं रेस में हूँ!
+MsgMain/Race/9752	मैं बैटल में हूँ!
+MsgMain/Race/9753	मैं देख रहा हूँ!
+MsgMain/Race/9936	लाइव
+MsgMain/Race/9939	आउच!
+MsgMain/Race/9940	पकड़ लिया!
+MsgMain/Sticker/10000	आपने मारियो कार्ट वर्ल्ड शुरू किया!
+MsgMain/Sticker/10001	आपने कुल{0E 012D 0000 0004 0000 0000}{0E 0000 0001 0002 0010}{0E 0000 0001 0002 FFFF}{0F 012D 0000}{0E 0001 0000 0004 0000 0000} जमा किए!
+MsgMain/Sticker/10002	आपने कुल {0E 0001 0000 0004 0000 0000} ट्रिक कीं!
+MsgMain/Sticker/10004	आपने कुल {0E 0001 0000 0004 0000 0000} किमी गाड़ी चलाई!
+MsgMain/Sticker/10005	आपने कुल {0E 0001 0000 0004 0000 0000} किमी ग्लाइड किया!
+MsgMain/Sticker/10006	आपने कुल {0E 0001 0000 0004 0000 0000} बार रेस की!
+MsgMain/Sticker/10008	आपने एक ? पैनल चालू किया!
+MsgMain/Sticker/10009	आपको एक पीच मेडालियन मिला!
+MsgMain/Sticker/10011	आपने नैबिट को पकड़ लिया!
+MsgMain/Sticker/10012	आपने चार्जिन चक चुनौती जीत ली!
+MsgMain/Sticker/10013	आपने एक मिशन पूरा किया!
+MsgMain/Sticker/10014	आपने स्पेशल कप में रेस की!
+Ver110/Ver110/VideoChat_04	कृपया कैमरा जाँचें।
+Ver110/Ver110/VideoChat_06	कृपया कर्सर को अपने चेहरे पर लाएँ।
+Ver110/Ver110/VideoChat_07	ज़ूम
+Ver110/Ver110/VideoChat_08	ठीक है
+Ver110/Ver110/VideoChat_09	हिलाएँ
+Ver110/Ver110/VideoChat_10	कैमरा इस्तेमाल करें?
+Ver110/Ver110/VideoChat_11	कैमरा चालू
+Ver110/Ver110/VideoChat_12	कैमरा बंद
+Ver110/Ver110/VideoChat_13	ऑनलाइन कैमरा इस्तेमाल करने के लिए आपको गेमचैट\nमें शामिल होना होगा। कैमरा फ़ुटेज और माइक की आवाज़\nसिर्फ़ दूसरे गेमचैट सदस्यों को भेजी जाएगी।
+Ver110/Ver110/VideoChat_14	गेमचैट खोलने के लिए\nC बटन दबाएँ।
+Ver120/Ver120/Championship_01	इवेंट
+Ver120/Ver120/Championship_02	इवेंट खोजें
+Ver120/Ver120/Championship_03	कृपया इवेंट ID डालें।
+Ver120/Ver120/Championship_04	इवेंट मिल गया!
+Ver120/Ver120/Championship_05	दी गई ID से कोई इवेंट\nनहीं मिल सका।
+Ver120/Ver120/Championship_06	विवरण दिखाएँ/छिपाएँ
+Ver120/Ver120/Championship_07	इवेंट शुरू होने तक\nअभ्यास करें?
+Ver120/Ver120/Championship_08	इवेंट समाप्त हो गया है।
+Ver120/Ver120/Championship_09	आप तय रेसों की संख्या\nपहले ही पूरी कर चुके हैं।
+Ver120/Ver120/Championship_10	इवेंट शुरू हो गया है!
+Ver120/Ver120/Championship_12	64 रेस
+Ver120/Ver120/Championship_13	128 रेस
+Ver120/Ver120/Championship_14	असीमित
+Ver120/Ver120/Championship_15	इवेंट में शामिल नहीं हो सके।
+Ver120/Ver120/Championship_23	अधिकतम रेस
+Ver120/Ver120/Championship_24	अधिकतम राउंड
+Ver120/Ver120/Championship_17	12 राउंड
+Ver120/Ver120/Championship_18	16 राउंड
+Ver120/Ver120/Championship_19	32 राउंड
+Ver120/Ver120/Championship_20	64 राउंड
+Ver120/Ver120/Championship_21	128 राउंड
+Ver120/Ver120/Championship_22	सिर्फ़ बंद कोर्स
+Ver120/Ver120/Spectate_01	देखने के लिए ड्राइवर चुनें
+Ver120/Ver120/Spectate_02	लीडर
+Ver120/Ver120/VSRace_01	सिर्फ़ मशरूम
+Ver120/Ver120/TimeTrials_01	घोस्ट के साथ रेस
+Ver120/Ver120/TimeTrials_02	रीप्ले देखें
+Ver130/Ver130/Join_01	रूम भर गया है। कृपया प्रतीक्षा करें...
+Ver130/Ver130/FreeRun_01	मिशन शुरू करें
+Ver140/Bgm/BgmTitle_00	ग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_01	कैसल बीजीएम
+Ver140/Bgm/BgmTitle_02	ग्राउंड थीम
+Ver140/Bgm/BgmTitle_03	कैसल बीजीएम
+Ver140/Bgm/BgmTitle_04	डेज़र्ट बीजीएम
+Ver140/Bgm/BgmTitle_05	अंडरवॉटर बीजीएम
+Ver140/Bgm/BgmTitle_06	वोल्केनो बीजीएम
+Ver140/Bgm/BgmTitle_07	क्रेडिट्स थीम 1
+Ver140/Bgm/BgmTitle_08	बीच थीम
+Ver140/Bgm/BgmTitle_09	कैसल बॉस
+Ver140/Bgm/BgmTitle_10	मारियो ड्रॉइंग सॉन्ग
+Ver140/Bgm/BgmTitle_11	डीके आइलैंड स्विंग
+Ver140/Bgm/BgmTitle_12	बाउज़र
+Ver140/Bgm/BgmTitle_13	फ़्लावर फ़ील्ड बीजीएम (स्का वर्ज़न)
+Ver140/Bgm/BgmTitle_14	स्टेज बॉस (जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_15	एथलेटिक बीजीएम
+Ver140/Bgm/BgmTitle_16	स्टेज बॉस (रॉक एन रोल वर्ज़न)
+Ver140/Bgm/BgmTitle_17	ओपनिंग मेलोडी
+Ver140/Bgm/BgmTitle_18	फ़्लावर फ़ील्ड बीजीएम (जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_19	ग्राउंड थीम
+Ver140/Bgm/BgmTitle_20	बीच थीम (बोसा नोवा वर्ज़न)
+Ver140/Bgm/BgmTitle_21	बीच थीम (जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_22	स्नो माउंटेन थीम
+Ver140/Bgm/BgmTitle_23	हैंड्स-ऑन हॉल
+Ver140/Bgm/BgmTitle_24	सुपर बेल हिल
+Ver140/Bgm/BgmTitle_25	बाउज़र का हाईवे शोडाउन
+Ver140/Bgm/BgmTitle_26	पिरान्हा क्रीपर क्रीक
+Ver140/Bgm/BgmTitle_27	डबल चेरी पास
+Ver140/Bgm/BgmTitle_28	हिस्टोक्रैट
+Ver140/Bgm/BgmTitle_29	शिफ़्टी बू मैंशन
+Ver140/Bgm/BgmTitle_30	कैप्टन टोड गोज़ फ़ोर्थ
+Ver140/Bgm/BgmTitle_31	वर्ल्ड 8
+Ver140/Bgm/BgmTitle_32	एथलेटिक थीम (सोल वर्ज़न)
+Ver140/Bgm/BgmTitle_33	एथलेटिक थीम (जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_34	स्प्रॉलिंग सवाना
+Ver140/Bgm/BgmTitle_35	अटैक! बाउज़र्स फ़्यूरी
+Ver140/Bgm/BgmTitle_36	प्लेसी राइड!
+Ver140/Bgm/BgmTitle_37	पीच का क़िला
+Ver140/Bgm/BgmTitle_38	स्लाइडर
+Ver140/Bgm/BgmTitle_39	स्टाफ़ रोल
+Ver140/Bgm/BgmTitle_40	टाइटल थीम (बिग बैंड वर्ज़न)
+Ver140/Bgm/BgmTitle_41	बाउज़र की थीम
+Ver140/Bgm/BgmTitle_42	बाउज़र रोड
+Ver140/Bgm/BgmTitle_43	डायर, डायर डॉक्स
+Ver140/Bgm/BgmTitle_44	पिरान्हा प्लांट की लोरी
+Ver140/Bgm/BgmTitle_45	टाइटल थीम (लैटिन वर्ज़न)
+Ver140/Bgm/BgmTitle_46	फ़ाइल सिलेक्ट
+Ver140/Bgm/BgmTitle_47	कूल, कूल माउंटेन
+Ver140/Bgm/BgmTitle_48	कृपया खिलाड़ी चुनें
+Ver140/Bgm/BgmTitle_49	अंडरग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_50	ग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_51	ब्रेक फ़्री (लीड द वे)
+Ver140/Bgm/BgmTitle_52	शिवेरिया टाउन
+Ver140/Bgm/BgmTitle_53	फ़ॉसिल फ़ॉल्स
+Ver140/Bgm/BgmTitle_54	बाउज़र का क़िला: मेन कोर्टयार्ड
+Ver140/Bgm/BgmTitle_55	टोस्टारीना खंडहर
+Ver140/Bgm/BgmTitle_56	स्टीम गार्डन्स (रॉक वर्ज़न)
+Ver140/Bgm/BgmTitle_57	स्टीम गार्डन्स (सोल वर्ज़न)
+Ver140/Bgm/BgmTitle_58	पेरोन्ज़ा प्लाज़ा
+Ver140/Bgm/BgmTitle_59	लेक लामोड
+Ver140/Bgm/BgmTitle_60	जंप अप, सुपर स्टार!
+Ver140/Bgm/BgmTitle_61	घोस्ट वैली
+Ver140/Bgm/BgmTitle_62	बाउज़र कैसल
+Ver140/Bgm/BgmTitle_63	स्टाफ़ क्रेडिट्स
+Ver140/Bgm/BgmTitle_64	टाइटल स्क्रीन (फ़्यूज़न वर्ज़न)
+Ver140/Bgm/BgmTitle_65	वैनिला लेक
+Ver140/Bgm/BgmTitle_66	टाइटल स्क्रीन (लैटिन जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_67	कूपा बीच
+Ver140/Bgm/BgmTitle_68	रेनबो रोड
+Ver140/Bgm/BgmTitle_69	चोको आइलैंड (सांबा वर्ज़न)
+Ver140/Bgm/BgmTitle_70	डोनट प्लेन्स
+Ver140/Bgm/BgmTitle_71	चोको आइलैंड (बोसा नोवा वर्ज़न)
+Ver140/Bgm/BgmTitle_73	एग प्लैनेट
+Ver140/Bgm/BgmTitle_74	बॉय बेस गैलेक्सी
+Ver140/Bgm/BgmTitle_75	पर्पल कॉमेट
+Ver140/Bgm/BgmTitle_76	गस्टी गार्डन गैलेक्सी
+Ver140/Bgm/BgmTitle_77	एंटर बाउज़र जूनियर!
+Ver140/Bgm/BgmTitle_78	ऑब्ज़र्वेटरी में रोज़ालिना 3
+Ver140/Bgm/BgmTitle_79	बाउज़र से अंतिम लड़ाई
+Ver140/Bgm/BgmTitle_80	स्पेस जंक रोड
+Ver140/Bgm/BgmTitle_81	स्काई स्टेशन गैलेक्सी
+Ver140/Bgm/BgmTitle_82	स्टारशिप की यात्रा
+Ver140/Bgm/BgmTitle_83	डिग्गा-लेग
+Ver140/Bgm/BgmTitle_84	पज़ल प्लैंक गैलेक्सी
+Ver140/Bgm/BgmTitle_85	स्टारशिप मारियो 1
+Ver140/Bgm/BgmTitle_86	वाइल्ड ग्लाइड गैलेक्सी
+Ver140/Bgm/BgmTitle_87	क्लाउडी कोर्ट गैलेक्सी
+Ver140/Bgm/BgmTitle_88	बाउज़र का गैलेक्सी जनरेटर
+Ver140/Bgm/BgmTitle_89	मेल्टी मॉन्स्टर गैलेक्सी
+Ver140/Bgm/BgmTitle_90	योशी स्टार गैलेक्सी
+Ver140/Bgm/BgmTitle_91	डेल्फ़िनो प्लाज़ा
+Ver140/Bgm/BgmTitle_92	सीक्रेट कोर्स - स्काई एंड सी
+Ver140/Bgm/BgmTitle_93	बियांको हिल्स
+Ver140/Bgm/BgmTitle_94	रिको हार्बर
+Ver140/Bgm/BgmTitle_95	अंडरवॉटर बीजीएम
+Ver140/Bgm/BgmTitle_96	अंडरग्राउंड बीजीएम (जैज़ फ़्यूज़न वर्ज़न)
+Ver140/Bgm/BgmTitle_97	ग्राउंड बीजीएम (लैटिन वर्ज़न)
+Ver140/Bgm/BgmTitle_98	अंडरग्राउंड बीजीएम (अकूस्टिक वर्ज़न)
+Ver140/Bgm/BgmTitle_99	ग्राउंड बीजीएम (अकूस्टिक वर्ज़न)
+Ver140/Bgm/BgmTitle_100	अंडरवॉटर बीजीएम
+Ver140/Bgm/BgmTitle_101	ओवरवर्ल्ड मेडली
+Ver140/Bgm/BgmTitle_102	एथलेटिक बीजीएम
+Ver140/Bgm/BgmTitle_103	फ़ोर्ट्रेस बॉस बीजीएम
+Ver140/Bgm/BgmTitle_104	ग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_105	एयरशिप बीजीएम
+Ver140/Bgm/BgmTitle_106	एंडिंग
+Ver140/Bgm/BgmTitle_107	टाइटल स्क्रीन
+Ver140/Bgm/BgmTitle_108	ग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_109	अंडरग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_110	मेन थीम
+Ver140/Bgm/BgmTitle_111	मेन थीम
+Ver140/Bgm/BgmTitle_112	कूपालिंग्स बीजीएम
+Ver140/Bgm/BgmTitle_113	अंडरवॉटर बीजीएम
+Ver140/Bgm/BgmTitle_114	ग्राउंड बीजीएम (रॉक एन रोल वर्ज़न 1)
+Ver140/Bgm/BgmTitle_115	बोनस गेम बीजीएम
+Ver140/Bgm/BgmTitle_116	अंडरग्राउंड बीजीएम
+Ver140/Bgm/BgmTitle_117	एंडिंग
+Ver140/Bgm/BgmTitle_118	कैसल बीजीएम
+Ver140/Bgm/BgmTitle_119	ओवरवर्ल्ड मेडली
+Ver140/Bgm/BgmTitle_120	ग्राउंड बीजीएम (कंट्री वर्ज़न)
+Ver140/Bgm/BgmTitle_121	ग्राउंड बीजीएम (स्का वर्ज़न)
+Ver140/Bgm/BgmTitle_122	ग्राउंड बीजीएम (रॉक एन रोल वर्ज़न 2)
+Ver140/Bgm/BgmTitle_123	टाइटल बीजीएम
+Ver140/Bgm/BgmTitle_124	रेनबो रोड
+Ver140/Bgm/BgmTitle_125	ड्राई ड्राई डेज़र्ट
+Ver140/Bgm/BgmTitle_126	बाउज़र का क़िला
+Ver140/Bgm/BgmTitle_127	स्टाफ़ क्रेडिट्स
+Ver140/Bgm/BgmTitle_128	शर्बेट लैंड
+Ver140/Bgm/BgmTitle_129	मशरूम ब्रिज
+Ver140/Bgm/BgmTitle_130	लुइजी सर्किट
+Ver140/Bgm/BgmTitle_131	बेबी पार्क
+Ver140/Bgm/BgmTitle_132	बैटल कोर्स
+Ver140/Bgm/BgmTitle_133	रेनबो रोड
+Ver140/Bgm/BgmTitle_134	बैटल कोर्स
+Ver140/Bgm/BgmTitle_135	कूपा ट्रूपा बीच (रॉक वर्ज़न)
+Ver140/Bgm/BgmTitle_136	रिज़ल्ट स्क्रीन
+Ver140/Bgm/BgmTitle_137	टाइटल स्क्रीन
+Ver140/Bgm/BgmTitle_138	मू मू फ़ार्म
+Ver140/Bgm/BgmTitle_139	कलीमारी डेज़र्ट
+Ver140/Bgm/BgmTitle_140	फ़्रैपे स्नोलैंड (सोल वर्ज़न)
+Ver140/Bgm/BgmTitle_141	फ़्रैपे स्नोलैंड (जैज़ फ़्यूज़न वर्ज़न)
+Ver140/Bgm/BgmTitle_142	कूपा ट्रूपा बीच (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_143	टोड का टर्नपाइक
+Ver140/Bgm/BgmTitle_144	किरदार चुनें
+Ver140/Bgm/BgmTitle_145	डीके का जंगल पार्कवे
+Ver140/Bgm/BgmTitle_146	रेनबो रोड
+Ver140/Bgm/BgmTitle_147	डेज़ी हिल्स
+Ver140/Bgm/BgmTitle_148	स्टाफ़ क्रेडिट्स
+Ver140/Bgm/BgmTitle_149	अल्पाइन पास
+Ver140/Bgm/BgmTitle_150	पिरान्हा प्लांट पाइपवे
+Ver140/Bgm/BgmTitle_151	रोज़ालिना की बर्फ़ीली दुनिया
+Ver140/Bgm/BgmTitle_152	टोड सर्किट
+Ver140/Bgm/BgmTitle_153	डीके जंगल
+Ver140/Bgm/BgmTitle_154	मेलोडी मोटरवे
+Ver140/Bgm/BgmTitle_155	स्वीट स्वीट कैन्यन (जैज़ वर्ज़न)
+Ver140/Bgm/BgmTitle_156	डॉल्फ़िन शोल्स (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_157	ट्विस्टेड मैंशन
+Ver140/Bgm/BgmTitle_158	वाइल्ड वुड्स
+Ver140/Bgm/BgmTitle_159	टोड हार्बर (रॉक वर्ज़न)
+Ver140/Bgm/BgmTitle_160	डॉल्फ़िन शोल्स (जैज़ फ़्यूज़न वर्ज़न)
+Ver140/Bgm/BgmTitle_161	सनशाइन एयरपोर्ट (लाउंज पॉप वर्ज़न)
+Ver140/Bgm/BgmTitle_162	थ्वॉम्प डेज़र्ट
+Ver140/Bgm/BgmTitle_163	टोड हार्बर (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_164	सनशाइन एयरपोर्ट (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_165	ड्रैगन ड्रिफ़्टवे
+Ver140/Bgm/BgmTitle_166	बाउज़र का क़िला
+Ver140/Bgm/BgmTitle_167	स्वीट स्वीट कैन्यन (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_168	वॉटर पार्क
+Ver140/Bgm/BgmTitle_169	बैटल स्टेडियम
+Ver140/Bgm/BgmTitle_170	माउंट वारियो
+Ver140/Bgm/BgmTitle_171	शाय गाय फ़ॉल्स
+Ver140/Bgm/BgmTitle_172	रेनबो रोड
+Ver140/Bgm/BgmTitle_173	क्लाउडटॉप क्रूज़
+Ver140/Bgm/BgmTitle_174	सुपर बेल सबवे
+Ver140/Bgm/BgmTitle_175	इलेक्ट्रोड्रोम
+Ver140/Bgm/BgmTitle_176	मारियो कार्ट 8 (जैज़ फ़्यूज़न वर्ज़न 1)
+Ver140/Bgm/BgmTitle_177	बोन ड्राई ड्यून्स
+Ver140/Bgm/BgmTitle_178	थ्वॉम्प रुइन्स
+Ver140/Bgm/BgmTitle_179	मारियो सर्किट
+Ver140/Bgm/BgmTitle_180	मारियो कार्ट 8 (जैज़ फ़्यूज़न वर्ज़न 2)
+Ver140/Bgm/BgmTitle_181	आइस आइस आउटपोस्ट
+Ver140/Bgm/BgmTitle_182	फ़िगर-8 सर्किट
+Ver140/Bgm/BgmTitle_183	लुइजी की मैंशन
+Ver140/Bgm/BgmTitle_184	टिक-टॉक क्लॉक
+Ver140/Bgm/BgmTitle_185	योशी फ़ॉल्स
+Ver140/Bgm/BgmTitle_186	श्रूम रिज
+Ver140/Bgm/BgmTitle_187	स्टाफ़ क्रेडिट्स
+Ver140/Bgm/BgmTitle_188	रेनबो रोड
+Ver140/Bgm/BgmTitle_189	वालुइजी पिनबॉल (रॉक वर्ज़न)
+Ver140/Bgm/BgmTitle_190	डेल्फ़िनो स्क्वेयर
+Ver140/Bgm/BgmTitle_191	बैटल कोर्स
+Ver140/Bgm/BgmTitle_192	चीप चीप बीच
+Ver140/Bgm/BgmTitle_193	वालुइजी पिनबॉल (फ़ंक वर्ज़न)
+Ver140/Bgm/BgmTitle_194	पीच गार्डन्स
+Ver140/Bgm/BgmTitle_195	डेज़ी सर्किट (अकूस्टिक वर्ज़न)
+Ver140/Bgm/BgmTitle_196	डेज़ी सर्किट (इलेक्ट्रो वर्ज़न)
+Ver140/Bgm/BgmTitle_197	स्टाफ़ क्रेडिट्स A
+Ver140/Bgm/BgmTitle_198	मूनव्यू हाईवे
+Ver140/Bgm/BgmTitle_199	मेपल ट्रीवे
+Ver140/Bgm/BgmTitle_200	मशरूम गॉर्ज
+Ver140/Bgm/BgmTitle_201	कोकोनट मॉल
+Ver140/Bgm/BgmTitle_202	डेल्फ़िनो पियर
+Ver140/Bgm/BgmTitle_203	चेन चॉम्प रूले
+Ver140/Bgm/BgmTitle_204	डीके का स्नोबोर्ड क्रॉस
+Ver140/Bgm/BgmTitle_205	ग्रंबल वोल्केनो
+Ver140/Bgm/BgmTitle_206	ड्राई ड्राई रुइन्स
+Ver140/Bgm/BgmTitle_207	रेनबो रोड
+Ver140/Bgm/BgmTitle_208	लुइजी सर्किट
+Ver140/Bgm/BgmTitle_209	वारियो की गोल्ड माइन
+Ver140/Bgm/BgmTitle_210	चीज़ लैंड
+Ver140/Bgm/BgmTitle_211	शाय गाय बीच
+Ver140/Bgm/BgmTitle_212	पीच सर्किट
+Ver140/Bgm/BgmTitle_213	रेनबो रोड
+Ver140/Bgm/BgmTitle_214	बाउज़र कैसल
+Ver140/Bgm/BgmTitle_215	रिबन रोड
+Ver140/Bgm/BgmTitle_216	रिवरसाइड पार्क
+Ver140/Bgm/BgmTitle_217	योशी डेज़र्ट
+Ver140/Bgm/BgmTitle_218	बैंकॉक रश
+Ver140/Bgm/BgmTitle_219	मेरी माउंटेन
+Ver140/Bgm/BgmTitle_220	लॉस एंजिल्स लैप्स
+Ver140/Bgm/BgmTitle_221	निंजा हाइडअवे
+Ver140/Bgm/BgmTitle_222	वैंकूवर वेलॉसिटी
+Ver140/Bgm/BgmTitle_223	टोक्यो ब्लर
+Ver140/Bgm/BgmTitle_224	स्क्वीकी क्लीन स्प्रिंट
+Ver140/Bgm/BgmTitle_225	सिंगापुर स्पीडवे
+Ver140/Bgm/BgmTitle_226	पिरान्हा प्लांट पाइपलाइन
+Ver140/Bgm/BgmTitle_227	टाइटल स्क्रीन
+Ver140/Bgm/BgmTitle_228	पेंटिंग मोड 1
+Ver140/Bgm/BgmTitle_229	फ़्लाईस्वैटर लेवल 1
+Ver140/Bgm/BgmTitle_230	लहरों पर तैरती आवाज़ें
+Ver140/Bgm/BgmTitle_231	योशी का गीत (लैटिन वर्ज़न)
+Ver140/Bgm/BgmTitle_232	योशी का गीत (बोसा नोवा वर्ज़न)
+Ver140/Bgm/BgmTitle_233	योशी की कहानी
+Ver140/Bgm/BgmTitle_234	टाइटल थीम (गुनगुनाहट)
+Ver140/Bgm/BgmTitle_235	बैटल कोर्स
+Ver140/Bgm/BgmTitle_236	एयरशिप फ़ोर्ट्रेस
+Ver140/Bgm/BgmTitle_237	एकॉर्न हाइट्स
+Ver140/Bgm/BgmTitle_238	डैंडेलियन डेप्थ्स
+Ver140/Bgm/BgmTitle_239	पीच स्टेडियम
+Ver140/Bgm/BgmTitle_240	चोको माउंटेन
+Ver140/Bgm/BgmTitle_241	बू सिनेमा
+Ver140/Bgm/BgmTitle_242	व्हिस्लस्टॉप समिट
+Ver140/Bgm/BgmTitle_243	डेज़र्ट हिल्स
+Ver140/Bgm/BgmTitle_244	ड्राई बोन्स बर्नआउट
+Ver140/Bgm/BgmTitle_245	डायनो डायनो जंगल
+Ver140/Bgm/BgmTitle_246	फ़ेयरवे ओएसिस
+Ver140/Bgm/BgmTitle_247	डीके पास
+Ver140/Bgm/BgmTitle_248	डीके स्पेसपोर्ट
+Ver140/Bgm/BgmTitle_249	मारियो ब्रदर्स सर्किट
+Ver140/Bgm/BgmTitle_250	स्काई-हाई संडे
+Ver140/Bgm/BgmTitle_251	कूपा ट्रूपा बीच
+Ver140/Bgm/BgmTitle_252	सॉल्टी सॉल्टी स्पीडवे
+Ver140/Bgm/BgmTitle_253	बाउज़र का क़िला
+Ver140/Bgm/BgmTitle_254	मू मू मेडोज़
+Ver140/Bgm/BgmTitle_255	पीच बीच
+Ver140/Bgm/BgmTitle_256	चीप चीप फ़ॉल्स
+Ver140/Bgm/BgmTitle_257	रेनबो रोड
+Ver140/Bgm/BgmTitle_258	मारियो सर्किट
+Ver140/Bgm/BgmTitle_259	शाय गाय बाज़ार
+Ver140/Bgm/BgmTitle_260	स्टारव्यू पीक
+Ver140/Bgm/BgmTitle_261	ग्रेट ? ब्लॉक रुइन्स
+Ver140/Bgm/BgmTitle_262	टोड की फ़ैक्टरी
+Ver140/Bgm/BgmTitle_263	वारियो का गैलियन
+Ver140/Bgm/BgmTitle_264	वारियो स्टेडियम
+Ver140/Bgm/BgmTitle_265	क्राउन सिटी
+Ver140/Bgm/BgmTitle_266	मेन थीम
+Ver140/Bgm/BgmTitle_267	दर्शक मोड
+Ver140/Bgm/BgmTitle_268	रीप्ले
+Ver140/Bgm/BgmTitle_269	रेनबो रोड की ओर
+Ver140/Bgm/BgmTitle_270	चोको आइलैंड
+Ver140/Bgm/BgmTitle_271	मारियो सर्किट
+Ver140/Bgm/BgmTitle_272	घोस्ट वैली
+Ver140/Bgm/BgmTitle_273	वैनिला लेक
+Ver140/Bgm/BgmTitle_274	कूपा ट्रूपा बीच
+Ver140/Ver140/ItemSwitch_01	कस्टम आइटम
+Ver140/Ver140/ItemSwitch_02	रैंडम
+Ver140/Ver140/ItemSwitch_03	सब चालू
+Ver140/Ver140/ItemSwitch_04	सब बंद
+Ver140/Ver140/BGMVolume_01	संगीत की आवाज़
+Ver140/Ver140/BGMVolume_02	सामान्य
+Ver140/Ver140/BGMVolume_03	तेज़
+Ver140/Ver140/Accompany_01	सिर्फ़ रूम
+Ver140/Ver140/Accompany_02	सभी
+Ver140/Ver140/Accompany_03	रूम के सदस्यों को साथ लेकर\nअन्य ऑनलाइन खिलाड़ियों से जुड़ें?
+Ver140/Ver140/Accompany_04	केवल चार खिलाड़ी ही एक साथ\nऑनलाइन खिलाड़ियों से जुड़ सकते हैं।
+Ver140/Ver140/Accompany_05	अब अन्य ऑनलाइन खिलाड़ियों से जुड़ रहे हैं।
+Ver160/Ver160/BattleRule_01	बॉब-ओम्ब ब्लास्ट
+Ver170/Ver170/PhotoMode170_00	स्टिकर
+Ver170/Ver170/PhotoMode170_02	रीसेट
+Ver170/Ver170/PhotoMode_Dialog_Reset_00	सभी बदलाव हटाएँ?
+Ver170/Ver170/PhotoMode_Dialog_Reset_01	हाँ
+Ver170/Ver170/PhotoMode_Dialog_Reset_02	नहीं
+Ver170/Ver170/PhotoSticker_01	पूरा करें
+Ver170/Ver170/PhotoSticker_03	स्टिकर मेन्यू
+Ver170/Ver170/PhotoSticker_06	वापस
+Ver170/Ver170/PhotoSticker_08	आकार
+Ver170/Ver170/PhotoSticker_10	झुकाव
+Ver170/Ver170/PhotoSticker_12	सेट
+Ver170/Ver170/Name_GP17	{0E 0000 0002 0002 005F}ड्रिल रैली
+Ver170/Ver170/Name_GP18	{0E 0000 0002 0002 005F}बूमरैंग रैली
+Ver170/Ver170/SpectatingMode_01	दर्शक मोड
+Ver170/Ver170/SpectatingMode_02	देखना शुरू करें?\n\nदेखते समय आप\nखेल नहीं पाएँगे।
+Ver170/Ver170/SpectatingMode_03	देखना बंद करें?
+Ver170/Ver170/SpectatingMode_04	रूम भर गया है। जगह होने पर\nफिर कोशिश करें।
+Ver170/Ver170/SpectatingMode_05	बदल नहीं सके।
+Ver170/Ver170/SpectatingMode_06	अभी एक खिलाड़ी देख रहा है,\nइसलिए आप "सभी"\nनहीं चुन सकते।
+Ver170/Ver170/SpectatingMode_07	पर्याप्त खिलाड़ी\nनहीं बचे।
+Ver180/Ver180/Name_GP19	{0E 0000 0002 0002 005F}प्रोपेलर रैली
+Ver180/Ver180/Name_GP20	{0E 0000 0002 0002 005F}टर्निप रैली
+Ver180/Ver180/Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 1
+Ver180/Ver180/Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 2
+Ver180/Ver180/Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 3
+Ver180/Ver180/Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 1
+Ver180/Ver180/Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 2
+Ver180/Ver180/Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 3
+Ver180/Ver180/Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} चोको आइलैंड 1
+Ver180/Ver180/Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} चोको आइलैंड 2
+Ver180/Ver180/Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} वैनिला लेक 1
+Ver180/Ver180/Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} कूपा बीच 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_A_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 1
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 2
+Ver180/Ver180/Adjust_Name_Race_SFCMarioCircuit_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} मारियो सर्किट 3
+Ver180/Ver180/Adjust_Name_Race_Cinema_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 1
+Ver180/Ver180/Adjust_Name_Race_Cinema_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 2
+Ver180/Ver180/Adjust_Name_Race_Cinema_D_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} घोस्ट वैली 3
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} चोको आइलैंड 1
+Ver180/Ver180/Adjust_Name_Race_ChocoMountain_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} चोको आइलैंड 2
+Ver180/Ver180/Adjust_Name_Race_IceBuildings_B_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} वैनिला लेक 1
+Ver180/Ver180/Adjust_Name_Race_KoopaTroopaBeach_C_00	{0E 0000 0002 0002 004B}SNES{0E 0000 0002 0002 0064} कूपा बीच 1
+Ver180/Ver180/PhotoMode_Filter_00	फ़िल्टर
+Ver180/Ver180/PhotoMode_Filter_01	फ़िल्टर: 1
+Ver180/Ver180/PhotoMode_Filter_02	फ़िल्टर: 2
+Ver180/Ver180/PhotoMode_Filter_03	फ़िल्टर: 3
+Ver180/Ver180/PhotoMode_Filter_04	फ़िल्टर: 4
+Ver180/Ver180/PhotoMode_Filter_05	फ़िल्टर: 5
+Ver180/Ver180/PhotoMode_Filter_06	फ़िल्टर: 6
+Ver180/Ver180/PhotoMode_Filter_07	फ़िल्टर: 7
+Ver180/Ver180/PhotoMode_Filter_08	फ़िल्टर: 8

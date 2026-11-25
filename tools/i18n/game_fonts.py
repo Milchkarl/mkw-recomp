@@ -8,7 +8,10 @@ Why: the fonts of the game's European text (FOT-RodinNTLGPro EB and UB, which th
 every letter, and VDL-LogoG) have ç ö ü ı but not ğ Ğ ş Ş İ, so a Turkish text would show gaps (discussion #593). Each
 missing letter is drawn here from the same font: the base letter plus the breve, dot or cedilla the font already has,
 placed where that font places the same kind of mark (the diaeresis of ö/Ö, the cedilla of ç/Ç), so it keeps the font's
-weight and style. Nothing of Nintendo's is shipped: the setup composes them from the player's own copy.
+weight and style. Vietnamese (#873) needs ~100 letters (ă đ ơ ư, and those with two marks): see game_fonts_vi.py;
+Ukrainian ґ є і ї: game_fonts_uk.py; Arabic and Hindi, which the fonts lack entirely: game_fonts_ar.py and
+game_fonts_hi.py.
+Nothing of Nintendo's is shipped: the setup composes them from the player's own copy.
 
 Font/<name>.bfotf.zs: zstd of a "bfotf", an OpenType font after an 8-byte header (the magic d9 9b 87 1a, then the
 font's size, big-endian; padding may follow) with size and font XORed with the key a6 01 85 02 (measured 18/11/2026).
@@ -26,17 +29,22 @@ import sys
 from compression import zstd
 from pathlib import Path
 
-from fontTools.pens.boundsPen import BoundsPen
-from fontTools.pens.recordingPen import DecomposingRecordingPen
-from fontTools.pens.t2CharStringPen import T2CharStringPen
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fontTools.pens.t2CharStringPen import T2CharStringPen  # noqa: E402
 from fontTools.pens.transformPen import TransformPen
-from fontTools.ttLib import TTFont
+from fontTools.ttLib import TTFont  # noqa: E402
+from game_fonts_ar import arabic  # noqa: E402
+from game_fonts_hi import hindi  # noqa: E402
+from game_fonts_uk import SAME, ukrainian  # noqa: E402
+from game_fonts_vi import vietnamese  # noqa: E402
+from glyph_shapes import IDENTITY, bounds, contours  # noqa: E402
 
 KEY = bytes.fromhex("a6018502")
 MAGIC = bytes.fromhex("d99b871a")
 # The fonts the European texts are drawn with (Font/*.bfcpx, the layouts' fnl1 lists). NinDev-RaceFontMoveR and
-# nintendoP_RodinNTLG-EB already have every Latin letter.
-FONTS = ("FOT-RodinNTLGPro-EB", "FOT-RodinNTLGPro-UB", "VDL-LogoG-Heavy", "VDL-LOGOG-ULTRA")
+# nintendoP_RodinNTLG-EB have every letter of Western European and Turkish text, but not Vietnamese's.
+FONTS = ("FOT-RodinNTLGPro-EB", "FOT-RodinNTLGPro-UB", "VDL-LogoG-Heavy", "VDL-LOGOG-ULTRA", "NinDev-RaceFontMoveR",
+         "nintendoP_RodinNTLG-EB")  # fmt: skip
 # letter -> (base, mark, reference letter whose mark sets the height, the reference's base)
 ABOVE, BELOW = "above", "below"
 RECIPES = {
@@ -68,26 +76,6 @@ def xor(data: bytes, start: int) -> bytes:
     return (int.from_bytes(data, "little") ^ int.from_bytes(key, "little")).to_bytes(n, "little")
 
 
-def bounds(glyphs, name: str) -> tuple[float, float, float, float]:
-    pen = BoundsPen(glyphs)
-    glyphs[name].draw(pen)
-    return pen.bounds
-
-
-def contours(glyphs, name: str) -> list[tuple[float, float, float, float]]:
-    """The control-point box of each contour of a glyph."""
-    pen = DecomposingRecordingPen(glyphs)
-    glyphs[name].draw(pen)
-    out, pts = [], []
-    for op, args in pen.value:
-        pts += args
-        if op in ("closePath", "endPath") and pts:
-            xs, ys = [p[0] for p in pts], [p[1] for p in pts]
-            out.append((min(xs), min(ys), max(xs), max(ys)))
-            pts = []
-    return out
-
-
 def mark_shift(glyphs, cmap: dict[int, str], recipe: tuple[str, str, str, str, str]) -> tuple[float, float]:
     """How far the mark glyph moves: centred on the base letter, at the height the reference letter's own mark has."""
     base, mark, where, ref, ref_base = recipe
@@ -109,40 +97,68 @@ def compose(font: TTFont, letters: str) -> list[str]:
     cmap = font.getBestCmap()
     glyphs = font.getGlyphSet()
     top = font["CFF "].cff.topDictIndex[0]
-    if not hasattr(top, "ROS"):
-        raise ValueError("not a CID-keyed CFF font")
+    cid = hasattr(top, "ROS")
     added = []
     for ch in letters:
-        recipe = RECIPES.get(ch)
-        if ord(ch) in cmap or not recipe or any(ord(c) not in cmap for c in recipe[:2] + recipe[3:]):
+        if ord(ch) in cmap:
             continue
-        base, mark = cmap[ord(recipe[0])], cmap[ord(recipe[1])]
-        dx, dy = mark_shift(glyphs, cmap, recipe)
-        fd = top.FDArray[top.FDSelect[font.getGlyphID(base)]]
-        width = glyphs[base].width
-        pen = T2CharStringPen(None if width == fd.Private.defaultWidthX else width - fd.Private.nominalWidthX, glyphs)
-        glyphs[base].draw(pen)
-        glyphs[mark].draw(TransformPen(pen, (1, 0, 0, 1, dx, dy)))
+        recipe = RECIPES.get(ch)
+        # Vietnamese D with stroke and Icelandic Eth are the same capital; Ukrainian і ї ʼ are Latin i ï and ’
+        same = {"Đ": "Ð", **SAME}.get(ch)
+        if same and ord(same) in cmap:
+            set_cmap(font, ch, cmap[ord(same)])
+            added.append(ch)
+            continue
+        if recipe:
+            if any(ord(c) not in cmap for c in recipe[:2] + recipe[3:]):
+                continue
+            base, mark = cmap[ord(recipe[0])], cmap[ord(recipe[1])]
+            dx, dy = mark_shift(glyphs, cmap, recipe)
+            parts = [(base, IDENTITY), (mark, (1, 0, 0, 1, dx, dy))]
+            width = glyphs[base].width
+        else:
+            made = (vietnamese(glyphs, cmap, ch) or ukrainian(glyphs, cmap, ch) or arabic(glyphs, cmap, ch)
+                    or hindi(glyphs, cmap, ch))  # fmt: skip
+            if not made:
+                continue
+            base, parts, width = made
+        gid = font.getGlyphID(base)
+        private = top.FDArray[top.FDSelect[gid]].Private if cid else top.Private
+        pen = T2CharStringPen(None if width == private.defaultWidthX else width - private.nominalWidthX, glyphs)
+        for part, m in parts:
+            out = pen if m == IDENTITY else TransformPen(pen, m)
+            if isinstance(part, str):
+                glyphs[part].draw(out)
+            else:
+                for _, ops in part:
+                    for op, args in ops:
+                        getattr(out, op)(*args)
         name = f"cid{len(font.getGlyphOrder()):05d}"
-        add_glyph(font, top, name, pen.getCharString(private=fd.Private, globalSubrs=top.CharStrings.globalSubrs),
-                  top.FDSelect[font.getGlyphID(base)], base)  # fmt: skip
-        for table in font["cmap"].tables:
-            if table.isUnicode():
-                table.cmap[ord(ch)] = name
+        add_glyph(font, top, name, pen.getCharString(private=private, globalSubrs=top.CharStrings.globalSubrs),
+                  top.FDSelect[gid] if cid else None, base, width)  # fmt: skip
+        set_cmap(font, ch, name)
         added.append(ch)
     return added
 
 
-def add_glyph(font: TTFont, top, name: str, charstring, fd: int, like: str) -> None:
-    """A new last glyph: its charstring, CID and font dict, and the metrics of the glyph it is drawn on."""
+def set_cmap(font: TTFont, ch: str, name: str) -> None:
+    for table in font["cmap"].tables:
+        if table.isUnicode():
+            table.cmap[ord(ch)] = name
+
+
+def add_glyph(font: TTFont, top, name: str, charstring, fd: int | None, like: str, width: int) -> None:
+    """A new last glyph: its charstring, CID and font dict (fd None: not CID-keyed), and the metrics of the glyph it is
+    drawn on with its own advance width."""
     cs = top.CharStrings
     cs.charStrings[name] = len(cs.charStringsIndex)
     cs.charStringsIndex.append(charstring)
-    top.FDSelect.gidArray.append(fd)
+    if fd is not None:
+        top.FDSelect.gidArray.append(fd)
     order = font.getGlyphOrder() + [name]  # a new list: the CFF charset may be the font's glyph order list itself
     top.charset = order
     font.setGlyphOrder(order)
-    font["hmtx"].metrics[name] = font["hmtx"].metrics[like]
+    font["hmtx"].metrics[name] = (width, font["hmtx"].metrics[like][1])
     if "vmtx" in font:
         font["vmtx"].metrics[name] = font["vmtx"].metrics[like]
     if "VORG" in font and like in font["VORG"].VOriginRecords:
@@ -156,10 +172,12 @@ def read_font(font_dir: Path, name: str) -> bytes:
 
 
 def missing(font_dir: Path, text: str) -> dict[str, str]:
-    """For each font, the letters of text it lacks (spaces and control characters aside)."""
+    """For each font, the letters of text it lacks (spaces and control characters aside; private-use characters
+    count: the Hindi syllables are written with them, devanagari.py)."""
     import io
+    import unicodedata
 
-    need = {c for c in text if c.isprintable() and not c.isspace()}
+    need = {c for c in text if (c.isprintable() or unicodedata.category(c) == "Co") and not c.isspace()}
     out = {}
     for name in FONTS:
         font = TTFont(io.BytesIO(decrypt(zstd.decompress(read_font(font_dir, name)))), lazy=True)
@@ -206,7 +224,6 @@ def build(font_dir: Path, text: str, out: Path) -> list[str]:
 
 
 def main() -> int:
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import game_texts
 
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
