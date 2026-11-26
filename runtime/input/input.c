@@ -599,6 +599,8 @@ static void poll_merged(uint64_t *buttons, int32_t *lx, int32_t *ly, int32_t *rx
             if (k[0] || k[1]) kb |= 1;
             pick(&sl[0], &sl[1], k[0], k[1]);
             input_map_stick(down, 1, k);
+            static InputKeyEcho echo;   // the camera keys that only follow the pad's left stick (#52)
+            input_key_echo(&echo, pl, k);
             pick(&sr[0], &sr[1], k[0], k[1]);
             mouse_camera(k);
             pick(&sr[0], &sr[1], k[0], k[1]);

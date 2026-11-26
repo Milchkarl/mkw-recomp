@@ -332,6 +332,29 @@ int probe_cfg(void) {
     input_map_set_key(&mp, B_SL_UP, 0, KEY_NONE);
     input_map_line(&mp, B_SL_UP, line, sizeof line);
     CHECK(!strcmp(line, "none"), "edit: a stick direction without keys is none");
+    // #52: a camera key that goes down with the pad's left stick already that way is a mapper's echo of the stick
+    InputKeyEcho ec = {{0, 0}, {0, 0}};
+    int32_t pad_l[2] = {20000, 0}, kst[2] = {32767, 0};
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 0, "key echo: an arrow with the left stick at 61 % that way is dropped");
+    pad_l[0] = 0, kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 0, "key echo: dropped until the key is released");
+    kst[0] = 0;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 32767, "key echo: an arrow with the stick at rest moves the camera");
+    kst[0] = 0, pad_l[0] = -20000;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 32767, "key echo: an arrow against the left stick moves the camera");
+    kst[0] = 0, pad_l[0] = 0, pad_l[1] = 20000;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 23170, kst[1] = 23170;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 23170 && kst[1] == 0, "key echo: per axis, up dropped with the stick up, right kept");
     // defaults live in the CfgMeta table: cfg_value and the typed accessors fall back to it
     cfg_load("cfg-probe-missing.ini");
     plat_setenv("MKW_PIPE_PREBUILD", "");
