@@ -648,6 +648,26 @@ static int fence_early(const GfxBackend *b) {
     return on;
 }
 
+// MKW_FENCE_AHEAD (a measurement, default 0; "ab"; with MKW_FENCE_EARLY on): the wait for a frame's fence ends once the
+// frame before it is recorded, so the game builds a frame while the replay records the one before (their sum becomes
+// their maximum). The game rewrites in place what the frame before read (~47 KiB a frame in a 2-player race, srf3):
+// only sound with the copy at the submit (MKW_SHADOW_SUBMIT=1), and not yet for what the recording reads elsewhere.
+static uint64_t fence_ahead(uint64_t fence) {
+    static int mode = -1;
+    if (mode < 0) {
+        mode = rt_knob("FENCE_AHEAD", "0");
+        if (mode) rt_log("nvn: a frame's fence wait ends once the frame before is recorded%s (MKW_FENCE_AHEAD)",
+                         mode == 2 ? " in the B blocks" : "");
+    }
+    if (!RT_KNOB_ON(mode)) return fence;
+    uint64_t best = 0;
+    for (int i = 0; i < 4; i++) {
+        uint64_t p = __atomic_load_n(&present_fence[i], __ATOMIC_RELAXED);
+        if (p < fence && p > best) best = p;
+    }
+    return best ? best : fence;   // before the first presents (the boot's loaders), as without it
+}
+
 NVN_API(nvnSyncWait) {
     const sync_t *s = arg_p(c, 0);
     uint64_t timeout = arg_x(c, 1);
@@ -657,7 +677,8 @@ NVN_API(nvnSyncWait) {
         int ok;
         {
             NVN_BLOCKING();
-            ok = b->fence_wait_issued(s->fence, timeout);
+            uint64_t until = fence_ahead(s->fence);
+            ok = b->fence_wait_issued(until, timeout);
         }
         if (ok) {
             uint64_t prev = __atomic_load_n(&mem_early_rel, __ATOMIC_RELAXED);
