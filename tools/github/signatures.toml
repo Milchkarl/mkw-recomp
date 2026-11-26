@@ -78,6 +78,13 @@ all = ["physical pool chunk", "device-local allocation failed"]
 what = "blocks of the game's GPU memory get no video memory on a 4 GB card and draw wrong (a dark band, flashing colours)"
 
 [[signature]]
+issue = 817
+wiki = "the-game-runs-too-fast-or-freezes-with-logic-rate-above-60-hz"
+all = ["(MKW_LOGIC_HZ, set logichz on)"]
+fixed = "v0.1.19"
+what = "the unfinished Logic rate above 60 Hz runs the game too fast, and can stop it at a loading screen or in a race"
+
+[[signature]]
 issue = 554
 wiki = "amd-polaris-on-linux-radv-stuck-at-the-loading-screen-after-first-write-to-level-10"
 all = ["first write to level 10 of 8192x8192", "RADV POLARIS"]
