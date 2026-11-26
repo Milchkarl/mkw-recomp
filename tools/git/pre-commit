@@ -21,6 +21,10 @@ fi
 tools/git/shebangs.sh
 # A setting read with cfg_value/int/double/bool needs its row in runtime/core/base/cfg.c, or the game stops when it runs.
 uv run --quiet tools/git/cfg_rows.py
+# The launcher's tests build probes from its sources with SDL stubbed by name: a call they do not stub fails only in CI.
+if git diff --cached --name-only | grep -qE '^(runtime/ui/launcher|tests/launcher)/'; then
+    uv run --quiet pytest -q tests/launcher
+fi
 # Docs that no longer match the repo (READMEs, links, progress bars): tools/docs/check.py lists them.
 uv run --quiet tools/docs/check.py
 # A maintainer's private notes, cloned as dev/ (ignored), bring their own checks.
