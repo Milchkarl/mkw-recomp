@@ -492,9 +492,104 @@ static void check_memory(void) {
     CHECK(!mem_guest_readable(RT_HOSTFN_BASE + 0x40, 8) && !mem_guest_readable(g->alias.base + g->alias.size, 8) &&
               !mem_guest_readable(~0ull - 0x10, 0x100),
           "the books (mem_guest_readable) vouch for host memory");
+    // The frame walks' check (plat_mem_readable): 16 bytes at a frame pointer just below 2^64, or a size that wraps
+    // from memory that is there, are no memory.
+    uint64_t own = (uint64_t)(uintptr_t)&v;
+    CHECK(plat_mem_readable(own, 8) && !plat_mem_readable(0xfffffffffffffff8ull, 16) &&
+              !plat_mem_readable(own, ~0ull) && !plat_mem_readable(own, 0 - own),
+          "plat_mem_readable says yes to a range up to or past 2^64");
     CHECK(mem_set_heap_size(0, &heap) == 0, "SetHeapSize 0");
     CHECK(!mem_guest_readable(g->heap.base, 1), "the books (mem_guest_readable) vouch for a freed heap");
-    printf("memory: heap, physical memory, stack move, QueryMemory, GetInfo, the books: %s\n",
+    printf("memory: heap, physical memory, stack move, QueryMemory, GetInfo, the books, readable ranges: %s\n",
+           failures > before ? "FAIL" : "ok");
+}
+
+#ifdef _WIN32
+// Windows' lazy commit (memory.c lazy_fault): threads that read the same reserved 2 MiB of the heap fault together and
+// the first one commits it. A read whose hook looked only after that commit went to the crash handler, since no hook
+// follows lazy_fault for reads: the first chunk crashed in each of 5 runs (8 threads). Each reader reads its own page a
+// few µs after the round starts (0-19 µs, another stagger each round), so that some faults land while the first one's
+// commit runs. One page of each chunk per reader is touched: 512 MiB of commit, a few MiB of RAM, given back after.
+enum { RACE_CHUNKS = 256, RACE_MAX = 8 };
+static uint64_t race_heap;
+static int64_t race_round, race_done;
+
+static void race_reader(void *arg) {
+    int id = (int)(intptr_t)arg;
+    for (int64_t r = 1; r <= RACE_CHUNKS; r++) {
+        while (__atomic_load_n(&race_round, __ATOMIC_ACQUIRE) < r) plat_yield();
+        uint64_t t0 = plat_now_ns(), d = (uint64_t)((id * 7 + r * 3) % 16) * 1250;
+        while (plat_now_ns() - t0 < d) {}
+        (void)*(volatile uint8_t *)(uintptr_t)(race_heap + ((uint64_t)(r - 1) << 21) + (uint64_t)id * 0x1000 + 0x40);
+        __atomic_add_fetch(&race_done, 1, __ATOMIC_ACQ_REL);
+    }
+}
+
+static void check_lazy_race(void) {
+    int before = failures, fresh = 0, n = 0;
+    uint32_t cpus = plat_cpu_count();
+    int want = cpus > RACE_MAX ? RACE_MAX : cpus > 3 ? (int)cpus - 1 : 2;
+    if (mem_set_heap_size((uint64_t)RACE_CHUNKS << 21, &race_heap) != 0) {
+        CHECK(0, "SetHeapSize %d MiB for the lazy commit race", RACE_CHUNKS * 2);
+        return;
+    }
+    PlatThread *t[RACE_MAX];
+    while (n < want && (t[n] = plat_thread_new(race_reader, (void *)(intptr_t)n, "lazy race"))) n++;
+    CHECK(n == want, "lazy commit race: %d of %d reader threads started", n, want);
+    double t0 = now_s();
+    for (int64_t r = 1; n && r <= RACE_CHUNKS; r++) {
+        uint64_t end, c = race_heap + ((uint64_t)(r - 1) << 21);
+        fresh += plat_mem_state(c, c + 0x1000, &end) == PLAT_MEM_RESERVED;   // 0 with MKW_LAZY_COMMIT=0
+        __atomic_store_n(&race_round, r, __ATOMIC_RELEASE);
+        while (__atomic_load_n(&race_done, __ATOMIC_ACQUIRE) < r * n) plat_yield();
+    }
+    for (int i = 0; i < n; i++) plat_thread_join(t[i]);
+    CHECK(mem_set_heap_size(0, &race_heap) == 0, "SetHeapSize 0 after the lazy commit race");
+    printf("lazy commit: %d threads read %d fresh 2 MiB chunks together (%d still reserved) in %.0f ms: %s\n", n,
+           RACE_CHUNKS, fresh, (now_s() - t0) * 1e3, failures > before ? "FAIL" : "ok");
+}
+#endif
+
+// Guest protections on the host's pages (platform.h plat_page_size): 4 KiB ranges that do not cover whole host pages
+// (Linux on Apple silicon: 16 KiB; MKW_HOST_PAGE_KIB=16 runs the same paths on a 4 KiB kernel). As the module data
+// permissions MKW sets at boot (0.1.18 died at subsdk0's +0xbe000 size 0x2000): no failure, the guest pages sharing a
+// host page keep their access and bytes, and a decommitted guest page reads zero when committed again. In the alias
+// region far above what check_memory maps; plat_* directly, so memory.c's books never see it.
+static void check_host_pages(void) {
+    const uint64_t hp = plat_page_size(), pg = 0x1000, x = mem_layout()->alias.base + (32ull << 30);
+    volatile uint8_t *b = (volatile uint8_t *)(uintptr_t)x;
+    uint64_t end;
+    int before = failures;
+    CHECK(plat_mem_commit(x, 4 * hp), "commit of 4 host pages");
+    memset((void *)(uintptr_t)x, 0xAB, 4 * hp);
+    // one guest page read-only inside host page 0: its neighbours stay writable (a write below faults if not)
+    CHECK(plat_mem_protect(x + pg * (hp > pg), pg, PLAT_PROT_READ), "a read-only guest page inside a host page");
+    CHECK(plat_mem_state(x + pg * (hp > pg), x + hp, &end) == PLAT_PROT_READ,
+          "that guest page's state is not read-only");
+    if (hp > pg) b[0] = 1, b[2 * pg] = 2;
+    CHECK(plat_mem_loose_pages(x, hp) == (hp > pg), "host pages more accessible than asked: %llu",
+          (unsigned long long)plat_mem_loose_pages(x, hp));
+    // a whole host page read-only: nothing loose; read-write again after
+    CHECK(plat_mem_protect(x + hp, hp, PLAT_PROT_READ) && plat_mem_loose_pages(x + hp, hp) == 0 &&
+              plat_mem_readable(x + hp, hp) && plat_mem_protect(x + hp, hp, PLAT_PROT_RW),
+          "a whole host page read-only and back");
+    // subsdk0's case: 2 guest pages ending a host page, 4 KiB aligned only
+    CHECK(plat_mem_protect(x + 3 * hp - 2 * pg, 2 * pg, PLAT_PROT_READ) &&
+              plat_mem_protect(x + 3 * hp - 2 * pg, 2 * pg, PLAT_PROT_RW),
+          "protecting guest pages that end a host page");
+    b[2 * hp] = 3;
+    // a decommitted guest page shares its host page with committed ones: they keep their bytes, it reads zero after
+    CHECK(plat_mem_decommit(x + 3 * hp, pg) && plat_mem_state(x + 3 * hp, x + 4 * hp, &end) == PLAT_MEM_RESERVED,
+          "decommit of one guest page");
+    CHECK(hp == pg || b[3 * hp + pg] == 0xAB, "the decommit lost a neighbour's bytes");
+    CHECK(plat_mem_commit(x + 3 * hp, pg) && b[3 * hp] == 0 && b[3 * hp + pg - 1] == 0,
+          "a guest page decommitted inside a host page does not read zero when committed again");
+    CHECK(b[0] == (hp > pg ? 1 : 0xAB) && b[2 * hp] == 3, "the protection changes lost bytes");
+    CHECK(plat_mem_decommit(x, 4 * hp) && !plat_mem_readable(x, 1) && !plat_mem_readable(x + 4 * hp - 1, 1),
+          "decommitted host pages stay readable");
+    CHECK(plat_mem_commit(x, 4 * hp) && b[0] == 0 && b[2 * hp] == 0 && plat_mem_decommit(x, 4 * hp),
+          "host pages decommitted whole do not read zero when committed again");
+    printf("host pages: %llu KiB, guest protections and decommits per host page: %s\n", (unsigned long long)(hp >> 10),
            failures > before ? "FAIL" : "ok");
 }
 
@@ -533,6 +628,10 @@ static int selftest(void) {
     mem_kernel_free(k1, 0x200);
     CHECK(mem_kernel_alloc(0x200, 16) == k1, "a freed kernel-region block is not reused");
     check_memory();
+#ifdef _WIN32
+    check_lazy_race();
+#endif
+    check_host_pages();
 
     float used, total, proc;
     plat_mem_info(&used, &total, &proc);

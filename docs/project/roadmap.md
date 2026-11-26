@@ -15,7 +15,7 @@ what already shipped is in the [CHANGELOG](../../CHANGELOG.md).
 
 - Three shader translator bugs left (found by comparing with another Switch 2 port).
 - The kart's shadow misses a frame now and then.
-- Zero Vulkan validation errors: none from boot to a race in one to four players and in a time trial; free roam's one is fixed in #752; photo mode is unchecked.
+- Zero Vulkan validation errors: none from boot to a race in one to four players, in a time trial and in photo mode (its capture replays); free roam's one is fixed in #752.
 
 ## 3. Menus
 
@@ -31,7 +31,7 @@ what already shipped is in the [CHANGELOG](../../CHANGELOG.md).
 
 - Less stutter after a race starts: texture deswizzle and format scans already run on workers; the many small uploads are left.
 - A Linux package for non-rolling distributions and the launcher tested on more Windows machines.
-- Audio: two known SDK bugs and cuts in the movies' audio.
+- Audio: a known SDK bug in splitters and cuts in the movies' audio (voice 0 being reset is fixed).
 
 ## 6. Game versions
 

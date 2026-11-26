@@ -79,9 +79,12 @@ int tex_par_threads(void) {
     return P.threads + 1;
 }
 
+static _Thread_local int solo;
+void tex_par_solo_here(void) { solo = 1; }
+
 void tex_par_for(uint32_t n, TexParFn *fn, void *ctx) {
-    if (n > 1) tex_par_start();
-    if (n < 2 || !P.threads || !plat_mutex_trylock(&P.busy)) {
+    if (n > 1 && !solo) tex_par_start();
+    if (n < 2 || solo || !P.threads || !plat_mutex_trylock(&P.busy)) {
         for (uint32_t i = 0; i < n; i++) fn(ctx, i);
         return;
     }

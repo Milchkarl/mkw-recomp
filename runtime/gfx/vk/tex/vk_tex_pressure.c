@@ -4,6 +4,7 @@
 #include "host.h"
 #include "vk.h"
 #include "vk_tex_internal.h"
+#include "platform/platform.h"
 
 // ---------------------------------------------------------------- eviction under VRAM pressure (discrete GPUs)
 // evict_idle and vk_texture_trim free textures only when an allocation fails. On Windows one rarely does: past the
@@ -76,12 +77,95 @@ static int outside_vram(VkCtx *c, uint32_t type) {
            !(c->mem_props.memoryTypes[type].propertyFlags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 }
 
+// ---------------------------------------------------------------------------------------- MKW_TEX_RACE_PURGE
+// Out of a race, the textures go so the texture pool's blocks can empty and go back to the driver. The pressure pass
+// above frees what is idle, but between races the title and menu textures are looked up every frame and sit in most
+// of the pool's 256 MiB blocks: VMA gives back only an empty block, so its blocks never shrink. On an 8 GB RTX 5060
+// (1440p, Windows; a contributor's logs, 26/11/2026) a trim of the idle ones freed 870 MiB of allocations and no block:
+// the driver still counted 6 791 MiB against a 6 480 MiB live budget, Windows moved memory out of the GPU, and the
+// menus ran at 28 fps after a 3-player session. The same passes driven by hand through the ctl pipe (every
+// recreatable texture once after each race, the ones on screen coming back on their next lookup into the first blocks,
+// then the idle ones every RP_EVERY_MS) kept that player's frame rate up race after race; an MKW_AB measurement of
+// this switch is still to be made.
+// RP_FIRST_MS after the race ends (the standings still show the course: the purge waits for the menus' textures to be
+// what is on screen), the first pass takes every recreatable texture not looked up in this submission and every
+// released entry; the headroom thread lets go of its spare blocks. Then every RP_EVERY_MS while out of the race, the
+// ones idle for RP_IDLE submits. Off by default (the console has no such pass); 1 on, ab for MKW_AB. The cost is one
+// frame of freed images and the uploads of the textures still in use over the next frames, out of a race only (the
+// mass release that once cost 333-422 ms a frame on a GTX 1050 Ti happened in races, see vk_tex_evict.c).
+#define RP_FIRST_MS 6000
+#define RP_EVERY_MS 20000
+#define RP_IDLE 64
+
+static int drop_textures(VkCtx *c, uint32_t min_age, uint64_t *bytes) {
+    int out = 0;
+    while (min_age <= 1 && rel_head) {   // released entries kept for reuse: the first pass takes them all
+        VmaAllocationInfo vi = {0};
+        if (rel_head->alloc) vmaGetAllocationInfo(c->vma, rel_head->alloc, &vi);
+        *bytes += vi.size, out++;
+        destroy_idle(rel_head);
+    }
+    Tex **cand = malloc(sizeof *cand * (size_t)(by_key.n + 1));
+    if (!cand) return out;
+    int n = 0;
+    for (uint32_t i = 0; i < by_key.cap; i++) {   // collected first: destroy_idle changes the table
+        Tex *e = by_key.vals[i];
+        if (e && e->alloc && e->pub.mirrored && !e->pub.gpu_owned && !e->gpu_dirty && !e->released &&
+            age_of(e) >= min_age)
+            cand[n++] = e;
+    }
+    for (int i = 0; i < n; i++) {
+        VmaAllocationInfo vi = {0};
+        vmaGetAllocationInfo(c->vma, cand[i]->alloc, &vi);
+        *bytes += vi.size, out++;
+        destroy_idle(cand[i]);
+    }
+    free(cand);
+    return out;
+}
+
+static void tex_race_purge(void) {
+    static int mode = -1, was_race, first;
+    static uint64_t due_ms, passes, n_all, bytes_all;
+    if (mode < 0) {
+        mode = rt_knob("TEX_RACE_PURGE", "0");
+        if (mode) rt_log("vk: texture purge out of races %s (MKW_TEX_RACE_PURGE: all %d ms after a race, the idle ones "
+                         "every %d ms after)", mode == 2 ? "in the B blocks" : "on", RP_FIRST_MS, RP_EVERY_MS);
+    }
+    if (!mode) return;
+    uint64_t now = plat_now_ms();
+    if (race_scene_on()) {
+        was_race = 1, due_ms = 0;
+        return;
+    }
+    if (was_race) was_race = 0, first = 1, due_ms = now + RP_FIRST_MS;
+    if (!due_ms || now < due_ms) return;
+    due_ms = now + RP_EVERY_MS;
+    if (!RT_KNOB_ON(mode)) return;
+    VkCtx *c = vk_ctx();
+    if (!c || !c->vma) return;
+    Heaps before = device_local(c);
+    uint64_t bytes = 0;
+    int all = first, out = drop_textures(c, all ? 1 : RP_IDLE, &bytes);
+    first = 0;
+    if (all) vk_headroom_drop();
+    if (!out) return;
+    passes++, n_all += (uint64_t)out, bytes_all += bytes;
+    rt_log("vk: texture purge %llu (%s): %d textures (%llu MiB) out; before it blocks %llu, allocations %llu, driver "
+           "usage %llu of %llu MiB budget; %llu textures, %llu MiB in all",
+           (unsigned long long)passes, all ? "all" : "idle", out, (unsigned long long)(bytes >> 20),
+           (unsigned long long)(before.blocks >> 20), (unsigned long long)(before.allocs >> 20),
+           (unsigned long long)(before.usage >> 20), (unsigned long long)(before.budget >> 20),
+           (unsigned long long)n_all, (unsigned long long)(bytes_all >> 20));
+}
+
 // The texture lock held (vk_texture_new_submit), on the replay thread: a check of VMA's counters every
 // PRESSURE_EVERY submits; the walk over the textures only past the line.
 void tex_pressure(void) {
     static uint32_t next_at;
     static uint64_t passes, n_out, bytes_out;
     int mode;
+    tex_race_purge();
     uint32_t line = idle_line(&mode);
     if (!RT_KNOB_ON(mode) || submit_epoch % PRESSURE_EVERY || (int32_t)(submit_epoch - next_at) < 0) return;
     VkCtx *c = vk_ctx();

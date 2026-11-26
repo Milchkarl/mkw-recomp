@@ -151,6 +151,7 @@ Tex *entry_of(const tex_t *t) {
         nvn_hm_put(&by_key, &k, e);
         tex_gen_bump(k.addr);
     }
+    if (e->pf) tex_pf_first_use(e, e->n_up);   // a lookup outside the slots (copies, vk_texture_get) uses it too
     if (e->released) e->released = 0, nreleased--, rel_unlink(e), tex_gen_bump(k.addr);
     e->t = *t;
     return e;

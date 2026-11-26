@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/launcher_lastrun.h"
 #include "ui/launcher/launcher_setup.h"
 
@@ -33,7 +34,7 @@ static void on_line(const char *line) {
 
 static int SDLCALL reader(void *) {
     size_t n = 0;
-    char *out = (char *)SDL_ReadProcess(g_proc, &n, nullptr);   // one short line: waits for the script to end
+    char *out = (char *)proc_read(g_proc, &n, nullptr);   // one short line: waits for the script to end
     if (out) {
         char *nl = strpbrk(out, "\r\n");
         if (nl) *nl = 0;
@@ -50,7 +51,7 @@ void lastrun_start(const char *exe_dir, const char *game_dir) {
     char python[1200], script[1200];
     if (!game_dir || !*game_dir || !setup_tool(exe_dir, "prepare/lastrun.py", python, script, sizeof python)) return;
     const char *args[] = {python, "-I", script, "--game", game_dir, "--version", rt_port_version, nullptr};
-    g_proc = SDL_CreateProcess(args, true);
+    g_proc = proc_spawn(args, true);
     if (!g_proc) {
         rt_log("launcher: cannot read the last run: %s", SDL_GetError());
         return;

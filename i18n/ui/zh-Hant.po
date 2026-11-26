@@ -497,6 +497,12 @@ msgid ""
 "motion judders. Automatic avoids it."
 msgstr "依遊戲目前的幀率，這個倍數無法均勻整除螢幕更新率：畫面會頓挫。「自動」可以避免。"
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "顯示卡記憶體已滿，遊戲因此變慢。較低的內部解析度佔用較少記憶體。"
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "可變更新率螢幕"

@@ -23,8 +23,10 @@
 #include "gfx.h"
 #include "host.h"
 #include "vk.h"
+#include "vk_tex_gfx9.h"
 
 VkCaps vk_caps = {.float64 = 1, .sg_size = 32};
+int vk_radv_gfx9;
 static int f64_supported;
 static VkBool32 gpl_lib, gpl_fast;   // the driver's graphicsPipelineLibrary (feature), ...FastLinking (property)
 
@@ -68,7 +70,9 @@ static void driver_version(char *o, size_t n, uint32_t vendor, uint32_t v) {
 void vk_caps_init(VkCtx *c) {
     VkPhysicalDeviceLimits *l = &c->props.limits;
     VkPhysicalDeviceDriverProperties drv = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES};
-    VkPhysicalDeviceSubgroupProperties sg = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES, .pNext = &drv};
+    VkPhysicalDeviceSamplerFilterMinmaxProperties mm = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES,
+                                                        .pNext = &drv};
+    VkPhysicalDeviceSubgroupProperties sg = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES, .pNext = &mm};
     VkPhysicalDeviceVulkan13Properties p13 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES, .pNext = &sg};
     VkPhysicalDevicePushDescriptorPropertiesKHR pd = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR,
                                                       .pNext = &p13};
@@ -104,6 +108,9 @@ void vk_caps_init(VkCtx *c) {
     if (vk_caps.cs_wide) rt_log("vk caps: compute shaders at subgroup size %u (MKW_VK_CS_SUBGROUP)", vk_caps.cs_wide);
 
     vk_caps.driver_id = drv.driverID;
+    vk_radv_gfx9 = vk_tex_radv_gfx9(drv.driverID == VK_DRIVER_ID_MESA_RADV, c->props.vendorID, p13.minSubgroupSize,
+                                    mm.filterMinmaxImageComponentMapping);
+    if (vk_radv_gfx9) rt_log("vk caps: RADV on GFX9 (minimum subgroup size 64, min/max filter component mapping)");
     char dv[32];
     driver_version(dv, sizeof dv, c->props.vendorID, c->props.driverVersion);
     uint32_t v = c->props.apiVersion;

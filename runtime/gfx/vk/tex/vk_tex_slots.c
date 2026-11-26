@@ -191,7 +191,15 @@ const VkTexImage *vk_texture_by_id_locked(int id, view_t *view, int *has_view) {
     // mirrored, GPU-owned or no CPU layout), so a slot that checked its entry in this submit has nothing left to do.
     if (e && s->cepoch != submit_epoch) {
         if (!e->uploaded || e->checked != submit_epoch) {
+            if (tex_tt_on && !e->uploaded && e->pub.mirrored && !e->pub.gpu_owned && tex_reg_ns && tex_reg_ns[id]) {
+                uint64_t ms = (plat_now_ns() - tex_reg_ns[id]) / 1000000;
+                int b = ms < 5 ? 0 : ms < 17 ? 1 : ms < 50 ? 2 : ms < 200 ? 3 : ms < 1000 ? 4 : 5;
+                __atomic_add_fetch(&tex_lead_n[b], 1, __ATOMIC_RELAXED);
+                __atomic_add_fetch(&tex_lead_bytes[b], (int64_t)e->t.L.size, __ATOMIC_RELAXED);
+            }
+            uint32_t n_up = e->n_up;
             make_fresh_snap(e);
+            if (e->pf) tex_pf_first_use(e, n_up);
             e->checked = submit_epoch;
         }
         s->cepoch = submit_epoch;

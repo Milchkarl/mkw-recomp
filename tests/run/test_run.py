@@ -234,3 +234,18 @@ def test_shot_without_ffmpeg(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) ->
     shot.write_bytes(b"png")
     monkeypatch.setenv("PATH", str(tmp_path))
     assert ctl.wait_shot(shot, timeout=1) == f"ctl: wrote {shot}"
+
+
+def test_mkw_ini_is_not_inherited_unseen(tmp_path: Path) -> None:
+    (tmp_path / "mkw.ini").write_text("[display]\nframegen = auto\nfps = auto\n; note\n[launcher]\nmods = x\n")
+    binary = tmp_path / "mkw"
+    assert launch.ini_inherited(binary, {}) == {"framegen": "auto", "fps": "auto"}
+    assert launch.ini_inherited(binary, {"MKW_FRAMEGEN": "off"}) == {"fps": "auto"}
+    assert launch.ini_inherited(tmp_path / "none" / "mkw", {}) == {}
+
+
+def test_runs_measure_without_frame_generation_and_ab_at_a_fixed_rate(runenv: Path) -> None:
+    plain = launch.make_plan("i1", "race", None, {"MKW_INPUT_SCRIPT": "none"}).env
+    assert plain["MKW_FRAMEGEN"] == "off" and "MKW_FPS" not in plain
+    ab = launch.make_plan("i2", "race", None, {"MKW_INPUT_SCRIPT": "none", "MKW_AB": "1", "MKW_FRAMEGEN": "2"}).env
+    assert ab["MKW_FPS"] == "60" and ab["MKW_FRAMEGEN"] == "2"

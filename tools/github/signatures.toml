@@ -34,6 +34,13 @@ fixed = "v0.1.5"
 what = "the shader step split the compiler's path at a space in the game folder"
 
 [[signature]]
+issue = 904
+wiki = "setup-errors-fixed-in-old-releases"
+all = ["from LD_PRELOAD cannot be preloaded", "nothing was captured"]
+fixed = "v0.1.19"
+what = "Linux: the shader step split the path of its helper library at a space in the game folder (`LD_PRELOAD`)"
+
+[[signature]]
 issue = 18
 wiki = "is-not-mario-kart-world-100--is-not-a-known-version-of-mario-kart-world"
 all = ["is not Mario Kart World 1.0.0 (build id"]
@@ -71,6 +78,19 @@ all = ["physical pool chunk", "device-local allocation failed"]
 what = "blocks of the game's GPU memory get no video memory on a 4 GB card and draw wrong (a dark band, flashing colours)"
 
 [[signature]]
+issue = 817
+wiki = "the-game-runs-too-fast-or-freezes-with-logic-rate-above-60-hz"
+all = ["(MKW_LOGIC_HZ, set logichz on)"]
+fixed = "v0.1.19"
+what = "the unfinished Logic rate above 60 Hz runs the game too fast, and can stop it at a loading screen or in a race"
+
+[[signature]]
+issue = 554
+wiki = "amd-polaris-on-linux-radv-stuck-at-the-loading-screen-after-first-write-to-level-10"
+all = ["first write to level 10 of 8192x8192", "RADV POLARIS"]
+what = "on Polaris with RADV the game stops right after the first writes to a large sparse texture's smallest levels"
+
+[[signature]]
 issue = 111
 wiki = "amd-on-windows-a-draw-gave-up-on-its-pipeline-after-30000-ms"
 all = ["a draw gave up on its pipeline after 30000 ms", "AMD proprietary driver"]
@@ -100,6 +120,12 @@ issue = 50
 wiki = "amd-on-linux-radv-device-lost-at-the-title"
 all = ["driver radv", "task/mesh draws as mesh shaders", "upload submit failed (-4)"]
 what = "RADV loses the device at the title with the game's mesh shaders run natively: from 0.1.10 RADV draws them as compute passes by default (`mesh_compute = 1` in `mkw.ini` does the same before)"
+
+[[signature]]
+issue = 860
+wiki = "amd-on-linux-radv-gpu-hang-in-the-intro-or-a-race-then-upload-submit-failed--4"
+all = ["driver radv", "reports no device loss", "colour formats 122, depth format 130", "upload submit failed (-4)"]
+what = "on RADV one submission of the main scene's render pass never finishes and the kernel resets the GPU at `amdgpu.lockup_timeout` (intro or race; RX 6900 XT, RX 7900 GRE/XTX, Ryzen Z1 Extreme): not fixed yet"
 
 [[signature]]
 issue = 152

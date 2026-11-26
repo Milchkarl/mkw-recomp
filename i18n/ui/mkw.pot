@@ -494,6 +494,10 @@ msgid ""
 "motion judders. Automatic avoids it."
 msgstr ""
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid "Your graphics card's memory is full, so the game slows down. A lower internal resolution needs less."
+msgstr ""
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr ""

@@ -94,8 +94,21 @@ void tex_gen_bump(uint64_t addr) {
 }
 
 volatile int32_t tex_ready;
+int64_t tex_tt[TT_N];
+int tex_tt_on;
+int64_t tex_lead_n[TT_LEADS], tex_lead_bytes[TT_LEADS];
+uint64_t *tex_reg_ns;
+
+// MKW_TEX_TIMING: the game thread's registration time of a slot (vk_backend.c), for the lead before its first upload
+void vk_tex_reg_note(int id) {
+    if (!tex_tt_on || id < 0 || id >= (1 << 20)) return;
+    if (!tex_reg_ns && !(tex_reg_ns = calloc(1 << 20, sizeof *tex_reg_ns))) return;
+    tex_reg_ns[id] = plat_now_ns();
+}
+
 void tex_init(void *p) {
     (void)p;
+    tex_tt_on = rt_knob("TEX_TIMING", "0");
     __atomic_store_n(&tex_ready, 1, __ATOMIC_RELEASE);
     return;
 }
@@ -234,4 +247,24 @@ void vk_texture_shutdown(void) {
     if (schk) memset(schk, 0, sizeof *schk << 20);
     unlock_slots();
     unlock();
+}
+
+// MKW_TEX_TIMING: the frame's texture creation and upload time by part (vk_tex_internal.h TT_*), once the frame is
+// presented; logged past 5 ms, then started over.
+void vk_tex_timing_frame(uint64_t frame) {
+    if (!tex_tt_on) return;
+    int64_t v[TT_N];
+    for (int i = 0; i < TT_N; i++) v[i] = __atomic_exchange_n(&tex_tt[i], 0, __ATOMIC_RELAXED);
+    int64_t ln[TT_LEADS], lb[TT_LEADS];
+    for (int i = 0; i < TT_LEADS; i++)
+        ln[i] = __atomic_exchange_n(&tex_lead_n[i], 0, __ATOMIC_RELAXED),
+        lb[i] = __atomic_exchange_n(&tex_lead_bytes[i], 0, __ATOMIC_RELAXED);
+    if (v[TT_CREATE] + v[TT_UPLOAD] < 5000000) return;
+    rt_log("vk: tex timing frame %llu: first uploads by lead since registration: <5 ms %lld (%.1f MiB), <17 %lld (%.1f), "
+           "<50 %lld (%.1f), <200 %lld (%.1f), <1000 %lld (%.1f), more %lld (%.1f)", (unsigned long long)frame,
+           (long long)ln[0], lb[0] / 1048576.0, (long long)ln[1], lb[1] / 1048576.0, (long long)ln[2], lb[2] / 1048576.0,
+           (long long)ln[3], lb[3] / 1048576.0, (long long)ln[4], lb[4] / 1048576.0, (long long)ln[5], lb[5] / 1048576.0);
+    rt_log("vk: tex timing frame %llu: create %.1f ms (alpha %.1f, image %.1f), upload %.1f ms (flush %.1f, staging %.1f, "
+           "deswizzle %.1f, astc %.1f)", (unsigned long long)frame, v[TT_CREATE] / 1e6, v[TT_ALPHA] / 1e6,
+           v[TT_IMAGE] / 1e6, v[TT_UPLOAD] / 1e6, v[TT_FLUSH] / 1e6, v[TT_STAGE] / 1e6, v[TT_DESW] / 1e6, v[TT_ASTC] / 1e6);
 }

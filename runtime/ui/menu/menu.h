@@ -27,6 +27,7 @@ extern "C" {
 // ---- state, any thread
 int menu_is_open(void);
 void menu_toggle(void);                   // F1 / Esc on the keyboard, Minus+Plus on the pad
+void menu_test_now(void);                 // ctl "menu": MKW_MENU_TEST's walk over the tabs from the next frame
 void menu_perf_cycle(void);               // F10: the performance overlay off, fps, full
 void menu_mute_key(int key);              // a key down outside the menu: the Mute Toggle row's keys flip MKW_MUTE
 void menu_notice(const char *text, int seconds);   // a line at the top of the picture for that long, menu closed or not
@@ -73,6 +74,8 @@ int vk_fg_uneven(void);
 // restart, 2 not available on this PC (gfx/vk/exec/vk_temporal.c, gfx/vk/device/vk_reflex_frame.c)
 int vk_tmp_menu_state(const char *key);
 int vk_rfx_menu_state(void);
+// (gfx/vk/mem/vk_headroom.c) a discrete GPU's VRAM at or past the driver's live budget: the note under the resolution
+int vk_vram_full(void);
 
 #ifdef __cplusplus
 }

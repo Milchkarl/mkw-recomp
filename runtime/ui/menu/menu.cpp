@@ -291,6 +291,15 @@ static void test_parse(void) {
                (unsigned long long)g_test.at, (unsigned long long)g_test.per_page, g_test.n_sets);
 }
 
+// ctl "menu" (core/base/ctl.c): the same walk at the next frame, wherever the run is (a race, a menu), so a note
+// that depends on the moment (the VRAM one under DLSS and FSR 3.1, #880) is seen there. Any thread.
+extern "C" void menu_test_now(void) {
+    if (!g_test.parsed) test_parse();
+    if (!g_test.per_page) g_test.per_page = TEST_PAGE_FRAMES;
+    g_test.opened = 0;
+    __atomic_store_n(&g_test.at, (uint64_t)1, __ATOMIC_RELEASE);
+}
+
 static void test_apply_sets(uint64_t frame) {
     for (; g_test.next_set < g_test.n_sets && g_test.sets[g_test.next_set].frame <= frame; g_test.next_set++) {
         const TestSet &t = g_test.sets[g_test.next_set];

@@ -25,6 +25,7 @@
 #include "version.h"
 
 #define OUTPUT_SIZE 0xfd0   // patch page offset of the output size (recomp/patches-mkw.txt, set output)
+#define OUTPUT_SCENE_SCALE 0.65   // the docked scene renders at this share of For3D (sdk/fs/romfs_res.c SCENE_SCALE)
 #define SHADOW_HOST 0xfc0   // patch page offset of host_shadow_rb (set shadow)
 #define SEED_HOST 0xfb0     // patch page offset of host_seed_tick (set seed)
                             // 0xfa0: game.c host_frame_update (MKW_FPS)
@@ -222,10 +223,10 @@ static void seed_set(const RtGame *g) {
 }
 
 static void shadow_set(const RtGame *g) {
-    shadow_size = (uint32_t)atoi(cfg_value("MKW_SHADOW_SIZE"));   // "console": 0
+    shadow_size = (uint32_t)cfg_int_in("MKW_SHADOW_SIZE", 0, 4096);   // "console": 0
     const char *extra = cfg_get("MKW_RB_EXTRA_MIB"), *res = cfg_value("MKW_RESOLUTION");
     rb_extra_mib = extra ? (uint32_t)atoi(extra) : 0;
-    scene_lines = strcmp(res, "original") ? (uint32_t)atoi(res) : 0;   // the targets' lines (romfs_res.c)
+    scene_lines = strcmp(res, "original") ? (uint32_t)cfg_int_in("MKW_RESOLUTION", 0, 4320) : 0;   // the targets' lines (romfs_res.c)
     for (int i = 0; i < g->npatch_sets; i++)
         if (!strcmp(g->patch_sets[i].name, "shadow")) g->patch_on[i] = shadow_size != 0 || second_pool_bytes() != 0;
 }
@@ -1205,7 +1206,7 @@ static void aspect_tall_target(uint32_t wh[2], int lines, float aspect, int nati
 
 static void output_size(const RtGame *g) {
     const char *res = cfg_value("MKW_RESOLUTION"), *off = cfg_get("MKW_OUTPUT_PATCH");
-    int lines = strcmp(res, "original") ? atoi(res) : 0, native = rt_version()->output_lines;
+    int lines = strcmp(res, "original") ? cfg_int_in("MKW_RESOLUTION", 0, 4320) : 0, native = rt_version()->output_lines;
     // 1.8.0 draws its last pass at the screen render's size (2560x1440 at original) whatever the output: an output
     // with fewer lines cuts the picture to its top-left corner (pr450-180b/d, vp 2560x1440 on a 1280x800 texture).
     // Its output keeps at least those lines, 16:9; the present stretches the crop to MKW_ASPECT (gfx_present.c).
@@ -1245,6 +1246,15 @@ static void output_size(const RtGame *g) {
             int w = 0, h = 0;
             if (!strcmp(res, "original") && !at_screen) gfx_window_shape(&w, &h);
             aspect_tall_target(wh, lines, aspect_out, w, h);
+        }
+        if (at_screen) {
+            // 1.8.0 crops its picture out of the window textures (WindowCrop), so a bigger texture costs memory only,
+            // while a smaller one cuts what the game draws past it: the last pass at the 3D scene's lines (For3D =
+            // lines / 0.65 docked, #512) and the photo mode's 1.5 x Screen supersample (#515 #545 #687, 2880x1620 at
+            // 1080) were clipped to the corner, a x1.5 zoom (p515a/p515b, 26/11/2026: the same photo with the output
+            // at 3840x2160 came out right). So the textures hold 1/0.65 of the lines, 8K at most.
+            for (int k = 0; k < 2; k++) wh[k] = ((uint32_t)ceil(wh[k] / OUTPUT_SCENE_SCALE) + 1) & ~1u;
+            if (wh[1] > 4320) wh[0] = wh[0] * 4320u / wh[1] & ~1u, wh[1] = 4320;
         }
         output_wh[0] = wh[0], output_wh[1] = wh[1];
         memcpy((void *)(uintptr_t)(g->patch_page + OUTPUT_SIZE), wh, sizeof wh);

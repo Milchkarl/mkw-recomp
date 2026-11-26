@@ -332,6 +332,29 @@ int probe_cfg(void) {
     input_map_set_key(&mp, B_SL_UP, 0, KEY_NONE);
     input_map_line(&mp, B_SL_UP, line, sizeof line);
     CHECK(!strcmp(line, "none"), "edit: a stick direction without keys is none");
+    // #52: a camera key that goes down with the pad's left stick already that way is a mapper's echo of the stick
+    InputKeyEcho ec = {{0, 0}, {0, 0}};
+    int32_t pad_l[2] = {20000, 0}, kst[2] = {32767, 0};
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 0, "key echo: an arrow with the left stick at 61 % that way is dropped");
+    pad_l[0] = 0, kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 0, "key echo: dropped until the key is released");
+    kst[0] = 0;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 32767, "key echo: an arrow with the stick at rest moves the camera");
+    kst[0] = 0, pad_l[0] = -20000;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 32767;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 32767, "key echo: an arrow against the left stick moves the camera");
+    kst[0] = 0, pad_l[0] = 0, pad_l[1] = 20000;
+    input_key_echo(&ec, pad_l, kst);
+    kst[0] = 23170, kst[1] = 23170;
+    input_key_echo(&ec, pad_l, kst);
+    CHECK(kst[0] == 23170 && kst[1] == 0, "key echo: per axis, up dropped with the stick up, right kept");
     // defaults live in the CfgMeta table: cfg_value and the typed accessors fall back to it
     cfg_load("cfg-probe-missing.ini");
     plat_setenv("MKW_PIPE_PREBUILD", "");
@@ -352,6 +375,17 @@ int probe_cfg(void) {
     plat_setenv("MKW_FREE_CORES", "1");
     CHECK(cfg_bool("MKW_FREE_CORES") == 1, "free_cores 1: on");
     plat_setenv("MKW_FREE_CORES", "");
+    // MKW_LOGIC_HZ from the environment only: a logic_hz the 0.1.16-0.1.18 menu wrote ran the game fast (#817, game.c)
+    static const char lhz[] = "logic_hz = 120\n";
+    plat_setenv("MKW_LOGIC_HZ", "");
+    CHECK(plat_file_write(path, lhz, sizeof lhz - 1) && cfg_load(path) == 1, "logic_hz: load the ini");
+    frame_logic_hz_reread();
+    CHECK(frame_logic_hz() == 60, "logic_hz = 120 in mkw.ini is ignored: 60 Hz");
+    plat_setenv("MKW_LOGIC_HZ", "120");
+    frame_logic_hz_reread();
+    CHECK(frame_logic_hz() == 120, "MKW_LOGIC_HZ=120 in the environment still applies");
+    plat_setenv("MKW_LOGIC_HZ", "");
+    frame_logic_hz_reread();
     cfg_load("cfg-probe-missing.ini");
     int listed = 0;
     for (int i = 0; cfg_meta_at(i); i++) {

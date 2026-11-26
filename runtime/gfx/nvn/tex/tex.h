@@ -56,6 +56,8 @@ void astc_decode_ldr_mt(const uint8_t *blocks, uint32_t width, uint32_t height, 
 // take tens of microseconds or more: each job wakes every worker.
 typedef void TexParFn(void *ctx, uint32_t i);
 void tex_par_for(uint32_t n, TexParFn *fn, void *ctx);
+// The calling thread does its own jobs from now on, leaving the pool to the replay (vk_tex_prefetch.c's thread)
+void tex_par_solo_here(void);
 int tex_par_threads(void);   // the threads a job runs on, the caller included (1: no workers)
 
 // ---- vk_formats.c (LAS Recomp runtime/nvn/vulkan/textures.c format table, MIT) ----

@@ -68,6 +68,11 @@ def ca_file() -> str | None:
             return None
     except OSError:
         pass
+    return bundled_ca()
+
+
+def bundled_ca() -> str | None:
+    """pip's bundled CA file (certifi) in this Python, None without one."""
     for pat in (
         "lib*/python3*/site-packages/pip/_vendor/certifi/cacert.pem",
         "Lib/site-packages/pip/_vendor/certifi/cacert.pem",
@@ -78,8 +83,19 @@ def ca_file() -> str | None:
 
 
 def ssl_context() -> ssl.SSLContext:
-    """The system's CA store; else pip's bundled one (ca_file)."""
-    return ssl.create_default_context(cafile=ca_file())
+    """The system's CA store with pip's bundled roots added; pip's alone when the system's cannot be read (#456).
+
+    Added, not only a fallback for an empty store (issue #853): Windows keeps few roots and fetches the others when a
+    chain needs them, which Python's ssl cannot ask for, so a store with roots can still miss GitHub's issuer
+    ("unable to get local issuer certificate") and the update check failed on every start."""
+    pem = bundled_ca()
+    try:
+        ctx = ssl.create_default_context()
+    except OSError:
+        return ssl.create_default_context(cafile=pem)
+    if pem:
+        ctx.load_verify_locations(cafile=pem)
+    return ctx
 
 
 def get(url: str, timeout: int) -> urllib.request.addinfourl:

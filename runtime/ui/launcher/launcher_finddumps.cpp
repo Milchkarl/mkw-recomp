@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/launcher_finddumps.h"
 #include "ui/launcher/launcher_setup.h"
 
@@ -35,7 +36,7 @@ static void on_line(char *line) {
 
 static int SDLCALL reader(void *) {
     size_t n = 0;
-    char *out = (char *)SDL_ReadProcess(g_proc, &n, nullptr);
+    char *out = (char *)proc_read(g_proc, &n, nullptr);
     for (char *p = out; p && *p;) {
         char *e = p + strcspn(p, "\r\n"), c = *e;
         *e = 0;
@@ -58,7 +59,7 @@ void finddumps_start(const char *exe_dir, const char *game_dir) {
     char python[1200], script[1200];
     if (!setup_tool(exe_dir, "prepare/finddumps.py", python, script, sizeof python)) return;
     const char *args[] = {python, "-I", script, "--game", game_dir && *game_dir ? game_dir : ".", nullptr};
-    g_proc = SDL_CreateProcess(args, true);
+    g_proc = proc_spawn(args, true);
     if (!g_proc) {
         rt_log("launcher: cannot look for the game's copies: %s", SDL_GetError());
         return;

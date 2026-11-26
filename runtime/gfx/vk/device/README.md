@@ -15,6 +15,7 @@ submits and fences, present.
 | `vk_rec_reuse.h`, `vk_rec_reuse.c` | `MKW_REUSE`: the command buffer's bound state by slots, capture of a draw's packets and their re-emission to the ring |
 | `vk_rec_diff.h`, `vk_rec_diff.c` | `MKW_REC_DIFF=1` (measurement): how much of each submit's resolved commands repeats an earlier one, per packet and per draw span |
 | `vk_sync.c` | Submits, fences, timeline semaphore and completion thread |
+| `vk_gpu_sim.c`, `vk_gpu_sim.h` | `MKW_GPU_SIM=<ms per 1000 draws>` (measurement): a GPU of a chosen speed in place of this machine's. The game and the replay run as always, the recorded command buffers are not executed, and a submission is done when a simulated GPU (one job at a time, its draws x the given time) would have finished it; fence waits and completion callbacks follow that clock. For comparing the waits between game, replay and GPU with a player's GPU time on our CPU; the picture is not valid |
 | `vk_sync_ts.c`, `vk_sync_ts.h` | GPU time of each part of a submit (`MKW_TRACE=perf`), for `vk_sync.c` |
 | `vk_fsr.c` | AMD FSR 1 at present time when the window is larger than the game's output |
 | `vk_hdr_ui.c` | The F1 menu on an HDR10 swapchain: drawn into an RGBA8 image and blended onto the game's PQ picture at the system's paper white (`runtime/shaders/hdr/hdr_ui.frag`; from totk-pc-recomp, MIT) |

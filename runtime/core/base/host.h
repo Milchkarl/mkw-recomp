@@ -146,6 +146,7 @@ uint32_t mem_set_attribute(uint64_t a, uint64_t n, uint32_t mask, uint32_t at); 
 uint32_t mem_map(uint64_t dst, uint64_t src, uint64_t n);                       // 0x04
 uint32_t mem_unmap(uint64_t dst, uint64_t src, uint64_t n);                     // 0x05
 uint32_t mem_query(uint64_t a, RtMemoryInfo *out);                              // 0x06
+int mem_guest_heap_readable(uint64_t a, uint64_t n);       // as below, the game's heap only (no alias pages)
 int mem_guest_readable(uint64_t a, uint64_t n);            // 1: [a, a+n) is the game's heap or mapped alias pages,
                                                            // not a moved stack's source or a trapped page, which the
                                                            // runtime may read without a fault it cannot handle; from
@@ -176,7 +177,8 @@ int mem_freeze(uint64_t a);                                // makes the 2 MiB re
 int mem_frozen(uint64_t a);                                // the 2 MiB region of a is frozen: no page in it changed
                                                            // since its freeze
 void mem_thaw(uint64_t a, uint64_t n);                     // makes the frozen regions over [a, a+n) writable again;
-                                                           // before a kernel write (file read) into guest memory;
+                                                           // before a kernel write (file read, socket receive) into
+                                                           // guest memory (mem_io_begin);
                                                            // commits the range first (mem_commit_range)
 void mem_io_begin(uint64_t a, uint64_t n);                 // mem_thaw, and until mem_io_end no page of the range is swapped
 void mem_io_end(uint64_t a, uint64_t n);                   // for the GPU's (mem_share): around a kernel write into it
@@ -334,6 +336,7 @@ int ov_movie_playing(void);  // ov_codec.c: a full-screen movie (1280 wide or mo
 uint64_t frame_step_ticks(void);                           // game time since the first present in 60 Hz ticks (input scripts)
 int frame_logic_hz(void);                                  // game.c MKW_LOGIC_HZ: game steps and vsync ticks a second (60)
 void frame_logic_hz_60(void);                              // patches.c: the version has no logichz set, 60 whatever it says
+void frame_logic_hz_reread(void);                          // probes: the next frame_logic_hz reads MKW_LOGIC_HZ again
 // In-launch A/B measurement: MKW_AB=<seconds> splits the world clock (frame_step_world_us) into blocks of that much
 // game time in the order A B B A (repeated; B A A B with MKW_AB_INVERT=1); rt_ab() is 1 in the B blocks, 0 in A
 // blocks, before the world clock and without MKW_AB. rt_knob(name, def) reads the switch MKW_<name> once per call
@@ -361,12 +364,18 @@ typedef struct {
     // trials toward a faster interval below 30 fps (fps_auto.c): the intervals that held HELD_S, frames left of the
     // trial under way (from: the interval it left), frames until the next one and its wait in seconds
     unsigned held, trial, trial_wait;
-    int trial_from;
+    int trial_from, trial_ok;   // trial_ok: one held, not yet HOLD_MIN_S without an up
     double trial_s;
+    // game time the frames lost (real time past it), decayed over about two seconds: all frames, and those run at this
+    // interval that a stall does not explain (fps_auto.c)
+    double lost, lost_held;
+    int cap;         // the slowest interval the caller uses now, 0: none (fps_auto_cap)
+    int median_up;   // 1: up on the median alone, without the game time lost (the rule before it; set by the caller)
 } FpsAuto;
-void fps_auto_reset(FpsAuto *a);                           // interval 1, no history
-int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms);   // a frame's game measure and real period in,
-                                                                     // the interval to use out
+void fps_auto_reset(FpsAuto *a);   // interval 1, no history
+void fps_auto_cap(FpsAuto *a, int cap);   // the slowest interval in use now (out of a race: 30 fps), 0 none
+// A frame's game measure, real period and game time (below 0: not known, its interval's) in, the interval to use out
+int fps_auto_step(FpsAuto *a, double measured_ms, double real_ms, double game_ms);
 int probe_discord(void);                                   // discord_probe.c: Rich Presence against the local Discord
 int probe_dsu(void);                                       // dsu_probe.c: the DSU motion client against a fake server
 int probe_pads(void);                                      // pads_probe.c: players and their gamepads, traded (virtual gamepads)

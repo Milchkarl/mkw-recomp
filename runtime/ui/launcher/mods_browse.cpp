@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "imgui.h"
 #include "ui/launcher/launcher_setup.h"
 #include "ui/launcher/mods.h"
@@ -172,7 +173,7 @@ static int SDLCALL reader(void *) {
         SDL_UnlockMutex(G.lock);
     }
     int code = -1;
-    SDL_WaitProcess(G.proc, true, &code);
+    proc_wait(G.proc, true, &code);
     SDL_DestroyProcess(G.proc);
     SDL_LockMutex(G.lock);
     G.proc = nullptr;
@@ -204,7 +205,7 @@ static void start(const char *exe_dir, int job, const char *const *rest) {
     if (job == JOB_INFO) G.info = Info{};
     if (job == JOB_DOWNLOAD) G.dl_done = G.dl_size = 0, G.dl_path[0] = 0;
     SDL_UnlockMutex(G.lock);
-    G.proc = SDL_CreateProcess(args, true);
+    G.proc = proc_spawn(args, true);
     if (!G.proc) {
         SDL_LockMutex(G.lock);
         G.running = 0, G.finished = -1;
@@ -242,7 +243,7 @@ static int SDLCALL pic_reader(void *) {
                 snprintf(P.pics[i].path, sizeof P.pics[i].path, "%s", path), P.pics[i].state = 2;
         SDL_UnlockMutex(G.lock);
     }
-    SDL_WaitProcess(P.proc, true, nullptr);
+    proc_wait(P.proc, true, nullptr);
     SDL_DestroyProcess(P.proc);
     SDL_LockMutex(G.lock);
     P.proc = nullptr, P.running = 0;
@@ -340,7 +341,7 @@ static void pic_tick(const char *exe_dir, SDL_Renderer *ren) {    for (int i = 0
     if (na == 6) return;
     args[na] = nullptr;
     P.running = 1;
-    P.proc = SDL_CreateProcess(args, true);
+    P.proc = proc_spawn(args, true);
     if (!P.proc) {
         P.running = 0;
         return;

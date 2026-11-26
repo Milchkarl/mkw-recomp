@@ -33,10 +33,10 @@ typedef void(VKAPI_PTR *PFN_vkCmdSetComputeOccupancyPriorityNV)(VkCommandBuffer 
 #include "nvn_obj.h"   // pool_t, tex_t, view_t, samp_par, NVNcopyRegion (memory and textures block)
 #include "gfx.h"       // GfxShader, GfxShaderRes, GfxShaderAnswers (pipelines block)
 
-// Required (device choice fails without them): Vulkan 1.3; VK_KHR_swapchain, VK_KHR_push_descriptor,
-// VK_EXT_depth_clip_control (VK_EXT_external_memory_host when offered); features timelineSemaphore, dynamicRendering,
-// synchronization2, shaderStorageImageWriteWithoutFormat, depthClipControl, shaderInt64, samplerAnisotropy,
-// independentBlend, geometryShader, textureCompressionBC.
+// Required (device choice fails without them): Vulkan 1.3; VK_KHR_swapchain, VK_KHR_push_descriptor
+// (VK_EXT_external_memory_host when offered); features timelineSemaphore, dynamicRendering, synchronization2,
+// shaderStorageImageWriteWithoutFormat, shaderInt64, samplerAnisotropy, independentBlend, geometryShader,
+// textureCompressionBC.
 // Optional (flag set in VkCtx when enabled): the has_* members.
 typedef struct VkCtx {
     VkInstance instance;
@@ -70,6 +70,8 @@ typedef struct VkCtx {
         has_nv_checkpoints,                 // VK_NV_device_diagnostic_checkpoints: the same on NVIDIA
         has_exec_stats,                     // VK_KHR_pipeline_executable_properties, with MKW_SPEC_STATS=1 only
         has_mesh,                           // VK_EXT_mesh_shader with taskShader and meshShader (MKW's 25 task/mesh)
+        has_depth_clip_control,             // VK_EXT_depth_clip_control: -1..1 depth by negativeOneToOne, else the
+                                            // vertex or mesh shader converts it (vk_spirv_depth.c)
         has_astc_ldr,                       // textureCompressionASTC_LDR (enabled when reported)
         has_calibrated,                     // VK_KHR_calibrated_timestamps, with MKW_TRACE_TL=1 only
         has_emh,                            // VK_EXT_external_memory_host: pools imported when a shadow does not fit
@@ -169,7 +171,7 @@ extern VkFormat vk_fg_src_format, vk_fg_out_format;   // its picture's format, a
 VkQueue vk_fg_queue(void);   // the queue frame generation's frames are written on (their blits go there), 0: the game's
 void vk_present_queue(VkQueue q);
 uint64_t vk_present_game_id(uint64_t frame);
-uint64_t vk_present_flip_time(uint64_t t);   // a flip's call time on the vblank clock, not before t (0: unknown)   // the present id of a game frame's present (0 none): Reflex's, or for the phase   // gfx_present.c: the queue of the blits that follow (0: the game's)
+uint64_t vk_present_flip_time(uint64_t t);   // a flip's call time on the vblank clock, not before t (0: unknown, or off in immediate)   // the present id of a game frame's present (0 none): Reflex's, or for the phase   // gfx_present.c: the queue of the blits that follow (0: the game's)
 int vk_fg_wanted(void);   // MKW_FRAMEGEN is not off: the swapchain keeps spare images for it
 // One game frame: copies the crop rectangle {x, y, w, h} of src (GENERAL, all its writes submitted) into a picture of
 // its own and submits the frames made between the last game frame and it. out: what to show, in order (the made
@@ -364,6 +366,7 @@ void vk_tex_pool_stats(uint64_t *block_bytes, uint64_t *alloc_bytes);   // the p
 void vk_tex_pool_start(void);   // MKW_VK_TEX_POOL_MIN: texture memory made at start (vk_tex_image.c)
 void vk_tex_pool_stop(void);    // after image destruction, before destroying the VMA allocator
 void vk_headroom_stop(void);   // before vmaDestroyAllocator
+void vk_headroom_drop(void);   // the spare blocks held ahead go (MKW_TEX_RACE_PURGE)
 int vk_mem_resolve(uint64_t addr, uint64_t size, VkMemSpan *out);   // 1 when all of [addr, addr+size) is backed
 int vk_mem_virt_phys(uint64_t addr, uint64_t *phys);   // virtual pool page at addr: 1 and the GPU address it maps to
 
@@ -411,12 +414,15 @@ int vk_fix_zero(void);
 VkCommandBuffer vk_upload_begin(void);
 void vk_upload_end(void);
 void *vk_staging(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc);
+// A caller-owned staging buffer, or NULL with nothing trimmed, sent or waited for (vk_tex_prefetch.c: it can wait)
+void *vk_staging_try(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc);
 // Out of memory for what (a log name): textures trimmed, the open batch sent when no vk_upload_begin is open, the GPU
 // waited for and what it held freed; the caller tries once more
 void vk_mem_relieve(uint64_t bytes, const char *what);
 // vk_upload_begin plus vk_staging(size, buf, NULL) into *map, sending the open batch first when out of memory
 VkCommandBuffer vk_upload_begin_staging(VkDeviceSize size, VkBuffer *buf, void **map);
 uint64_t vk_upload_flush(int wait);
+int vk_upload_done(uint64_t seq);   // batch seq (vk_upload_flush's answer) is done on the GPU; no wait
 void vk_upload_flush_over(VkDeviceSize limit);   // sends the open batch once it holds that much staging or ASTC work
 void vk_upload_work(uint64_t texels);            // ASTC texels the open batch decodes (vk_upload_flush_over)
 // Deferred destruction: freed once the upload batches recorded so far and the timeline value last noted have completed.
@@ -596,6 +602,10 @@ void vk_texture_host_rewrote(uint64_t addr);   // textures at addr: the storage'
 void vk_texture_write_back(uint64_t addr, uint64_t size);   // writes those images back into their storage (waits)
 void vk_texture_range_gone(uint64_t lo, uint64_t size, VmaAllocation alloc);   // vk_pool_fini: drop the images there
 void vk_texture_stats(uint64_t *images, uint64_t *uploads, uint64_t *reuploads);
+void vk_tex_timing_frame(uint64_t frame);   // MKW_TEX_TIMING (vk_texture.c)
+void vk_tex_reg_note(int id);
+void vk_tex_prefetch_note(const tex_t *t);   // vk_tex_prefetch.c: the game registered t in a slot
+void vk_tex_prefetch_replay(void);           // mkw --replay: guest memory is the capture's, not the heap's
 // Entries now, live and released (TextureFinalize, kept until sweep_released), with the bytes of their own memory
 // (images not bound into pool memory).
 typedef struct {

@@ -152,6 +152,17 @@ void vk_upload_end(void) {
     plat_rmutex_unlock(&cmd_lock);
 }
 
+// Whether upload batch seq (vk_upload_flush's answer) is done on the GPU; no wait
+int vk_upload_done(uint64_t seq) {
+    VkCtx *c = vk_ctx();
+    plat_once(&cmd_once, cmd_init, NULL);
+    plat_rmutex_lock(&cmd_lock);
+    if (c) retire(c, 0);
+    int done = done_seq >= seq;
+    plat_rmutex_unlock(&cmd_lock);
+    return done;
+}
+
 void vk_upload_work(uint64_t texels) {
     plat_rmutex_lock(&cmd_lock);
     if (open_active) open_b.texels += texels;
@@ -246,6 +257,20 @@ static void *staging(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc, int
 }
 
 void *vk_staging(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc) { return staging(size, buf, alloc, 1); }
+
+void *vk_staging_try(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc) {
+    VkCtx *c = vk_ctx();
+    VkBufferCreateInfo bi = {.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO, .size = size ? size : 16,
+                             .usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT};
+    VmaAllocationCreateInfo aci = {.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                                   .flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};
+    // the staging pool once staging() made it (the first upload); the default pool before
+    if (__atomic_load_n(&stg_pool_tried, __ATOMIC_ACQUIRE) && stg_pool && bi.size <= STG_BLOCK / 2) aci.pool = stg_pool;
+    VmaAllocationInfo info;
+    VkResult r = vmaCreateBuffer(c->vma, &bi, &aci, buf, alloc, &info);
+    if (r != VK_SUCCESS && aci.pool) aci.pool = NULL, r = vmaCreateBuffer(c->vma, &bi, &aci, buf, alloc, &info);
+    return r == VK_SUCCESS ? info.pMappedData : NULL;
+}
 
 // Out of memory: released and idle textures go (vk_texture_trim), and, with no vk_upload_begin open (this thread's or
 // another's: the lock waits for it), the open batch is sent and waited for; then the GPU and the batches in flight are

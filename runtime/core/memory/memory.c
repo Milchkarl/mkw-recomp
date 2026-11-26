@@ -5,9 +5,11 @@
 // QueryMemory, physical memory in the alias region, GetInfo memory ids, and the kernel-region allocator.
 //
 // Every region is a plain reservation; pages are committed and decommitted at 4 KiB granularity. Decommitted pages
-// come back zeroed, so no stale-page bookkeeping is needed. The stack and heap block and the alias region are
-// reserved write-watched (platform.h plat_mem_reserve): mem_written_pages reports the pages the CPU wrote, which
-// the Vulkan back end uploads again.
+// come back zeroed, so no stale-page bookkeeping is needed. On a host with larger pages (Linux on Apple silicon: 16 KiB)
+// the platform gives each host page the most permissive protection its guest pages ask for (platform.h
+// plat_page_size): nothing here changes but the read traps, which need one guest page to fault alone (mem_trap_init).
+// The stack and heap block and the alias region are reserved write-watched (platform.h plat_mem_reserve):
+// mem_written_pages reports the pages the CPU wrote, which the Vulkan back end uploads again.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,9 +69,10 @@ static int reserve_at(uint64_t at, uint64_t size, int watch) { return plat_mem_r
 // A 2 MiB region of the watched reservations that nothing wrote for a while can be made read-only (mem_freeze), so the
 // back end's write-watch queries skip it: no page of a frozen region changes before a thaw. The first write faults and
 // thaw_handler makes the region writable again before the write retries. A kernel write into guest memory (a file
-// read) fails on a read-only page instead of faulting, so file reads thaw their buffer first (mem_thaw), and so does
-// every commit, decommit and protection change here. A region stays thawed for FRZ_HOLD_MS after a mem_thaw: a file
-// read still in flight writes its buffer later. frz_lock is a leaf lock: nothing writes guest memory under it.
+// read, a socket receive, an eventfd read, Linux's random bytes) fails on a read-only page instead of faulting, so
+// those thaw their buffer first (mem_io_begin), and so does every commit, decommit and protection change here. A
+// region stays thawed for FRZ_HOLD_MS after a mem_thaw: a file read still in flight writes its buffer later. frz_lock
+// is a leaf lock: nothing writes guest memory under it.
 #define FRZ_SHIFT 21
 #define FRZ_SIZE (1ull << FRZ_SHIFT)
 #define FRZ_HOLD_MS 5000u
@@ -219,10 +222,21 @@ int mem_trap_init(void) {   // memory_int.h
         // on Windows, 22/11/2026: 128 MiB committed, under 1 MiB resident; the same title-screen boot with and without
         // it, 23/11/2026: the allocation gone, private commit less the guest's 11061 -> 10933 MiB). Every reader checks
         // trap_ok, a count of trapped pages or trapped itself.
-        if (plat_mem_poke((uint64_t)(uintptr_t)&probe, &probe, 1)) trapped = plat_mem_alloc(RT_ADDRESS_LIMIT / PAGE);
+        // A host page larger than the guest's holds guest pages that are not trapped: an access to one of them would not
+        // fault where the trap needs it to, and one to the trapped page would only if the host page could be made
+        // inaccessible as a whole. Off there, with what builds on the map (MKW_EARLY_READ, base traps, spilled pages):
+        // the GPU's bytes are copied back at the fence, as on Windows.
+        int big = plat_page_size() != PAGE;
+        if (!big && plat_mem_poke((uint64_t)(uintptr_t)&probe, &probe, 1))
+            trapped = plat_mem_alloc(RT_ADDRESS_LIMIT / PAGE);
         trap_ok = trapped != NULL;
-        rt_log("mem: read traps %s", trap_ok ? "on: GPU writes reach guest memory when the game touches them"
-                                             : "unavailable: GPU writes are copied back at the fence");
+        if (big)
+            rt_log("mem: read traps off: host pages of %llu KiB (they need 4 KiB); GPU writes are copied back at the "
+                   "fence, and MKW_EARLY_READ, base traps and spilled pages are off with them",
+                   (unsigned long long)(plat_page_size() >> 10));
+        else
+            rt_log("mem: read traps %s", trap_ok ? "on: GPU writes reach guest memory when the game touches them"
+                                                 : "unavailable: GPU writes are copied back at the fence");
     }
     return trap_ok > 0;
 }
@@ -440,16 +454,20 @@ static void owned_commit_locked(uint64_t a, uint64_t n) {
         if (plat_mem_state(x, hi, &end) == PLAT_MEM_RESERVED) commit(x, end - x, "the runtime's region");
 }
 
-// The platform's lazy hook (plat_mem_lazy_hook), for reads and writes: 1 when the page at a was owned and is now
-// committed, so the access is retried.
-static int lazy_fault(uint64_t a) {
+// The platform's lazy hook (plat_mem_lazy_hook), for reads and writes (write: 1 for a write): 1 when the page at a was
+// owned and is now committed, so the access is retried.
+static int lazy_fault(uint64_t a, int write) {
     if (!lazy || !watched(a, 1)) return 0;
     uint64_t end, p = a & ~(PAGE - 1);
-    // only a page still reserved: a committed one faulted for another reason (a frozen region's write, a guard)
-    if (plat_mem_state(p, p + PAGE, &end) != PLAT_MEM_RESERVED) return 0;
+    // A committed page: another thread that touched the same 2 MiB may have committed it after this access faulted,
+    // and the back end may have frozen it again since (a commit's thaw holds nothing). A read retries on a readable
+    // page, since no hook follows this one for reads (win32_mem.c fault_veh): it went to the crash handler. A write
+    // goes on to thaw_fault, which retries a read-write page and thaws a frozen one; any other fault (a guard) goes on.
+    int st = plat_mem_state(p, p + PAGE, &end);
+    if (st != PLAT_MEM_RESERVED) return !write && st >= PLAT_PROT_READ;
     plat_mutex_lock(&lock);
     owned_commit_locked(a & ~(LAZY_CHUNK - 1), LAZY_CHUNK);
-    int st = plat_mem_state(p, p + PAGE, &end);
+    st = plat_mem_state(p, p + PAGE, &end);
     plat_mutex_unlock(&lock);
     return st >= PLAT_PROT_NONE;   // not the game's page: still reserved, the fault goes on to the crash handler
 }
@@ -541,6 +559,10 @@ void mem_init(void) {
     if (!alias) reexec_or_fail("a 64 GiB alias region below 2^39");
 
     plat_mem_fault_hook(thaw_fault);   // before the crash handler
+    if (plat_page_size() != PAGE)
+        rt_log("mem: host pages of %llu KiB, guest pages of 4: each host page gets the most permissive protection of its "
+               "guest pages (the data permission lines count those left more accessible than asked)",
+               (unsigned long long)(plat_page_size() >> 10));
     alias_pages = calloc(ALIAS_PAGES, 1);
     if (!alias_pages) rt_fatal("memory: cannot allocate the alias page map");
     // mkw.ini is read here, once the address space is claimed and before the first setting: the pool size below
@@ -666,8 +688,14 @@ uint32_t mem_set_permission(uint64_t a, uint64_t n, uint32_t perm) {
     memset(t, (int)perm, n / PAGE);
     protect(a, n, perm == PERM_RW ? PLAT_PROT_RW : perm == PERM_R ? PLAT_PROT_READ : PLAT_PROT_NONE, "module data");
     plat_mutex_unlock(&lock);
-    rt_log("%s data permission +%#llx size %#llx perm %u", m->name, (unsigned long long)(a - m->base),
-           (unsigned long long)n, perm);
+    // A host page larger than 4 KiB shared with a more accessible neighbour keeps that access (plat_page_size)
+    uint64_t loose = plat_mem_loose_pages(a, n);
+    char more[96] = "";
+    if (loose)
+        snprintf(more, sizeof more, " (%llu host page%s of %llu KiB more accessible than asked)", (unsigned long long)loose,
+                 loose == 1 ? "" : "s", (unsigned long long)(plat_page_size() >> 10));
+    rt_log("%s data permission +%#llx size %#llx perm %u%s", m->name, (unsigned long long)(a - m->base),
+           (unsigned long long)n, perm, more);
     return R_OK;
 }
 
@@ -920,13 +948,13 @@ uint32_t mem_query(uint64_t a, RtMemoryInfo *out) {
 // GPU, and accepts a base's read-only page. Only the pages of the range are looked at: mem_query also measures the
 // whole run around a, which in the alias region means scanning its map. 0 means these books cannot vouch for the
 // range (the kernel region, a module, the host's memory, a trap): ask the platform there (plat_mem_readable).
-int mem_guest_readable(uint64_t a, uint64_t n) {
+static int guest_readable(uint64_t a, uint64_t n, int alias) {
     if (!n) n = 1;
     int ok = 0;
     plat_mutex_lock_shared(&lock);
     if (inside(a, n, (RtRange){L.heap.base, heap_size})) {
         ok = 1;
-    } else if (inside(a, n, L.alias)) {
+    } else if (alias && inside(a, n, L.alias)) {
         ok = 1;
         for (uint64_t p = (a - L.alias.base) / PAGE, e = (a + n - 1 - L.alias.base) / PAGE; ok && p <= e; p++)
             ok = alias_pages[p] != 0;
@@ -939,6 +967,12 @@ int mem_guest_readable(uint64_t a, uint64_t n) {
         ok = !__atomic_load_n(&trapped[p], __ATOMIC_RELAXED);
     return ok;
 }
+
+int mem_guest_readable(uint64_t a, uint64_t n) { return guest_readable(a, n, 1); }
+
+// The heap's part only: an alias page can be unmapped by the game while another thread reads it, a heap page cannot
+// (vk_tex_prefetch.c reads registered textures' storage unsynchronized with the game)
+int mem_guest_heap_readable(uint64_t a, uint64_t n) { return guest_readable(a, n, 0); }
 
 // ---- GetInfo memory ids
 int mem_info(uint32_t id, uint64_t *out) {

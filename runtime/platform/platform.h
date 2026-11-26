@@ -214,8 +214,16 @@ static inline void *plat_casp(void *volatile *p, void *xchg, void *cmp) {
 }
 
 // ---- virtual memory: ranges reserved at fixed addresses below 2^39, their pages committed, decommitted and protected
-// at 4 KiB granularity.
+// at 4 KiB granularity (the guest's page). A host whose pages are larger (Linux on Apple silicon: 16 KiB) applies them
+// per host page, each with the most permissive protection its guest pages ask for: see plat_page_size.
 enum { PLAT_PROT_NONE, PLAT_PROT_READ, PLAT_PROT_RW };
+// The host's page size: 4 KiB on x86-64 and most AArch64 kernels, 16 KiB on Apple silicon under Linux (Asahi), 64 KiB
+// on some ARM servers. Larger than 4 KiB (Linux): a guest page may be more accessible than asked where it shares a host
+// page with a more accessible one, and a fault covers the whole host page.
+uint64_t plat_page_size(void);
+// Host pages over [addr, addr + n) whose guest pages ask for different protections, so that some guest page there is
+// more accessible than asked (plat_page_size); 0 with 4 KiB host pages.
+uint64_t plat_mem_loose_pages(uint64_t addr, uint64_t n);
 enum { PLAT_MEM_FREE = -2, PLAT_MEM_RESERVED = -1 };   // plat_mem_state besides PLAT_PROT_* for committed pages
 // Reserves [addr, addr + n) inaccessible, exactly there: 0 when any of it is taken. watch: writes to its pages are
 // tracked for plat_mem_written.
@@ -267,10 +275,10 @@ uint64_t plat_mem_populated(uint64_t addr, uint64_t n, uint64_t (*runs)[2], uint
 // the write should run again, 0 to let the fault go on (to the crash handler). One hook per process. On Linux reads
 // that fault on an inaccessible page go to fn too (memory.c read traps).
 void plat_mem_fault_hook(int (*fn)(uint64_t addr));
-// A read or a write that faulted on a reserved, uncommitted page goes to fn before anything else (Windows' lazy commit,
-// memory.c lazy_fault): 1 when fn committed it and the access should run again. Not called on Linux, which commits on
-// touch by itself.
-void plat_mem_lazy_hook(int (*fn)(uint64_t addr));
+// A read or a write that faulted goes to fn before anything else (Windows' lazy commit, memory.c lazy_fault; write: 1
+// for a write): 1 when the page is committed now, by fn or by another thread's fault, and the access should run again.
+// Not called on Linux, which commits on touch by itself.
+void plat_mem_lazy_hook(int (*fn)(uint64_t addr, int write));
 // The fault the hook is called for, on its thread (Linux; MKW_EARLY_READ tells reads from writes and names the code):
 // a write, and the faulting instruction's address.
 extern _Thread_local int plat_fault_write;

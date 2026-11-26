@@ -497,6 +497,12 @@ msgid ""
 "motion judders. Automatic avoids it."
 msgstr "按游戏当前的帧率，这个倍数无法均匀整除屏幕刷新率：画面会顿挫。“自动”可以避免。"
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "显卡显存已满，游戏因此变慢。较低的内部分辨率占用更少显存。"
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "可变刷新率屏幕"

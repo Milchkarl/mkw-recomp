@@ -233,7 +233,14 @@ static void up_deswizzle(void *ctx, uint32_t i) {
     nvn_deswizzle_rows(J->d, q->level, q->layer, J->mem, q->dst, q->pitch, r0, r0 + q->band, NULL);
 }
 
+static void upload_(Tex *e);
 static void upload(Tex *e) {
+    uint64_t t0 = tt_begin();
+    upload_(e);
+    tt_end(TT_UPLOAD, t0);
+}
+
+static void upload_(Tex *e) {
     static volatile int32_t n_bad, n_undecoded;
     if (tracing(e->pub.addr))
         rt_log("vk: trace %#llx: upload %u of entry %p (%ux%u target %d), submit epoch %u", (unsigned long long)e->pub.addr,
@@ -269,7 +276,9 @@ static void upload(Tex *e) {
             decoded += texels * 4;
         }
     // In groups (up_group); MKW_ASTC=check in one.
+    uint64_t tf = tt_begin();
     vk_upload_flush_over(64ull << 20);   // as vk_tex_texel.c: the load of a capture sent its textures in one batch
+    tt_end(TT_FLUSH, tf);
     VkBuffer sb, rbuf = VK_NULL_HANDLE;
     VmaAllocation ralloc = NULL;
     uint8_t *stg, *raw_copy = NULL;
@@ -278,8 +287,24 @@ static void upload(Tex *e) {
     for (uint32_t g0 = 0, g1; g0 < n; g0 = g1) {
         VkDeviceSize gtotal;
         g1 = up_group(rg, g0, n, total, acheck, &gtotal);
+        tf = tt_begin();
         if (g0) vk_upload_flush_over(UP_FLUSH);
-        VkCommandBuffer cb = vk_upload_begin_staging(gtotal, &sb, (void **)&stg);
+        tt_end(TT_FLUSH, tf);
+        uint64_t ts = tt_begin();
+        // The prefetch thread stages on its own and takes the upload lock only to record: the replay's uploads and
+        // its submissions' flushes wait for that lock, and the deswizzle below would hold it (vk_tex_prefetch.c)
+        VkCommandBuffer cb = VK_NULL_HANDLE;
+        VmaAllocation salloc = NULL;
+        if (tex_pf_thread) {
+            if (!(stg = vk_staging_try(gtotal, &sb, &salloc))) {
+                tex_pf_failed = 1;
+                free(ar), free(rg);
+                return;
+            }
+        } else {
+            cb = vk_upload_begin_staging(gtotal, &sb, (void **)&stg);
+        }
+        tt_end(TT_STAGE, ts);
         UpPart *pt = calloc(g1 - g0, sizeof *pt);
         uint32_t items = 0;
         uint64_t raw_all = 0;
@@ -301,6 +326,7 @@ static void upload(Tex *e) {
         uint64_t dz0 = plat_now_ns();
         if (raw_all >= UP_PAR_MIN) tex_par_for(items, up_deswizzle, &job);
         else for (uint32_t i = 0; i < items; i++) up_deswizzle(&job, i);
+        if (tex_tt_on) tt_end(TT_DESW, dz0);
         if (vk_pool_diag_on()) {   // MKW_MEM_POOL_LABELS: read from a CPU_NO_ACCESS pool's game pages?
             const pool_t *p = nvn_pool_find(e->pub.addr, 1);
             if (p) vk_pool_diag_note(p->flags, 1, raw_all);
@@ -351,13 +377,19 @@ static void upload(Tex *e) {
             free(tmp);
         }
         free(pt);
+        if (tex_pf_thread) {   // its staging goes with the batch it is recorded in (the batch counts as its last user)
+            vmaFlushAllocation(vk_ctx()->vma, salloc, 0, VK_WHOLE_SIZE);
+            cb = vk_upload_begin();
+            vk_defer_buffer(sb, salloc);
+        }
         if (acheck && (raw_copy = malloc(gtotal))) memcpy(raw_copy, stg, gtotal);   // one group
         barrier(cb, ALL_RW, VK_PIPELINE_STAGE_2_COPY_BIT, VK_ACCESS_2_TRANSFER_WRITE_BIT);
         if (agpu) {
-            uint64_t a0 = perf_begin();
+            uint64_t a0 = perf_begin(), tq = tt_begin();
             checked = vk_astc_record(cb, sb, gtotal, ar + g0, (int)(g1 - g0), e->f.astc_bw, e->f.astc_bh,
                                      e->f.astc_srgb, e->pub.image, e->pub.aspect, e->f.astc_bc7, rbuf);
             perf_end(PERF_ASTC, a0);
+            tt_end(TT_ASTC, tq);
             if (!checked)
                 log_limited(&n_undecoded, "ASTC texture %#llx (fmt %#x %ux%u) not decoded on the GPU: left as it was",
                             (unsigned long long)e->pub.addr, d->format, d->width, d->height);
@@ -392,7 +424,7 @@ counted:;
                        (unsigned long long)e->pub.addr, d->format, d->width, d->height, t->L.size / 1024.0, dt / 1e6);
         }
     } else {
-        n_uploads++, perf_count(PERF_CNT_TEX_UP);
+        __atomic_add_fetch(&n_uploads, 1, __ATOMIC_RELAXED), perf_count(PERF_CNT_TEX_UP);   // the prefetch thread too
     }
     // MKW_TEX_UP_LOG=N (diagnosis): the first N uploads from frame MKW_TEX_UP_LOG_AT (2300) on, with how many submits
     // the game had made past the one being recorded: their storage is read now, from guest memory (Hookshot: MKW's
@@ -480,11 +512,17 @@ int vk_texture_astc_copy(const tex_t *src, uint32_t level, uint32_t layer, uint3
     return ok;
 }
 
+// The write watch's page: the host's (plat_page_size; 16 KiB on Apple silicon under Linux), whose write marks all its
+// 4 KiB guest pages. BASE_MAX: the most bytes fills_no_page keeps and compares, two such pages up to 16 KiB ones.
+static uint64_t watch_page(void) { return plat_page_size(); }
+#define BASE_MAX 0x8000u
+
 // vk_mem_changed over the pages wholly inside e's storage (all of its pages when it fills none): a neighbour that shares
 // the first or last page does not count as a write to e. Storage that fills no page is judged by its bytes instead
 // (rewritten_since_gpu).
 int storage_rewritten(const Tex *e, uint32_t since, uint32_t *now) {
-    uint64_t lo = (e->pub.addr + 0xfff) & ~0xfffull, hi = (e->pub.addr + e->t.L.size) & ~0xfffull;
+    const uint64_t m = watch_page() - 1;
+    uint64_t lo = (e->pub.addr + m) & ~m, hi = (e->pub.addr + e->t.L.size) & ~m;
     if (hi <= lo) lo = e->pub.addr, hi = e->pub.addr + e->t.L.size;
     return vk_mem_changed(lo, hi - lo, since, now);
 }
@@ -495,10 +533,12 @@ int storage_rewritten(const Tex *e, uint32_t since, uint32_t *now) {
 // written back. In three Grand Prix races (drop2, RX 6700 XT, 21/11/2026) the page alone dropped 36 864 renders of two
 // such textures, ~0.6 a frame, and in every one the texture's own bytes were still those of the GPU write. For such
 // storage the bytes are kept at the GPU write and compared instead; under two pages, so at most 8 KiB copied on the
-// replay thread (128 bytes for those two).
+// replay thread (128 bytes for those two). With 16 KiB host pages storage up to 32 KiB can fill none: up to 32 KiB
+// then; past BASE_MAX (64 KiB host pages) the page decides, as before.
 static int fills_no_page(const Tex *e) {
-    uint64_t lo = (e->pub.addr + 0xfff) & ~0xfffull, hi = (e->pub.addr + e->t.L.size) & ~0xfffull;
-    return hi <= lo && e->t.L.size <= 0x2000;
+    const uint64_t m = watch_page() - 1;
+    uint64_t lo = (e->pub.addr + m) & ~m, hi = (e->pub.addr + e->t.L.size) & ~m;
+    return hi <= lo && e->t.L.size <= 2 * watch_page() && e->t.L.size <= BASE_MAX;
 }
 
 // MKW_TEX_WB_BYTES (default 1; 0: the page decides, as before 21/11/2026; --probe-vkexec's pitch page part fails then)
@@ -513,13 +553,14 @@ static int wb_bytes(void) {
 
 void gpu_base_note(Tex *e) {
     if (!fills_no_page(e)) return;
-    if (!e->gpu_base && !(e->gpu_base = malloc(0x2000))) rt_fatal("vk: out of memory for a texture's storage copy");
+    size_t cap = 2 * watch_page() < BASE_MAX ? 2 * watch_page() : BASE_MAX;   // 8 KiB with 4 KiB pages, as always
+    if (!e->gpu_base && !(e->gpu_base = malloc(cap))) rt_fatal("vk: out of memory for a texture's storage copy");
     mem_copy_out(e->gpu_base, e->pub.addr, e->t.L.size);
 }
 
 int gpu_base_kept(const Tex *e) {
     if (!fills_no_page(e) || !e->gpu_base) return -1;
-    uint8_t now[0x2000];
+    uint8_t now[BASE_MAX];
     mem_copy_out(now, e->pub.addr, e->t.L.size);
     return !memcmp(now, e->gpu_base, e->t.L.size);
 }
@@ -595,6 +636,8 @@ void make_fresh(Tex *e) {
     if (ch < 0 && e->t.mem && same_storage(e)) return;   // not tracked: the hash decides
     if (ch) upload(e);   // 1 written, -1 not tracked and rewritten: both upload again
 }
+
+void upload_first(Tex *e) { upload(e); }
 
 void upload_again(Tex *e) {
     if (e->pub.mirrored && !e->pub.gpu_owned) upload(e);

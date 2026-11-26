@@ -477,13 +477,19 @@ static VkDeviceSize image_bytes(VkCtx *c, const VkImageCreateInfo *ci) {
 // RADV's GFX9 addrlib (Vega/Renoir and the rest of the pre-RDNA chips) raises SIGTRAP inside vkCreateImage when this
 // image carries COLOR_ATTACHMENT: the decision, free of Vulkan, is vk_tex_gfx9.c's.
 static int gfx9_no_block_ca(const VkImageCreateInfo *bc, uint32_t bw, uint32_t bh) {
-    VkCtx *c = vk_ctx();
-    return vk_tex_gfx9_skip_block_ca(vk_caps.driver_id == VK_DRIVER_ID_MESA_RADV, c->props.vendorID,
-                                     c->props.limits.maxImageDimension3D, bc->imageType == VK_IMAGE_TYPE_3D,
-                                     bc->mipLevels, bc->extent.depth, bc->extent.width, bc->extent.height, bw, bh);
+    return vk_tex_gfx9_skip_block_ca(vk_radv_gfx9, bc->imageType == VK_IMAGE_TYPE_3D, bc->mipLevels, bc->extent.depth,
+                                     bc->extent.width, bc->extent.height, bw, bh);
 }
 
+static Tex *create_tex_(const tex_t *t, const TexKey *k, int defer_init);
 Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
+    uint64_t t0 = tt_begin();
+    Tex *e = create_tex_(t, k, defer_init);
+    tt_end(TT_CREATE, t0);
+    return e;
+}
+
+static Tex *create_tex_(const tex_t *t, const TexKey *k, int defer_init) {
     static volatile int32_t n_unmapped, n_unsupported, n_failed, n_unbound;
     VkCtx *c = vk_ctx();
     const nvn_texdesc *d = &t->d;
@@ -513,12 +519,14 @@ Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
         // why an image stays BC7, counted (bc1-t, 08/11/2026: texture memory as without BC1)
         static volatile int32_t why[6], alpha_one;   // BC1, 4096 or more, no CPU storage, GPU-only, sparse, alpha
         static volatile int64_t alpha_ns;            // the decodes' time (the replay thread's, at image creation)
+        uint64_t ta = tt_begin();
         int w = d->width >= 4096 || d->height >= 4096 ? 1 : !t->mem ? 2 : nvn_gpu_only(k->addr) ? 3
               : d->flags & NVN_TEXTURE_FLAGS_SPARSE ? 4 : !astc_opaque(t->mem, t->L.size) ? 5 : 0;
         int bw = 0, bh = 0;
         uint64_t t0 = plat_now_ns();
         if (w == 5 && nvn_fmt_bpb(d->format, &bw, &bh) && astc_alpha_one(t->mem, t->L.size, bw, bh))
             plat_inc32(&alpha_one), w = 0;   // alpha modes, alpha 1 decoded: BC1 too (bca1: 553 of the 728)
+        tt_end(TT_ALPHA, ta);
         __atomic_add_fetch(&alpha_ns, (int64_t)(plat_now_ns() - t0), __ATOMIC_RELAXED);
         if (!w) {
             f.astc_bc7 = 2;
@@ -643,6 +651,7 @@ Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
     e->f = f;
     e->pub.addr = k->addr;
     VkImage img = VK_NULL_HANDLE;
+    uint64_t ti = tt_begin();
     if (vk_sparse_create(&ci, d, k->addr, L.size, &img, &e->sparse_tail)) e->sparse = 1;
     else if (nvn_gpu_only(k->addr)) {   // storage in a physical or virtual pool: alias the pool memory (section 3.2)
         if (vkCreateImage(c->device, &ci, NULL, &img) == VK_SUCCESS && !bind_pool_memory(c, e, img)) {
@@ -658,7 +667,7 @@ Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
         // Out of memory: released entries kept for a re-use go first, oldest first, then the retry (run115: 1 230
         // released entries held 596 MiB while new textures failed). Their images go to the deferred list; what the
         // GPU finished with is freed by vk_mem_collect.
-        for (int round = 0; r == VK_ERROR_OUT_OF_DEVICE_MEMORY && rel_head && round < 8; round++) {
+        for (int round = 0; r == VK_ERROR_OUT_OF_DEVICE_MEMORY && !tex_pf_thread && rel_head && round < 8; round++) {
             VkDeviceSize need = image_bytes(c, &ci), freed = 0;
             while (rel_head && freed < 2 * need + (16ull << 20)) {
                 VmaAllocationInfo vi = {0};
@@ -668,6 +677,10 @@ Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
             }
             vk_mem_collect();
             r = vma_image(c, &ci, &ai, &img, &e->alloc);
+        }
+        if (r == VK_ERROR_OUT_OF_DEVICE_MEMORY && tex_pf_thread) {   // the replay thread makes it at its first use
+            free(e);
+            return NULL;
         }
         if (r == VK_ERROR_OUT_OF_DEVICE_MEMORY) r = evict_idle(c, &ci, &ai, &img, &e->alloc);
         // Last: what the releases and evictions above left waiting for the open upload batch or the GPU (tt6a,
@@ -694,6 +707,7 @@ Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init) {
             return NULL;
         }
     }
+    tt_end(TT_IMAGE, ti);
     if (e->alloc) {
         VmaAllocationInfo vi;
         vmaGetAllocationInfo(c->vma, e->alloc, &vi);

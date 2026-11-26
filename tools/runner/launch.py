@@ -53,7 +53,31 @@ def race_env(env: dict[str, str], kind: str) -> None:
     default(env, "MKW_FLIGHT_AT", "2000,2700,2900,3000")
 
 
+def ini_inherited(binary: Path, env: dict[str, str]) -> dict[str, str]:
+    """The settings the run takes from the mkw.ini beside its binary (cfg.c reads key X as MKW_X when the environment
+    does not set it), the launcher's own section left out. 26/11/2026: `framegen = auto` sat in build/mkw.ini since
+    20/11 and every run since measured with 4x frame generation on (ss2-acq: 108 ms a frame read as «the 660M's GPU
+    is the limit»; without it, 28 ms). They go to the start line and to NAME.json, so no run inherits one unseen."""
+    out: dict[str, str] = {}
+    section = ""
+    try:
+        lines = (binary.parent / "mkw.ini").read_text(errors="replace").splitlines()
+    except OSError:
+        return out
+    for ln in lines:
+        ln = ln.strip()
+        if ln.startswith("["):
+            section = ln.strip("[]").strip()
+        elif "=" in ln and not ln.startswith(("#", ";")) and section != "launcher":
+            key, value = (s.strip() for s in ln.split("=", 1))
+            if f"MKW_{key.upper()}" not in env:
+                out[key] = value
+    return out
+
+
 def common_env(env: dict[str, str], run: Run) -> None:
+    # A run measures the game's own frames: frame generation is real GPU work and waits between them (ini_inherited).
+    default(env, "MKW_FRAMEGEN", "off")
     # The 720 lines of the 660M: romfs overlay (tools/romfs/resolution.py) and the game output (patches.c).
     default(env, "MKW_ROMFS_PATCHES", "build/romfs-res", if_empty=False)
     default(env, "MKW_RESOLUTION", "720")
@@ -153,6 +177,10 @@ def make_plan(name: str, kind: str, seconds: int | None, env: dict[str, str] | N
     default(env, "WORLD_SECS", str(int(race_secs) + 30))
     if seconds is None:   # the race runs at ~0.5x on the 660M (mem5, 24/11/2026: killed in its first race at 240)
         seconds = {"live": 900, "plain": 120}.get(kind) or max(240, int(env["WORLD_SECS"]) * 2 + 60)
+    if env.get("MKW_AB"):
+        # An A/B compares frame times: with `auto` the game changes its present interval as the blocks go by and the
+        # pacer holds the faster ones (wsim2-both, 26/11/2026: 218 changes a minute, A blocks 84 % in pacing).
+        default(env, "MKW_FPS", "60")
     target = env.get("MKW_AB_TARGET")
     return Plan(run, kind, seconds, env, binary, perf=env.get("RUN_PERF", "1") != "0" and kind != "live",
                 target_ms=float(target) if target else None)
@@ -195,8 +223,11 @@ def prepare(plan: Plan) -> dict:
         with (run.dir / "why.log").open("a") as f:
             f.write(f"{time.strftime('%F %T')}\t{run.name}\t{why}\n")
     now = time.time()
+    ini = ini_inherited(plan.binary, plan.env)
+    if ini:
+        plan.say("run: from mkw.ini, not set by the run: " + ", ".join(f"{k}={v}" for k, v in ini.items()))
     return {"name": run.name, "kind": plan.kind, "why": why, "binary": report.binary(plan.binary),
-            "env": report.mkw_env(plan.env), "seconds": plan.seconds,
+            "env": report.mkw_env(plan.env), "ini": ini, "seconds": plan.seconds,
             "started": time.strftime("%F %T", time.localtime(now)), "started_unix": now}
 
 

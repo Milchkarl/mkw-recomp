@@ -147,7 +147,9 @@ double vk_present_refresh_hz(void) { return __atomic_load_n(&g_rate_mhz, __ATOMI
 // went on for good. A thread of its own waits for each game frame's present (vkWaitForPresentKHR on its id) and
 // measures the time from vkQueuePresentKHR to the display; over 120 frames, a spread of half a refresh or more means
 // the flips straddle a vblank, and the pacer moves its phase by half a refresh (gfx_pace_nudge_take, nvn_api_obj.c).
-// Like the tick: only with frame generation asked for; MKW_PHASE_LOCK=1 (or nudge) forces it, =0 never.
+// Like the tick: only with frame generation asked for; MKW_PHASE_LOCK=1 (or nudge) forces it, =0 never. Never with
+// MKW_VK_PRESENT=immediate, which has no vblank to keep a phase against (clock_has_vblanks; MKW_IMMEDIATE_AT_TIME=0
+// keeps it there).
 static struct {
     PlatMutex m;
     PlatCond cv;
@@ -163,10 +165,31 @@ static struct {
     int vb_n;
 } PW = {.m = PLAT_MUTEX_INIT, .cv = PLAT_COND_INIT};
 
+// The clock needs display times that are vblanks. With MKW_VK_PRESENT=immediate the display takes each image as it
+// comes (a tear): the present wait returned 0.42 ms after the present (p50), so the clock learned the flips' own times,
+// half a refresh before its vblanks, and each present moved it 0.79 ms earlier at 60 Hz. The game's frame went out
+// every 15.89 ms and one in 22 a refresh later, at 32.56 ms: 4.4 % of the race frames, and 94 % of the game's frames
+// over 25 ms followed one (acq-169-60-1: frame generation auto at a fixed 60 fps on a 60 Hz display, so no made
+// frames; 25/11/2026). In a window too, composed by the desktop: the wait returned 0.45-3.3 ms after the present (p50
+// per 120 frames) and the clock's error was 3.5-7.7 ms, against whole refreshes and a half and 0.24-1.03 ms with FIFO
+// in a window or full screen (lat-win-imm-1, lat-win-fifo-1, lat-fs-fifo-1: Windows 10, NVIDIA). Immediate has no
+// vblank to keep a phase against: no clock there, and the flips go at their time, as without frame generation. In an
+// A/B over 10.5 min of races (vbi-169-60-2) the screen's intervals over 25 ms went from 4.21 % to 0.13 %, lower in all
+// 15 cycles, the GPU and the replay unchanged; with 2x at 30 fps over 6 min (vbi-169-30-1), from 1.76 % to 0.06 % of
+// the flips, lower in all 7. A compositor that still shows immediate presents at its vblanks (Wayland without
+// tearing) would give the clock vblanks: MKW_IMMEDIATE_AT_TIME=0 keeps it in immediate as before; "ab" switches it
+// with the MKW_AB blocks.
+static int clock_has_vblanks(void) {
+    static int mode = -1;
+    if (mode < 0) mode = rt_knob("IMMEDIATE_AT_TIME", "1");
+    return !RT_KNOB_ON(mode) || strcmp(gfx_window_present_mode(), "immediate") != 0;
+}
+
 // The time to call vkQueuePresentKHR for a flip shown at the first vblank whose call time is not before t: half a
 // refresh before that vblank, so the call's own jitter (the flip thread's wake-up, the queue) cannot move it into the
-// next or the last refresh. 0 while the vblank clock is unknown (no present wait yet).
+// next or the last refresh. 0 while the vblank clock is unknown (no present wait yet) or off (clock_has_vblanks).
 uint64_t vk_present_flip_time(uint64_t t) {
+    if (!clock_has_vblanks()) return 0;
     double hz = vk_present_refresh_hz();
     plat_mutex_lock(&PW.m);
     uint64_t vb = PW.vb_n >= 8 ? PW.vb : 0;
@@ -187,7 +210,18 @@ static int fg_pacing(const char *key) {
     return v && *v ? strcmp(v, "0") != 0 : vk_fg_wanted();
 }
 
-static int phase_lock_on(void) { return vk_ctx() && vk_ctx()->has_present_wait && fg_pacing("MKW_PHASE_LOCK"); }
+static int phase_lock_on(void) {
+    if (!vk_ctx() || !vk_ctx()->has_present_wait || !fg_pacing("MKW_PHASE_LOCK")) return 0;
+    if (clock_has_vblanks()) return 1;
+    static int told;   // MKW_PHASE_LOCK=1 (or nudge) asked for it: say why not, once
+    const char *v = told ? NULL : cfg_get("MKW_PHASE_LOCK");
+    if (v && *v) {   // (not "0": fg_pacing)
+        told = 1;
+        rt_log("gfx: MKW_PHASE_LOCK=%s: no vblank phase with MKW_VK_PRESENT=immediate, the flips go at their time "
+               "(MKW_IMMEDIATE_AT_TIME=0 keeps it)", v);
+    }
+    return 0;
+}
 
 uint64_t vk_present_game_id(uint64_t frame) { return phase_lock_on() ? frame : 0; }
 
@@ -627,10 +661,12 @@ static int create_swapchain(void) {
                    ext.height, cw, ch);
     }
     g_sc_n = MAX_IMAGES;
-    vkGetSwapchainImagesKHR(c->device, g_sc, &g_sc_n, g_sc_img);
+    VkResult gr = vkGetSwapchainImagesKHR(c->device, g_sc, &g_sc_n, g_sc_img);
+    if (gr != VK_SUCCESS && gr != VK_INCOMPLETE) rt_fatal("gfx: vkGetSwapchainImagesKHR failed (%d)", (int)gr);
     VkSemaphoreCreateInfo semi = {.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
     for (uint32_t i = 0; i < g_sc_n; i++) {
-        vkCreateSemaphore(c->device, &semi, NULL, &g_render_done[i]);
+        if (vkCreateSemaphore(c->device, &semi, NULL, &g_render_done[i]) != VK_SUCCESS)
+            rt_fatal("gfx: no render-done semaphore for swapchain image %u", i);
         VkImageViewCreateInfo vi = {.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO, .image = g_sc_img[i],
                                     .viewType = VK_IMAGE_VIEW_TYPE_2D, .format = sf.format,
                                     .subresourceRange = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1}};
@@ -1175,15 +1211,16 @@ void gfx_window_start(void) {
 
         VkCommandPoolCreateInfo pci = {.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
                                        .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT, .queueFamilyIndex = c->gfx_family};
-        vkCreateCommandPool(c->device, &pci, NULL, &g_pool);
+        if (vkCreateCommandPool(c->device, &pci, NULL, &g_pool) != VK_SUCCESS) rt_fatal("gfx: no command pool for the frames");
         VkCommandBufferAllocateInfo ai = {.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO, .commandPool = g_pool,
                                           .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY, .commandBufferCount = FRAMES};
-        vkAllocateCommandBuffers(c->device, &ai, g_cb);
+        if (vkAllocateCommandBuffers(c->device, &ai, g_cb) != VK_SUCCESS) rt_fatal("gfx: no command buffers for the frames");
         VkFenceCreateInfo fi = {.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO, .flags = VK_FENCE_CREATE_SIGNALED_BIT};
         VkSemaphoreCreateInfo semi = {.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
         for (int i = 0; i < FRAMES; i++) {
-            vkCreateFence(c->device, &fi, NULL, &g_fence[i]);
-            vkCreateSemaphore(c->device, &semi, NULL, &g_acquire[i]);
+            if (vkCreateFence(c->device, &fi, NULL, &g_fence[i]) != VK_SUCCESS) rt_fatal("gfx: no fence for frame %d", i);
+            if (vkCreateSemaphore(c->device, &semi, NULL, &g_acquire[i]) != VK_SUCCESS)
+                rt_fatal("gfx: no acquire semaphore for frame %d", i);
         }
         g_frame = 0;
         g_started = 1;

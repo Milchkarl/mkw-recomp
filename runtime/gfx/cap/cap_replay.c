@@ -118,6 +118,7 @@ static void env_default(const char *name, const char *value) {
 
 int cap_replay_main(int argc, char **argv) {
     if (argc < 1) return usage();
+    vk_tex_prefetch_replay();
     const char *dir = argv[0], *outdir = NULL, *tag = NULL;
     for (int i = 1; i < argc; i++) {
         if (i + 1 < argc && !strcmp(argv[i], "--out")) outdir = argv[++i];
@@ -324,6 +325,7 @@ int cap_replay_main(int argc, char **argv) {
             rt_log("cap: frame %llu: submits %.1f ms (CPU %.1f ms)%s", (unsigned long long)(m.first_frame + presents),
                    (double)(sub_ns - frame_sub0) / 1e6, (double)(sub_cpu - frame_cpu0) / 1e6, gs);
             frame_cpu0 = sub_cpu;
+            vk_tex_timing_frame(m.first_frame + presents);
             // And what holds the GPU memory, with the objects waiting for their submission: the chunked replay peaked at
             // ~12 GB against the serial one (ht1: destroyed objects tied to the value being recorded).
             if (rt_trace & RT_TRACE_PERF) {

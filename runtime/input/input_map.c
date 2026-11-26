@@ -316,6 +316,16 @@ void input_map_stick(const uint8_t down[KEY_COUNT], int stick, int32_t out[2]) {
     out[1] = dy * m;
 }
 
+void input_key_echo(InputKeyEcho *echo, const int32_t pad_l[2], int32_t key[2]) {
+    for (int a = 0; a < 2; a++) {
+        int8_t s = (int8_t)((key[a] > 0) - (key[a] < 0));
+        // #52's recordings: the arrow went down with the left stick at 44-100 % of its travel that way
+        if (s != echo->prev[a]) echo->drop[a] = s && (int64_t)pad_l[a] * s > STICK_MAX / 4 ? s : 0;
+        echo->prev[a] = s;
+        if (s && s == echo->drop[a]) key[a] = 0;
+    }
+}
+
 void input_mouse_stick(int32_t dx, int32_t dy, double dt_s, float sens, int32_t out[2]) {
     out[0] = out[1] = 0;
     if (!(dt_s > 0) || !(sens > 0)) return;

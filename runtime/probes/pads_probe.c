@@ -3,7 +3,10 @@
 // back, a gamepad goes to a player without one, player 1 keeps the keyboard with MKW_PAD_P2 (no swap), and bad indices do
 // nothing. Why: which controller is which player is decided by the order they connect, and the menu's Controls tab
 // changes it. Gamepads connected to the machine come first and only shift the players checked.
+// Steam Input (#882): a fifth virtual gamepad with a DualSense's ids and a gyro, listed in SDL_GAMECONTROLLER_IGNORE_DEVICES
+// as Steam does, is no player's, and its motion feeds player 1, whose gamepad has none.
 #include <SDL3/SDL.h>
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -45,10 +48,60 @@ static int who(int i, int base) {
     return found;
 }
 
+// The controller Steam hides (#882): attached after the gamepads started, as a DualSense with a gyro and an
+// accelerometer. Its button reaches no player, and with no gamepad of the machine before the virtual ones, its motion
+// (lying flat, a quarter turn a second about the vertical) is what player 1 reads.
+static void steam_hidden_check(int base) {
+    const SDL_VirtualJoystickSensorDesc sens[2] = {{SDL_SENSOR_GYRO, 250.0f}, {SDL_SENSOR_ACCEL, 250.0f}};
+    SDL_VirtualJoystickDesc d;
+    SDL_INIT_INTERFACE(&d);
+    d.type = SDL_JOYSTICK_TYPE_GAMEPAD;
+    d.vendor_id = 0x054c;
+    d.product_id = 0x0ce6;
+    d.naxes = SDL_GAMEPAD_AXIS_COUNT;
+    d.nbuttons = SDL_GAMEPAD_BUTTON_COUNT;
+    d.nsensors = 2;
+    d.sensors = sens;
+    d.name = "hidden DualSense";
+    SDL_JoystickID id = SDL_AttachVirtualJoystick(&d);
+    SDL_Joystick *j = id ? SDL_OpenJoystick(id) : NULL;
+    CHECK(j != NULL, "Steam Input: the controller Steam hides is listed (%s)", j ? "attached" : SDL_GetError());
+    if (!j) return;
+    uint64_t b = 0;
+    int32_t x[4];
+    plat_wait_ns(1100000000ull);   // past RESCAN_MS: the next poll looks for new gamepads
+    input_poll(&b, &x[0], &x[1], &x[2], &x[3]);
+    SDL_SetJoystickVirtualButton(j, SDL_GAMEPAD_BUTTON_SOUTH, true);
+    SDL_UpdateJoysticks();
+    int any = 0;
+    for (int p = 0; p < INPUT_MAX_PLAYERS; p++) any |= held(p) != 0;
+    SDL_SetJoystickVirtualButton(j, SDL_GAMEPAD_BUTTON_SOUTH, false);
+    SDL_UpdateJoysticks();
+    CHECK(!any, "Steam Input: it is no player's (Steam's virtual gamepad plays for it)");
+    if (!base) {
+        input_motion_start();
+        const float g[3] = {0, 1.5707963f, 0}, a[3] = {0, SDL_STANDARD_GRAVITY, 0};
+        for (int i = 0; i < 400; i++) {
+            uint64_t t = SDL_GetTicksNS();
+            SDL_SendJoystickVirtualSensorData(j, SDL_SENSOR_GYRO, t, g, 3);
+            SDL_SendJoystickVirtualSensorData(j, SDL_SENSOR_ACCEL, t, a, 3);
+            plat_wait_ns(4000000);
+        }
+        MotionState st;
+        int n = motion_read(motion_player(0), &st, 1, kern_now_ns());
+        CHECK(n == 1 && fabsf(st.gyro[2] - 0.25f) < 0.01f && fabsf(st.acc[2] + 1) < 0.05f,
+              "Steam Input: its motion feeds player 1 (rate z %.3f rev/s, acc z %.2f G)", n ? st.gyro[2] : 0.0f,
+              n ? st.acc[2] : 0.0f);
+    }
+    SDL_CloseJoystick(j);
+    SDL_DetachVirtualJoystick(id);
+}
+
 int probe_pads(void) {
     plat_setenv("MKW_VIRTUAL_PADS", "4");
     plat_setenv("MKW_PAD_P2", "0");
     plat_setenv("MKW_KEYBOARD_MOUSE", "0");
+    plat_setenv("SDL_GAMECONTROLLER_IGNORE_DEVICES", "0x28de/0x1205,0x054c/0x0ce6");   // as Steam sets it (Deck, DualSense)
     (void)input_player_mask();   // starts the gamepads
     int n = 0, k = 0, base = 0;
     SDL_JoystickID *ids = SDL_GetGamepads(&n);
@@ -107,6 +160,7 @@ int probe_pads(void) {
         SDL_SetJoystickVirtualButton(vj[0], SDL_GAMEPAD_BUTTON_SOUTH, false);
         SDL_UpdateJoysticks();
     }
+    steam_hidden_check(base);
     plat_setenv("MKW_PAD_P2", "1");
     CHECK(!input_pad_swap(0, 1) && !input_pad_can_move_up(1), "MKW_PAD_P2: player 1 keeps the keyboard");
     CHECK(input_pad_swap(1, 2) && input_pad_swap(1, 2), "MKW_PAD_P2: players 2 and 3 can trade");

@@ -47,6 +47,7 @@ typedef struct Tex {
     uint8_t sparse;               // a Vulkan sparse image whose tiles follow the game's MapVirtual (vk_sparse.c)
     VkSparseTail sparse_tail;      // privately backed small mips; zeroed at image initialization, without touching shared tiles
     uint64_t use;                 // MKW_GPU_GUARD: newest submission part that looked it up (vk_guard_note)
+    uint8_t pf;                   // made by vk_tex_prefetch.c and not looked up by a draw yet
     VkTexImage dtwin;             // vk_tex_twin.c: its D32_SFLOAT copy for depth-compare sampling (image NULL: none)
     VmaAllocation dtwin_alloc;
 } Tex;
@@ -120,6 +121,25 @@ static inline void unlock_slots(void) { plat_mutex_unlock(&slots_lock); }
 static inline uint32_t umax(uint32_t a, uint32_t b) { return a > b ? a : b; }
 static inline uint32_t mip(uint32_t v, unsigned lv) { return umax(v >> lv, 1); }
 
+// vk_tex_prefetch.c: set on its thread, which makes and uploads entries no one else sees yet: create_tex gives up
+// instead of freeing memory (released and idle entries are tex_lock's), upload stages without the upload lock and
+// sets tex_pf_failed when it cannot
+extern _Thread_local int tex_pf_thread, tex_pf_failed;
+void tex_pf_first_use(Tex *e, uint32_t uploads_before);   // a draw's first lookup of a prefetched entry (counted)
+
+// MKW_TEX_TIMING=1 (diagnosis): where a frame's texture creation and upload time goes, one line per frame past 5 ms
+enum { TT_CREATE, TT_ALPHA, TT_IMAGE, TT_UPLOAD, TT_STAGE, TT_DESW, TT_ASTC, TT_FLUSH, TT_N };
+extern int64_t tex_tt[TT_N];
+extern int tex_tt_on;
+#define TT_LEADS 6
+extern int64_t tex_lead_n[TT_LEADS], tex_lead_bytes[TT_LEADS];
+extern uint64_t *tex_reg_ns;   // per slot: when the game registered it (MKW_TEX_TIMING)
+static inline uint64_t tt_begin(void) { return tex_tt_on && !tex_pf_thread ? plat_now_ns() : 0; }   // the replay's only
+static inline void tt_end(int k, uint64_t t0) {
+    if (t0) __atomic_add_fetch(&tex_tt[k], (int64_t)(plat_now_ns() - t0), __ATOMIC_RELAXED);
+}
+
+
 // vk_tex_image.c: images
 Tex *create_tex(const tex_t *t, const TexKey *k, int defer_init);
 void init_image(Tex *e, VkCommandBuffer cb);
@@ -143,7 +163,8 @@ void tex_pressure(void);   // each submit, the texture lock held
 // vk_tex_upload.c: uploads and the freshness checks
 void make_fresh(Tex *e);
 void make_fresh_snap(Tex *e);
-void upload_again(Tex *e);   // uploads a CPU-written entry from its storage now (its depth twin's first fill)
+void upload_again(Tex *e);
+void upload_first(Tex *e);   // vk_tex_prefetch.c: a new entry's first upload, on the prefetch thread   // uploads a CPU-written entry from its storage now (its depth twin's first fill)
 void expand_rgb(int format, const uint8_t *src, uint8_t *dst, size_t n);
 void shrink_rgb(int format, const uint8_t *src, uint8_t *dst, size_t n);
 int storage_rewritten(const Tex *e, uint32_t since, uint32_t *now);

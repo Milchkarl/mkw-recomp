@@ -18,6 +18,7 @@
 #include <unistd.h>
 #endif
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/launcher_update.h"
 #include "ui/launcher/launcher_setup.h"
 
@@ -178,7 +179,7 @@ static int SDLCALL reader(void *) {
         on_line(line);
     }
     int code = -1;
-    SDL_WaitProcess(g_proc, true, &code);
+    proc_wait(g_proc, true, &code);
     SDL_DestroyProcess(g_proc);
     bool prepare = false;
     char mark[1300], tag[96], path[1200];
@@ -215,7 +216,7 @@ static int SDLCALL reader(void *) {
 
 static bool spawn(const char *const *args, bool preparing) {
     g_preparing = preparing;
-    g_proc = SDL_CreateProcess(args, true);
+    g_proc = proc_spawn(args, true);
     if (!g_proc) {
         rt_log("update: cannot start %s: %s", args[0], SDL_GetError());
         return false;
@@ -484,7 +485,7 @@ void update_relaunch(const char *exe_dir) {
     char exe[1200];
     snprintf(exe, sizeof exe, "%s/mkw.exe", exe_dir);
     const char *args[] = {exe, nullptr};
-    SDL_Process *p = SDL_CreateProcess(args, false);
+    SDL_Process *p = proc_spawn(args, false);
     if (!p) rt_log("update: cannot start %s: %s", exe, SDL_GetError());
     else SDL_DestroyProcess(p);   // it keeps running: only our handle goes
 #else
@@ -508,7 +509,7 @@ int update_just_installed(const char *exe_dir, char *tag, unsigned cap) {
     if (find_tools(exe_dir, python, script, sizeof python)) {   // the *.old files: nobody waits for it
         const char *args[] = {python, "-I",   script, "clean", "--game", exe_dir, replaced[0] ? "--previous" : nullptr,
                               replaced, nullptr};
-        SDL_Process *c = SDL_CreateProcess(args, false);
+        SDL_Process *c = proc_spawn(args, false);
         if (c) SDL_DestroyProcess(c);
     }
     rt_log("update: %s installed by the previous run", tag);

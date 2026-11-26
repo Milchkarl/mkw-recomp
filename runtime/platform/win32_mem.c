@@ -45,6 +45,9 @@ int plat_mem_protect(uint64_t addr, uint64_t n, int prot) {
     return VirtualProtect((void *)(uintptr_t)addr, n, p, &old) != 0;
 }
 
+uint64_t plat_page_size(void) { return 4096; }   // every Windows the runtime builds for (x64, ARM64) has 4 KiB pages
+uint64_t plat_mem_loose_pages(uint64_t addr, uint64_t n) { return (void)addr, (void)n, 0; }
+
 int plat_mem_drop(uint64_t addr, uint64_t n) { return (void)addr, (void)n, 0; }   // memory_spill.c: Linux only for now
 int plat_mem_poke(uint64_t addr, const void *src, size_t n) { return (void)addr, (void)src, (void)n, 0; }
 int plat_shared_open(uint64_t size, PlatShared *s, const char **why) { return (void)size, (void)s, *why = "not on Windows", 0; }
@@ -102,7 +105,7 @@ uint64_t plat_mem_written(uint64_t addr, uint64_t n, uint64_t *pages, uint64_t m
 }
 
 static int (*fault_hook)(uint64_t addr);
-static int (*lazy_hook)(uint64_t addr);   // plat_mem_lazy_hook: reads too
+static int (*lazy_hook)(uint64_t addr, int write);   // plat_mem_lazy_hook: reads too
 static int (*watch_fn)(uint64_t addr, uint64_t rip);   // plat_mem_watch_hook: write watches set for diagnostics
 
 // A write access violation (ExceptionInformation[0] == 1) goes to the watch hook, then to the fault hook; registered
@@ -111,8 +114,9 @@ static LONG CALLBACK fault_veh(EXCEPTION_POINTERS *ep) {
     const EXCEPTION_RECORD *er = ep->ExceptionRecord;
     if (er->ExceptionCode != EXCEPTION_ACCESS_VIOLATION || er->NumberParameters < 2) return EXCEPTION_CONTINUE_SEARCH;
     uint64_t addr = (uint64_t)er->ExceptionInformation[1];
-    if (er->ExceptionInformation[0] <= 1 && lazy_hook && lazy_hook(addr)) return EXCEPTION_CONTINUE_EXECUTION;
-    if (er->ExceptionInformation[0] != 1) return EXCEPTION_CONTINUE_SEARCH;
+    ULONG_PTR kind = er->ExceptionInformation[0];   // 0 read, 1 write, 8 execute
+    if (kind <= 1 && lazy_hook && lazy_hook(addr, kind == 1)) return EXCEPTION_CONTINUE_EXECUTION;
+    if (kind != 1) return EXCEPTION_CONTINUE_SEARCH;
     if (watch_fn && watch_fn(addr, (uint64_t)ep->ContextRecord->Rip)) return EXCEPTION_CONTINUE_EXECUTION;
     return fault_hook && fault_hook(addr) ? EXCEPTION_CONTINUE_EXECUTION : EXCEPTION_CONTINUE_SEARCH;
 }
@@ -125,7 +129,7 @@ static void fault_install(void) {
 _Thread_local int plat_fault_write;   // platform.h: not set here (no read traps on Windows)
 _Thread_local uint64_t plat_fault_pc, plat_fault_ret;
 
-void plat_mem_lazy_hook(int (*fn)(uint64_t addr)) {
+void plat_mem_lazy_hook(int (*fn)(uint64_t addr, int write)) {
     lazy_hook = fn;
     fault_install();
 }
@@ -238,6 +242,8 @@ int plat_mem_read(uint64_t addr, void *out, size_t n) {
 }
 
 int plat_mem_readable(uint64_t addr, uint64_t n) {
+    // A range up to or past 2^64 (no user memory up there): its end wrapped, so a committed first region said yes.
+    if ((n ? n : 1) > UINT64_MAX - addr) return 0;
     for (uint64_t a = addr, end = addr + n; a < end || a == addr;) {
         MEMORY_BASIC_INFORMATION mbi;
         if (!VirtualQuery((void *)(uintptr_t)a, &mbi, sizeof mbi) || mbi.State != MEM_COMMIT) return 0;

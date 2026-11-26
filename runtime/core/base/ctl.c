@@ -16,7 +16,9 @@
 //                        (vk_mem_relieve), with the vram line before and after
 //   heap                 the C heap (in use, free, mapped) and the process's resident memory, then the same after
 //                        plat_heap_trim: how much of the runtime's and the driver's malloc is free space kept
-//   vram                 the "mem: vram" line now: what holds device-local memory (vk_mem_log.c, MKW_VRAM_LOG)
+//   vram                 the "mem: vram" line now: what holds device-local memory (vk_mem_log.c, MKW_VRAM_LOG), and
+//                        whether the driver counts it at or past its budget (vk_headroom.c vk_vram_full)
+//   menu [DIR]           the menu opens at the next frame and each tab's last frame goes to DIR as MKW_MENU_TEST's
 //   focus 0|1            the window lost (0) or took (1) the focus, as the window system reports it
 //   seq                  the game's active sequence nodes (MKW_SEQ_WATCH, seqwatch.c)
 //   capture DIR [N]      the next N presented frames (2) as a capture for mkw --replay (runtime/gfx/cap; MKW_CAPTURE=1)
@@ -40,6 +42,9 @@
 #include "vk.h"
 #include "vk_exec.h"
 #include "platform/platform.h"
+
+int vk_vram_full(void);      // vk_headroom.c
+void menu_test_now(void);    // ui/menu/menu.cpp
 
 void ctl_run(char *line) {
     char *nl = strpbrk(line, "\r\n");
@@ -105,7 +110,12 @@ void ctl_run(char *line) {
         freeze_set(1, *arg ? atoll(arg) : 1);
     } else if (!strcmp(cmd, "vram")) {
         vram_log_now();   // vk_mem_log.c: what holds device-local memory, as MKW_VRAM_LOG's periodic line
-        rt_log("ctl: vram at frame %llu", (unsigned long long)frame);
+        rt_log("ctl: vram at frame %llu%s", (unsigned long long)frame,
+               vk_vram_full() ? ": full, at or past the driver's budget (the menu's note under the resolution)" : "");
+    } else if (!strcmp(cmd, "menu")) {
+        if (*arg) cfg_set("MKW_MENU_TEST_DIR", arg);
+        menu_test_now();
+        rt_log("ctl: menu walk from frame %llu", (unsigned long long)frame);
     } else if (!strcmp(cmd, "trim")) {
         // vk_mem_relieve, as when an allocation fails: released textures, then idle mirrored ones, then the GPU waited
         // for and what it held freed; the vram line before and after shows what went back

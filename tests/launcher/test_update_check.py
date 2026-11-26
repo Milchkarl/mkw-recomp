@@ -38,7 +38,10 @@ size_t SDL_ReadIO(SDL_IOStream *, char *out, size_t) {
 enum { SDL_IO_STATUS_NOT_READY = 1 };
 int SDL_GetIOStatus(SDL_IOStream *) { return 0; }
 void SDL_Delay(int) {}
-void SDL_WaitProcess(SDL_Process *, bool, int *code) { *code = exit_code; }
+bool proc_wait(SDL_Process *, bool, int *code) {
+    *code = exit_code;
+    return true;
+}
 void SDL_DestroyProcess(SDL_Process *) {}
 bool SDL_GetPathInfo(const char *, void *) { return false; }
 void rt_log(const char *, ...) {}

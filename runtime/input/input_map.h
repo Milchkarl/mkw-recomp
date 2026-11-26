@@ -86,6 +86,13 @@ uint64_t input_map_buttons(const uint8_t down[KEY_COUNT]);
 // out = x, y of the stick (0 left, 1 right) from its four direction actions; up is +y; a diagonal is scaled to the
 // unit circle.
 void input_map_stick(const uint8_t down[KEY_COUNT], int stick, int32_t out[2]);
+// The keys' right stick (key, from input_map_stick) less what only echoes the pad's left stick (pad_l: 0 0 with no
+// pad): a direction whose key went down while the pad's left stick already pointed that way past a quarter of its
+// travel is dropped until that key is released. A mapper that turns the left stick into arrow keys (Steam's desktop
+// layout with Steam Input off for the game, #52: an Elite 2 on Bazzite) moved the camera with every turn. echo keeps
+// the state between calls: zero it at start.
+typedef struct { int8_t prev[2], drop[2]; } InputKeyEcho;
+void input_key_echo(InputKeyEcho *echo, const int32_t pad_l[2], int32_t key[2]);
 // Mouse motion in raw counts over dt_s seconds to right-stick deflection: full deflection at 3000 / sens counts/s.
 // Clamped to the unit circle, up (negative dy) is +y.
 void input_mouse_stick(int32_t dx, int32_t dy, double dt_s, float sens, int32_t out[2]);

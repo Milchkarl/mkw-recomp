@@ -264,6 +264,7 @@ static const CfgRow rows[] = {
     K("FLIGHT_DIR"),
     K("FLIGHT_FRAMES"),
     K("FLIGHT_THUMBS"),
+    K("FPS_AUTO_LOSS"),
     K("FREEZE_IDLE"),
     K("GLYPH_DUMP"),
     K("GPL_DRAW_BUILD"),
@@ -277,6 +278,7 @@ static const CfgRow rows[] = {
     K("HDR_FORCE"),
     K("HL_TRACE"),
     K("HUD_PROBE"),
+    K("IMMEDIATE_AT_TIME"),
     K("INPUT"),
     K("INPUT_SCRIPT"),
     K("LATENCY"),
@@ -317,6 +319,7 @@ static const CfgRow rows[] = {
     K("REG_LATE"),
     K("REG_QUEUED"),
     K("REPLAY_CHECK"),
+    K("REPLAY_PAR"),
     K("RESOLVE_CHECK"),
     K("ROMFS"),
     K("ROMFS_MODS"),
@@ -347,6 +350,7 @@ static const CfgRow rows[] = {
     K("TEMPORAL_NGX"),
     K("TEX_OVERWRITTEN"),
     K("TEX_PRESSURE"),
+    K("TEX_RACE_PURGE"),
     K("TEX_RELEASED_MIB"),
     K("TRACE_UBO"),
     K("TRACE_UBO_OUT"),
@@ -403,7 +407,11 @@ static void add(char *key, char *value, int line) {
     key = norm_key(key);
     value = unquote(value);
     if (!*key) return;
-    if (!is_known(key)) rt_log("cfg: mkw.ini line %d: unknown key '%s'", line, key);
+    // Not in the table, still read: cfg_get takes any MKW_ name from here, like the environment (#637: REPLAY_PAR = 0
+    // was applied, and "unknown key" made it look ignored)
+    if (!is_known(key))
+        rt_log("cfg: mkw.ini line %d: '%s' is not one of the settings' keys: still read as MKW_%s (a misspelt name "
+               "does nothing)", line, key, key);
     if (!*value) return;   // "key =" leaves the setting at its default
     for (int i = 0; i < n_entries; i++)
         if (!strcmp(entries[i].key, key)) {   // a repeated key: the later line wins
@@ -719,6 +727,15 @@ int cfg_int(const char *name) {
     char *end;
     long l = strtol(v, &end, 10);
     return end == v || *end ? (int)default_number(name) : (int)l;
+}
+
+int cfg_int_in(const char *name, int lo, int hi) {
+    const char *value = cfg_value(name);
+    long v = strtol(value, NULL, 10);   // atoi's reading ("540p" is 540, a word is 0), without atoi's overflow
+    if (v >= lo && v <= hi) return (int)v;
+    int fallback = (int)default_number(name);
+    rt_log("cfg: %s=%s is outside %d..%d: using %d", name, value, lo, hi, fallback);
+    return fallback;
 }
 
 // "0", "off", "false", "no" are false and "1", "on", "true", "yes" true, in any case; another number is true as it was; a

@@ -418,6 +418,9 @@ static void tab_graphics(float scale) {
         static const char *const vals[] = {"original", "540", "720", "900", "1080", "1440", "2160"};   // 2160: issue #55
         const char *names[7] = {menu_text(UI_MENU_RESOLUTION_ORIGINAL), "540p", "720p", "900p", "1080p", "1440p", "2160p"};
         opt_choice_list("MKW_RESOLUTION", UI_MENU_RESOLUTION, vals, names, 7, UI_MENU_RESOLUTION_DESC);
+        // #880: on a 4 GB card at 1080 lines the driver counted 5380 MiB in a race (w880a, 1050 Ti); FSR 3.1's
+        // upscaling and frame generation were 65 and 105 of it, so the note goes here, not under those engines
+        if (vk_vram_full()) opt_text(UI_MENU_VRAM_FULL, true);
     }
     static const UiTextId up[] = {UI_MENU_UPSCALER_FSR, UI_MENU_UPSCALER_BILINEAR};
     opt_choice("MKW_UPSCALER", UI_MENU_UPSCALER, up, 2, UI_MENU_UPSCALER_DESC);
@@ -451,11 +454,7 @@ static void tab_graphics(float scale) {
         const char *names[5] = {menu_text(UI_MENU_FPS_AUTO), "60", "30", "20", "15"};
         opt_choice_list("MKW_FPS", UI_MENU_FPS, vals, names, 5, UI_MENU_FPS_DESC);
     }
-    {   // game steps a second (core/boot/game.c frame_logic_hz), read at start
-        static const char *const vals[] = {"60", "120", "144", "240"};
-        const char *names[4] = {"60 Hz", "120 Hz", "144 Hz", "240 Hz"};
-        opt_choice_list("MKW_LOGIC_HZ", UI_MENU_LOGIC_HZ, vals, names, 4, UI_MENU_LOGIC_HZ_DESC);
-    }
+    // No "Logic rate" row (UI_MENU_LOGIC_HZ) until rates above 60 work: core/boot/game.c frame_logic_hz
     {   // frames made between the game's (gfx/vk/device/vk_framegen.c), live
         static const char *const vals[] = {"off", "auto", "2", "3", "4", "120"};
         const char *names[6] = {menu_text(UI_MENU_PERF_OFF), menu_text(UI_MENU_FPS_AUTO), "2x", "3x", "4x", "120 fps"};
