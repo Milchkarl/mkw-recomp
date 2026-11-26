@@ -42,20 +42,29 @@ int64_t frame_step_world_us(void) { return seqwatch_since_us(); }
 // (lhz120, 19/11/2026: the script counted steps of 1/120 s and pressed A at half the game time, skipping the intro).
 uint64_t frame_step_ticks(void) { return atomic_load_explicit(&ticks, memory_order_relaxed); }
 
-// MKW_LOGIC_HZ (the menu's Logic rate, 60 by default): the vsync thread ticks N times a second and each game step is 1/N s
+// MKW_LOGIC_HZ (60 by default): the vsync thread ticks N times a second and each game step is 1/N s
 // (patches.c set logichz), so the game logic runs N steps a second instead of 60. 60 when unset or out of 30..480, and
 // when the game version has no logichz set (frame_logic_hz_60): ticks at N with steps of 1/60 would run it N/60 fast.
 // Also 60 where the game counts its inputs in 1/60 s frames: with MKW_LAN on, the whole run (the LAN game keeps its
 // consoles in step frame by frame), and in time trial (race_scene.c: the ghosts keep one input per frame).
 // MKW_LOGIC_HZ_TT=1 (a test, not a setting) keeps N in time trial too: its timer is the only one the race shows, so
 // it measures whether the race follows game time at N (ghosts saved then would not replay at 60).
+// Only from the environment, a test like MKW_LOGIC_HZ_TT: it is not finished (menus and races run N/60 fast, #817
+// #820 #887; the race can hang at 120), so the menu has no row for it and a value an earlier version's menu wrote to
+// mkw.ini (0.1.16-0.1.18) is ignored.
 static int hz, hz_tt;
 
 void frame_logic_hz_60(void) { hz = 60; }
+void frame_logic_hz_reread(void) { hz = 0; }
 
 int frame_logic_hz(void) {
     if (!hz) {
         const char *v = cfg_get("MKW_LOGIC_HZ");
+        if (v && !cfg_from_env("MKW_LOGIC_HZ")) {
+            if (atoi(v) != 60)
+                rt_log("game: logic_hz = %s in mkw.ini ignored: 60 Hz (the other rates are not finished)", v);
+            v = NULL;
+        }
         int n = v ? atoi(v) : 60;
         hz = n >= 30 && n <= 480 ? n : 60;
         hz_tt = rt_knob("LOGIC_HZ_TT", "0");   // a test switch, not a menu setting: no row in the settings table

@@ -336,6 +336,7 @@ int ov_movie_playing(void);  // ov_codec.c: a full-screen movie (1280 wide or mo
 uint64_t frame_step_ticks(void);                           // game time since the first present in 60 Hz ticks (input scripts)
 int frame_logic_hz(void);                                  // game.c MKW_LOGIC_HZ: game steps and vsync ticks a second (60)
 void frame_logic_hz_60(void);                              // patches.c: the version has no logichz set, 60 whatever it says
+void frame_logic_hz_reread(void);                          // probes: the next frame_logic_hz reads MKW_LOGIC_HZ again
 // In-launch A/B measurement: MKW_AB=<seconds> splits the world clock (frame_step_world_us) into blocks of that much
 // game time in the order A B B A (repeated; B A A B with MKW_AB_INVERT=1); rt_ab() is 1 in the B blocks, 0 in A
 // blocks, before the world clock and without MKW_AB. rt_knob(name, def) reads the switch MKW_<name> once per call

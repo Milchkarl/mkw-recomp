@@ -352,6 +352,17 @@ int probe_cfg(void) {
     plat_setenv("MKW_FREE_CORES", "1");
     CHECK(cfg_bool("MKW_FREE_CORES") == 1, "free_cores 1: on");
     plat_setenv("MKW_FREE_CORES", "");
+    // MKW_LOGIC_HZ from the environment only: a logic_hz the 0.1.16-0.1.18 menu wrote ran the game fast (#817, game.c)
+    static const char lhz[] = "logic_hz = 120\n";
+    plat_setenv("MKW_LOGIC_HZ", "");
+    CHECK(plat_file_write(path, lhz, sizeof lhz - 1) && cfg_load(path) == 1, "logic_hz: load the ini");
+    frame_logic_hz_reread();
+    CHECK(frame_logic_hz() == 60, "logic_hz = 120 in mkw.ini is ignored: 60 Hz");
+    plat_setenv("MKW_LOGIC_HZ", "120");
+    frame_logic_hz_reread();
+    CHECK(frame_logic_hz() == 120, "MKW_LOGIC_HZ=120 in the environment still applies");
+    plat_setenv("MKW_LOGIC_HZ", "");
+    frame_logic_hz_reread();
     cfg_load("cfg-probe-missing.ini");
     int listed = 0;
     for (int i = 0; cfg_meta_at(i); i++) {
