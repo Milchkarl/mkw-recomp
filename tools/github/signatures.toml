@@ -109,6 +109,12 @@ all = ["driver radv", "task/mesh draws as mesh shaders", "upload submit failed (
 what = "RADV loses the device at the title with the game's mesh shaders run natively: from 0.1.10 RADV draws them as compute passes by default (`mesh_compute = 1` in `mkw.ini` does the same before)"
 
 [[signature]]
+issue = 860
+wiki = "amd-on-linux-radv-gpu-hang-in-the-intro-or-a-race-then-upload-submit-failed--4"
+all = ["driver radv", "reports no device loss", "colour formats 122, depth format 130", "upload submit failed (-4)"]
+what = "on RADV one submission of the main scene's render pass never finishes and the kernel resets the GPU at `amdgpu.lockup_timeout` (intro or race; RX 6900 XT, RX 7900 GRE/XTX, Ryzen Z1 Extreme): not fixed yet"
+
+[[signature]]
 issue = 152
 wiki = "amd-vega-7-integrated-ryzen-50007000-device-lost-while-the-first-textures-upload"
 all = ["device 0x1638", "upload submit failed (-4)"]
