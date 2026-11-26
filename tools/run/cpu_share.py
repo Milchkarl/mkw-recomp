@@ -7,6 +7,10 @@ code's samples over theirs is its CPU per frame in units that do not depend on h
 
 Usage: uv run tools/run/cpu_share.py scratchpad/NAME.perf [OTHER.perf ...]
        (a race run records it; PERF_ARGS="-D 62000" starts the profile inside the race)
+       --last SECS: only the profile's last SECS seconds (the race of a race run, which exits at its end: the part
+       before the race differs in length between runs and has another mix; 26/11/2026, 1.12 against 1.19 for the
+       same binary)
+       A profile is read with the build/mkw that recorded it: perf buildid-cache -a build/mkw before building again.
        --kernel: also the kernel functions of the game's and the replay's threads, named with the running kernel's
        System.map (perf cannot name them where kptr_restrict hides /proc/kallsyms; the load offset is taken from the
        lowest sampled address, so a profile from another boot or kernel gives wrong names)
@@ -37,10 +41,20 @@ def kind(dso: str, symbol: str) -> str:
     return "libc" if dso.startswith("libc") else "other"
 
 
-def shares(perf: Path) -> tuple[Counter[str], Counter[str]]:
+def window(perf: Path, last: float) -> list[str]:
+    """perf report's --time for the profile's last `last` seconds; nothing for the whole profile."""
+    if not last:
+        return []
+    times = subprocess.run(["perf", "script", "-i", str(perf), "-F", "time"], capture_output=True, text=True,
+                           check=True).stdout.split()  # fmt: skip
+    end = float(times[-1].rstrip(":"))
+    return ["--time", f"{end - last:.6f},{end:.6f}"]
+
+
+def shares(perf: Path, time: list[str]) -> tuple[Counter[str], Counter[str]]:
     """Samples per thread group, and per kind inside the game's threads."""
     out = subprocess.run(
-        ["perf", "report", "-i", str(perf), "--stdio", "--no-children", "-n", "--sort", "comm,dso,symbol"],
+        ["perf", "report", "-i", str(perf), "--stdio", "--no-children", "-n", "--sort", "comm,dso,symbol", *time],
         capture_output=True, text=True, check=True,
     ).stdout  # fmt: skip
     comms: Counter[str] = Counter()
@@ -95,9 +109,10 @@ def main() -> None:
     ap.add_argument("perf", nargs="+", type=Path)
     ap.add_argument("--kernel", type=int, nargs="?", const=15, default=0, metavar="N",
                     help="the N kernel functions with most samples (default 15)")  # fmt: skip
+    ap.add_argument("--last", type=float, default=0, metavar="SECS", help="only the profile's last SECS seconds")
     a = ap.parse_args()
     for perf in a.perf:
-        comms, kinds = shares(perf)
+        comms, kinds = shares(perf, window(perf, a.last))
         total, game, replay = sum(comms.values()), sum(comms[c] for c in GAME), sum(comms[c] for c in REPLAY)
         if not total or not game or not replay:
             print(f"{perf.name}: no samples of the game's or the replay's threads")
