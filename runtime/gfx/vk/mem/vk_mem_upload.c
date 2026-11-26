@@ -42,6 +42,7 @@ static Batch *inflight;
 static int ninflight, cap_inflight;
 static Batch *spare;                  // completed batches whose command buffer and fence are reused
 static int nspare, cap_spare;
+static int fence_waiters;   // flushes waiting for a batch's fence without cmd_lock (vk_upload_flush)
 static uint64_t next_seq, done_seq;   // batches handed out / completed (all batches up to done_seq)
 static Dead *dead;
 static int ndead, cap_dead;
@@ -122,7 +123,7 @@ VkCommandBuffer vk_upload_begin(void) {
     }
     retire(c, 0);
     memset(&open_b, 0, sizeof open_b);
-    if (nspare) {
+    if (nspare && !fence_waiters) {   // a spare's fence may be one a flush waits for without cmd_lock
         Batch s = spare[--nspare];
         open_b.cb = s.cb, open_b.fence = s.fence, open_b.stg = s.stg, open_b.cap = s.cap;
         vkResetCommandBuffer(open_b.cb, 0);
@@ -361,9 +362,18 @@ uint64_t vk_upload_flush(int wait) {
         inflight[ninflight++] = open_b;
         open_active = 0;
     }
+    // The wait leaves cmd_lock (unless this thread holds it further out): the replay sends every submission's uploads
+    // under it (vk_sync.c), and the game's thread waiting here for a texture write-back's copies held it through the
+    // GPU's time (sim2-lock-ahead: 18 ms a second of holds a thread slept on). The fence waited for is not reused
+    // meanwhile (fence_waiters: vk_upload_begin makes a new one instead of resetting a spare's).
     if (c && wait) {
         while (ninflight && done_seq < seq) {
-            vkWaitForFences(c->device, 1, &inflight[0].fence, VK_TRUE, UINT64_MAX);
+            VkFence f = inflight[0].fence;
+            fence_waiters++;
+            plat_rmutex_unlock(&cmd_lock);
+            vkWaitForFences(c->device, 1, &f, VK_TRUE, UINT64_MAX);
+            plat_rmutex_lock(&cmd_lock);
+            fence_waiters--;
             retire(c, 0);
         }
     }
