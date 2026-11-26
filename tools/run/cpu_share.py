@@ -47,6 +47,8 @@ def window(perf: Path, last: float) -> list[str]:
         return []
     times = subprocess.run(["perf", "script", "-i", str(perf), "-F", "time"], capture_output=True, text=True,
                            check=True).stdout.split()  # fmt: skip
+    if not times:
+        raise SystemExit(f"{perf.name}: no samples (the run ended before the profile started?)")
     end = float(times[-1].rstrip(":"))
     return ["--time", f"{end - last:.6f},{end:.6f}"]
 
