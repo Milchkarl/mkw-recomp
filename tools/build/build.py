@@ -208,7 +208,8 @@ def profile_runtime() -> Path:
     cands = [Path(os.environ["MKW_PROFILE_RT"])] if os.environ.get("MKW_PROFILE_RT") else []
     rd = subprocess.run(["clang", "-print-resource-dir"], capture_output=True, text=True, check=False).stdout.strip()
     if rd:
-        cands += sorted(Path(rd).glob("lib/*/libclang_rt.profile*.a"))
+        # this machine's only: a multilib clang lists lib/i386-pc-linux-gnu first, which lld rejects (26/11/2026)
+        cands += sorted(Path(rd).glob(f"lib/{platform.machine()}*/libclang_rt.profile.a"))
     cands.append(ROOT / "build/toolchain/compiler-rt/lib/libclang_rt.profile.a")
     for c in cands:
         if c.is_file():
