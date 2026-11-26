@@ -35,7 +35,10 @@
 
 #define WEAK __attribute__((weak))
 
-typedef struct { VkImage image; VkFormat format; int w, h, has_crop, crop[4]; uint64_t frame, at, queued, value; } PresentJob;
+typedef struct { VkImage image; VkFormat format; int w, h, has_crop, crop[4]; uint64_t frame, at, queued, value, posted; } PresentJob;
+// How long the replay's submissions waited in vk_present_drain, for the present thread's periodic line.
+static uint64_t drain_ns, drain_max_ns;
+static uint32_t drain_calls, drain_long;   // drain_long: waits over 0.5 ms
 
 static PlatMutex pl = PLAT_MUTEX_INIT;
 static PlatCond pcv = PLAT_COND_INIT;   // job queued, job taken, job submitted
@@ -264,12 +267,24 @@ static void present_main(void *arg) {
         if (!nf) vk_present_blit(j.image, VK_IMAGE_LAYOUT_GENERAL, j.format, j.w, j.h, j.has_crop ? j.crop : NULL);
         uint64_t f = vk_sync_submit(NULL, 0);   // a timeline value after the blit: deferred destruction waits for the blit too
         {   // how long each present job held the replay's next submission (vk_present_drain): frame generation, blits
-            static double fg_sum, bl_sum, mx;
+            static double fg_sum, bl_sum, mx, wk_sum, wk_mx;
             static unsigned cnt;
             uint64_t b2 = kern_now_ns();
             fg_sum += (b1 - b0) / 1e6, bl_sum += (b2 - b1) / 1e6, cnt++;
             if ((b2 - b0) / 1e6 > mx) mx = (b2 - b0) / 1e6;
+            // how late this thread took the job (it sleeps until one comes: the time to wake it is time the replay's
+            // next submission waits too), and how long those submissions waited
+            wk_sum += (b0 - j.posted) / 1e6;
+            if ((b0 - j.posted) / 1e6 > wk_mx) wk_mx = (b0 - j.posted) / 1e6;
             if (cnt == 600) {
+                uint32_t dc = __atomic_exchange_n(&drain_calls, 0, __ATOMIC_RELAXED);
+                rt_log("present: job taken %.2f ms after it was queued (max %.2f), busy %.2f ms (max %.2f); the replay "
+                       "waited for it %.2f ms per present, %u of %u waits over 0.5 ms, max %.2f",
+                       wk_sum / cnt, wk_mx, (fg_sum + bl_sum) / cnt, mx,
+                       __atomic_exchange_n(&drain_ns, 0, __ATOMIC_RELAXED) / 1e6 / cnt,
+                       (unsigned)__atomic_exchange_n(&drain_long, 0, __ATOMIC_RELAXED), (unsigned)dc,
+                       __atomic_exchange_n(&drain_max_ns, 0, __ATOMIC_RELAXED) / 1e6);
+                wk_sum = wk_mx = 0;
                 if (nf) rt_log("present: busy per game frame %.2f ms (frame generation %.2f, blits and submit %.2f), max %.2f",
                                (fg_sum + bl_sum) / cnt, fg_sum / cnt, bl_sum / cnt, mx);
                 fg_sum = bl_sum = mx = 0, cnt = 0;
@@ -343,8 +358,16 @@ static void present_main(void *arg) {
 void vk_present_drain(void) {
     uint64_t p0 = perf_begin();
     plat_mutex_lock(&pl);
+    uint64_t t0 = pending || busy ? kern_now_ns() : 0;
     while (pending || busy) plat_cond_wait(&pcv, &pl);
     plat_mutex_unlock(&pl);
+    if (t0) {
+        uint64_t d = kern_now_ns() - t0;
+        __atomic_fetch_add(&drain_ns, d, __ATOMIC_RELAXED);
+        __atomic_fetch_add(&drain_calls, 1, __ATOMIC_RELAXED);
+        if (d > 500000) __atomic_fetch_add(&drain_long, 1, __ATOMIC_RELAXED);
+        if (d > __atomic_load_n(&drain_max_ns, __ATOMIC_RELAXED)) __atomic_store_n(&drain_max_ns, d, __ATOMIC_RELAXED);
+    }
     perf_end(PERF_DRAIN, p0);
 }
 
@@ -391,6 +414,7 @@ static void present_image(const tex_t *t, const int crop[4], uint64_t at_ns, uin
     if (!present_thread && !(present_thread = plat_thread_new(present_main, NULL, "vk present")))
         rt_fatal("vk: cannot start the present thread");
     while (pending) plat_cond_wait(&pcv, &pl);   // one present in waiting at most
+    j.posted = kern_now_ns();
     job = j;
     pending = 1;
     plat_cond_broadcast(&pcv);

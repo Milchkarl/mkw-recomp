@@ -88,7 +88,9 @@ def common_env(env: dict[str, str], run: Run) -> None:
     default(env, "MKW_FLIGHT", "1")
     default(env, "MKW_FLIGHT_SPIKE_MS", "0")
     default(env, "MKW_FLIGHT_DIR", str(ROOT / f"scratchpad/flight-{run.name}"))
-    default(env, "MKW_TRACE", "gfx,present")
+    # MKW_TRACE= (set, empty) runs without the trace, as a player does: gfx,present writes ~380,000 log lines in a
+    # 2-player race, under the log's lock, from the threads that record the draws (26/11/2026)
+    default(env, "MKW_TRACE", "gfx,present", if_empty=False)
     # Our window opens behind, without the focus; the game is told it has it (it pauses otherwise).
     default(env, "MKW_BACKGROUND_WINDOW", "1")
     default(env, "MKW_ASSUME_FOCUS", "1")
