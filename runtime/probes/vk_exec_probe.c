@@ -149,6 +149,12 @@ static int test_present(const GfxBackend *b, uint8_t *guest, int *w_out, int *h_
     uint64_t frames = gfx_stats().frames;
     // the exact colour check needs the bilinear blit: FSR's approximate reciprocals move a flat colour by 1/255
     plat_setenv("MKW_UPSCALER", "bilinear");
+    // and a 16:9 window filled to the edge: a fullscreen mkw.ini on a 16:10 display letterboxed it, so pixel 0 was a
+    // black bar (1920x1200 laptop panel, 26/11/2026)
+    plat_setenv("MKW_FULLSCREEN", "0");
+    plat_setenv("MKW_WINDOW_SIZE", "1920x1080");
+    plat_setenv("MKW_PICTURE_FIT", "keep");
+    plat_setenv("MKW_ASPECT", "16:9");
     vk_present_capture(1);
     const int crop[4] = {0, 0, TEX_W, TEX_H};
     b->present(&t, crop, 0);
