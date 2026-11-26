@@ -6,8 +6,12 @@ uses more than a third of a core, so the frame is a chain of waits (26/11/2026);
 their length. Needs no root: the user stacks name the wait (build.py --frame-pointers gives the runtime's frames; the
 translated code has none, so a stack through it stops at the first runtime function).
 
+-c 1 is needed: without it perf samples one switch in three (77,055 stacks for 233,686 switches, 26/11/2026) and a
+wait took the stack of an earlier switch of its thread; the lock and present counters did not show the waits that
+profile named. A switch out with no stack of its own in the 50 us before now goes to "(no stack sample)".
+
 Usage, once the race runs (10 s are ~200,000 switches):
-  perf record -e cs -g --switch-events -p "$(pgrep -x mkw)" -o scratchpad/NAME.cs -- sleep 10
+  perf record -e cs -c 1 -g --switch-events -p "$(pgrep -x mkw)" -o scratchpad/NAME.cs -- sleep 10
   uv run tools/run/offcpu.py scratchpad/NAME.cs [--comm 'vk replay|guest main'] [--by-tid] [--depth 4] [--top 12]
 """
 
@@ -20,6 +24,7 @@ from pathlib import Path
 HEAD = re.compile(r"^(.+?)\s+(\d+)\s+(\d+\.\d+):\s+(cs:|PERF_RECORD_SWITCH\s+(OUT|IN))")
 FRAME = re.compile(r"^\s+([0-9a-f]+)\s+(.+?)\s+\((.+)\)$")
 KERNEL = 0xFFFF800000000000
+STALE = 50e-6  # s: a stack sampled longer before the switch out belongs to an earlier switch
 
 
 def waits(perf: Path, depth: int, by_tid: bool) -> tuple[dict[tuple[str, str], list[float]], float]:
@@ -29,10 +34,10 @@ def waits(perf: Path, depth: int, by_tid: bool) -> tuple[dict[tuple[str, str], l
         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
     )  # fmt: skip
     out: dict[tuple[str, str], list[float]] = defaultdict(list)
-    stack: dict[int, str] = {}  # the user frames of each thread's last cs sample
+    stack: dict[int, tuple[float, str]] = {}  # the user frames of each thread's last cs sample, and when
     left: dict[int, tuple[float, str]] = {}  # thread -> when it left the CPU and with which stack
     frames: list[str] | None = None
-    tid, first, last = 0, 0.0, 0.0
+    tid, first, last, at = 0, 0.0, 0.0, 0.0
     assert proc.stdout
     for line in proc.stdout:
         m = HEAD.match(line)
@@ -43,7 +48,7 @@ def waits(perf: Path, depth: int, by_tid: bool) -> tuple[dict[tuple[str, str], l
             if f and int(f[1], 16) < KERNEL and len(frames) < depth:
                 frames.append(f[2].split("+")[0] if f[2] != "[unknown]" else Path(f[3]).name)
             elif not line.strip():
-                stack[tid] = " < ".join(frames) or "(no user frame)"
+                stack[tid] = (at, " < ".join(frames) or "(no user frame)")
                 frames = None
             continue
         comm, tid, t = m[1].strip(), int(m[2]), float(m[3])
@@ -51,9 +56,12 @@ def waits(perf: Path, depth: int, by_tid: bool) -> tuple[dict[tuple[str, str], l
             comm = f"{comm} {tid}"
         first, last = first or t, t
         if m[4] == "cs:":
-            frames = []
+            frames, at = [], t
         elif m[5] == "OUT":
-            left[tid] = (t, stack.get(tid, "(no stack)") + (" [preempted]" if "preempt" in line else ""))
+            when, why = stack.get(tid, (0.0, ""))
+            if t - when > STALE:
+                why = "(no stack sample)"
+            left[tid] = (t, why + (" [preempted]" if "preempt" in line else ""))
         elif tid in left:
             t0, why = left.pop(tid)
             out[comm, why].append(t - t0)
