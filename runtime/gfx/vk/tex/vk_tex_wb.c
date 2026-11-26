@@ -15,25 +15,80 @@
 // A mirrored texture the GPU rendered into holds its texels in its image only; its storage keeps what the CPU last put
 // there. The game may still read that storage with the CPU: TotK moves its generated grass maps between pools with
 // memcpy once the GPU is done, and the copy then carried zeros. Such a read writes the image back first.
-static void write_back(Tex *e) {
-    const nvn_texdesc *d = &e->t.d;
-    int linear = nvn_tex_is_linear(d), is3d = d->target == NVN_TEXTURE_TARGET_3D;
-    uint32_t levels = linear ? 1 : e->pub.levels, layers = linear || is3d ? 1 : e->pub.layers;
-    for (uint32_t lv = 0; lv < levels; lv++)
-        for (uint32_t ly = 0; ly < layers; ly++) {
-            uint32_t nl = lv + e->pub.drop;   // the NVN level of image level lv
-            view_t v = {.set_levels = 1, .set_layers = 1, .base_level = (uint8_t)nl, .min_layer = (uint16_t)ly};
-            NVNcopyRegion r = {.width = (int)mip(d->width, nl),
-                               .height = d->target == 0 || d->target == 3 ? 1 : (int)mip(d->height, nl),
-                               .depth = is3d ? (int)mip(d->depth, nl) : 1};
-            Region g;
-            if (!region_of(&e->t, &v, &r, 0, 0, &g)) continue;
-            uint8_t *buf = malloc(g.img * (size_t)g.nz);
-            if (!buf) rt_fatal("vk: out of memory for a texture write-back");
-            if (image_texels(e, &g, &r, buf, 0)) storage_texels(&e->t, &g, &r, buf, 1);
-            free(buf);
-        }
-    e->gpu_dirty = 0;
+//
+// The images are read without the texture lock: every region's copy goes into the upload batch under it, the GPU is
+// waited for once without it, and the rows go to storage under it again. Holding it through the wait (one per level
+// and layer) stopped the replay's chunk threads, which look textures up under it: with the game a frame ahead
+// (MKW_FENCE_AHEAD), the write-back of the small targets at each fence wait (44 a second, 2-player race) held it while
+// they slept 228 ms a second on it, and they spent 24 ms a frame off the CPU in their recording (sim2-lock-ahead,
+// sim2-ctr2). A hit destroyed meanwhile (no longer listed) or rewritten by the CPU is left alone. One the replay
+// recorded a render into meanwhile (its gpu_seq moved) still gets the bytes read, which the CPU waited for, and stays
+// dirty for that newer render, as when it was recorded after the write-back. All are checked before any is written, as each write
+// is itself a CPU write to storage another hit may share. A hit stays GPU-dirty until its rows are in storage, so a
+// CPU read meanwhile (vk_texture_cpu_stale, vk_texture_write_back) still sees it; wb_lock (before the texture lock)
+// keeps write-backs one at a time, as the texture lock did, and the recording never takes it.
+static PlatMutex wb_lock = PLAT_MUTEX_INIT;
+typedef struct {
+    Tex *e;
+    uint64_t addr, seq;   // to know e is still listed, and whether a render was recorded into it since
+    Region g;
+    NVNcopyRegion r;
+    TexRead rd;
+    int ok;
+} WbRead;
+
+static int still_listed(const Tex *e, uint64_t addr) {
+    for (int i = owned_lower(addr); i < nowned && owned[i]->pub.addr == addr; i++)
+        if (owned[i] == e) return 1;
+    return 0;
+}
+
+// hit: oldest render first. Called holding the texture lock once (lock()), which it leaves and takes again.
+static void write_back_hits(Tex **hit, int k) {
+    WbRead *rs = NULL;
+    int n = 0, cap = 0;
+    for (int i = 0; i < k; i++) {
+        Tex *e = hit[i];
+        int n0 = n;
+        const nvn_texdesc *d = &e->t.d;
+        int linear = nvn_tex_is_linear(d), is3d = d->target == NVN_TEXTURE_TARGET_3D;
+        uint32_t levels = linear ? 1 : e->pub.levels, layers = linear || is3d ? 1 : e->pub.layers;
+        for (uint32_t lv = 0; lv < levels; lv++)
+            for (uint32_t ly = 0; ly < layers; ly++) {
+                uint32_t nl = lv + e->pub.drop;   // the NVN level of image level lv
+                view_t v = {.set_levels = 1, .set_layers = 1, .base_level = (uint8_t)nl, .min_layer = (uint16_t)ly};
+                if (n == cap && !(rs = realloc(rs, sizeof *rs * (size_t)(cap = cap ? 2 * cap : 16))))
+                    rt_fatal("vk: out of memory for a texture write-back");
+                WbRead *w = &rs[n];
+                *w = (WbRead){.e = e, .addr = e->pub.addr, .seq = e->gpu_seq};
+                w->r = (NVNcopyRegion){.width = (int)mip(d->width, nl),
+                                       .height = d->target == 0 || d->target == 3 ? 1 : (int)mip(d->height, nl),
+                                       .depth = is3d ? (int)mip(d->depth, nl) : 1};
+                if (region_of(&e->t, &v, &w->r, 0, 0, &w->g) && image_read_record(e, &w->g, &w->r, &w->rd)) n++;
+            }
+        if (n == n0) e->gpu_dirty = 0;   // nothing of it can be read back (ASTC, packed depth-stencil)
+    }
+    if (!n) {
+        free(rs);
+        return;
+    }
+    unlock();
+    vk_upload_flush(1);
+    lock();
+    for (int i = 0; i < n; i++) {   // all checked first: the writes below are CPU writes to the storage
+        WbRead *w = &rs[i];
+        if (!still_listed(w->e, w->addr)) continue;   // destroyed meanwhile
+        w->ok = !rewritten_since_gpu(w->e);
+        if (w->e->gpu_seq == w->seq) w->e->gpu_dirty = 0;   // else a newer render, recorded meanwhile, goes back later
+    }
+    for (int i = 0; i < n; i++) {
+        WbRead *w = &rs[i];
+        uint8_t *buf = w->ok ? malloc(w->g.img * (size_t)w->g.nz) : NULL;
+        if (w->ok && !buf) rt_fatal("vk: out of memory for a texture write-back");
+        image_read_rows(&w->g, &w->rd, buf);
+        if (buf) storage_texels(&w->e->t, &w->g, &w->r, buf, 1), free(buf);
+    }
+    free(rs);
 }
 
 // Mirrored textures overlapping [addr, addr+size) that the GPU wrote since their last write-back.
@@ -84,6 +139,7 @@ uint64_t vk_texture_dirty_fence(uint64_t addr, uint64_t size) {
 // back, since a write-back is itself a CPU write to storage another hit may share; the hits then go back oldest render
 // first, so where two descriptors share storage the newer render wins.
 void vk_texture_write_back(uint64_t addr, uint64_t size) {
+    plat_mutex_lock(&wb_lock);
     lock();
     Tex **hit = malloc(sizeof *hit * (size_t)(nowned + 1));
     if (!hit) rt_fatal("vk: out of memory for a texture write-back");
@@ -97,11 +153,12 @@ void vk_texture_write_back(uint64_t addr, uint64_t size) {
             Tex *x = hit[j];
             hit[j] = hit[j - 1], hit[j - 1] = x;
         }
-    for (int i = 0; i < k; i++) write_back(hit[i]);
+    write_back_hits(hit, k);
     for (int i = 0; i < k; i++) perf_count(PERF_CNT_WB);
     for (int i = k; i < n; i++) perf_count(PERF_CNT_WB_SKIP);
     free(hit);
     unlock();
+    plat_mutex_unlock(&wb_lock);
 }
 
 // TotK's grass system renders a 128x128 RGBA8 map of cut and trampled grass into a CPU-cached pool every frame and its
@@ -118,6 +175,7 @@ void vk_texture_write_back(uint64_t addr, uint64_t size) {
 int vk_texture_small_dirty(void) { return __atomic_load_n(&small_pending, __ATOMIC_ACQUIRE); }
 
 void vk_texture_write_back_small(uint64_t fence) {
+    plat_mutex_lock(&wb_lock);
     lock();
     __atomic_store_n(&small_pending, 0, __ATOMIC_RELAXED);
     plat_mutex_lock_shared(&owned_lock);
@@ -144,16 +202,17 @@ void vk_texture_write_back_small(uint64_t fence) {
             Tex *x = hit[j];
             hit[j] = hit[j - 1], hit[j - 1] = x;
         }
-    for (int i = 0; i < k; i++) write_back(hit[i]);
-    for (int i = 0; i < k; i++) perf_count(PERF_CNT_WB);
-    for (int i = k; i < n; i++) perf_count(PERF_CNT_WB_SKIP);
-    static volatile int32_t n_pitch;
+    static volatile int32_t n_pitch;   // (before the write-back, which leaves the lock: a hit may be gone after it)
     for (int i = 0; i < k; i++)
         if (hit[i]->t.L.size > WB_SMALL)
             log_limited(&n_pitch, "pitch texture %#llx %ux%u format %#x (%llu bytes) written back to its storage at fence %llu",
                         (unsigned long long)hit[i]->pub.addr, hit[i]->t.d.width, hit[i]->t.d.height, hit[i]->t.d.format,
                         (unsigned long long)hit[i]->t.L.size, (unsigned long long)fence);
+    write_back_hits(hit, k);
+    for (int i = 0; i < k; i++) perf_count(PERF_CNT_WB);
+    for (int i = k; i < n; i++) perf_count(PERF_CNT_WB_SKIP);
     free(hit);
     unlock();
+    plat_mutex_unlock(&wb_lock);
 }
 

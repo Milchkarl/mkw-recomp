@@ -192,4 +192,9 @@ Tex *entries_at(uint64_t addr);   // the first entry at that storage address; th
 typedef struct { unsigned level, layer0; int nz, is3d, bw, bh, bpb; size_t wb, hb, row, img, x0, y0; } Region;
 int region_of(const tex_t *t, const view_t *v, const NVNcopyRegion *r, uint64_t row, uint64_t img, Region *g);
 int image_texels(Tex *e, const Region *g, const NVNcopyRegion *r, uint8_t *mem, int write);
+// A read of an image region in two steps (vk_tex_wb.c): the copy into the open upload batch, then, once that batch is
+// done (vk_upload_flush(1)), its rows into mem (NULL: only the staging freed). Nothing between needs the texture lock.
+typedef struct { VkBuffer sb; VmaAllocation sa; uint8_t *stg; size_t slice, ib; uint32_t w; int rgb, fmt; } TexRead;
+int image_read_record(Tex *e, const Region *g, const NVNcopyRegion *r, TexRead *rd);   // 0: nothing to read
+void image_read_rows(const Region *g, TexRead *rd, uint8_t *mem);
 int storage_texels(const tex_t *t, const Region *g, const NVNcopyRegion *r, uint8_t *mem, int write);
