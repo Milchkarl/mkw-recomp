@@ -305,6 +305,11 @@ static int pick_device(void) {
         }
     free(qp);
     rt_log("vk: using gpu %d: %s", best, g_vk.props.deviceName);
+    // the driver before the memory mode (vk_mem_log.c: shadow storage by driver); vk_caps_init reads it again
+    VkPhysicalDeviceDriverProperties drv = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES};
+    VkPhysicalDeviceProperties2 p2 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, .pNext = &drv};
+    vkGetPhysicalDeviceProperties2(g_vk.phys, &p2);
+    vk_caps.driver_id = drv.driverID;
     vk_mem_class_log(&g_vk.props, &g_vk.mem_props);
     return 1;
 }

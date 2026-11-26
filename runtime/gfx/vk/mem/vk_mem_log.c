@@ -281,7 +281,15 @@ static void mirror_mode(int discrete) {
 #ifdef _WIN32
     shadow_on = sh && *sh && strcmp(sh, "0");
 #else
-    shadow_on = !sh || !*sh || strcmp(sh, "0");
+    // On by default on Linux, where importing host memory fails or costs (RADV rejected the pools on an RX 9070 XT,
+    // -14; a Meteor Lake iGPU lost the device without it, #283), except NVIDIA's own driver on a discrete GPU: its
+    // imports hold (#641: 20 min of 3-player split screen, 4 271 pools, 0 failures, driver 595.91) and the shadow's
+    // syncs cost there (#641, RTX 3090, 4 players: 30.7 ms a frame, 23.4-24.9 without, Windows 27-28; #893).
+    int nv_blob = discrete && vk_caps.driver_id == VK_DRIVER_ID_NVIDIA_PROPRIETARY;
+    shadow_on = sh && *sh ? strcmp(sh, "0") != 0 : !nv_blob;
+    if (!shadow_on && !(sh && *sh))
+        rt_log("mem: shadow storage off: NVIDIA's driver on a discrete GPU imports the CPU-visible pools (MKW_SHADOW=1 "
+               "turns it on)");
 #endif
     shadow_live = shadow_on;
     if (shadow_on) rt_log("mem: shadow storage: CPU-visible pools are host-visible copies of guest memory, not imports%s",
