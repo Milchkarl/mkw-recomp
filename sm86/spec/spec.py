@@ -82,7 +82,17 @@ def https_context() -> ssl.SSLContext:
     unreadable to this Python), explicitly: on Windows the default context reads the system store whatever the variable
     says, and a certificate in it Python cannot parse stops every download (issue #456)."""
     ca = os.environ.get("SSL_CERT_FILE")
-    return ssl.create_default_context(cafile=ca) if ca else ssl.create_default_context()
+    if ca:
+        return ssl.create_default_context(cafile=ca)
+    ctx = ssl.create_default_context()
+    # Windows keeps few roots and fetches the others when a chain needs them, which Python's ssl cannot ask for, so a
+    # store with roots can still miss the issuer (issue #853): pip's bundled roots go in too, as in update.py.
+    for pat in ("lib*/python3*/site-packages/pip/_vendor/certifi/cacert.pem",
+                "Lib/site-packages/pip/_vendor/certifi/cacert.pem"):  # fmt: skip
+        for pem in Path(sys.prefix).glob(pat):
+            ctx.load_verify_locations(cafile=str(pem))
+            return ctx
+    return ctx
 
 
 def download(url: str, part: Path) -> str:

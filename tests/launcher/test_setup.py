@@ -7,7 +7,9 @@ Usage: uv run pytest tests
 
 import json
 import os
+import re
 import shutil
+import ssl
 import struct
 import subprocess
 import sys
@@ -924,6 +926,24 @@ def test_ca_file_with_an_unreadable_windows_store(monkeypatch, tmp_path):
 
     monkeypatch.setattr(prepare.update.ssl, "create_default_context", broken)
     assert prepare.update.ca_file() == str(pem)
+
+
+def test_ssl_context_adds_the_bundled_roots(monkeypatch, tmp_path):
+    """Issue #853: the Windows store had roots but not GitHub's issuer (Windows fetches it when a chain needs it, which
+    Python cannot ask for), and the update check failed with "unable to get local issuer certificate". The bundled
+    roots go in on top of the system's: here a store of one root, the bundle the rest of the system's."""
+    src = ssl.get_default_verify_paths().cafile
+    if not src or not Path(src).is_file():
+        pytest.skip("no CA bundle file on this system")
+    pems = re.findall(r"-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----\n", Path(src).read_text(), re.S)
+    one, rest = tmp_path / "one.pem", tmp_path / "rest.pem"
+    one.write_text(pems[0])
+    rest.write_text("".join(pems[1:]))
+    monkeypatch.setenv("SSL_CERT_FILE", str(one))
+    monkeypatch.setenv("SSL_CERT_DIR", str(tmp_path / "none"))
+    monkeypatch.setattr(prepare.update, "bundled_ca", lambda: str(rest))
+    assert ssl.create_default_context().cert_store_stats()["x509_ca"] == 1
+    assert prepare.update.ssl_context().cert_store_stats()["x509_ca"] == len(pems)
 
 
 def test_redo_exefs_if_missing(tmp_path: Path) -> None:
