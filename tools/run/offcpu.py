@@ -8,7 +8,7 @@ translated code has none, so a stack through it stops at the first runtime funct
 
 Usage, once the race runs (10 s are ~200,000 switches):
   perf record -e cs -g --switch-events -p "$(pgrep -x mkw)" -o scratchpad/NAME.cs -- sleep 10
-  uv run tools/run/offcpu.py scratchpad/NAME.cs [--comm 'vk replay|guest main'] [--depth 4] [--top 12]
+  uv run tools/run/offcpu.py scratchpad/NAME.cs [--comm 'vk replay|guest main'] [--by-tid] [--depth 4] [--top 12]
 """
 
 import argparse
@@ -22,7 +22,7 @@ FRAME = re.compile(r"^\s+([0-9a-f]+)\s+(.+?)\s+\((.+)\)$")
 KERNEL = 0xFFFF800000000000
 
 
-def waits(perf: Path, depth: int) -> tuple[dict[tuple[str, str], list[float]], float]:
+def waits(perf: Path, depth: int, by_tid: bool) -> tuple[dict[tuple[str, str], list[float]], float]:
     """(comm, stack) -> the lengths of its waits in seconds, and the seconds the recording covers."""
     proc = subprocess.Popen(
         ["perf", "script", "-i", str(perf), "--show-switch-events", "-F", "comm,tid,time,event,ip,sym,dso"],
@@ -47,6 +47,8 @@ def waits(perf: Path, depth: int) -> tuple[dict[tuple[str, str], list[float]], f
                 frames = None
             continue
         comm, tid, t = m[1].strip(), int(m[2]), float(m[3])
+        if by_tid:
+            comm = f"{comm} {tid}"
         first, last = first or t, t
         if m[4] == "cs:":
             frames = []
@@ -65,8 +67,10 @@ def main() -> None:
     ap.add_argument("--comm", default="", help="only the threads whose name matches this regex")
     ap.add_argument("--depth", type=int, default=4, help="user frames per stack (default 4)")
     ap.add_argument("--top", type=int, default=12, help="stacks per thread name (default 12)")
+    ap.add_argument("--by-tid", action="store_true",
+                    help="each thread apart (the game's threads all carry the name guest)")  # fmt: skip
     a = ap.parse_args()
-    out, secs = waits(a.perf, a.depth)
+    out, secs = waits(a.perf, a.depth, a.by_tid)
     per_comm: dict[str, list[tuple[float, int, str]]] = defaultdict(list)
     for (comm, why), d in out.items():
         if not a.comm or re.search(a.comm, comm):

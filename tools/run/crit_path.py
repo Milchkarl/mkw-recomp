@@ -3,7 +3,7 @@
 Why: whether waiting for a virtual core or any other wait lies on the frame's
 chain: the per-thread shares of MKW_TRACE=sched do not say which waits delay the present.
 From totk-pc-recomp tools/crit_path.py @ eccf4dd (MIT, Copyright (c) 2026 Valiantsin Dzerakh); only this header and two
-lint fixes (Path, pairwise) changed.
+lint fixes (Path, pairwise) changed, and --chain added here.
 
 Walks back from every present on the presenting thread to the previous one. While the thread runs, waits for a
 virtual core, sits in a host call or sleeps, the time goes to that thread and state. When it waits on a guest object,
@@ -11,7 +11,9 @@ the wake that ended the wait names the waker: the time from that signal to the e
 the walk goes on on the waker at the moment it signalled. A wait no guest thread ended (a timeout, a host signal)
 counts whole. The sums per frame add up to the frame interval.
 
-Usage: uv run tools/run/crit_path.py <crit.bin> [--top N]   (MKW_CRIT=w8-20 MKW_CRIT_OUT=... tools/run/race.sh NAME)
+Usage: uv run tools/run/crit_path.py <crit.bin> [--top N] [--chain FRAME]
+       (MKW_CRIT=w8-20 MKW_CRIT_OUT=... tools/run/race.sh NAME; --chain: that frame's path in time order, each
+       stretch with its thread and state, to see who hands the frame to whom)
 """
 
 import argparse
@@ -53,6 +55,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("crit")
     ap.add_argument("--top", type=int, default=30)
+    ap.add_argument("--chain", type=int, action="append", default=[], metavar="FRAME",
+                    help="print this frame's path in time order (0: the first recorded; repeatable)")  # fmt: skip
     a = ap.parse_args()
     threads, ev = load(a.crit)
     seg = defaultdict(lambda: ([], [], []))  # per thread: starts, states, wakers at the start
@@ -73,9 +77,11 @@ def main():
             frames.append((int(e["ts"]), int(e["a"]), int(e["obj"])))
     tot = Counter()
     lens = []
-    for (t0, p0, _), (t1, p1, _) in pairwise(frames):
+    for fno, ((t0, p0, _), (t1, p1, _)) in enumerate(pairwise(frames)):
         x, t, steps = p1, t1, 0
         acc = Counter()
+        before = dict(acc)
+        path = []  # (thread, kind, ns) from the present backwards
         while t > t0 and steps < 100000:
             steps += 1
             starts, states, _ = seg[x]
@@ -106,8 +112,22 @@ def main():
             else:
                 acc[(x, "wait " + STATES[st] + " (no guest waker)")] += t - lo
                 t = lo
+            for key, ns in acc.items():
+                if ns != before.get(key, 0):
+                    if path and path[-1][0] == key:
+                        path[-1] = (key, path[-1][1] + ns - before.get(key, 0))
+                    else:
+                        path.append((key, ns - before.get(key, 0)))
+            before = dict(acc)
         tot.update(acc)
         lens.append(t1 - t0)
+        if fno in a.chain:
+            print(f"frame {fno}: {(t1 - t0) / 1e6:.2f} ms, from its start to its present:")
+            at = 0.0
+            for (h, kind), ns in reversed(path):
+                if ns >= 50000:
+                    print(f"  {at:7.2f} ms  +{ns / 1e6:6.2f}  {label(h, threads):22} {kind}")
+                at += ns / 1e6
     n = len(lens)
     if not n:
         raise SystemExit("fewer than two presents recorded")
