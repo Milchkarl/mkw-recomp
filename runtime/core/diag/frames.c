@@ -13,8 +13,8 @@
 static FILE *out;
 static const char *const cls[CPUCTR_N] = {"rep", "rout", "chk", "cout", "game"};
 // per value (cpuctr.c): column, divisor (µs, thousands of cycles and instructions, misses)
-static const char *const val[CPUCTR_V] = {"cpu_us", "kcyc", "kins", "miss", "rq_us", "wall_us", "wait_us"};
-static const unsigned div_by[CPUCTR_V] = {1000, 1000, 1000, 1, 1000, 1000, 1000};
+static const char *const val[CPUCTR_V] = {"cpu_us", "kcyc", "kins", "miss", "rq_us", "wall_us", "wait_us", "held_us"};
+static const unsigned div_by[CPUCTR_V] = {1000, 1000, 1000, 1, 1000, 1000, 1000, 1000};
 static int state;   // 0: MKW_FRAMES not read yet; 1: writing; -1: off
 
 static int frames_open(void) {

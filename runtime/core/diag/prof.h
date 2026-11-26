@@ -20,7 +20,9 @@ void frames_flush(void);
 // frames.c takes the sums per frame. REPLAY is the replay thread's recording of a submission, REPLAY_OUT the rest of
 // its time, CHUNKS the chunk threads' recordings (their time between chunks is CHUNKS_OUT).
 enum { CPUCTR_REPLAY, CPUCTR_REPLAY_OUT, CPUCTR_CHUNKS, CPUCTR_CHUNKS_OUT, CPUCTR_GAME, CPUCTR_N };
-enum { CPUCTR_CPU, CPUCTR_CYC, CPUCTR_INS, CPUCTR_MISS, CPUCTR_RQ, CPUCTR_WALL, CPUCTR_WAIT, CPUCTR_V };
+// WAIT: the replay's waits for its chunks (REPLAY), for work (REPLAY_OUT); HELD: its waits for a held submission's work
+// (REPLAY_OUT: the queue order, nvn_qorder.c)
+enum { CPUCTR_CPU, CPUCTR_CYC, CPUCTR_INS, CPUCTR_MISS, CPUCTR_RQ, CPUCTR_WALL, CPUCTR_WAIT, CPUCTR_HELD, CPUCTR_V };
 int cpuctr_on(void);
 void cpuctr_tick(int cls);
 void cpuctr_add(int cls, int what, uint64_t ns);

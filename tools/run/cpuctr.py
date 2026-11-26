@@ -24,14 +24,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "runner"))
 import abstat  # noqa: E402
 
 CLASSES = ("rep", "rout", "chk", "cout", "game")
-COLS = ("cpu_us", "kcyc", "kins", "miss", "rq_us", "wall_us", "wait_us")
+COLS = ("cpu_us", "kcyc", "kins", "miss", "rq_us", "wall_us", "wait_us", "held_us")
 # name, per-frame value of a block from its column sums and frames
 STATS = (
     ("cpu ms", lambda s, n: s["cpu_us"] / n / 1000),
     ("run queue ms", lambda s, n: s["rq_us"] / n / 1000),
     ("wall ms", lambda s, n: s["wall_us"] / n / 1000),
-    ("chunk wait ms", lambda s, n: s["wait_us"] / n / 1000),
-    ("rest ms", lambda s, n: (s["wall_us"] - s["cpu_us"] - s["rq_us"] - s["wait_us"]) / n / 1000 if s["wall_us"] else math.nan),
+    ("wait ms", lambda s, n: s["wait_us"] / n / 1000),   # rep: for its chunks; rout: for work
+    ("held wait ms", lambda s, n: s["held_us"] / n / 1000),   # rout: for a held submission's work (queue order)
+    ("rest ms", lambda s, n: (s["wall_us"] - s["cpu_us"] - s["rq_us"] - s["wait_us"]) / n / 1000
+     if s["wall_us"] else math.nan),
     ("GHz", lambda s, n: s["kcyc"] / s["cpu_us"] if s["cpu_us"] else math.nan),
     ("IPC", lambda s, n: s["kins"] / s["kcyc"] if s["kcyc"] else math.nan),
     ("M instr", lambda s, n: s["kins"] / n / 1000),

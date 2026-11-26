@@ -27,6 +27,7 @@
 #include "gfx.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "prof.h"
 #include "vk_reflex_frame.h"
 #include "vk_temporal.h"
 #include "vk.h"
@@ -640,7 +641,9 @@ static void replay_main(void *arg) {
     plat_mutex_lock(&rl);
     for (;;) {
         int64_t w0 = vk_tl_on() > 0 ? (int64_t)plat_now_ns() : 0;
+        uint64_t i0 = cpuctr_on() && !rq_n ? kern_now_ns() : 0;
         while (!rq_n) plat_cond_wait(&rcv, &rl);
+        if (i0) cpuctr_add(CPUCTR_REPLAY_OUT, CPUCTR_WAIT, kern_now_ns() - i0);   // MKW_CPU_COUNTERS: no work
         int64_t w1 = w0 ? (int64_t)plat_now_ns() : 0;
         if (w0) vk_tl_replay_time(VK_TL_IDLE, w1 - w0);
         ReplayItem it = rq[rq_head];
@@ -655,7 +658,9 @@ static void replay_main(void *arg) {
         // frame ahead, "corrupt command record" in a copy last used by the submission the counter already showed).
         uint64_t done_no = it.submit_no;
         if (it.kind == RI_SUBMIT && it.held) {
+            uint64_t h0 = cpuctr_on() ? kern_now_ns() : 0;
             held_wait(it.held);
+            if (h0) cpuctr_add(CPUCTR_REPLAY_OUT, CPUCTR_HELD, kern_now_ns() - h0);
             it.h = it.held->h, it.n = it.held->n;
             if (it.held->submit_no > it.submit_no) it.submit_no = it.held->submit_no;   // it holds work submitted since
             free(it.held);
