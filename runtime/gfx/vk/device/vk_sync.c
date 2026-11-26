@@ -21,6 +21,7 @@
 #include "host.h"
 #include "nvn_api.h"
 #include "vk.h"
+#include "vk_gpu_sim.h"
 #include "vk_sync_ts.h"
 #include "platform/platform.h"
 
@@ -114,6 +115,8 @@ static void (*comp_cb_fn)(void *);
 
 static VkResult queue_submit(VkQueue q, const VkSubmitInfo2 *si) {
     __atomic_store_n(&qsub_since, (int64_t)kern_now_ns(), __ATOMIC_RELAXED);
+    VkSubmitInfo2 bare;
+    if (vk_sim_on()) bare = *si, bare.commandBufferInfoCount = 0, si = &bare;   // MKW_GPU_SIM: only the semaphores
     VkResult r = vkQueueSubmit2(q, 1, si, VK_NULL_HANDLE);
     __atomic_store_n(&qsub_since, 0, __ATOMIC_RELAXED);
     return r;
@@ -276,6 +279,12 @@ static void completion_main(void *arg) {
             if (r == VK_ERROR_DEVICE_LOST) vk_exec_recent_log();
             if (r != VK_SUCCESS && r != VK_TIMEOUT) rt_fatal("vk: vkWaitSemaphores failed (%d; device lost?)", (int)r);
             vkGetSemaphoreCounterValue(c->device, c->timeline, &reached);
+            if (vk_sim_on()) {   // MKW_GPU_SIM: done follows the simulated GPU's clock, behind the real timeline
+                plat_mutex_lock(&st_lock);
+                uint64_t d = done, top = reached < issued ? reached : issued;
+                plat_mutex_unlock(&st_lock);
+                reached = vk_sim_reached(d, top);
+            }
             // A hang the driver never reports as a lost device (NVIDIA 620.70.06 on Linux, Xid 109 "CTX SWITCH
             // TIMEOUT", six times on 13/11/2026: this wait timed out for ever and the log named nothing; #13, #206):
             // after `hang` without the timeline moving, the breadcrumbs say what the GPU had started and not finished.
@@ -557,6 +566,7 @@ VkCommandBuffer vk_sync_split_with(const VkCommandBuffer *extra, int nextra) {
     }
     if (ss) ss_ns[SS_SPLIT_SUBMIT2] += kern_now_ns() - k0, ss_splits++;
     vk_queue_unlock();
+    if (vk_sim_on()) vk_sim_part();
     vk_mem_note_submit(++part_val);   // objects destroyed from here on may be in use by the part just submitted
     if (ss) k0 = kern_now_ns();
     CmdSlot *s = take_slot(c, cur_fence);   // the submitted part keeps its slot until the value is reached
@@ -650,6 +660,7 @@ uint64_t vk_sync_submit(const uint64_t *handles, int n) {
     s->fence = recorded ? fence : 0;
     vk_mem_note_submit(++part_val);
     vk_mem_recording(0);
+    if (vk_sim_on()) vk_sim_issue(fence);
     plat_mutex_lock(&st_lock);
     issued_part = part_val;
     __atomic_store_n(&issued, fence, __ATOMIC_RELEASE);

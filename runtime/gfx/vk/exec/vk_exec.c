@@ -27,6 +27,7 @@
 #include "vk_temporal.h"
 #include "vk.h"
 #include "vk_exec.h"
+#include "vk_gpu_sim.h"
 #include "platform/platform.h"
 
 #include "vk_exec_internal.h"
@@ -758,6 +759,7 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     if (sl0 && nsublog < SUBLOG_N)
         sublog[nsublog++] = (typeof(sublog[0])){(uint32_t)((sl0 - sublog_t0) / 1000), (uint32_t)((kern_now_ns() - sl0) / 1000),
                                                 (uint32_t)(vk_exec_frame.draws_seen - sld), plat_thread_id()};
+    if (vk_sim_on()) vk_sim_draws((uint32_t)(vk_exec_frame.draws_seen - sld));
     if (n) n_subs++;
     if ((rt_trace & RT_TRACE_PERF) && n_subs >= 240 && dc_mode > 0) {
         uint64_t rd, sk, ah, bl;
