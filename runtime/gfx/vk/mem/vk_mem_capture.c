@@ -125,6 +125,10 @@ static int cord, span_kib = -2;
 static uint64_t c_spans, c_stray;   // cap_lock (added after the capture)
 static uint64_t t_spans, t_stray;
 static uint64_t c_walk, t_walk;   // bytes of the spans asked for
+// what a narrower question could leave out: the pools with a written page and their bytes, and the 2 MiB regions of
+// the pools, all and those with a written page (a region counts once per pool that reaches it)
+static uint64_t c_wpools, c_wpool_bytes, c_regs, c_wregs;
+static uint64_t t_wpools, t_wpool_bytes, t_regs, t_wregs;
 
 static int ord_cmp(const void *a, const void *b) {
     uint64_t x = ((const CapOrd *)a)->lo, y = ((const CapOrd *)b)->lo;
@@ -234,11 +238,13 @@ static void capture_pool(PoolRec *r, CapRun **runs, int *nruns, int *cruns, uint
     uint64_t lo = r->import_lo, hi = r->import_hi, run = 0;
     uint32_t since = r->cgen;
     r->cgen = gen_now;
+    const uint64_t bytes0 = *bytes;
     for (uint64_t k = lo >> REG_SHIFT; k <= (hi - 1) >> REG_SHIFT; k++) {
         uint64_t a = k << REG_SHIFT, b = a + (1ull << REG_SHIFT);
         if (a < lo) a = lo;
         if (b > hi) b = hi;
         const uint32_t *ch = gen_chunk[a >> GEN_CHUNK_SHIFT];   // a 2 MiB region lies in one chunk
+        t_regs++, t_wregs += reg_max[k] > since && ch;
         if (reg_max[k] <= since || !ch) {
             if (run) capture_run(r, run, a, runs, nruns, cruns, bytes), run = 0;
             continue;
@@ -250,6 +256,7 @@ static void capture_pool(PoolRec *r, CapRun **runs, int *nruns, int *cruns, uint
         }
     }
     if (run) capture_run(r, run, hi, runs, nruns, cruns, bytes);
+    if (*bytes != bytes0) t_wpools++, t_wpool_bytes += hi - lo;
 }
 
 void vk_mem_shadow_capture(uint64_t sub) {
@@ -282,7 +289,8 @@ void vk_mem_shadow_capture(uint64_t sub) {
     int nruns = 0, cruns = 0;
     uint64_t bytes = 0;
     uint64_t query_ns = 0;
-    t_alloc_ns = t_copy_ns = t_spans = t_stray = t_walk = 0;   // (captures are serial: the front end's submit lock)
+    t_alloc_ns = t_copy_ns = t_spans = t_stray = t_walk = 0;
+    t_wpools = t_wpool_bytes = t_regs = t_wregs = 0;   // (captures are serial: the front end's submit lock)
     if (n) {
         gen_lock_x();
         uint64_t q0 = qpc();
@@ -307,6 +315,13 @@ void vk_mem_shadow_capture(uint64_t sub) {
     c_subs++, c_pools += (uint64_t)n, c_bytes += bytes, c_ns += qpc() - t0;
     c_query_ns += query_ns, c_alloc_ns += t_alloc_ns, c_copy_ns += t_copy_ns, c_runs += (uint64_t)nruns;
     c_spans += t_spans, c_stray += t_stray, c_walk += t_walk;
+    c_wpools += t_wpools, c_wpool_bytes += t_wpool_bytes, c_regs += t_regs, c_wregs += t_wregs;
+    if (c_subs >= 1500)
+        rt_log("mem: submit captures, a submit: %.1f pools with a written page, %.1f MiB between them; %.1f regions of "
+               "2 MiB under the pools, %.1f with a written page",
+               (double)c_wpools / (double)c_subs, (double)c_wpool_bytes / 1048576.0 / (double)c_subs,
+               (double)c_regs / (double)c_subs, (double)c_wregs / (double)c_subs),
+            c_wpools = c_wpool_bytes = c_regs = c_wregs = 0;
     if (c_subs >= 1500) log_locked();   // ~5 s of race; shadow_log only runs at a few frames
     plat_mutex_unlock(&cap_lock);
     plat_mutex_unlock_shared(&pool_lock);
