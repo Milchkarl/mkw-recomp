@@ -15,6 +15,7 @@
 #include "gfx.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "prof.h"
 #include "nvn_pool_index.h"
 #include "platform/platform.h"
 #include "version.h"
@@ -862,6 +863,7 @@ NVN_API(nvnQueueSubmitCommands) {
     const uint64_t *h = arg_p(c, 2);
     if (n < 0 || (n && !h)) rt_fatal("nvn: QueueSubmitCommands with %d handles at %p", n, (const void *)h);
     NVN_BLOCKING();
+    cpuctr_tick(CPUCTR_GAME);   // MKW_CPU_COUNTERS: the game's thread since its last submission
     q->submits++;
     uint64_t f;
     int held = 0;

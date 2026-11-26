@@ -14,3 +14,14 @@ void prof_sampler_frame(uint64_t frame, uint64_t now, uint64_t d);   // every pr
 // MKW_FRAMES (frames.c): one row per present, from perf_present; flushed at exit (perf_summary_flush).
 void frames_row(uint64_t frame, uint64_t interval_ns, const uint64_t wait_ns[], uint64_t replay_ns);
 void frames_flush(void);
+
+// MKW_CPU_COUNTERS=1 (cpuctr.c): the calling thread's CPU time, cycles, instructions, cache misses and time waiting
+// for a core (run queue) since its last tick, to a class; cpuctr_add puts a measured span (wall time, a wait) in one.
+// frames.c takes the sums per frame. REPLAY is the replay thread's recording of a submission, REPLAY_OUT the rest of
+// its time, CHUNKS the chunk threads' recordings (their time between chunks is CHUNKS_OUT).
+enum { CPUCTR_REPLAY, CPUCTR_REPLAY_OUT, CPUCTR_CHUNKS, CPUCTR_CHUNKS_OUT, CPUCTR_GAME, CPUCTR_N };
+enum { CPUCTR_CPU, CPUCTR_CYC, CPUCTR_INS, CPUCTR_MISS, CPUCTR_RQ, CPUCTR_WALL, CPUCTR_WAIT, CPUCTR_V };
+int cpuctr_on(void);
+void cpuctr_tick(int cls);
+void cpuctr_add(int cls, int what, uint64_t ns);
+void cpuctr_take(uint64_t out[CPUCTR_N][CPUCTR_V]);

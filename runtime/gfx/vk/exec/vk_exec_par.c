@@ -41,6 +41,7 @@
 #include "cfg.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "prof.h"
 #include "vk.h"
 #include "vk_exec.h"
 #include "vk_temporal.h"
@@ -524,6 +525,7 @@ static VkCommandBuffer chunk_cb(int t, uint64_t fence) {
 static void chunk_record(int k, int t, int again) {
     Chunk *c = &P.ch[k];
     VkExec *ex = c->ex;
+    if (t) cpuctr_tick(CPUCTR_CHUNKS_OUT);   // MKW_CPU_COUNTERS: a chunk thread between its chunks
     uint64_t w0 = kern_now_ns();
     if (again) *ex = *c->ex0, memset(&c->counters, 0, sizeof c->counters);   // the first recording is not submitted
     else *c->ex0 = *ex;
@@ -563,6 +565,8 @@ static void chunk_record(int k, int t, int again) {
     uint64_t w = kern_now_ns() - w0, m = __atomic_load_n(&P.max_work_ns, __ATOMIC_RELAXED);
     __atomic_fetch_add(&P.work_ns, w, __ATOMIC_RELAXED);
     while (w > m && !__atomic_compare_exchange_n(&P.max_work_ns, &m, w, 1, __ATOMIC_RELAXED, __ATOMIC_RELAXED)) {}
+    if (t) cpuctr_tick(CPUCTR_CHUNKS), cpuctr_add(CPUCTR_CHUNKS, CPUCTR_WALL, w);   // (the replay thread's own chunk
+                                                                                    // is counted with its submission)
 }
 
 static void send_ready(int wait);
@@ -697,9 +701,11 @@ static void send_ready(int wait) {
         for (int k = from; k < P.avail; k++) {
             if (!__atomic_load_n(&P.ready[k], __ATOMIC_ACQUIRE)) {
                 if (!wait || k > from) break;
+                uint64_t q0 = kern_now_ns();
                 plat_mutex_lock(&P.lock);
                 while (!__atomic_load_n(&P.ready[k], __ATOMIC_ACQUIRE)) plat_cond_wait(&P.finished, &P.lock);
                 plat_mutex_unlock(&P.lock);
+                cpuctr_add(CPUCTR_REPLAY, CPUCTR_WAIT, kern_now_ns() - q0);   // MKW_CPU_COUNTERS: waiting for a chunk
             }
             Chunk *c = &P.ch[k];
             // the first recording was ended by its thread (chunk_record); the second is on this thread's pool

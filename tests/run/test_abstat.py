@@ -159,3 +159,18 @@ def test_summary_json_is_strict(tmp_path: Path) -> None:
     doc = report.ab(p, {"MKW_AB": "2", "MKW_AB_METRIC": "replay"})
     json.dumps(doc, allow_nan=False)
     assert doc["by_metric"]["pipe"]["pct"] is None
+
+
+def test_extra_columns_are_metrics(tmp_path: Path) -> None:
+    # MKW_CPU_COUNTERS adds per-class columns (rep_cpu_us, rep_kcyc, …): each one gets its own verdict, by its name
+    lines = series(60, seed=3).splitlines(keepends=True)
+    out = [lines[0].rstrip("\n") + "\trep_cpu_us\trep_kcyc\n"]
+    for row in lines[1:]:
+        side = int(row.split("\t")[2])
+        out.append(row.rstrip("\n") + f"\t10000\t{30000 + 6000 * side}\n")
+    p = tmp_path / "c.frames.tsv"
+    p.write_text("".join(out))
+    every = abstat.by_metric([p])
+    assert {"rep_cpu", "rep_kcyc"} <= every.keys()
+    assert every["rep_kcyc"].significant and abs(every["rep_kcyc"].diff_ms - 6.0) < 0.01
+    assert not every["rep_cpu"].significant

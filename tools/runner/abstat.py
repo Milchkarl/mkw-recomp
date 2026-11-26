@@ -89,8 +89,17 @@ def period_ms(rows: list[dict[str, float]]) -> float | None:
     return None
 
 
+def extra_metrics(paths: list[Path]) -> list[str]:
+    """The columns past the standard ones, as their own metrics: MKW_CPU_COUNTERS's per-class counters (rep_cpu_us,
+    rep_kcyc, …). Their "ms" are the column's units over 1000 (CPU ms, millions of cycles or instructions)."""
+    with paths[0].open(newline="") as f:
+        head = next(csv.reader(f, delimiter="\t"), [])
+    std = {"frame", "world_ms", "ab", *(f"{m}_us" for m in METRICS)}
+    return [c.removesuffix("_us") if c.endswith("_us") else c for c in head if c not in std]
+
+
 def blocks(rows: list[dict[str, float]], settle: int, metric: str = "interval") -> list[Block]:
-    col = f"{metric}_us"
+    col = f"{metric}_us" if rows and f"{metric}_us" in rows[0] else metric
     period = period_ms(rows)
     if not period:
         return []
@@ -167,7 +176,7 @@ def by_metric(paths: list[Path], settle: int = 5, target: float | None = None) -
     """Every column's verdict: a change can move the replay or a wait without moving the paced interval. Only the
     chosen metric decides: with six columns at 95 %, one of them reads "significant" by chance in about a quarter of
     A/A runs (gpaa1: fence "B faster", 25/11/2026)."""
-    return {m: analyse(paths, settle, target, m)[0] for m in METRICS}
+    return {m: analyse(paths, settle, target, m)[0] for m in (*METRICS, *extra_metrics(paths))}
 
 
 def main() -> None:
@@ -175,7 +184,8 @@ def main() -> None:
     ap.add_argument("frames", nargs="+", type=Path, help="NAME.frames.tsv of runs with MKW_AB")
     ap.add_argument("--settle", type=int, default=5, help="frames left out at the start of each block (5)")
     ap.add_argument("--target", type=float, help="the half-width wanted, ms: prints how many pairs it needs")
-    ap.add_argument("--metric", choices=METRICS, default="interval", help="the column judged (interval)")
+    ap.add_argument("--metric", default="interval", help=f"the column judged (interval; {', '.join(METRICS)} or an "
+                    "extra column such as MKW_CPU_COUNTERS's rep_kcyc)")
     ap.add_argument("--json", action="store_true", help="the verdict as JSON")
     args = ap.parse_args()
     v, lines = analyse(args.frames, args.settle, args.target, args.metric)
