@@ -13,11 +13,11 @@
 // and not in others, with every buffer of the draws the same at the pass end. Here every shadow
 // range a recording resolves is noted with its submission's fence; a sync that copies bytes different from the shadow's
 // over a noted range whose fence is not done yet and is not the one being synced logs it ("srace:" lines, the first
-// RACE_LINES, then a count per frame line with the shadow line).
+// RACE_LINES, then a count per frame line with the shadow line). MKW_SHADOW_RACE=frame: by frame instead (below).
 
 #define RACE_LINES 20000
 
-typedef struct { const PoolRec *r; uint64_t lo, hi, fence; } RNote;
+typedef struct { const PoolRec *r; uint64_t lo, hi, fence, frame; } RNote;
 
 int race_on = -1;
 static PlatMutex race_lock = PLAT_MUTEX_INIT;
@@ -33,10 +33,29 @@ static uint64_t ctmp;
 // copies at the first frame of a B block, the GPU 6 submissions behind); a wait before every part cost 7.7 ms each (fe1).
 static uint64_t r_waits, r_wait_ns;   // shadow_lock: since the last log
 
+// MKW_SHADOW_RACE=frame (race_on 3): could the game build frame N+1 while frame N is still being recorded and drawn?
+// Today it cannot: it waits for N's fence first (nvnSyncWait, ~14 ms a frame in split screen, sim2-crit). Here the
+// notes are kept by frame, finished or not, and each copy counts the bytes it changes over ranges that the frame
+// before (age 1) and the one before that (age 2) read, and over earlier submissions of the same frame (age 0): what a
+// game released early would have rewritten under them. Zero at age 1: the game keeps a frame's data apart from the
+// next one's, and may run a frame ahead with no copy made at the submit. "srace-frame:" lines for the first ranges.
+#define AGES 3
+static uint64_t f_bytes[AGES], f_hits[AGES], f_copied, f_noted, f_lines;   // race_lock: since the last log
+// The pages changed under the frame before, since the last line (the first F_TOP; the rest count as "other").
+#define F_TOP 256
+static struct { uint64_t page, pool_lo, pool_hi, bytes, hits; } f_top[F_TOP];
+static int f_ntop;
+static uint64_t f_other, f_last_log;
+static void frame_log(uint64_t frame);
+static uint8_t *mark;
+static uint64_t cmark;
+
 int race_level(void) {
     if (race_on < 0) {
         const char *e = cfg_get("MKW_SHADOW_RACE"), *fe = cfg_get("MKW_FENCE_EARLY"), *g = cfg_get("MKW_FENCE_EARLY_GUARD");
-        race_on = e && *e && strcmp(e, "0") ? 1 : fe && *fe && strcmp(fe, "0") && (!g || atoi(g) == 2) ? 2 : 0;
+        race_on = e && !strcmp(e, "frame") ? 3 : e && *e && strcmp(e, "0") ? 1
+                  : fe && *fe && strcmp(fe, "0") && (!g || atoi(g) == 2) ? 2 : 0;
+        if (race_on == 3) rt_log("mem: shadow copies over ranges the frames before read are counted (MKW_SHADOW_RACE=frame)");
         if (race_on == 1) rt_log("mem: shadow copies over ranges a running submission reads are logged (MKW_SHADOW_RACE)");
         if (race_on == 2) rt_log("mem: shadow copies over ranges a running submission reads wait for it while fences end early (MKW_FENCE_EARLY)");
     }
@@ -66,8 +85,60 @@ void race_note(const PoolRec *r, uint64_t lo, uint64_t hi) {
             return;
         }
     if (nnotes == cnotes) vk_mem_grow((void **)&notes, &cnotes, sizeof *notes);
-    notes[nnotes++] = (RNote){r, lo, hi, f};
+    notes[nnotes++] = (RNote){r, lo, hi, f, vk_exec_presented};
+    f_noted += hi - lo;
     plat_mutex_unlock(&race_lock);
+}
+
+// race_lock held: MKW_SHADOW_RACE=frame, the copy (or merge) of [a, b) for a submission of frame `now`.
+static void frame_check(const PoolRec *r, uint64_t a, uint64_t b, uint64_t sync, const uint8_t *old) {
+    uint64_t now = vk_exec_presented, len = b - a;
+    int k = 0, any = 0;
+    if (now >= f_last_log + 120) frame_log(now), f_last_log = now;
+    for (int i = 0; i < nnotes; i++)
+        if (notes[i].frame + AGES > now) notes[k++] = notes[i];   // older frames go
+    nnotes = k;
+    f_copied += len;
+    if (len > cmark && !(mark = realloc(mark, cmark = len))) rt_fatal("vk: out of memory (MKW_SHADOW_RACE)");
+    for (int i = 0; i < nnotes; i++) {
+        const RNote *n = &notes[i];
+        if (n->r != r || n->fence >= sync || n->lo >= b || n->hi <= a) continue;
+        uint64_t lo = n->lo > a ? n->lo : a, hi = n->hi < b ? n->hi : b;
+        if (!any) memset(mark, 0, len), any = 1;
+        uint8_t bit = (uint8_t)(1u << (now - n->frame));
+        for (uint64_t x = lo - a; x < hi - a; x++) mark[x] |= bit;
+    }
+    if (!any) return;
+    if (len > ctmp && !(tmp = realloc(tmp, ctmp = len))) rt_fatal("vk: out of memory (MKW_SHADOW_RACE)");
+    if (old) memcpy(tmp, old, len);
+    else mem_copy_out(tmp, a, len);
+    const uint8_t *s = r->smap + (a - r->import_lo);
+    uint64_t d[AGES] = {0}, first[AGES], last[AGES] = {0};
+    for (int g = 0; g < AGES; g++) first[g] = UINT64_MAX;
+    for (uint64_t x = 0; x < len; x++) {
+        if (!mark[x] || tmp[x] == s[x]) continue;
+        for (int g = 0; g < AGES; g++)
+            if (mark[x] >> g & 1) d[g]++, last[g] = x, first[g] = first[g] == UINT64_MAX ? x : first[g];
+    }
+    for (int g = 0; g < AGES; g++) {
+        if (!d[g]) continue;
+        f_hits[g]++, f_bytes[g] += d[g];
+        if (g == 1) {
+            uint64_t page = (a + first[g]) & ~0xfffull;
+            int j = 0;
+            while (j < f_ntop && f_top[j].page != page) j++;
+            if (j == F_TOP) f_other += d[g];
+            else {
+                if (j == f_ntop) f_top[f_ntop++] = (typeof(f_top[0])){page, r->import_lo, r->import_hi, 0, 0};
+                f_top[j].bytes += d[g], f_top[j].hits++;
+            }
+        }
+        if (g && f_lines++ < 60)
+            rt_log("srace-frame: f%llu %s for submission %llu changes %llu bytes in [%#llx, %#llx] that frame f%llu read "
+                   "(pool [%#llx, %#llx))", (unsigned long long)now, old ? "merge" : "copy", (unsigned long long)sync,
+                   (unsigned long long)d[g], (unsigned long long)(a + first[g]), (unsigned long long)(a + last[g]),
+                   (unsigned long long)(now - (uint64_t)g), (unsigned long long)r->import_lo, (unsigned long long)r->import_hi);
+    }
 }
 
 // shadow_lock held, before [a, b) of r is copied in from guest memory for the submission with fence sync; or, old not
@@ -75,6 +146,11 @@ void race_note(const PoolRec *r, uint64_t lo, uint64_t hi) {
 uint64_t race_check(const PoolRec *r, uint64_t a, uint64_t b, uint64_t sync, const uint8_t *old) {
     uint64_t done = vk_sync_fence_done(), wait = 0;
     plat_mutex_lock(&race_lock);
+    if (race_on == 3) {
+        frame_check(r, a, b, sync, old);
+        plat_mutex_unlock(&race_lock);
+        return 0;
+    }
     int k = 0;
     for (int i = 0; i < nnotes; i++)
         if (notes[i].fence > done) notes[k++] = notes[i];   // the finished ones go
@@ -103,8 +179,39 @@ uint64_t race_check(const PoolRec *r, uint64_t a, uint64_t b, uint64_t sync, con
     return wait;
 }
 
+// race_lock held: MKW_SHADOW_RACE=frame, every 120 frames.
+static void frame_log(uint64_t frame) {
+    {
+        rt_log("mem: shadow race by frame at frame %llu: %.1f KiB copied in, %.1f KiB noted as read; changed under an "
+               "earlier submission of the same frame %llu bytes (%llu copies), under the frame before %llu bytes (%llu), "
+               "under the one before that %llu bytes (%llu); %d ranges noted", (unsigned long long)frame,
+               (double)f_copied / 1024, (double)f_noted / 1024, (unsigned long long)f_bytes[0],
+               (unsigned long long)f_hits[0], (unsigned long long)f_bytes[1], (unsigned long long)f_hits[1],
+               (unsigned long long)f_bytes[2], (unsigned long long)f_hits[2], nnotes);
+        memset(f_bytes, 0, sizeof f_bytes), memset(f_hits, 0, sizeof f_hits), f_copied = f_noted = 0;
+    }
+    for (int n = 0; n < 16; n++) {   // the 16 pages with most bytes
+        int best = -1;
+        for (int j = 0; j < f_ntop; j++)
+            if (f_top[j].bytes && (best < 0 || f_top[j].bytes > f_top[best].bytes)) best = j;
+        if (best < 0) break;
+        rt_log("srace-top: f%llu page %#llx of pool [%#llx, %#llx) (%llu KiB): %llu bytes in %llu copies under the frame before",
+               (unsigned long long)frame, (unsigned long long)f_top[best].page, (unsigned long long)f_top[best].pool_lo,
+               (unsigned long long)f_top[best].pool_hi, (unsigned long long)((f_top[best].pool_hi - f_top[best].pool_lo) >> 10),
+               (unsigned long long)f_top[best].bytes, (unsigned long long)f_top[best].hits);
+        f_top[best].bytes = 0;
+    }
+    if (f_ntop) rt_log("srace-top: f%llu %d pages in all, %llu bytes in pages past the first %d", (unsigned long long)frame,
+                       f_ntop, (unsigned long long)f_other, F_TOP);
+    f_ntop = 0, f_other = 0;
+}
+
 void race_log(uint64_t frame) {
     plat_mutex_lock(&race_lock);
+    if (race_on == 3) {   // its own lines, every 120 frames (frame_check)
+        plat_mutex_unlock(&race_lock);
+        return;
+    }
     rt_log("mem: shadow race at frame %llu: %llu copies over ranges a running submission reads, %llu bytes changed; "
            "%d ranges noted; %llu copies waited for it, %.1f ms", (unsigned long long)frame, (unsigned long long)r_hits,
            (unsigned long long)r_bytes, nnotes, (unsigned long long)r_waits, r_wait_ns / 1e6);
