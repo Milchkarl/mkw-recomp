@@ -14,4 +14,4 @@ are one-line wrappers of `run.py`.
 | `at.py` | Commands when the game enters a phase (`AIGlobalSeq*` nodes), with frame offsets | module |
 | `watch.py` | A Monitor's follower: FATAL, guard stops, STALLED (stacks saved), BLACK, and the run's end with its summary | module |
 | `report.py` | `NAME.json`: binary, `MKW_*`, outcome, frame times before and in the race, A/B verdict | module |
-| `launch.py` | The run itself: defaults of race, time trial, Grand Prix and live runs, the host checks, the command, the A/B stop | module |
+| `launch.py` | The run itself: defaults of race, time trial, Grand Prix and live runs (frame generation off; an A/B at a fixed 60 fps), the settings the run takes unseen from the `mkw.ini` beside the binary (said at the start and kept in `NAME.json` as `ini`), the host checks, the command, the A/B stop | module |
