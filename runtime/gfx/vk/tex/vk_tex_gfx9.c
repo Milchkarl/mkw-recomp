@@ -28,15 +28,27 @@
 //
 // The skip: make that one shape without COLOR_ATTACHMENT — sampled, transfer, pool aliasing, the cache and the
 // lifetime logic all unchanged. Without COLOR_ATTACHMENT RADV does not request the 3D-as-2D-array swizzle, and the
-// same sweep shows every remaining configuration legal. RADV on GFX10+ (RDNA), AMD's proprietary driver and the other
-// vendors keep their block views: maxImageDimension3D is 8192 on GFX10 and 16384 on GFX12 (radv_init_image_properties
-// in Mesa: 2048 only below GFX10), and 2D images never take the depth test.
+// same sweep shows every remaining configuration legal. RADV on GFX10+ (RDNA), RADV on GFX6-8, AMD's proprietary
+// driver and the other vendors keep their block views, and 2D images never take the depth test.
+//
+// Which generation (#708 #815): the guard first took RADV's maxImageDimension3D of 2048 as GFX9, but Mesa before 26
+// reports 2048 on RDNA too (radv_init_image_properties: 8192 from GFX10 only since then), and GFX6-8 always do. Those
+// lost the draws into such a volume, a 64x64x64 BC one with 7 levels, and the courses went dark but for the kart's
+// lights: Steam Deck on Mesa 24.3, a Radeon 740M on Mesa 25.0 (fixed by updating to 26.1), an RX 550, and a 7900 XTX
+// on Mesa 25.2-25.3 logged it. Neither has the crash: RDNA's addrlib is Gfx10Lib/Gfx11Lib, whose filter keeps
+// SW_LINEAR for a 3D image viewed as a 2D array, BC formats included (gfx10addrlib.cpp HwlGetPreferredSurfaceSetting:
+// no display-mode filter for 3D mipmaps), and GFX6-8's surface
+// code (ac_surface.c, the mode loop of the GFX6 path) only skips the depth-aligned modes for that flag, with a 1D
+// fallback. So GFX9 is told by what RADV reports, as radv_physical_device.c sets it: a minimum subgroup size of 64
+// (32 from GFX10, wave32) and filterMinmaxImageComponentMapping (from GFX9).
 #include "vk_tex_gfx9.h"
 
-int vk_tex_gfx9_skip_block_ca(int mesa_radv, uint32_t vendor_id, uint32_t max_image_dimension_3d, int image_3d,
-                              uint32_t mip_levels, uint32_t depth, uint32_t width, uint32_t height, uint32_t block_w,
-                              uint32_t block_h) {
-    if (!mesa_radv || vendor_id != 0x1002 || max_image_dimension_3d != 2048) return 0;
-    if (!image_3d || mip_levels <= 1 || !block_w || !block_h) return 0;
+int vk_tex_radv_gfx9(int mesa_radv, uint32_t vendor_id, uint32_t min_subgroup_size, int filter_minmax_mapping) {
+    return mesa_radv && vendor_id == 0x1002 && min_subgroup_size == 64 && filter_minmax_mapping;
+}
+
+int vk_tex_gfx9_skip_block_ca(int radv_gfx9, int image_3d, uint32_t mip_levels, uint32_t depth, uint32_t width,
+                              uint32_t height, uint32_t block_w, uint32_t block_h) {
+    if (!radv_gfx9 || !image_3d || mip_levels <= 1 || !block_w || !block_h) return 0;
     return depth >= (width + block_w - 1) / block_w && depth >= (height + block_h - 1) / block_h;
 }

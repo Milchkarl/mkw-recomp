@@ -477,10 +477,8 @@ static VkDeviceSize image_bytes(VkCtx *c, const VkImageCreateInfo *ci) {
 // RADV's GFX9 addrlib (Vega/Renoir and the rest of the pre-RDNA chips) raises SIGTRAP inside vkCreateImage when this
 // image carries COLOR_ATTACHMENT: the decision, free of Vulkan, is vk_tex_gfx9.c's.
 static int gfx9_no_block_ca(const VkImageCreateInfo *bc, uint32_t bw, uint32_t bh) {
-    VkCtx *c = vk_ctx();
-    return vk_tex_gfx9_skip_block_ca(vk_caps.driver_id == VK_DRIVER_ID_MESA_RADV, c->props.vendorID,
-                                     c->props.limits.maxImageDimension3D, bc->imageType == VK_IMAGE_TYPE_3D,
-                                     bc->mipLevels, bc->extent.depth, bc->extent.width, bc->extent.height, bw, bh);
+    return vk_tex_gfx9_skip_block_ca(vk_radv_gfx9, bc->imageType == VK_IMAGE_TYPE_3D, bc->mipLevels, bc->extent.depth,
+                                     bc->extent.width, bc->extent.height, bw, bh);
 }
 
 static Tex *create_tex_(const tex_t *t, const TexKey *k, int defer_init);
