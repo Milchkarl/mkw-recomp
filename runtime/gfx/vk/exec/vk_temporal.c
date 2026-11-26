@@ -1374,6 +1374,19 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
     uint32_t w = color->w, h = color->h, ow = out->w, oh = out->h;
     int big = retarget_wanted(out->w, out->h);
     if (big) ow = RT.ow, oh = RT.oh;
+    // The upscaler's own picture (uw x uh), blitted into ow x oh below. Above 16:9 the game draws a wider camera into
+    // its 16:9 targets (retarget_wanted), so the scene (1120x630) is narrower than the output (2520x1080) by more than
+    // it is shorter. DLSS keeps one ratio for both sides: the feature that output gives, 1462x630, has no room for a
+    // 1120-wide subrectangle, and every evaluation failed (bad00005, #893). It upscales to the scene's shape at the
+    // output's height (1920x1080, the pair 16:9 runs), and the blit stretches the rest as the game's last pass does.
+    // Within 3% it is the same shape: the game's dynamic resolution rounds its sizes (832x464 of 1280x720, 0.9%), and a
+    // picture size that moved with it would make a feature for each.
+    uint32_t uw = ow, uh = oh;
+    if (T.engine == VK_TMP_DLSS) {
+        uint64_t sa = (uint64_t)w * oh, oa = (uint64_t)ow * h;   // the scene's and the output's shapes, cross-multiplied
+        if (sa * 100 < oa * 97) uw = (uint32_t)((sa + h / 2) / h);
+        else if (oa * 100 < sa * 97) uh = (uint32_t)((oa + w / 2) / w);
+    }
     // the camera: this frame's and the game's own copy of the previous frame's view-projection
     double vp[16], vpp[16], ivp[16], m[16];
     rows4(T.cam, 3, vp);
@@ -1477,7 +1490,7 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
     int ok = 0;
     // the upscaler writes an image of its own, blitted into the game's target (any format, any usage)
     VkFormat of = VK_FORMAT_R16G16B16A16_SFLOAT;
-    if (!own_image(&R.outimg, ow, oh, of)) {
+    if (!own_image(&R.outimg, uw, uh, of)) {
         rec_resume(rec_saved);
         return 0;
     }
@@ -1486,7 +1499,7 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
     if (T.debug == 1 || T.debug == 2) {
         // the motion vectors (or the depth) scaled into the output, for a look: blit of the vector image
         VkImageBlit bl = {{VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)w, (int32_t)h, 1}},
-                          {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)ow, (int32_t)oh, 1}}};
+                          {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)uw, (int32_t)uh, 1}}};
         VkClearColorValue cc = {{0.5f, 0.5f, 0.5f, 1}};
         VkImageSubresourceRange rr = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1};
         vkCmdClearColorImage(cb, R.outimg.img, VK_IMAGE_LAYOUT_GENERAL, &cc, 1, &rr);
@@ -1496,11 +1509,11 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
                            VK_FILTER_NEAREST);
         ok = 1;
     } else if (T.engine == VK_TMP_DLSS) {
-        if (dlss_feature(cb, w, h, ow, oh, hdr)) {
+        if (dlss_feature(cb, w, h, uw, uh, hdr)) {
             NgxParam *p = NULL;
             if (NGX_OK(N.alloc_params(&p)) && p) {
                 NgxResourceVK rc = res_image(cview, color->image, color->format, w, h, VK_IMAGE_ASPECT_COLOR_BIT, 0);
-                NgxResourceVK ro = res_image(R.outimg.view, R.outimg.img, of, ow, oh, VK_IMAGE_ASPECT_COLOR_BIT, 1);
+                NgxResourceVK ro = res_image(R.outimg.view, R.outimg.img, of, uw, uh, VK_IMAGE_ASPECT_COLOR_BIT, 1);
                 NgxResourceVK rz = res_image(zview, T.depth.image, T.depth.format, w, h, VK_IMAGE_ASPECT_DEPTH_BIT, 0);
                 NgxResourceVK rm = res_image(MV->view, MV->img, VK_FORMAT_R16G16_SFLOAT, w, h, VK_IMAGE_ASPECT_COLOR_BIT, 0);
                 p_setp(p, "Color", &rc);
@@ -1525,15 +1538,15 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
         }
     } else if (T.engine == VK_TMP_FSR3) {
         VkTmpRes rc = {color->image, color->format, w, h}, rz = {Z->img, VK_FORMAT_R32_SFLOAT, w, h},
-                 rm = {MV->img, VK_FORMAT_R16G16_SFLOAT, w, h}, ro = {R.outimg.img, of, ow, oh};
+                 rm = {MV->img, VK_FORMAT_R16G16_SFLOAT, w, h}, ro = {R.outimg.img, of, uw, uh};
         ok = vk_tmp_ffx_upscale(cb, &rc, &rz, &rm, &ro, jx, jy, T.reset, frame_ms, znear, zfar, fov, hdr, T.sharp);
         if (!ok && T.fails++ < 4) rt_log("temporal: FSR 3.1 upscale failed");
     }
     VkImage pic = R.outimg.img;   // what goes to the screen target: the upscaler's picture, or CAS's of it
-    if (ok && T.cas >= 0.f && T.debug != 1 && cas_init() && own_image(&R.casimg, ow, oh, of) &&
+    if (ok && T.cas >= 0.f && T.debug != 1 && cas_init() && own_image(&R.casimg, uw, uh, of) &&
         (R.casimg.usage & VK_IMAGE_USAGE_STORAGE_BIT)) {
         barrier_all(cb);
-        float pc[4] = {T.cas, (float)ow, (float)oh, 0.f};
+        float pc[4] = {T.cas, (float)uw, (float)uh, 0.f};
         VkDescriptorImageInfo si = {R.samp, R.outimg.view, VK_IMAGE_LAYOUT_GENERAL};
         VkDescriptorImageInfo so = {VK_NULL_HANDLE, R.casimg.view, VK_IMAGE_LAYOUT_GENERAL};
         VkWriteDescriptorSet wr[2] = {
@@ -1544,12 +1557,12 @@ static int run_upscaler(VkExec *ex, const Img *color, const Img *out, int via_dr
         vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, R.cas);
         R.push(cb, VK_PIPELINE_BIND_POINT_COMPUTE, R.layout, 0, 2, wr);
         vkCmdPushConstants(cb, R.layout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof pc, pc);
-        vkCmdDispatch(cb, (ow + 7) / 8, (oh + 7) / 8, 1);
+        vkCmdDispatch(cb, (uw + 7) / 8, (uh + 7) / 8, 1);
         pic = R.casimg.img;
     }
     if (ok) {
         barrier_all(cb);
-        VkImageBlit bl = {{VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)ow, (int32_t)oh, 1}},
+        VkImageBlit bl = {{VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)uw, (int32_t)uh, 1}},
                           {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, 1}, {{0, 0, 0}, {(int32_t)ow, (int32_t)oh, 1}}};
         VkImage dst = out->image;
         if (big && own_image(&R.big, ow, oh, out->format) && (R.big.usage & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)) {
