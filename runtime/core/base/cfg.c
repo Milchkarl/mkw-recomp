@@ -318,6 +318,7 @@ static const CfgRow rows[] = {
     K("REG_LATE"),
     K("REG_QUEUED"),
     K("REPLAY_CHECK"),
+    K("REPLAY_PAR"),
     K("RESOLVE_CHECK"),
     K("ROMFS"),
     K("ROMFS_MODS"),
@@ -405,7 +406,11 @@ static void add(char *key, char *value, int line) {
     key = norm_key(key);
     value = unquote(value);
     if (!*key) return;
-    if (!is_known(key)) rt_log("cfg: mkw.ini line %d: unknown key '%s'", line, key);
+    // Not in the table, still read: cfg_get takes any MKW_ name from here, like the environment (#637: REPLAY_PAR = 0
+    // was applied, and "unknown key" made it look ignored)
+    if (!is_known(key))
+        rt_log("cfg: mkw.ini line %d: '%s' is not one of the settings' keys: still read as MKW_%s (a misspelt name "
+               "does nothing)", line, key, key);
     if (!*value) return;   // "key =" leaves the setting at its default
     for (int i = 0; i < n_entries; i++)
         if (!strcmp(entries[i].key, key)) {   // a repeated key: the later line wins
