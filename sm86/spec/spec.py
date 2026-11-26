@@ -230,9 +230,12 @@ def inject(proc: subprocess.Popen, dll: Path) -> None:
 
 def run_nvdisasm(nvdisasm: Path, lib: Path, cubin: Path) -> bytes:
     if not WINDOWS:
-        env = dict(os.environ, LD_PRELOAD=str(lib), OMP_NUM_THREADS="1", OMP_THREAD_LIMIT="1")
-        p = subprocess.run([str(nvdisasm), str(cubin)], env=env, capture_output=True, check=True,
-                           preexec_fn=no_aslr)  # fmt: skip
+        # ld.so splits LD_PRELOAD at spaces and colons, so a folder like "Recomp Library" cut the path in two and the
+        # library never loaded (issue #904, fix by QguAr71): nvdisasm runs in the library's folder and LD_PRELOAD names
+        # it relative to it ("./": a bare name would be searched in the library path, not the working folder).
+        env = dict(os.environ, LD_PRELOAD="./" + lib.name, OMP_NUM_THREADS="1", OMP_THREAD_LIMIT="1")
+        p = subprocess.run([str(nvdisasm.resolve()), str(cubin.resolve())], env=env, capture_output=True, check=True,
+                           preexec_fn=no_aslr, cwd=lib.parent)  # fmt: skip
         if not MARK.search(p.stdout):
             # ld.so skips a library it cannot map ("cannot be preloaded"), and nvdisasm then prints plain SASS
             raise OSError(

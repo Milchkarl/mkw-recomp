@@ -34,6 +34,13 @@ fixed = "v0.1.5"
 what = "the shader step split the compiler's path at a space in the game folder"
 
 [[signature]]
+issue = 904
+wiki = "setup-errors-fixed-in-old-releases"
+all = ["from LD_PRELOAD cannot be preloaded", "nothing was captured"]
+fixed = "v0.1.19"
+what = "Linux: the shader step split the path of its helper library at a space in the game folder (`LD_PRELOAD`)"
+
+[[signature]]
 issue = 18
 wiki = "is-not-mario-kart-world-100--is-not-a-known-version-of-mario-kart-world"
 all = ["is not Mario Kart World 1.0.0 (build id"]
