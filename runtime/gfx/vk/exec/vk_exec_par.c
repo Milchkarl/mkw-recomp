@@ -632,7 +632,11 @@ static void setup(void) {
     P.head_draws = e ? atoi(e) : 256;
     e = cfg_get("MKW_REPLAY_PAR_THREADS");   // threads besides the replay thread
     uint32_t cpus = plat_cpu_count();
-    P.threads = e ? atoi(e) : cpus >= 8 ? 3 : cpus >= 4 ? 2 : 1;
+    // 5 from 12 logical CPUs: in a 2-player race the replay waited 6.3 ms a frame for its chunks with the 3 threads
+    // busy 6.4 ms each (off-CPU profile, sim2-off2); with 5 its median went from 15.4-15.9 ms to 13.9 and the frame
+    // from 22.1-22.9 to 21.1 (Ryzen 5 7535HS, 6 cores and 12 threads, simulated GPU; sim2-t5b against sim2-t3b,
+    // sim2-tr and sim2-notr).
+    P.threads = e ? atoi(e) : cpus >= 12 ? 5 : cpus >= 8 ? 3 : cpus >= 4 ? 2 : 1;
     if (P.threads < 0) P.threads = 0;   // 0: the chunks in order on the replay thread (a check of the chunking alone)
     // MKW_REPLAY_PAR_DEPTH=0 (a measurement): as before 07/11/2026, chunks after the first clear depth layer by layer
     // and are cut between the layers of one depth image.
