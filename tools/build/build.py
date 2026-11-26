@@ -423,6 +423,9 @@ def main() -> None:
         "--sysroot", type=Path,
         help="Linux: compile and link against this sysroot (tools/build/sysroot.py: glibc 2.31, the release)",
     )  # fmt: skip
+    ap.add_argument("--gen-opt", choices=("1", "2", "3"), default="1",
+                    help="optimization level of the generated C (a measurement; with its own --out: the default "
+                         "objects stay for the next default build)")  # fmt: skip
     ap.add_argument("--dry-run", action="store_true", help="write build.ninja and show what would run")
     ap.add_argument(
         "--frame-pointers",
@@ -430,6 +433,7 @@ def main() -> None:
         help="runtime with frame pointers: perf call graphs (-g) of where threads block, e.g. -e cs",
     )
     args = ap.parse_args()
+    GEN_BASE_FLAGS[0] = GEN_FLAGS[0] = f"-O{args.gen_opt}"
     if args.gen is None and not args.runtime_only:
         try:
             args.gen = versions.default_gen(args.exefs)
