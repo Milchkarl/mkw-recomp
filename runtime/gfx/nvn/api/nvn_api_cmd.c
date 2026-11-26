@@ -276,6 +276,10 @@ int nvn_handle_live(uint64_t handle) {
     return live;
 }
 
+// A copy being submitted (live or a clone; nvn_qorder.c): its size is in its prefix, read without copy_lock because
+// nothing frees or changes it while its submission is in use.
+uint64_t nvn_copy_size(uint64_t handle) { return ((const copy_prefix *)(uintptr_t)handle - 1)->bytes; }
+
 uint64_t nvn_handle_bytes(uint64_t handle) {
     plat_mutex_lock_shared(&copy_lock);
     const copy_prefix *pf = copy_find(handle);
@@ -590,6 +594,14 @@ int nvn_report_at_submit(void) {
     return on;
 }
 volatile uint32_t *nvn_sub_event_val[64];   // the first 64 events the submission signals
+const uint8_t *nvn_sub_evop[NVN_SUB_EVOPS];
+int nvn_sub_nevop;
+
+static void evop_note(const uint8_t *p) {
+    if (nvn_sub_nevop < 0) return;
+    if (nvn_sub_nevop == NVN_SUB_EVOPS) nvn_sub_nevop = -1;
+    else nvn_sub_evop[nvn_sub_nevop++] = p;
+}
 
 // MKW_EARLY_READ (core/memory/memory_early.c): what this submit's GPU work writes in CPU-visible memory, listed by the walk
 // below and watched from the submit (nvnQueueSubmitCommands) with its fence. Under the submit lock.
@@ -665,8 +677,10 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
         } else if (h.op == OP_SIGNAL_EVENT) {
             if (nvn_sub_events < 64) nvn_sub_event_val[nvn_sub_events] = ((const p_signal_event *)(uintptr_t)(p + 8))->val;
             nvn_sub_events++;
+            evop_note(p);
         } else if (h.op == OP_WAIT_EVENT) {
             nvn_sub_waits++;
+            evop_note(p);
         } else if (h.op == OP_DRAW_IDX_IND) {   // the arguments, read when the console's GPU would
             p_draw_idx_ind *d = (p_draw_idx_ind *)(uintptr_t)(p + 8);
             if (!d->count && d->ind && !(d->ind & 3) && !nvn_gpu_only(d->ind)) {
@@ -694,7 +708,7 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
 }
 
 void nvn_submit_prepare(const uint64_t *handles, int n) {
-    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0;
+    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     for (int i = 0; i < n; i++) copy_touch(handles[i], now, "QueueSubmitCommands");
@@ -704,7 +718,7 @@ void nvn_submit_prepare(const uint64_t *handles, int n) {
 // Asynchronous replay. A copy a queued submission still reads keeps that submission's deferred binds: when it holds
 // deferred binds (or is not known to hold none), this submission gets a clone, resolved here and freed after its replay.
 void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
-    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0;
+    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     uint64_t replayed = gfx_replayed_submits();
@@ -746,13 +760,17 @@ uint64_t nvn_submit_count(void) { return __atomic_load_n(&nsubmits, __ATOMIC_REL
 
 // A recording made of ops [ops, ops + n) (no OP_BEGIN or OP_END among them) for the replay alone (nvn_qorder.c's
 // streams): freed once the replay reached the newest submission, as the clones are.
-uint64_t nvn_stream_handle(const uint8_t *ops, size_t n) {
+uint8_t *nvn_stream_alloc(size_t n) {   // where the n bytes of ops go (nvn_stream_commit makes the recording)
     copy_prefix *pf = malloc(sizeof *pf + n + 16);
     if (!pf) rt_fatal("nvn: out of memory (queue order stream, %zu bytes)", n);
-    uint8_t *p = (uint8_t *)(pf + 1);
+    return (uint8_t *)(pf + 1) + 8;
+}
+
+uint64_t nvn_stream_commit(uint8_t *ops, size_t n) {
+    uint8_t *p = ops - 8;
+    copy_prefix *pf = (copy_prefix *)(void *)p - 1;
     put_hdr(p, OP_BEGIN, 8);
-    memcpy(p + 8, ops, n);
-    put_hdr(p + 8 + n, OP_END, 8);
+    put_hdr(ops + n, OP_END, 8);
     plat_mutex_lock(&copy_lock);
     *pf = (copy_prefix){0, n + 16, nsubmits, nsubmits, 1};
     zombie_add(pf);

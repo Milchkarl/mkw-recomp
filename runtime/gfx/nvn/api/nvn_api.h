@@ -98,7 +98,8 @@ void nvn_event_cpu_signal(volatile uint32_t *val);   // nvnEventSignal: nvn_qord
 int nvn_qorder_submit(const void *queue, const uint64_t *handles, int n, void **fe);
 void nvn_qorder_attach(void *fe, void *slot);
 void nvn_qorder_views(int views);   // replay: shadow-map runs, MKW_QUEUE_WAITS=auto
-uint64_t nvn_stream_handle(const uint8_t *ops, size_t n);   // nvn_api_cmd.c: a replay-only recording of these ops
+uint8_t *nvn_stream_alloc(size_t n);                        // nvn_api_cmd.c: room for n bytes of ops, written there,
+uint64_t nvn_stream_commit(uint8_t *ops, size_t n);         // then a replay-only recording of them
 typedef struct { uint64_t type, addr; } p_report_counter;  // OP_REPORT_COUNTER: NVNcounterType, NVNcounterData address
 typedef struct { uint64_t type; } p_reset_counter;         // OP_RESET_COUNTER
 typedef struct { uint64_t src, dst, size; } p_copy_b2b;    // OP_COPY_B2B: GPU addresses
@@ -122,12 +123,18 @@ static inline const void *nvn_op_payload(const op_hdr *h) { return h + 1; }
 int nvn_handle_live(uint64_t handle);                      // 1 while the handle's copy exists (its control memory was
                                                            // not added again)
 uint64_t nvn_handle_bytes(uint64_t handle);                // bytes of the copy, OP_BEGIN to OP_END; 0 if not live
+uint64_t nvn_copy_size(uint64_t handle);                   // the same for a copy being submitted, without the lock
 extern uint32_t nvn_sub_sp_reports, nvn_sub_reports, nvn_sub_events, nvn_sub_waits;
 #define NVN_EARLY_MAX 4096
 typedef struct { uint64_t addr, size; int kind; } NvnEarlyDst;   // MKW_EARLY_READ: a submit's GPU write destinations
 extern NvnEarlyDst nvn_sub_dst[NVN_EARLY_MAX];
 extern int nvn_sub_ndst;
 extern volatile uint32_t *nvn_sub_event_val[64];
+// The submission's event ops (OP_SIGNAL_EVENT and OP_WAIT_EVENT) in op order, found by resolve_deferred's walk at
+// submit, so nvn_qorder.c follows the events without walking every op again; -1 when there were more than fit.
+#define NVN_SUB_EVOPS 256
+extern const uint8_t *nvn_sub_evop[NVN_SUB_EVOPS];
+extern int nvn_sub_nevop;
 int nvn_report_at_submit(void);   // MKW_REPORT_AT_SUBMIT (nvn_api_cmd.c)   // the submission being prepared (nvn_api_cmd.c)
 uint64_t nvn_submit_count(void);                           // QueueSubmitCommands calls so far
 const char *nvn_op_name(uint32_t op);                      // "DRAW_IDX", ...; "?" past OP_COUNT_
