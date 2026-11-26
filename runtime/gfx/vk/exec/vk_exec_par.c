@@ -125,6 +125,7 @@ static struct {
     uint64_t n_inpass;    // chunks cut inside a pass (at twice their draws without a target change)
     uint64_t n_qcut;      // chunks cut at a queue switch
     uint64_t n_pre, pre_ns;   // slots checked ahead, and the time (precheck)
+    uint64_t work_ns, max_work_ns;   // chunk_record on every thread, summed (atomic), and the longest chunk
     // where the first send waits (summed over submissions): chunk 0's draws, walk start to its hand-out, to its record
     uint64_t t_walk, ch0_draws, ch0_pub_ns, ch0_rdy_ns;
     int wdraws;           // the walk's draws so far
@@ -523,6 +524,7 @@ static VkCommandBuffer chunk_cb(int t, uint64_t fence) {
 static void chunk_record(int k, int t, int again) {
     Chunk *c = &P.ch[k];
     VkExec *ex = c->ex;
+    uint64_t w0 = kern_now_ns();
     if (again) *ex = *c->ex0, memset(&c->counters, 0, sizeof c->counters);   // the first recording is not submitted
     else *c->ex0 = *ex;
     ex->cb = c->cb = chunk_cb(t, P.fence);
@@ -558,6 +560,9 @@ static void chunk_record(int k, int t, int again) {
     vk_exec_xfer_again(0);
     vk_mem_recording(t == 0 ? P.fence : 0);   // the replay thread goes on recording the submission
     c->drops = vk_usnap_thread_drops() - d0;
+    uint64_t w = kern_now_ns() - w0, m = __atomic_load_n(&P.max_work_ns, __ATOMIC_RELAXED);
+    __atomic_fetch_add(&P.work_ns, w, __ATOMIC_RELAXED);
+    while (w > m && !__atomic_compare_exchange_n(&P.max_work_ns, &m, w, 1, __ATOMIC_RELAXED, __ATOMIC_RELAXED)) {}
 }
 
 static void send_ready(int wait);
@@ -822,7 +827,9 @@ void vk_exec_par_log(void) {
                "slots checked ahead %.0f per frame in %.3f ms (MKW_REPLAY_PAR_PRECHECK); "
                "chunks handed out during the walk in %llu submissions (MKW_REPLAY_PAR_PIPE); first chunk %.0f draws, "
                "handed out %.2f ms after the walk began and recorded %.2f ms after that; "
-               "serial heads %llu of %.0f draws in %.2f ms (MKW_REPLAY_PAR_HEAD)", (unsigned long long)P.n_par,
+               "serial heads %llu of %.0f draws in %.2f ms (MKW_REPLAY_PAR_HEAD); "
+               "the chunks' recording %.3f ms per frame summed over the threads, the longest chunk %.2f ms",
+               (unsigned long long)P.n_par,
                P.n_par ? (double)P.n_chunks / (double)P.n_par : 0, P.n_par ? (double)P.n_draws / (double)P.n_par : 0,
                (unsigned long long)(P.n_serial[WHY_REPORT] + P.n_serial[WHY_RESET] + P.n_serial[WHY_COND] +
                                     P.n_serial[WHY_QUEUE]),
@@ -837,7 +844,10 @@ void vk_exec_par_log(void) {
                (unsigned long long)P.n_pipe, P.n_par ? (double)P.ch0_draws / (double)P.n_par : 0,
                P.n_par ? (double)P.ch0_pub_ns / 1e6 / (double)P.n_par : 0, P.n_par ? (double)P.ch0_rdy_ns / 1e6 / (double)P.n_par : 0,
                (unsigned long long)P.n_head, P.n_head ? (double)P.head_ndraws / (double)P.n_head : 0,
-               P.n_head ? (double)P.head_ns / 1e6 / (double)P.n_head : 0);
+               P.n_head ? (double)P.head_ns / 1e6 / (double)P.n_head : 0,
+               (double)__atomic_load_n(&P.work_ns, __ATOMIC_RELAXED) / 1e6 / (double)nf,
+               (double)__atomic_load_n(&P.max_work_ns, __ATOMIC_RELAXED) / 1e6);
+    __atomic_store_n(&P.work_ns, 0, __ATOMIC_RELAXED), __atomic_store_n(&P.max_work_ns, 0, __ATOMIC_RELAXED);
     P.walk_ns = P.rec_ns = P.max_rec_ns = P.first_ns = P.n_par = P.n_chunks = P.n_draws = P.drops_early = P.w_subs = P.n_cond = P.n_again = 0;
     P.n_inpass = P.n_qcut = P.n_pre = P.pre_ns = P.n_pipe = P.ch0_draws = P.ch0_pub_ns = P.ch0_rdy_ns = 0;
     P.n_head = P.head_ndraws = P.head_ns = 0;
