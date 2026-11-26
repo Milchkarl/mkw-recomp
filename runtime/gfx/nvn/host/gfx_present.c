@@ -507,6 +507,13 @@ static VkPresentModeKHR pick_present_mode(VkPhysicalDevice pd) {
     if ((int)got != logged) {
         logged = (int)got;
         rt_log("gfx: present mode %s%s (MKW_VK_PRESENT=%s)", name, got == VK_PRESENT_MODE_FIFO_RELAXED_KHR ? " relaxed" : "", e);
+        if (got != want) {   // why not the one asked for: frame generation, or the surface does not offer it
+            char offered[128] = "";
+            for (uint32_t i = 0; i < n; i++)
+                snprintf(offered + strlen(offered), sizeof offered - strlen(offered), " %d", (int)m[i]);
+            rt_log("gfx: present mode: asked for %s, frame generation %s, the surface offers VkPresentModeKHR%s",
+                   e, vk_fg_wanted() ? "wanted" : "off", offered);
+        }
     }
     return got;
 }
