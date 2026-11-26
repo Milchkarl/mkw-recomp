@@ -869,10 +869,14 @@ def test_lastrun_reads_how_the_last_game_ended() -> None:
     assert lastrun.verdict("[host] frame 300\n", "0.1.11", sigs) == ""   # killed or power off: nothing to say
     # a hang the player closed the window on is a crash; one that ended ("slow, not hung") before the close is clean
     hang = "vk: the GPU has not finished submission 7 in 5.0 s and the driver reports no device loss\n"
-    slow = "vk: the GPU finished submission 7 after 6.2 s: it was slow, not hung\n"
+    ended = "vk: the GPU's wait for submission 7 ended after 6.2 s: slow, or the kernel reset the GPU\n"
+    slow = "vk: the GPU finished submission 9 after submission 7: it was slow, not hung\n"
     closed = "[host] gfx: window closed; exiting\n"
     assert lastrun.verdict(hang + closed, "0.1.11", sigs) == "crash"
-    assert lastrun.verdict(hang + slow + closed, "0.1.11", sigs) == "clean"
+    assert lastrun.verdict(hang + ended + slow + closed, "0.1.11", sigs) == "clean"
+    # the wait ended because the kernel reset the GPU (#860): no later submission finishes, the device is lost
+    assert lastrun.verdict(hang + ended + "FATAL: vk: upload submit failed (-4)\n", "0.1.11", sigs) == "crash"
+    assert lastrun.verdict(hang + ended + closed, "0.1.11", sigs) == "crash"
     assert lastrun.verdict(slow + hang + closed, "0.1.11", sigs) == "crash"
     assert lastrun.verdict(closed + "[host] FATAL: SIGSEGV during shutdown\n", "0.1.11", sigs) == "crash"
     assert lastrun.verdict(closed + "vk: device fault: Instruction pointer invalid\n", "0.1.11", sigs) == "known 22"

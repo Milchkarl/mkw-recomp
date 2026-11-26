@@ -27,7 +27,9 @@ TAIL = 16 << 20  # bytes read from the end of the log: a log stops at 64 MiB, th
 CLEAN = ("gfx: window closed; exiting", "guest ExitProcess at")  # runtime/gfx/nvn/host/gfx_present.c, core/kernel/svc.c
 CRASH = re.compile(r"FATAL|device lost|DEVICE_LOST|vk: device fault|fatal signal", re.I)
 HANG = "vk: the GPU has not finished submission"  # runtime/gfx/vk/device/vk_sync.c: the watchdog, after 5 s without progress
-SLOW = "it was slow, not hung"  # the same file, logged once such a wait ends: the hang was a long submission
+# The same file, logged once a submission made after the reported one finishes: the hang was a long submission. A wait
+# the kernel ended by resetting the GPU (#860) never gets it, as the next submission finds the device lost.
+SLOW = "it was slow, not hung"
 
 
 def vkey(tag: str) -> tuple[int, ...]:

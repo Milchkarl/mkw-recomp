@@ -282,10 +282,18 @@ static void completion_main(void *arg) {
             // Once per stuck episode: a false report during a long load does not use up a later real one.
             static uint64_t stuck_since;   // this thread only
             static int hang_logged;
+            static uint64_t slow_of, slow_after;   // a reported submission that ended, and the newest issued then
+            uint64_t ended = 0;
             if (reached >= want) {
-                if (hang_logged)   // a long submission, not a hang: 4 of 22 Deck runs (0.1.11, 2 s), all in loads
-                    rt_log("vk: the GPU finished submission %llu after %.1f s: it was slow, not hung",
+                // A long submission, not a hang, in 4 of 22 Deck runs (0.1.11, 2 s), all in loads. But this wait also
+                // ends when the kernel kills the job: amdgpu signals its fence at lockup_timeout (#860: 1.9 s under the
+                // 2 s default, 10.3 s under 10 s; #901: 14.6 s) and the lost device shows at the next submit. So the
+                // verdict waits for a submission made after this one ended to finish.
+                if (hang_logged) {
+                    rt_log("vk: the GPU's wait for submission %llu ended after %.1f s: slow, or the kernel reset the GPU",
                            (unsigned long long)want, (kern_now_ns() - stuck_since) / 1e9);
+                    ended = want;
+                }
                 stuck_since = 0, hang_logged = 0;
             } else if (!stuck_since) stuck_since = kern_now_ns();
             else if (hang && !hang_logged && kern_now_ns() - stuck_since >= hang) {
@@ -297,6 +305,12 @@ static void completion_main(void *arg) {
             plat_mutex_lock(&st_lock);
             if (reached > issued) reached = issued;
             if (reached > done) vk_tl_reached(done, reached, 0);
+            if (ended) slow_of = ended, slow_after = issued;
+            else if (slow_of && reached > slow_after) {   // lastrun.py reads "it was slow, not hung"
+                rt_log("vk: the GPU finished submission %llu after submission %llu: it was slow, not hung",
+                       (unsigned long long)reached, (unsigned long long)slow_of);
+                slow_of = 0;
+            }
         }
         while (qn && queue[qhead].fence <= reached) {
             Pending p = queue[qhead++];
