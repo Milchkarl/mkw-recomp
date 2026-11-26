@@ -1,9 +1,10 @@
 // The Tools page's jobs (launcher_tools.h). A thread starts the script and reads all its output when it ends
-// (SDL_ReadProcess): the scripts print one line, so there is nothing to stream, and the UI thread never waits.
+// (proc_read): the scripts print one line, so there is nothing to stream, and the UI thread never waits.
 #include <SDL3/SDL.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/launcher_setup.h"
 #include "ui/launcher/launcher_tools.h"
 
@@ -28,14 +29,14 @@ static void finish(int phase, const char *line) {
 }
 
 static int SDLCALL run(void *) {
-    SDL_Process *p = SDL_CreateProcess(g_cmd.argv, true);
+    SDL_Process *p = proc_spawn(g_cmd.argv, true);
     if (!p) {
         finish(TOOL_FAILED, SDL_GetError());
         return 0;
     }
     size_t n = 0;
     int code = -1;
-    char *out = (char *)SDL_ReadProcess(p, &n, &code);
+    char *out = (char *)proc_read(p, &n, &code);
     SDL_DestroyProcess(p);
     // the last non-empty line: "done <what>" or "error <code> <detail>"
     char none[1] = "", *line = out ? out : none;

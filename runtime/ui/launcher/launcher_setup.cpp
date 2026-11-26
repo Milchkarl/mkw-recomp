@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/launcher_setup.h"
 
 extern "C" {
@@ -113,7 +114,7 @@ static int SDLCALL reader(void *) {
         on_line(line);
     }
     int code = -1;
-    SDL_WaitProcess(g_proc, true, &code);
+    proc_wait(g_proc, true, &code);
     SDL_DestroyProcess(g_proc);
     g_proc = nullptr;
     SetupState s = setup_state();
@@ -145,7 +146,7 @@ void setup_start(const char *exe_dir, const char *game_dir, const char *source, 
     if (link_romfs < 0) args[11] = nullptr;
     rt_log("setup: %s %s --game %s --runtime %s --source %s --romfs %s", python, script, game_dir, exe_dir, source ? source : "(last)",
            link_romfs < 0 ? "(last)" : link_romfs ? "link" : "copy");
-    g_proc = SDL_CreateProcess(args, true);
+    g_proc = proc_spawn(args, true);
     if (!g_proc) {
         set_finished(-1, "", SDL_GetError());
         return;

@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #endif
 
+#include "ui/launcher/launcher_proc.h"
 #include "imgui.h"
 #include "ui/launcher/launcher_setup.h"
 #include "ui/launcher/mods.h"
@@ -616,7 +617,7 @@ static int SDLCALL reader(void *) {
         on_line(line);
     }
     int code = -1;
-    SDL_WaitProcess(G.proc, true, &code);
+    proc_wait(G.proc, true, &code);
     SDL_DestroyProcess(G.proc);
     G.proc = nullptr;
     ModsState s = mods_state();
@@ -659,7 +660,7 @@ void mods_import_start(const char *exe_dir) {
     args[na] = nullptr;
     rt_log("mods: %s %s --game %s %s %s%s%s", python, script, cfg_game_dir(), kind, G.pick,
            G.name[0] ? " --name " : "", G.name[0] ? G.name : "");
-    G.proc = SDL_CreateProcess(args, true);
+    G.proc = proc_spawn(args, true);
     if (!G.proc) {
         set_finished(-1, "", SDL_GetError());
         return;
@@ -715,7 +716,7 @@ static int SDLCALL merge_reader(void *) {
         merge_line(line);
     }
     int code = -1;
-    SDL_WaitProcess(G.mproc, true, &code);
+    proc_wait(G.mproc, true, &code);
     SDL_DestroyProcess(G.mproc);
     G.mproc = nullptr;
     int ok = code == 0;
@@ -754,7 +755,7 @@ void mods_merge_start(const char *exe_dir) {
     const char *args[] = {python, "-I", script, "--game", cfg_game_dir(), "--romfs", romfs,
                           "--enable", mods, "--choices", choices, nullptr};
     rt_log("mods: merge %s", mods);
-    G.mproc = SDL_CreateProcess(args, true);
+    G.mproc = proc_spawn(args, true);
     if (!G.mproc) {
         merge_finished(-1, "", SDL_GetError());
         return;
@@ -941,13 +942,13 @@ void mods_merge_sync(const char *exe_dir) {
     const char *args[] = {python, "-I", script, "--game", cfg_game_dir(), "--romfs", romfs,
                           "--enable", mods, "--choices", choices, nullptr};
     rt_log("mods: merge at Play %s", mods);
-    SDL_Process *proc = SDL_CreateProcess(args, false);   // output inherits ours: the log shows it
+    SDL_Process *proc = proc_spawn(args, false);   // output inherits ours: the log shows it
     if (!proc) {
         rt_log("mods: merge at Play failed to start: %s", SDL_GetError());
         return;
     }
     int code = -1;
-    SDL_WaitProcess(proc, true, &code);
+    proc_wait(proc, true, &code);
     SDL_DestroyProcess(proc);
     rt_log("mods: merge at Play ended with code %d", code);
     mods_refresh(exe_dir);

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui/launcher/launcher_proc.h"
 #include "ui/launcher/libs_fetch.h"
 #include "ui/launcher/launcher_setup.h"
 
@@ -56,7 +57,7 @@ static int SDLCALL reader(void *) {
         SDL_UnlockMutex(g_lock);
     }
     int code = -1;
-    SDL_WaitProcess(g_proc, true, &code);
+    proc_wait(g_proc, true, &code);
     SDL_DestroyProcess(g_proc);
     SDL_LockMutex(g_lock);
     g_proc = nullptr;
@@ -89,7 +90,7 @@ static void start_locked(const char *features) {
     *cut = 0;
     if (!setup_tool(dir, "prepare/libs.py", python, script, sizeof python)) return fail_locked("no setup tools");
     const char *args[] = {python, "-I", script, "fetch", "--features", features, "--dir", dir, nullptr};
-    g_proc = SDL_CreateProcess(args, true);
+    g_proc = proc_spawn(args, true);
     if (!g_proc) return fail_locked(SDL_GetError());
     SDL_DetachThread(SDL_CreateThread(reader, "libs-fetch", nullptr));
 }
