@@ -78,6 +78,12 @@ all = ["physical pool chunk", "device-local allocation failed"]
 what = "blocks of the game's GPU memory get no video memory on a 4 GB card and draw wrong (a dark band, flashing colours)"
 
 [[signature]]
+issue = 554
+wiki = "amd-polaris-on-linux-radv-stuck-at-the-loading-screen-after-first-write-to-level-10"
+all = ["first write to level 10 of 8192x8192", "RADV POLARIS"]
+what = "on Polaris with RADV the game stops right after the first writes to a large sparse texture's smallest levels"
+
+[[signature]]
 issue = 111
 wiki = "amd-on-windows-a-draw-gave-up-on-its-pipeline-after-30000-ms"
 all = ["a draw gave up on its pipeline after 30000 ms", "AMD proprietary driver"]
