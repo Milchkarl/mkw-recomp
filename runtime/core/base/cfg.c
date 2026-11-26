@@ -348,6 +348,7 @@ static const CfgRow rows[] = {
     K("TEMPORAL_NGX"),
     K("TEX_OVERWRITTEN"),
     K("TEX_PRESSURE"),
+    K("TEX_RACE_PURGE"),
     K("TEX_RELEASED_MIB"),
     K("TRACE_UBO"),
     K("TRACE_UBO_OUT"),

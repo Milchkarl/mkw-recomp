@@ -27,6 +27,7 @@
 
 static struct {
     int on, stop;
+    volatile int32_t drop;      // vk_headroom_drop: the anchors go at the next wake-up
     PlatMutex lock;             // held around each top-up; vk_headroom_stop takes it before the allocator goes
     int started;
     PlatEvent ev;               // auto-reset: another thread allocated, or stop
@@ -142,12 +143,22 @@ static void headroom_main(void *arg) {
         const VkCtx *c = H.stop ? NULL : vk_ctx();
         for (uint32_t t = 0; c && t < c->mem_props.memoryTypeCount && t < 64; t++)
             if (watch >> t & 1) top_up(c, t);
+        if (plat_xchg32(&H.drop, 0) && c)   // after the top-ups: a block they made goes too
+            for (uint32_t t = 0; t < 64; t++) drop_anchor(c, t);
         int stop = H.stop;
         if (stop && (c = vk_ctx()))
             for (uint32_t t = 0; t < 64; t++) drop_anchor(c, t);
         plat_mutex_unlock(&H.lock);
         if (stop) return;
     }
+}
+
+// The spare blocks held ahead go (MKW_TEX_RACE_PURGE: after its textures, so their blocks can empty and leave). On the
+// headroom thread, so the replay thread that asks does not wait for its lock; new ones come only with room again.
+void vk_headroom_drop(void) {
+    if (!H.started) return;
+    plat_xchg32(&H.drop, 1);
+    plat_event_set(&H.ev);
 }
 
 // Before the allocator is destroyed: waits for a running top-up, frees the anchors, and the thread allocates no more.
