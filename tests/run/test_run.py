@@ -249,3 +249,5 @@ def test_runs_measure_without_frame_generation_and_ab_at_a_fixed_rate(runenv: Pa
     assert plain["MKW_FRAMEGEN"] == "off" and "MKW_FPS" not in plain
     ab = launch.make_plan("i2", "race", None, {"MKW_INPUT_SCRIPT": "none", "MKW_AB": "1", "MKW_FRAMEGEN": "2"}).env
     assert ab["MKW_FPS"] == "60" and ab["MKW_FRAMEGEN"] == "2"
+    sim = launch.make_plan("i3", "race", None, {"MKW_INPUT_SCRIPT": "none", "MKW_GPU_SIM": "1.35"}).env
+    assert sim["MKW_FPS"] == "60"

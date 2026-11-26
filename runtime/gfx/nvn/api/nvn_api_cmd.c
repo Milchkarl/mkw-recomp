@@ -198,10 +198,66 @@ static void zombie_add(copy_prefix *pf) {   // copy_lock held
     zombies[nzombies++] = pf;
 }
 
+// MKW_COPY_KEEP=<submits> (diagnosis, default 0): released copies and clones are freed that many submits later than
+// the replay of their last use. A run that dies with "corrupt command record" without it and not with it frees a copy
+// something still reads (sim2-ahead-crit: with the game a frame ahead of the recording, MKW_FENCE_AHEAD).
+static uint64_t copy_keep(void) {
+    static int64_t keep = -1;
+    if (keep < 0) {
+        const char *e = cfg_get("MKW_COPY_KEEP");
+        keep = e ? atoll(e) : 0;
+        if (keep < 0) keep = 0;
+        if (keep) rt_log("nvn: released command copies are kept %lld submits longer (MKW_COPY_KEEP)", (long long)keep);
+    }
+    return (uint64_t)keep;
+}
+
+// MKW_COPY_CHECK=1 (diagnosis): a freed copy is zeroed and kept in a ring of the last CHK_RING, so a replay that still
+// reads it stops at once on a corrupt record, and nvn_copy_explain (called before that fatal) says which copy it was,
+// the submit it was last used by and how far the replay was when it was freed.
+#define CHK_RING 4096
+static struct { copy_prefix *pf; uint64_t bytes, used_at, replayed, at; int who; } chk[CHK_RING];
+static uint32_t chk_n;
+
+static void copy_free(copy_prefix *pf, uint64_t replayed, int who) {   // copy_lock held
+    static int on = -1;
+    if (on < 0) {
+        const char *e = cfg_get("MKW_COPY_CHECK");
+        on = e && atoi(e) > 0;
+        if (on) rt_log("nvn: freed command copies are zeroed and kept for a while (MKW_COPY_CHECK)");
+    }
+    if (!on) {
+        free(pf);
+        return;
+    }
+    uint32_t i = chk_n++ % CHK_RING;
+    free(chk[i].pf);
+    chk[i].pf = pf, chk[i].bytes = pf->bytes, chk[i].used_at = pf->used_at, chk[i].replayed = replayed;
+    chk[i].at = __atomic_load_n(&nsubmits, __ATOMIC_RELAXED), chk[i].who = who;
+    memset(pf + 1, 0, pf->bytes);
+}
+
+void nvn_copy_explain(const void *addr) {   // before a fatal: no lock, the process is ending
+    uintptr_t a = (uintptr_t)addr;
+    for (uint32_t i = 0; i < CHK_RING; i++) {
+        uintptr_t lo = (uintptr_t)chk[i].pf;
+        if (!lo || a < lo || a >= lo + sizeof(copy_prefix) + chk[i].bytes) continue;
+        rt_log("nvn: %p is %llu bytes into a command copy of %llu bytes freed by %s at submit %llu: last used by submit "
+               "%llu, the replay had done %llu then and %llu now", addr, (unsigned long long)(a - lo - sizeof(copy_prefix)),
+               (unsigned long long)chk[i].bytes, chk[i].who == 0 ? "the sweep of released copies" : "a release with no use pending",
+               (unsigned long long)chk[i].at, (unsigned long long)chk[i].used_at, (unsigned long long)chk[i].replayed,
+               (unsigned long long)gfx_replayed_submits());
+        return;
+    }
+    rt_log("nvn: %p is in no command copy freed lately (MKW_COPY_CHECK): submit %llu, the replay has done %llu", addr,
+           (unsigned long long)__atomic_load_n(&nsubmits, __ATOMIC_RELAXED), (unsigned long long)gfx_replayed_submits());
+}
+
 static void zombie_sweep(uint64_t replayed) {   // copy_lock held
+    uint64_t keep = copy_keep();
     for (uint32_t i = 0; i < nzombies;) {
-        if (zombies[i]->used_at <= replayed) {
-            free(zombies[i]);
+        if (zombies[i]->used_at + keep <= replayed) {
+            copy_free(zombies[i], replayed, 0);
             zombies[i] = zombies[--nzombies];
         } else {
             i++;
@@ -308,8 +364,8 @@ static void release_copies(uintptr_t lo, uintptr_t hi) {
             ncopies--;
             copy_bytes -= pf->bytes;
             pf->magic = 0;
-            if (pf->used_at > replayed) zombie_add(pf);   // a queued submission still reads it
-            else free(pf);
+            if (pf->used_at + copy_keep() > replayed) zombie_add(pf);   // a queued submission still reads it
+            else copy_free(pf, replayed, 1);
             b->v[i] = b->v[--b->n];
         }
         if (!b->n) {

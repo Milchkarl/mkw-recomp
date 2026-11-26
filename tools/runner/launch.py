@@ -177,9 +177,10 @@ def make_plan(name: str, kind: str, seconds: int | None, env: dict[str, str] | N
     default(env, "WORLD_SECS", str(int(race_secs) + 30))
     if seconds is None:   # the race runs at ~0.5x on the 660M (mem5, 24/11/2026: killed in its first race at 240)
         seconds = {"live": 900, "plain": 120}.get(kind) or max(240, int(env["WORLD_SECS"]) * 2 + 60)
-    if env.get("MKW_AB"):
+    if env.get("MKW_AB") or env.get("MKW_GPU_SIM") or env.get("MKW_CRIT"):
         # An A/B compares frame times: with `auto` the game changes its present interval as the blocks go by and the
-        # pacer holds the faster ones (wsim2-both, 26/11/2026: 218 changes a minute, A blocks 84 % in pacing).
+        # pacer holds the faster ones (wsim2-both, 26/11/2026: 218 changes a minute, A blocks 84 % in pacing). The same
+        # for the other runs that measure waits (sim2-ahead-keep: 60 % of the frame in pacing at 20 fps under `auto`).
         default(env, "MKW_FPS", "60")
     target = env.get("MKW_AB_TARGET")
     return Plan(run, kind, seconds, env, binary, perf=env.get("RUN_PERF", "1") != "0" and kind != "live",

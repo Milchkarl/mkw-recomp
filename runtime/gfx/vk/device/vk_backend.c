@@ -625,6 +625,11 @@ static void replay_main(void *arg) {
         r_busy = 1;
         plat_cond_broadcast(&rcv);
         plat_mutex_unlock(&rl);
+        // The number recording copies are freed by (r_submit_done): the item's own place in the queue. A held one takes
+        // the number of the later submission it waited for, whose own item is still queued behind it: counted as done
+        // by that number, its copies were freed while the replay was yet to read them (sim2-ahead-chk2: with the game a
+        // frame ahead, "corrupt command record" in a copy last used by the submission the counter already showed).
+        uint64_t done_no = it.submit_no;
         if (it.kind == RI_SUBMIT && it.held) {
             held_wait(it.held);
             it.h = it.held->h, it.n = it.held->n;
@@ -666,7 +671,7 @@ static void replay_main(void *arg) {
         plat_mutex_lock(&rl);
         // Only presents count: a release counted as one let the frame bound (vk_be_present) pass while the replay was
         // still a frame or more behind (a frame queues up to a few hundred releases).
-        if (it.kind == RI_SUBMIT) r_submit_done = it.submit_no;
+        if (it.kind == RI_SUBMIT) r_submit_done = done_no;
         else if (it.kind == RI_PRESENT) r_presents_done++;
         r_busy = 0;
         plat_cond_broadcast(&rcv);

@@ -627,8 +627,10 @@ static void walk(VkExec *ex, const op_hdr *h, int depth) {
         if (op_timing && f && *f && !(op_dump = fopen(f, "w"))) rt_log("vk_exec: MKW_OP_DUMP: cannot write %s", f);
     }
     for (;;) {
-        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_)
+        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_) {
+            nvn_copy_explain(h);
             rt_fatal("vk: corrupt command record at %p: op %u size %u", (const void *)h, h->op, h->size);
+        }
         const void *a = nvn_op_payload(h);
         uint64_t c0 = op_timing ? plat_cycles() : 0;
         int drew = 0;

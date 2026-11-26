@@ -160,8 +160,10 @@ static int is_draw(uint32_t op) {
 static int settle(Pos *p, const uint64_t *handles, int n) {
     for (;;) {
         const op_hdr *h = p->h;
-        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_)
+        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_) {
+            nvn_copy_explain(h);
             rt_fatal("vk: corrupt command record at %p: op %u size %u", (const void *)h, h->op, h->size);
+        }
         const p_jump *j = nvn_op_payload(h);
         switch (h->op) {
         case OP_BEGIN: p->h = nvn_op_next(h); break;

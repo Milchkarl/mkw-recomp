@@ -43,6 +43,7 @@ _Static_assert(sizeof(nvn_mapping_t) == 0x28, "NVNmappingRequest stride");
 
 const pool_t *nvn_pool_find(uint64_t addr, uint64_t len);  // GPU-visible pool holding [addr, addr+len], NULL if none
 uint64_t nvn_new_serial(void);                             // next tex_t / prog_t serial, from 1
+void nvn_copy_explain(const void *addr);                   // MKW_COPY_CHECK: before a "corrupt command record" fatal
 uint64_t nvn_fence_last(void);                             // fence value of the newest submit (0 before the first)
 void nvn_present_fence_note(void);                         // a present: notes the newest fence (SyncWait census)
 void nvn_sync_wait_window(void);                           // a present: the waits of the last 60, by where the value was
