@@ -251,3 +251,9 @@ def test_runs_measure_without_frame_generation_and_ab_at_a_fixed_rate(runenv: Pa
     assert ab["MKW_FPS"] == "60" and ab["MKW_FRAMEGEN"] == "2"
     sim = launch.make_plan("i3", "race", None, {"MKW_INPUT_SCRIPT": "none", "MKW_GPU_SIM": "1.35"}).env
     assert sim["MKW_FPS"] == "60"
+
+
+def test_cpu_ticks_counts_iowait_as_idle() -> None:
+    import launch
+
+    assert launch.cpu_ticks("cpu  100 0 50 800 50 0 0 0 0 0\ncpu0 1 2 3 4\n") == (150, 1000)
