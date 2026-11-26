@@ -542,6 +542,12 @@ msgstr ""
 "عند معدل إطارات اللعبة الحالي، لا يقسم هذا العامل معدل تحديث شاشتك بالتساوي: الحركة متقطعة. "
 "«تلقائي» يتجنب ذلك."
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "ذاكرة بطاقة الرسومات ممتلئة، لذا تتباطأ اللعبة. دقة داخلية أقل تحتاج ذاكرة أقل."
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "شاشة بمعدل تحديث متغير"

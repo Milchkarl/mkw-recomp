@@ -520,6 +520,12 @@ msgid ""
 "motion judders. Automatic avoids it."
 msgstr "지금 게임 프레임 속도에서는 이 배율이 화면 주사율을 균등하게 나누지 못해 움직임이 끊깁니다. 자동은 이를 피합니다."
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "그래픽 카드 메모리가 가득 차서 게임이 느려집니다. 내부 해상도를 낮추면 메모리를 덜 사용합니다."
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "가변 주사율 화면"

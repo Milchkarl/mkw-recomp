@@ -507,6 +507,12 @@ msgid ""
 "motion judders. Automatic avoids it."
 msgstr "現在のゲームのフレームレートでは、この倍率は画面のリフレッシュレートを均等に割り切れず、動きがカクつきます。「自動」なら避けられます。"
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "グラフィックカードのメモリがいっぱいのため、ゲームが遅くなります。内部解像度を下げると使用量が減ります。"
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "可変リフレッシュレートの画面"

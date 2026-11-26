@@ -539,6 +539,12 @@ msgstr ""
 "ที่อัตราเฟรมของเกมตอนนี้ ตัวคูณนี้หารอัตรารีเฟรชของจอไม่ลงตัว ภาพจะกระตุก "
 "โหมดอัตโนมัติช่วยเลี่ยงได้"
 
+msgctxt "UI_MENU_VRAM_FULL"
+msgid ""
+"Your graphics card's memory is full, so the game slows down. A lower internal resolution needs "
+"less."
+msgstr "หน่วยความจำของการ์ดจอเต็ม เกมจึงทำงานช้าลง ความละเอียดภายในที่ต่ำกว่าใช้หน่วยความจำน้อยกว่า"
+
 msgctxt "UI_MENU_VRR"
 msgid "Variable refresh screen"
 msgstr "จอที่มีอัตรารีเฟรชแปรผัน"

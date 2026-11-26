@@ -185,3 +185,36 @@ void vk_headroom_start(void) {
     rt_log("vk: headroom: the next VMA block of each memory type in use is allocated on a background thread "
            "(MKW_VRAM_HEADROOM=0 turns it off)");
 }
+
+// The menu's note under the internal resolution (#880: a 4 GB RTX 3050 Ti at 1080p had the driver count 3735 MiB, its
+// frames took 37 ms of GPU and the game ran at 0.11x; on the 4 GB 1050 Ti at 1080 lines the race reached 5380 MiB of a
+// 3966 MiB heap, FSR 3.1's two contexts 170 of it). Full: on a discrete GPU, the driver's count of this process on the
+// largest device-local heap at or past its live budget (VK_EXT_memory_budget itself, not VMA's, which
+// MKW_GPU_MEM_LIMIT and MKW_VRAM_MARGIN lower); Windows then moves memory out of the GPU. An integrated GPU's VRAM heap
+// is a carve-out that spills into system memory as a matter of course, so it never says full. Read at most once a
+// second (the menu asks every frame).
+int vk_vram_full(void) {
+    static uint64_t next;
+    static int full, discrete = -1;
+    const VkCtx *c = vk_ctx();
+    if (!c || !c->has_memory_budget) return 0;
+    uint64_t now = plat_now_ns();
+    if (now < __atomic_load_n(&next, __ATOMIC_RELAXED)) return __atomic_load_n(&full, __ATOMIC_RELAXED);
+    __atomic_store_n(&next, now + 1000000000ull, __ATOMIC_RELAXED);
+    if (discrete < 0) {
+        VkPhysicalDeviceProperties p;
+        vkGetPhysicalDeviceProperties(c->phys, &p);
+        discrete = p.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
+    }
+    VkPhysicalDeviceMemoryBudgetPropertiesEXT b = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT};
+    VkPhysicalDeviceMemoryProperties2 p2 = {.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PROPERTIES_2, .pNext = &b};
+    vkGetPhysicalDeviceMemoryProperties2(c->phys, &p2);
+    uint32_t v = VK_MAX_MEMORY_HEAPS;
+    for (uint32_t h = 0; h < c->mem_props.memoryHeapCount && h < VK_MAX_MEMORY_HEAPS; h++)
+        if (c->mem_props.memoryHeaps[h].flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT &&
+            (v == VK_MAX_MEMORY_HEAPS || c->mem_props.memoryHeaps[h].size > c->mem_props.memoryHeaps[v].size))
+            v = h;
+    int f = discrete && v < VK_MAX_MEMORY_HEAPS && b.heapBudget[v] && b.heapUsage[v] >= b.heapBudget[v];
+    __atomic_store_n(&full, f, __ATOMIC_RELAXED);
+    return f;
+}

@@ -418,6 +418,9 @@ static void tab_graphics(float scale) {
         static const char *const vals[] = {"original", "540", "720", "900", "1080", "1440", "2160"};   // 2160: issue #55
         const char *names[7] = {menu_text(UI_MENU_RESOLUTION_ORIGINAL), "540p", "720p", "900p", "1080p", "1440p", "2160p"};
         opt_choice_list("MKW_RESOLUTION", UI_MENU_RESOLUTION, vals, names, 7, UI_MENU_RESOLUTION_DESC);
+        // #880: on a 4 GB card at 1080 lines the driver counted 5380 MiB in a race (w880a, 1050 Ti); FSR 3.1's
+        // upscaling and frame generation were 65 and 105 of it, so the note goes here, not under those engines
+        if (vk_vram_full()) opt_text(UI_MENU_VRAM_FULL, true);
     }
     static const UiTextId up[] = {UI_MENU_UPSCALER_FSR, UI_MENU_UPSCALER_BILINEAR};
     opt_choice("MKW_UPSCALER", UI_MENU_UPSCALER, up, 2, UI_MENU_UPSCALER_DESC);

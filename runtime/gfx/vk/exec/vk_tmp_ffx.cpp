@@ -43,6 +43,15 @@ struct FfxApi {
 FfxApi A;   // the upscaler provider, and the standard frame-generation provider
 FfxApi B;   // opt-in MKW_FFX_FG_LIBRARY provider for frame generation only
 
+// ", N MiB of VRAM" for a context's log line, from the provider's own count (q: its GPU memory usage query, which
+// writes *u), or "" when it does not answer. #880: on a 4 GB card the upscaler and frame generation filled the VRAM.
+void vram_of(const FfxApi &api, ffxContext *ctx, ffxQueryDescHeader *q, const FfxApiEffectMemoryUsage &u, char *out,
+             size_t n) {
+    *out = 0;
+    if (api.query && api.query(ctx, q) == FFX_API_RETURN_OK && u.totalUsageInBytes)
+        snprintf(out, n, ", %llu MiB of VRAM", (unsigned long long)((u.totalUsageInBytes + (1u << 19)) >> 20));
+}
+
 // a few contexts at once, as vk_temporal.c keeps DLSS features: the game's upscale writes the output texture itself in
 // some frames, of another size than the screen target
 struct Ctx {
@@ -152,7 +161,12 @@ int context_for(uint32_t mw, uint32_t mh, uint32_t ow, uint32_t oh, int hdr, int
     }
     x.mw = mw, x.mh = mh, x.ow = ow, x.oh = oh, x.hdr = hdr, x.used = U.tick;
     U.ctx = x.ctx;
-    rt_log("ffx: FSR upscaling context %ux%u -> %ux%u%s", mw, mh, ow, oh, hdr ? ", HDR" : "");
+    FfxApiEffectMemoryUsage mem = {};
+    ffxQueryDescUpscaleGetGPUMemoryUsage q = {};
+    q.header.type = FFX_API_QUERY_DESC_TYPE_UPSCALE_GPU_MEMORY_USAGE, q.gpuMemoryUsageUpscaler = &mem;
+    char vram[48];
+    vram_of(A, &x.ctx, &q.header, mem, vram, sizeof vram);
+    rt_log("ffx: FSR upscaling context %ux%u -> %ux%u%s%s", mw, mh, ow, oh, hdr ? ", HDR" : "", vram);
     return 1;
 }
 
@@ -530,8 +544,13 @@ extern "C" int vk_tmp_ffx_fg(VkCommandBuffer cb, const VkTmpFgInputs *in, const 
         }
         FG.w = bb->w, FG.h = bb->h, FG.rw = rw, FG.rh = rh, FG.fmt = bb->fmt, FG.id = 0;
         FG.api = api;
-        rt_log("ffx[fg]: FSR 3.1 frame generation context %ux%u (render up to %ux%u) via %s", bb->w, bb->h, rw, rh,
-               api->path);
+        FfxApiEffectMemoryUsage mem = {};
+        ffxQueryDescFrameGenerationGetGPUMemoryUsage q = {};
+        q.header.type = FFX_API_QUERY_DESC_TYPE_FRAMEGENERATION_GPU_MEMORY_USAGE, q.gpuMemoryUsageFrameGeneration = &mem;
+        char vram[48];
+        vram_of(*api, &FG.ctx, &q.header, mem, vram, sizeof vram);
+        rt_log("ffx[fg]: FSR 3.1 frame generation context %ux%u (render up to %ux%u)%s via %s", bb->w, bb->h, rw, rh,
+               vram, api->path);
         if (api->query) {
             ffxQueryGetProviderVersion version = {};
             version.header.type = FFX_API_QUERY_DESC_TYPE_GET_PROVIDER_VERSION;
