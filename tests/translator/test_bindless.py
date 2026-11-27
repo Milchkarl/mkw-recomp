@@ -34,3 +34,21 @@ def test_rewrite() -> None:
     assert "BLSb(sb10p((r2 >> 2) + 1u)).d[sb10i((r2 >> 2) + 1u)] = cb3w_at(r3) + uint(sb10n());" in out
     assert "BLRow(blpc.row[1]).e[2]" in out  # fragment row, the word view's binding
     assert out.index("#extension GL_EXT_buffer_reference") < out.index("layout(push_constant)")
+
+
+def test_textures() -> None:
+    src = SRC.replace(
+        "void main() {",
+        "layout(binding = 4) uniform sampler2DArrayShadow t2_8;\nvoid main() {\n    v = texture(t2_8, c);",
+    )
+    refl = {k: list(v) for k, v in REFL.items()}
+    refl["textures"] = [{"binding": 4, "type": 0x500 | 3, "cbuf_slot": 2, "handle": 8, "flags": 0}]
+    out = bindless.apply(src, refl, "vs", 2)
+    assert refl["bindless"] == 2 and refl["textures"][0]["flags"] & 8
+    assert "uniform sampler2DArrayShadow t2_8" not in out
+    assert "layout(set = 2, binding = 1) uniform texture2DArray BLT2DArray[];" in out
+    assert (
+        "#define t2_8 sampler2DArrayShadow(BLT2DArray[BLRow(blpc.row[0]).e[4].x], BLS[BLRow(blpc.row[0]).e[4].y])"
+        in out
+    )
+    assert out.index("#define t2_8") < out.index("v = texture(t2_8, c);")

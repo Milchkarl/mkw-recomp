@@ -43,7 +43,7 @@ from glsl.thread import ThreadOps
 # constants make the SPIR-V 43 % larger.
 SPEC_ON = os.environ.get("SM86_SPEC", "0") == "1"
 # SM86_BINDLESS=1: constant banks and storage buffers through a per-draw table of buffer addresses (glsl/bindless.py)
-BINDLESS_ON = os.environ.get("SM86_BINDLESS", "0") == "1"
+BINDLESS_ON = int(os.environ.get("SM86_BINDLESS", "0") or 0)   # 2: textures by index too
 
 
 class Builder(AluOps, MemOps, TexOps, ThreadOps):
@@ -548,5 +548,5 @@ def translate(
         b.reflection["cs_glsl"] = "\n".join([*head_cs, *prog, tail_cs])
     src = "\n".join([*head, *prog, tail_task])
     if BINDLESS_ON and head_cs is None:
-        src = bindless.apply(src, b.reflection, stage)
+        src = bindless.apply(src, b.reflection, stage, BINDLESS_ON)
     return src, b.reflection

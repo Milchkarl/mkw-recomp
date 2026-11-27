@@ -88,7 +88,7 @@ def translator_hash(spec: Path = SPEC) -> str:
         h.update(f.read_bytes())
     h.update(f"{spec.stat().st_size} {spec.stat().st_mtime_ns}".encode())
     h.update(str(os.environ.get("SM86_SPEC", "0") == "1").encode())  # glsl/core.py SPEC_ON
-    h.update(str(os.environ.get("SM86_BINDLESS", "0") == "1").encode())  # glsl/core.py BINDLESS_ON
+    h.update(os.environ.get("SM86_BINDLESS", "0").encode())  # glsl/core.py BINDLESS_ON
     return h.hexdigest()
 
 
