@@ -5,6 +5,7 @@
 // and for recordings without work the replay must redo or order every time. A copy never changes (a new recording is
 // a new handle, nvn_api_cmd.c), so each handle is walked once, at its first call.
 // One line per fixed handle, the first 40: its draws and dispatches, what it sets before its first draw, what it holds;
+// the same census for new recordings (their first call: the pieces the game's threads record during the frame);
 // and every 1500 submits the draws of fixed calls by those traits.
 #include <stdint.h>
 #include <stdio.h>
@@ -30,7 +31,9 @@ static const char *const f_name[F_N] = {"program", "targets", "viewport", "fixed
 typedef struct { uint64_t first_ns, draws; uint32_t traits; } Fixed;
 static nvn_hmap seen = {.klen = 8};   // handle -> Fixed (handles of freed copies stay until reused: diagnosis)
 static PlatMutex fx_lock = PLAT_MUTEX_INIT;
-static uint64_t w_calls, w_draws, w_by[F_N], w_clean, w_subs;
+// Per class: 0 fixed (called again over 1 s after its first call), 1 new (its first call: the frame's own recordings,
+// the pieces the game's threads record during the frame and copy into the frame's submit).
+static uint64_t w_calls[2], w_draws[2], w_by[2][F_N], w_clean[2], w_subs;
 static int nlogged;
 
 int nvn_rf_on(void) {
@@ -92,18 +95,21 @@ void nvn_rf_call(uint64_t handle) {
     uint64_t now = plat_now_ns();
     plat_mutex_lock(&fx_lock);
     Fixed *f = nvn_hm_get(&seen, &handle);
+    int cls = -1;
     if (!f && (f = calloc(1, sizeof *f))) {
         f->first_ns = now;
         profile((const uint8_t *)(uintptr_t)handle, f);
         nvn_hm_put(&seen, &handle, f);
+        cls = 1;
     }
-    if (f && now - f->first_ns > 1000000000ull && f->draws) {
-        w_calls++, w_draws += f->draws;
+    if (f && cls < 0 && now - f->first_ns > 1000000000ull) cls = 0;
+    if (cls >= 0 && f->draws) {
+        w_calls[cls]++, w_draws[cls] += f->draws;
         for (int i = 0; i < F_N; i++)
-            if (f->traits >> i & 1) w_by[i] += f->draws;
+            if (f->traits >> i & 1) w_by[cls][i] += f->draws;
         uint32_t bad = 1u << F_BARRIER | 1u << F_QUERY | 1u << F_COPY | 1u << F_EVENT | 1u << F_DEFER;
-        if ((f->traits & (1u << F_PROG)) && !(f->traits & bad)) w_clean += f->draws;
-        if (nlogged < 40 && f->first_ns) {
+        if ((f->traits & (1u << F_PROG)) && !(f->traits & bad)) w_clean[cls] += f->draws;
+        if (!cls && nlogged < 40 && f->first_ns) {
             char b[512];
             int k = 0;
             for (int i = 0; i < F_N && k < (int)sizeof b - 32; i++)
@@ -121,15 +127,20 @@ void nvn_rf_submit(void) {
     if (!nvn_rf_on()) return;
     plat_mutex_lock(&fx_lock);
     if (++w_subs == 1500) {
-        double d = w_draws ? 100.0 / (double)w_draws : 0;
-        char b[768];
-        int k = 0;
-        for (int i = 0; i < F_N && k < (int)sizeof b - 48; i++)
-            k += snprintf(b + k, sizeof b - (size_t)k, "; %s %.0f %%", f_name[i], (double)w_by[i] * d);
-        rt_log("nvn: fixed-recording census over 1500 submits: %llu calls, %llu draws; with a program and none of "
-               "barrier, query, copy, event, deferred binds %.0f %% of the draws; by trait (set before the first draw for "
-               "the first eight)%s", (unsigned long long)w_calls, (unsigned long long)w_draws, (double)w_clean * d, b);
-        w_subs = w_calls = w_draws = w_clean = 0, memset(w_by, 0, sizeof w_by);
+        for (int c = 0; c < 2; c++) {
+            double d = w_draws[c] ? 100.0 / (double)w_draws[c] : 0;
+            char b[768];
+            int k = 0;
+            for (int i = 0; i < F_N && k < (int)sizeof b - 48; i++)
+                k += snprintf(b + k, sizeof b - (size_t)k, "; %s %.0f %%", f_name[i], (double)w_by[c][i] * d);
+            rt_log("nvn: %s-recording census over 1500 submits: %llu calls, %llu draws; with a program and none of "
+                   "barrier, query, copy, event, deferred binds %.0f %% of the draws; by trait (set before the first draw "
+                   "for the first eight)%s", c ? "new" : "fixed", (unsigned long long)w_calls[c],
+                   (unsigned long long)w_draws[c], (double)w_clean[c] * d, b);
+        }
+        w_subs = 0;
+        memset(w_calls, 0, sizeof w_calls), memset(w_draws, 0, sizeof w_draws), memset(w_clean, 0, sizeof w_clean);
+        memset(w_by, 0, sizeof w_by);
     }
     plat_mutex_unlock(&fx_lock);
 }

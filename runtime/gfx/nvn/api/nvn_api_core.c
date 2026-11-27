@@ -559,7 +559,7 @@ NVN_API(nvnQueueFenceSync) {
     sync_t *s = arg_p(c, 1);
     s->fenced = 1;
     s->fence = nvn_fence_last();
-    if (seqwatch_probe())   // MKW_PROBE: which queue the game fences (pantalla-partida: the early reads' writers)
+    if (seqwatch_probe())   // MKW_PROBE: which queue the game fences (the early reads' writers)
         rt_log("nvn: probe fence sync %p on queue %p at fence %llu", (void *)s, arg_p(c, 0), (unsigned long long)s->fence);
 }
 // NVNsyncWaitResult nvnSyncWait(const NVNsync *s, uint64_t timeout_ns): a sync never fenced reports a timeout at once;
@@ -927,7 +927,8 @@ NVN_API(nvnQueueSubmitCommands) {
                                            last ? "on" : "off");
     ev_note_submit(f);
     if (seqwatch_probe())   // MKW_PROBE: each submit's fence and queue, against the early-read waits' writers
-        rt_log("nvn: probe submit fence %llu on queue %p, %d handles%s", (unsigned long long)f, (void *)q, n, held ? ", held" : "");
+        rt_log("nvn: probe submit fence %llu on queue %p, %d handles (first %p)%s at %.3f ms", (unsigned long long)f,
+               (void *)q, n, n ? (void *)(uintptr_t)h[0] : NULL, held ? ", held" : "", (double)plat_now_ns() / 1e6);
     // (not a held one: the console's GPU stops at its wait too, until the other queue's submit; that one waits for both)
     if (catchup && RT_KNOB_ON(catchup) && gfx_replay_async() && !held && (!only_reports || nvn_sub_sp_reports))
         gfx_backend()->fence_wait(f, 500000000ull);

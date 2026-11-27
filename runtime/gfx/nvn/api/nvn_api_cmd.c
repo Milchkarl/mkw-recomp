@@ -457,6 +457,8 @@ NVN_API(nvnCommandBufferBeginRecording) {
     o->hw_used -= 8;   // BEGIN and END have no hardware equivalent
     o->hw_start = o->hw_used;
     nvn_rc_begin(o);
+    if (seqwatch_probe())   // MKW_PROBE: when each recording starts and ends against its submit
+        rt_log("nvn: probe begin recording on %p at %.3f ms", (void *)o, (double)plat_now_ns() / 1e6);
     if (!o->game_size) memory_event(c, o, NVN_COMMAND_BUFFER_MEMORY_EVENT_OUT_OF_COMMAND_MEMORY, MIN_COMMAND_SIZE);
 }
 // NVNcommandHandle nvnCommandBufferEndRecording(NVNcommandBuffer *cmd)
@@ -474,6 +476,14 @@ NVN_API(nvnCommandBufferEndRecording) {
     o->ctl_used += CTL_PER_RECORDING;
     copy_add(lo, hi, copy);
     nvn_rc_end(o, copy);
+    if (seqwatch_probe()) {   // MKW_PROBE: the recording's draws and end time, against its submit
+        int draws = 0;
+        for (const op_hdr *h = (const op_hdr *)(const void *)copy; h->op != OP_END && h->size >= 8; h = nvn_op_next(h))
+            draws += h->op == OP_DRAW || h->op == OP_DRAW_IDX || h->op == OP_DRAW_IDX_IND || h->op == OP_DRAW_MESH ||
+                     h->op == OP_DISPATCH || h->op == OP_DISPATCH_IND;
+        rt_log("nvn: probe end recording on %p: handle %p, %d draws, at %.3f ms", (void *)o, (void *)copy, draws,
+               (double)plat_now_ns() / 1e6);
+    }
     ret_x(c, (uintptr_t)copy);
 }
 // NVNboolean nvnCommandBufferIsRecording(const NVNcommandBuffer *cmd)
