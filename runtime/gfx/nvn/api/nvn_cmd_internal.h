@@ -23,5 +23,8 @@ void nvn_rc_inline(const void *cmd, uint64_t handle);
 void nvn_rc_end(const void *cmd, const uint8_t *copy);
 void nvn_rc_def(uint64_t reads, uint64_t changed);
 void nvn_rc_submit(const uint64_t *handles, int n);
+int nvn_rf_on(void);                 // nvn_rec_fixed.c: MKW_REC_CENSUS=fixed, what the recordings called again hold
+void nvn_rf_call(uint64_t handle);   // a recording called (inlined) into another
+void nvn_rf_submit(void);            // every submit: the census line every 1500
 void cmd_copy_view(view_t *dst, uint8_t *has, const NVNtextureView *v);
 const tex_t *cmd_tex_pin(const NVNtexture *nt);

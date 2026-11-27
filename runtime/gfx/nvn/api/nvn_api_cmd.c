@@ -488,6 +488,7 @@ static void inline_recording(cmd_t *o, uint64_t handle, const char *what) {
     uint64_t bytes = copy_touch(handle, __atomic_load_n(&nsubmits, __ATOMIC_RELAXED), what);
     if (bytes <= 16) return;
     nvn_rc_inline(o, handle);
+    nvn_rf_call(handle);   // MKW_REC_CENSUS=fixed
     size_t body = (size_t)bytes - 16;
     cmd_reserve(o, body);
     memcpy(o->cur, (const uint8_t *)(uintptr_t)handle + 8, body);
@@ -721,6 +722,7 @@ void nvn_submit_prepare(const uint64_t *handles, int n) {
     for (int i = 0; i < n; i++) resolve_deferred((const uint8_t *)(uintptr_t)handles[i], 0);
     nvn_rc_def(def_reads - r0, def_changed - c0);
     nvn_rc_submit(handles, n);
+    nvn_rf_submit();
 }
 
 // Asynchronous replay. A copy a queued submission still reads keeps that submission's deferred binds: when it holds
@@ -758,6 +760,7 @@ void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
     plat_mutex_unlock(&copy_lock);
     uint64_t r0 = def_reads, c0 = def_changed;
     nvn_rc_submit(handles, n);
+    nvn_rf_submit();
     for (int i = 0; i < n; i++) {
         int nd = resolve_deferred((const uint8_t *)(uintptr_t)out[i], 0);
         if (out[i] == handles[i]) ((copy_prefix *)(uintptr_t)out[i] - 1)->deferred = nd ? 2 : 1;
