@@ -38,6 +38,9 @@ static int (*fence_wait)(uint64_t value, uint64_t timeout_ns);
 static int wait_mode;                 // MKW_EARLY_READ=2: an early read of bytes the GPU writes waits for its submit
 static int64_t waits, wait_ns;        // since the last log line
 static int64_t range_skips;           // frz_lock: watches released by mem_early_invalidate since the last log line
+// frz_lock: the early reads that would wait, by whether the writer waited for writes the 64-byte piece read: yes, no
+// (not waited for, with MKW_EARLY_READ_RANGE on), unknown (that writer's pieces not reported yet: waited for)
+static int64_t piece_cnt[3];
 // The wait the fault on this thread asked for, logged once it ends when it was long: which page, who read it and how
 // far behind the GPU was (lwab1: ~6 waits of ~7.5 ms every 600 frames, each a one-frame hitch).
 static _Thread_local struct { uint64_t page, pc, done, last, frame, addr; int diff; } wq;
@@ -176,24 +179,39 @@ void mem_early_gpu_wrote(uint64_t a, uint64_t n, uint64_t fence) {
 // for) writes none of those bytes is released without a wait: the wait was for other bytes sharing the page (tdiff1:
 // the counters at 0x2a9bdcf00 made the reads of 0x2a9bdc200, written a submission earlier and done, wait 6-13 ms every
 // 68 frames). An unknown mask (that writer not recorded yet) keeps the watch. MKW_EARLY_READ_RANGE (default 1; "ab").
-void mem_early_invalidate(uint64_t a, uint64_t n) {
+// With MKW_FENCE_EARLY a read may wait for the newest writer too, so both pending writers are looked at: the game's
+// readbacks (f_7000457da0, f_7000032980, f_700056b520) invalidate one copy of a rotating buffer, written two frames
+// before, while the frame before writes the next copy, which shares its edge pages (sim2-ahead35b: ~16 ms of waits a
+// frame for those). On the console the GPU has finished the frame before when the game reads (it waits for the fence
+// of the frame's submit at the start of the next one, f_70025ec50c), so those bytes are never waited for there.
+static int pending_writes(const WMask *w, uint64_t f, uint64_t done, uint64_t want) {   // 1 if f writes want or is unknown
+    if (!f || f <= done) return 0;
+    if (w->f[0] == f) return (w->m[0] & want) != 0;
+    if (w->f[1] == f) return (w->m[1] & want) != 0;
+    return 1;
+}
+
+static int range_on(void) {   // MKW_EARLY_READ_RANGE (default 1; "ab"): wait only for a writer of the bytes read
     static int on = -1;
     if (on < 0) on = rt_knob("EARLY_READ_RANGE", "1");
-    // (MKW_FENCE_EARLY: the writer a read waits for may be the newest one, whose bytes this rule does not look at)
-    if (!n || wait_mode != 2 || !wmask || !RT_KNOB_ON(on) || !watched(a, n) || !mem_fence_done || mem_fence_early) return;
+    return RT_KNOB_ON(on);
+}
+
+void mem_early_invalidate(uint64_t a, uint64_t n) {
+    if (!n || wait_mode != 2 || !wmask || !range_on() || !watched(a, n) || !mem_fence_done) return;
     uint64_t done = mem_fence_done();
+    int early = __atomic_load_n(&mem_fence_early, __ATOMIC_ACQUIRE);
     plat_mutex_lock(&frz_lock);
     for (uint64_t p = a & ~(PAGE - 1); p < a + n; p += PAGE) {
-        if (trapped[p / PAGE] != 2 || mem_prevf[p / PAGE] <= done) continue;
+        uint64_t prev = mem_prevf[p / PAGE], last = early ? mem_lastf[p / PAGE] : 0;
+        if (trapped[p / PAGE] != 2 || (prev <= done && last <= done)) continue;
         uint64_t lo = p > a ? p : a, hi = p + PAGE < a + n ? p + PAGE : a + n, want = 0;
         for (uint64_t x = lo & ~63ull; x < hi; x += 64) want |= 1ull << (x % PAGE / 64);
         plat_mutex_lock(&wm_lock);
         const WMask *w = &wmask[p / PAGE];
-        uint64_t f = mem_prevf[p / PAGE];
-        int known = w->f[0] == f || w->f[1] == f;
-        uint64_t m = w->f[0] == f ? w->m[0] : w->m[1];
+        int keep = pending_writes(w, prev, done, want) || pending_writes(w, last, done, want);
         plat_mutex_unlock(&wm_lock);
-        if (!known || (m & want)) continue;
+        if (keep) continue;
         mem_early_release_locked(p, 0);
         range_skips++;
     }
@@ -271,6 +289,17 @@ uint64_t mem_early_release_locked(uint64_t a, int access) {
         uint64_t last = mem_lastf[p / PAGE];   // MKW_FENCE_EARLY: a writer whose fence the game was told is done
         if (wait_mode == 2 && mem_fence_early && last > done && last <= __atomic_load_n(&mem_early_rel, __ATOMIC_ACQUIRE))
             w = last;
+        // The same rule as mem_early_invalidate at the fault, for reads with no invalidate before them (a pool the
+        // CPU does not cache: the game reads it without one, f_7000457da0's GetFlags test): the piece read decides.
+        if (w && wmask && wait_mode == 2) {
+            plat_mutex_lock(&wm_lock);
+            const WMask *m = &wmask[p / PAGE];
+            int known = m->f[0] == w || m->f[1] == w;
+            int hit = known && ((m->f[0] == w ? m->m[0] : m->m[1]) >> (a % PAGE / 64) & 1);
+            plat_mutex_unlock(&wm_lock);
+            piece_cnt[!known ? 2 : hit ? 0 : 1]++;
+            if (known && !hit && range_on()) return 0;
+        }
         static int dry = -1;   // 1 skip (2 in the B blocks), 3 ("diff") wait and log what the wait changed
         if (dry < 0) {
             const char *e = cfg_get("MKW_EARLY_READ_DRY");
@@ -300,10 +329,12 @@ void mem_early_log(uint64_t frame) {   // every frame
     char ev[160];
     mem_early_ev_counts(ev, sizeof ev);
     rt_log("mem: early reads at frame %llu (%lld pages watched now)%s; waits %lld, %.1f ms in all; released by an "
-           "invalidate of other bytes %lld; %s",
+           "invalidate of other bytes %lld; the waited writer writes the piece read %lld, not %lld, unknown %lld; %s",
            (unsigned long long)frame, (long long)mem_early_pages, k ? b : ": none", (long long)waits,
-           (double)wait_ns / 1e6, (long long)range_skips, ev);
+           (double)wait_ns / 1e6, (long long)range_skips, (long long)piece_cnt[0], (long long)piece_cnt[1],
+           (long long)piece_cnt[2], ev);
     waits = wait_ns = range_skips = 0;
+    memset(piece_cnt, 0, sizeof piece_cnt);
     // The early reads by whether the GPU writes the page (as far as the replay has reported), with the code making them.
     uint32_t wrote = 0, page_only = 0;
     uint64_t pcs[8] = {0}, pcn[8] = {0};
