@@ -175,6 +175,8 @@ void vk_ind_read_note(VkBuffer buf, VkDeviceSize off, uint32_t stride, uint32_t 
                                                                                                     // not host-backed
 void vk_ind_read_pass_end(VkExec *ex);
 void vk_ind_note_pass(void);   // the open pass records an indirect draw (MKW_IND_BARRIER)
+extern uint64_t vk_exec_sd_fresh_ns;   // MKW_SUBMIT_DATA (vk_exec.c): make_fresh_snap's time, while vk_exec_sd_on > 0
+extern int vk_exec_sd_on;
 extern uint64_t vk_exec_presented;   // the last frame vk_exec_frame_log saw (traces that name a frame)
 extern int vk_cond_trace;            // MKW_COND_TRACE lines left (vk_exec_xfer.c); -1 before the first condition
 

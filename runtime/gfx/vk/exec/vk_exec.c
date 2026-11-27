@@ -17,6 +17,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __linux__
+#include <sys/resource.h>
+#endif
 #include <string.h>
 
 #include "cfg.h"
@@ -748,7 +751,38 @@ void vk_exec_present_note(uint64_t frame) {
     sublog_t0 = kern_now_ns();
 }
 
+// MKW_SUBMIT_DATA=1 (diagnosis, default off): for the submissions over SD_BIG draws, the replay thread's time split
+// into what depends on the data at the submit (the mirror and uniform snapshot at its start and end, the kernel time
+// of the thread: write-watch scans and page protection) and the rest (walking, translating, planning, waiting for the
+// chunks): how much a translation made ahead of the submit would still leave at it. Texture checks are in the
+// chunks line (precheck) and in make_fresh_snap's total (vk_tex_upload.c, vk_exec_sd_fresh_ns).
+#define SD_BIG 1000
+uint64_t vk_exec_sd_fresh_ns;   // make_fresh_snap's time on every thread, while MKW_SUBMIT_DATA is on
+int vk_exec_sd_on = -1;
+static uint64_t sd_n, sd_wall, sd_begin, sd_end, sd_sys, sd_fresh0;
+
+static uint64_t thread_sys_ns(void) {
+#ifdef __linux__
+    struct rusage u;
+    if (!getrusage(RUSAGE_THREAD, &u)) return (uint64_t)u.ru_stime.tv_sec * 1000000000ull + (uint64_t)u.ru_stime.tv_usec * 1000ull;
+#endif
+    return 0;
+}
+
+static void sd_log(void) {
+    double k = 1e6 * (double)sd_n;
+    uint64_t fr = __atomic_load_n(&vk_exec_sd_fresh_ns, __ATOMIC_RELAXED);
+    rt_log("perf: big submissions' replay (MKW_SUBMIT_DATA) over %llu: %.2f ms each on the replay thread; of it at the "
+           "data of the submit: start (mirror, uniform snapshot) %.2f, end (mirror back, snapshot end) %.2f, kernel time "
+           "%.2f; the rest (walk, translation, plan, chunk waits) %.2f; texture checks on all threads %.2f",
+           (unsigned long long)sd_n, (double)sd_wall / k, (double)sd_begin / k, (double)sd_end / k, (double)sd_sys / k,
+           (double)(sd_wall - sd_begin - sd_end - (sd_sys < sd_wall ? sd_sys : 0)) / k, (double)(fr - sd_fresh0) / k);
+    sd_n = sd_wall = sd_begin = sd_end = sd_sys = 0, sd_fresh0 = fr;
+}
+
 int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t fence) {
+    if (vk_exec_sd_on < 0) vk_exec_sd_on = cfg_get("MKW_SUBMIT_DATA") && atoi(cfg_get("MKW_SUBMIT_DATA")) > 0;
+    uint64_t sd_t0 = vk_exec_sd_on ? kern_now_ns() : 0, sd_s0 = vk_exec_sd_on ? thread_sys_ns() : 0, sd_b = 0, sd_e = 0;
     uint64_t sl0 = sublog_on ? kern_now_ns() : 0;
     uint64_t sld = vk_exec_frame.draws_seen;
     VkExec *ex = &X;
@@ -774,7 +808,9 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     uint64_t b0 = op_timing > 0 ? plat_cycles() : 0;
     if (n && rec_diff_on > 0) rec_diff_begin();
     if (n) ru_submission(ex);
+    if (sd_t0) sd_b = kern_now_ns();
     if (n) vk_mem_mirror_begin(), vk_usnap_begin(handles, n, fence);
+    if (sd_t0) sd_b = kern_now_ns() - sd_b;
     if (pt_on < 0) pt_on = vk_pt_on();
     if (pt_on > 0 && n) vk_pt_submit_begin(ex->cb);
     if (op_timing > 0) op_tsc[OPX_BEGIN] += plat_cycles() - b0, op_cnt[OPX_BEGIN]++;
@@ -789,7 +825,9 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     x_cur = x_here_ex = NULL;
     if (ex->recorded) vk_exec_barrier(ex);   // later submissions see this one's writes
     if (pt_on > 0 && n) vk_pt_submit_end(ex->cb, fence), ex->recorded++;
+    if (sd_t0) sd_e = kern_now_ns();
     if (n) ex->recorded += vk_mem_mirror_end(ex->cb, fence), vk_usnap_end(fence);   // VRAM mirror bytes the GPU wrote go back to guest memory
+    if (sd_t0) sd_e = kern_now_ns() - sd_e;
     if (n && rec_diff_on > 0) rec_diff_end();
     views_release(ex);
     ex->cb = VK_NULL_HANDLE;
@@ -798,6 +836,10 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
         sublog[nsublog++] = (typeof(sublog[0])){(uint32_t)((sl0 - sublog_t0) / 1000), (uint32_t)((kern_now_ns() - sl0) / 1000),
                                                 (uint32_t)(vk_exec_frame.draws_seen - sld), plat_thread_id()};
     if (vk_sim_on()) vk_sim_draws((uint32_t)(vk_exec_frame.draws_seen - sld));
+    if (sd_t0 && vk_exec_frame.draws_seen - sld > SD_BIG) {
+        sd_n++, sd_wall += kern_now_ns() - sd_t0, sd_begin += sd_b, sd_end += sd_e, sd_sys += thread_sys_ns() - sd_s0;
+        if (sd_n == 240) sd_log();
+    }
     if (n && seqwatch_probe()) {
         uint64_t ops = 0;
         for (int i = 0; i < n; i++) ops += count_ops(nvn_op_first(handles[i]), 0);
