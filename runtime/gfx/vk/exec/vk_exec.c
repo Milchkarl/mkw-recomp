@@ -61,6 +61,28 @@ static int draw_skip_ceil(void) {
     return (int)(n++ * 37u % 100u) < pct;
 }
 
+// MKW_SPEC_CEIL=1|ab (measurement, only with MKW_GPU_SIM: the picture is wrong on purpose): the ceiling of translating
+// the big submission ahead of its submit (from an earlier frame's stream, while the game computes it). A submission
+// whose last one with as many command handles had over SPEC_BIG draws is not walked, translated nor chunked: only the
+// work bound to the submit's data runs (the mirror and the uniform snapshot, begin and end), and the simulated GPU is
+// handed that last one's draws. One in SPEC_EVERY is walked as always to keep the count. Not included, so the real
+// design costs more: recording the segments that changed again (~17 % of the draws, sim2-dump2) and comparing them,
+// the texture checks (~0.9 ms, sim2-sdata). If the frame does not come near 16.7 ms with this, the design cannot.
+#define SPEC_BIG 1000
+#define SPEC_EVERY 16
+#define SPEC_SLOTS 64
+static uint32_t spec_draws[SPEC_SLOTS], spec_seen[SPEC_SLOTS];
+static uint64_t spec_skipped, spec_all;
+static int spec_ceil(int n) {
+    static int mode = -1;
+    if (mode < 0) {
+        mode = rt_knob("SPEC_CEIL", "0");
+        if (mode && !vk_sim_on()) rt_fatal("vk: MKW_SPEC_CEIL needs MKW_GPU_SIM (it would submit empty command buffers)");
+    }
+    if (!RT_KNOB_ON(mode) || n <= 0 || n >= SPEC_SLOTS) return 0;
+    return spec_draws[n] > SPEC_BIG && ++spec_seen[n] % SPEC_EVERY;
+}
+
 #define WEAK __attribute__((weak))
 #define CALL_DEPTH VK_EXEC_CALL_DEPTH
 
@@ -816,7 +838,10 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     if (op_timing > 0) op_tsc[OPX_BEGIN] += plat_cycles() - b0, op_cnt[OPX_BEGIN]++;
     for (int i = 0; i < n; i++)
         if (!handles[i]) rt_fatal("vk: command handle %d of a submission is null", i);
-    int par = n ? vk_exec_par(ex, handles, n, op_timing > 0 || pt_on > 0) : 0;
+    int spec = n && spec_ceil(n);
+    if (n) spec_all++;
+    if (spec) spec_skipped++, vk_exec_frame.draws_seen += spec_draws[n];
+    int par = n && !spec ? vk_exec_par(ex, handles, n, op_timing > 0 || pt_on > 0) : spec ? 2 : 0;   // 2: MKW_SPEC_CEIL, not walked
     if (par == 1) part_start = ex->recorded;   // chunks submitted
     else if (!par)
         for (int i = 0; i < n; i++) walk(ex, nvn_op_first(handles[i]), 0);
@@ -836,6 +861,12 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
         sublog[nsublog++] = (typeof(sublog[0])){(uint32_t)((sl0 - sublog_t0) / 1000), (uint32_t)((kern_now_ns() - sl0) / 1000),
                                                 (uint32_t)(vk_exec_frame.draws_seen - sld), plat_thread_id()};
     if (vk_sim_on()) vk_sim_draws((uint32_t)(vk_exec_frame.draws_seen - sld));
+    if (n > 0 && n < SPEC_SLOTS && !spec) spec_draws[n] = (uint32_t)(vk_exec_frame.draws_seen - sld);
+    if (spec_all >= 2400) {
+        rt_log("perf: MKW_SPEC_CEIL: %llu of %llu submissions not walked (only the submit's data work)",
+               (unsigned long long)spec_skipped, (unsigned long long)spec_all);
+        spec_skipped = spec_all = 0;
+    }
     if (sd_t0 && vk_exec_frame.draws_seen - sld > SD_BIG) {
         sd_n++, sd_wall += kern_now_ns() - sd_t0, sd_begin += sd_b, sd_end += sd_e, sd_sys += thread_sys_ns() - sd_s0;
         if (sd_n == 240) sd_log();
