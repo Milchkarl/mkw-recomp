@@ -33,6 +33,7 @@ struct GfxShader {
     const struct GfxShader *variant_of;                    // gfx_shader_variant: the generic shader; NULL for one
     struct GfxShader *cs_variant;                          // task/mesh: the compute form (gfx_shader_cs_variant)
     int cs_of_mesh;                                        // this is the compute form of a task or mesh program
+    int bindless;                                          // "bindless" (glsl/bindless.py): banks and buffers by row
     uint64_t binding_mask;                                 // reflect_spirv: the module's Binding decorations, and 1
     int binding_known;                                     // when they are all below 64 (0, as calloc leaves it: unknown)
     uint64_t spirv_fnv;   // gfx_shader_spirv_fnv: at load for FS/CS, else 0 until asked; last: gfx_shader_variant copies up to it

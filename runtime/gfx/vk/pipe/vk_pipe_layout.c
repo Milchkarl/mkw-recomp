@@ -59,6 +59,9 @@ int add_stage(Bindings *B, const GfxShader *s, uint32_t off) {
                            : mk == GFX_MESH_TASK ? VK_SHADER_STAGE_TASK_BIT_EXT
                            : mk == GFX_MESH_MESH ? VK_SHADER_STAGE_MESH_BIT_EXT : stage_bit(stage);
     if (gfx_shader_cs_of_mesh(s)) B->pc_stages |= VK_SHADER_STAGE_COMPUTE_BIT;
+    if (gfx_shader_bindless(s))   // one range for both graphics stages: the GPL libraries' layouts stay compatible
+        B->bl = 1, B->pc_stages |= stage == GFX_STAGE_CS ? VK_SHADER_STAGE_COMPUTE_BIT
+                                                         : VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
     if (!B->n) {
         B->b[0] = (VkDescriptorSetLayoutBinding){0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
         B->pb[0] = (VkPipeBinding){0, (uint8_t)stage, VK_PIPE_SUPPORT, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
@@ -242,7 +245,9 @@ Layout *layout_get(Bindings *B) {
 Layout *layout_pair(Bindings *B, Bindings *F) {
     uint32_t nb = ubo_count(B), nf = ubo_count(F);
     dyn_ubos(B, nf), dyn_ubos(F, nb);
+    VkShaderStageFlags pcs = B->pc_stages | F->pc_stages;
     uint64_t h = pipe_fnv(FNV0, "indep", 5);
+    h = pipe_fnv(h, &pcs, sizeof pcs);
     int64_t tv = bindings_sort(B, &h);
     h = pipe_fnv(h, "|", 1);
     int64_t tf = bindings_sort(F, &h);
@@ -254,10 +259,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
     B->n = n;
     Layout **head = &layouts[h % LAYOUT_BUCKETS];
     for (Layout *l = *head; l; l = l->next)
-        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && !memcmp(l->b, B->b, n * sizeof *B->b)) return l;
+        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && l->pc_stages == pcs && !memcmp(l->b, B->b, n * sizeof *B->b))
+            return l;
     Layout *l = calloc(1, sizeof *l + n * sizeof *B->b);
     if (!l) return NULL;
-    l->hash = h, l->n = n, l->n0 = n0;
+    l->hash = h, l->n = n, l->n0 = n0, l->pc_stages = pcs;
     memcpy(l->b, B->b, n * sizeof *B->b);
     l->push = !P.draw_cache && P.push_stage == GFX_STAGE_VS && tv <= (int64_t)P.max_push;
     l->push1 = !P.draw_cache && P.push_stage == GFX_STAGE_FS && F->n && tf <= (int64_t)P.max_push;
@@ -277,9 +283,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
         return NULL;
     }
     VkDescriptorSetLayout sets[2] = {l->set, l->set1};
+    VkPushConstantRange pc = {pcs, 0, MESH_PC_BYTES};
     VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
                                      .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = 2,
-                                     .pSetLayouts = sets};
+                                     .pSetLayouts = sets, .pushConstantRangeCount = pcs ? 1 : 0,
+                                     .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->layout) != VK_SUCCESS) {
         vkDestroyDescriptorSetLayout(P.device, l->set, NULL);
         vkDestroyDescriptorSetLayout(P.device, l->set1, NULL);

@@ -632,6 +632,8 @@ Pipe *pipe_add(const void *key, size_t size, uint64_t h, VkPipeline pipeline, co
     p->info.set_layout1 = l ? l->set1 : VK_NULL_HANDLE;
     p->info.push1 = l ? l->push1 : 0;
     p->info.n_sets = l && l->set1 ? 2 : 1;
+    p->info.pc_stages = l ? l->pc_stages : 0;
+    p->info.bl = l && B && B->bl;
     if (l) p->info.tpl[0] = l->tpl[0], p->info.tpl[1] = l->tpl[1];
     p->lay = l;
     Pipe **head = &pipes[h % PIPE_BUCKETS];

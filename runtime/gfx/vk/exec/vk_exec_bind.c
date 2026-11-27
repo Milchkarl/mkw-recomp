@@ -857,7 +857,8 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
     if (info->n_bindings > MAX_BINDINGS) rt_fatal("vk: %u descriptor bindings exceed the replay's %d", info->n_bindings, MAX_BINDINGS);
     bind_stats(info);
     int gfx = info->bind_point == VK_PIPELINE_BIND_POINT_GRAPHICS;
-    int skip = gfx ? bind_skip_on() : 0, same = 0, was_valid = B.res_valid;
+    // MKW_BINDLESS: the rows are written with the descriptors, so the shortcuts that keep or patch the last ones are off
+    int skip = gfx && !info->bl ? bind_skip_on() : 0, same = 0, was_valid = B.res_valid;
     if (skip) {
         same = bind_sig(ex, info);
         if (!same && bind_stats_on() && RS.why >= 0) BS.miss[RS.why]++;
@@ -989,6 +990,7 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
         }
         at += cnt;
     }
+    if (info->bl) vk_exec_bl_rows(ex, info, d);
     // Under the validation layer, a new graphics layout binds set 1 before set 0 is pushed or bound. The layer (SDK
     // 1.4.363, PipelineLayoutCompatDef::operator==) takes any two INDEPENDENT_SETS layouts as compatible, so
     // vkCmdPushDescriptorSetKHR keeps the push set it made for an earlier layout and drops writes to bindings that

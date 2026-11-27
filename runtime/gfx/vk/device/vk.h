@@ -770,7 +770,15 @@ typedef struct {
     // Descriptor update template per set (vk_pipeline.c make_tpl): reads one VkDescSlot per descriptor, in binding order,
     // from the start of the set's descriptors. VK_NULL_HANDLE: the set is written with VkWriteDescriptorSet structs.
     VkDescriptorUpdateTemplate tpl[2];
+    VkShaderStageFlags pc_stages;          // the layout's push constant stages (task/mesh as compute, bindless)
+    int bl;                                // a stage is bindless: bind_resources writes its rows (vk_exec_bl.c)
 } VkPipeInfo;
+// MKW_BINDLESS (exec/vk_exec_bl.c): on; the usage every buffer a bank or storage buffer can be bound to adds; the
+// allocation flags chained before its vkAllocateMemory (returns next when off); a buffer's device address.
+int vk_bindless_on(void);
+VkBufferUsageFlags vk_bda_usage(void);
+const void *vk_bda_chain(const void *next, VkMemoryAllocateFlagsInfo *f);
+VkDeviceAddress vk_buf_addr(VkBuffer b);
 // One descriptor of the packed array a descriptor update template reads (VkPipeInfo.tpl), 24 bytes for every type; the
 // bytes a type leaves unused are zero, so equal descriptors compare equal byte for byte.
 typedef union { VkDescriptorImageInfo image; VkDescriptorBufferInfo buffer; VkBufferView view; uint64_t w[3]; } VkDescSlot;
