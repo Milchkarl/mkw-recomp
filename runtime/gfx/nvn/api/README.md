@@ -9,6 +9,7 @@ operation logs for the back end (`../../vk/`).
 | `nvn_api_obj.c` | Descriptor pools, textures, samplers, programs, windows and state objects |
 | `nvn_api_cmd.c`, `nvn_cmd_internal.h` | Command buffers: recording as operation logs and binds deferred to submit; the header, the shared recording helpers |
 | `nvn_api_state.c` | The draw state commands (targets, binds, states), recorded as `nvn_obj.h` loads |
+| `nvn_rec_census.c` | `MKW_REC_CENSUS` (diagnosis): how long before its submit the game finished recording each submit's draws, and the deferred binds that change by the submit |
 | `nvn_qorder.c` | The work of the game's two queues ordered by their event waits (`MKW_QUEUE_WAITS`, off: census; `auto`: only while more than one view is drawn); submits held in place in the replay queue |
 | `nvn_dstk.c` | Diagnosis: the draws of the next frames counted by guest call stack and depth target (`ctl drawstacks`) |
 | `nvn_ext.c` | Functions that only report saved state, debug metadata and hints |
