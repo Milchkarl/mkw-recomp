@@ -198,10 +198,66 @@ static void zombie_add(copy_prefix *pf) {   // copy_lock held
     zombies[nzombies++] = pf;
 }
 
+// MKW_COPY_KEEP=<submits> (diagnosis, default 0): released copies and clones are freed that many submits later than
+// the replay of their last use. A run that dies with "corrupt command record" without it and not with it frees a copy
+// something still reads (sim2-ahead-crit: with the game a frame ahead of the recording, MKW_FENCE_AHEAD).
+static uint64_t copy_keep(void) {
+    static int64_t keep = -1;
+    if (keep < 0) {
+        const char *e = cfg_get("MKW_COPY_KEEP");
+        keep = e ? atoll(e) : 0;
+        if (keep < 0) keep = 0;
+        if (keep) rt_log("nvn: released command copies are kept %lld submits longer (MKW_COPY_KEEP)", (long long)keep);
+    }
+    return (uint64_t)keep;
+}
+
+// MKW_COPY_CHECK=1 (diagnosis): a freed copy is zeroed and kept in a ring of the last CHK_RING, so a replay that still
+// reads it stops at once on a corrupt record, and nvn_copy_explain (called before that fatal) says which copy it was,
+// the submit it was last used by and how far the replay was when it was freed.
+#define CHK_RING 4096
+static struct { copy_prefix *pf; uint64_t bytes, used_at, replayed, at; int who; } chk[CHK_RING];
+static uint32_t chk_n;
+
+static void copy_free(copy_prefix *pf, uint64_t replayed, int who) {   // copy_lock held
+    static int on = -1;
+    if (on < 0) {
+        const char *e = cfg_get("MKW_COPY_CHECK");
+        on = e && atoi(e) > 0;
+        if (on) rt_log("nvn: freed command copies are zeroed and kept for a while (MKW_COPY_CHECK)");
+    }
+    if (!on) {
+        free(pf);
+        return;
+    }
+    uint32_t i = chk_n++ % CHK_RING;
+    free(chk[i].pf);
+    chk[i].pf = pf, chk[i].bytes = pf->bytes, chk[i].used_at = pf->used_at, chk[i].replayed = replayed;
+    chk[i].at = __atomic_load_n(&nsubmits, __ATOMIC_RELAXED), chk[i].who = who;
+    memset(pf + 1, 0, pf->bytes);
+}
+
+void nvn_copy_explain(const void *addr) {   // before a fatal: no lock, the process is ending
+    uintptr_t a = (uintptr_t)addr;
+    for (uint32_t i = 0; i < CHK_RING; i++) {
+        uintptr_t lo = (uintptr_t)chk[i].pf;
+        if (!lo || a < lo || a >= lo + sizeof(copy_prefix) + chk[i].bytes) continue;
+        rt_log("nvn: %p is %llu bytes into a command copy of %llu bytes freed by %s at submit %llu: last used by submit "
+               "%llu, the replay had done %llu then and %llu now", addr, (unsigned long long)(a - lo - sizeof(copy_prefix)),
+               (unsigned long long)chk[i].bytes, chk[i].who == 0 ? "the sweep of released copies" : "a release with no use pending",
+               (unsigned long long)chk[i].at, (unsigned long long)chk[i].used_at, (unsigned long long)chk[i].replayed,
+               (unsigned long long)gfx_replayed_submits());
+        return;
+    }
+    rt_log("nvn: %p is in no command copy freed lately (MKW_COPY_CHECK): submit %llu, the replay has done %llu", addr,
+           (unsigned long long)__atomic_load_n(&nsubmits, __ATOMIC_RELAXED), (unsigned long long)gfx_replayed_submits());
+}
+
 static void zombie_sweep(uint64_t replayed) {   // copy_lock held
+    uint64_t keep = copy_keep();
     for (uint32_t i = 0; i < nzombies;) {
-        if (zombies[i]->used_at <= replayed) {
-            free(zombies[i]);
+        if (zombies[i]->used_at + keep <= replayed) {
+            copy_free(zombies[i], replayed, 0);
             zombies[i] = zombies[--nzombies];
         } else {
             i++;
@@ -219,6 +275,10 @@ int nvn_handle_live(uint64_t handle) {
     plat_mutex_unlock_shared(&copy_lock);
     return live;
 }
+
+// A copy being submitted (live or a clone; nvn_qorder.c): its size is in its prefix, read without copy_lock because
+// nothing frees or changes it while its submission is in use.
+uint64_t nvn_copy_size(uint64_t handle) { return ((const copy_prefix *)(uintptr_t)handle - 1)->bytes; }
 
 uint64_t nvn_handle_bytes(uint64_t handle) {
     plat_mutex_lock_shared(&copy_lock);
@@ -308,8 +368,8 @@ static void release_copies(uintptr_t lo, uintptr_t hi) {
             ncopies--;
             copy_bytes -= pf->bytes;
             pf->magic = 0;
-            if (pf->used_at > replayed) zombie_add(pf);   // a queued submission still reads it
-            else free(pf);
+            if (pf->used_at + copy_keep() > replayed) zombie_add(pf);   // a queued submission still reads it
+            else copy_free(pf, replayed, 1);
             b->v[i] = b->v[--b->n];
         }
         if (!b->n) {
@@ -396,6 +456,9 @@ NVN_API(nvnCommandBufferBeginRecording) {
     put_hdr(cmd_alloc(o, 8), OP_BEGIN, 8);
     o->hw_used -= 8;   // BEGIN and END have no hardware equivalent
     o->hw_start = o->hw_used;
+    nvn_rc_begin(o);
+    if (seqwatch_probe())   // MKW_PROBE: when each recording starts and ends against its submit
+        rt_log("nvn: probe begin recording on %p at %.3f ms", (void *)o, (double)plat_now_ns() / 1e6);
     if (!o->game_size) memory_event(c, o, NVN_COMMAND_BUFFER_MEMORY_EVENT_OUT_OF_COMMAND_MEMORY, MIN_COMMAND_SIZE);
 }
 // NVNcommandHandle nvnCommandBufferEndRecording(NVNcommandBuffer *cmd)
@@ -412,6 +475,15 @@ NVN_API(nvnCommandBufferEndRecording) {
     uintptr_t hi = o->ctl ? lo + 1 : 0;
     o->ctl_used += CTL_PER_RECORDING;
     copy_add(lo, hi, copy);
+    nvn_rc_end(o, copy);
+    if (seqwatch_probe()) {   // MKW_PROBE: the recording's draws and end time, against its submit
+        int draws = 0;
+        for (const op_hdr *h = (const op_hdr *)(const void *)copy; h->op != OP_END && h->size >= 8; h = nvn_op_next(h))
+            draws += h->op == OP_DRAW || h->op == OP_DRAW_IDX || h->op == OP_DRAW_IDX_IND || h->op == OP_DRAW_MESH ||
+                     h->op == OP_DISPATCH || h->op == OP_DISPATCH_IND;
+        rt_log("nvn: probe end recording on %p: handle %p, %d draws, at %.3f ms", (void *)o, (void *)copy, draws,
+               (double)plat_now_ns() / 1e6);
+    }
     ret_x(c, (uintptr_t)copy);
 }
 // NVNboolean nvnCommandBufferIsRecording(const NVNcommandBuffer *cmd)
@@ -425,6 +497,8 @@ static void inline_recording(cmd_t *o, uint64_t handle, const char *what) {
     if (!handle) rt_fatal("nvn: %s with a null handle", what);
     uint64_t bytes = copy_touch(handle, __atomic_load_n(&nsubmits, __ATOMIC_RELAXED), what);
     if (bytes <= 16) return;
+    nvn_rc_inline(o, handle);
+    nvn_rf_call(handle);   // MKW_REC_CENSUS=fixed
     size_t body = (size_t)bytes - 16;
     cmd_reserve(o, body);
     memcpy(o->cur, (const uint8_t *)(uintptr_t)handle + 8, body);
@@ -534,6 +608,14 @@ int nvn_report_at_submit(void) {
     return on;
 }
 volatile uint32_t *nvn_sub_event_val[64];   // the first 64 events the submission signals
+const uint8_t *nvn_sub_evop[NVN_SUB_EVOPS];
+int nvn_sub_nevop;
+
+static void evop_note(const uint8_t *p) {
+    if (nvn_sub_nevop < 0) return;
+    if (nvn_sub_nevop == NVN_SUB_EVOPS) nvn_sub_nevop = -1;
+    else nvn_sub_evop[nvn_sub_nevop++] = p;
+}
 
 // MKW_EARLY_READ (core/memory/memory_early.c): what this submit's GPU work writes in CPU-visible memory, listed by the walk
 // below and watched from the submit (nvnQueueSubmitCommands) with its fence. Under the submit lock.
@@ -581,6 +663,8 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
                      h.op, h.size);
         if (h.op == OP_END) return nd;
         if (early_watch) early_op(h.op, p + 8);
+        nvn_subw_op(h.op, p + 8);   // MKW_EARLY_SUBMASK
+        nvn_rs_op(p);               // MKW_REC_CENSUS=seq
         if (h.op == OP_JUMP) {
             memcpy(&p, p + 8, 8);
             continue;
@@ -609,8 +693,10 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
         } else if (h.op == OP_SIGNAL_EVENT) {
             if (nvn_sub_events < 64) nvn_sub_event_val[nvn_sub_events] = ((const p_signal_event *)(uintptr_t)(p + 8))->val;
             nvn_sub_events++;
+            evop_note(p);
         } else if (h.op == OP_WAIT_EVENT) {
             nvn_sub_waits++;
+            evop_note(p);
         } else if (h.op == OP_DRAW_IDX_IND) {   // the arguments, read when the console's GPU would
             p_draw_idx_ind *d = (p_draw_idx_ind *)(uintptr_t)(p + 8);
             if (!d->count && d->ind && !(d->ind & 3) && !nvn_gpu_only(d->ind)) {
@@ -638,18 +724,25 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
 }
 
 void nvn_submit_prepare(const uint64_t *handles, int n) {
-    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0;
+    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
+    nvn_subw_begin();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     for (int i = 0; i < n; i++) copy_touch(handles[i], now, "QueueSubmitCommands");
+    uint64_t r0 = def_reads, c0 = def_changed;
     for (int i = 0; i < n; i++) resolve_deferred((const uint8_t *)(uintptr_t)handles[i], 0);
+    nvn_rs_end();
+    nvn_rc_def(def_reads - r0, def_changed - c0);
+    nvn_rc_submit(handles, n);
+    nvn_rf_submit();
 }
 
 // Asynchronous replay. A copy a queued submission still reads keeps that submission's deferred binds: when it holds
 // deferred binds (or is not known to hold none), this submission gets a clone, resolved here and freed after its replay.
 void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
-    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0;
+    nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
+    nvn_subw_begin();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     uint64_t replayed = gfx_replayed_submits();
     plat_mutex_lock(&copy_lock);
@@ -677,10 +770,15 @@ void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
         }
     }
     plat_mutex_unlock(&copy_lock);
+    uint64_t r0 = def_reads, c0 = def_changed;
+    nvn_rc_submit(handles, n);
+    nvn_rf_submit();
     for (int i = 0; i < n; i++) {
         int nd = resolve_deferred((const uint8_t *)(uintptr_t)out[i], 0);
         if (out[i] == handles[i]) ((copy_prefix *)(uintptr_t)out[i] - 1)->deferred = nd ? 2 : 1;
     }
+    nvn_rs_end();
+    nvn_rc_def(def_reads - r0, def_changed - c0);
     if (now % 7200 == 0)
         rt_log("nvn: asynchronous replay at submit %llu: %llu recording clones so far, %u copies waiting for the replay",
                (unsigned long long)now, (unsigned long long)__atomic_load_n(&n_clones, __ATOMIC_RELAXED), nzombies);
@@ -690,13 +788,17 @@ uint64_t nvn_submit_count(void) { return __atomic_load_n(&nsubmits, __ATOMIC_REL
 
 // A recording made of ops [ops, ops + n) (no OP_BEGIN or OP_END among them) for the replay alone (nvn_qorder.c's
 // streams): freed once the replay reached the newest submission, as the clones are.
-uint64_t nvn_stream_handle(const uint8_t *ops, size_t n) {
+uint8_t *nvn_stream_alloc(size_t n) {   // where the n bytes of ops go (nvn_stream_commit makes the recording)
     copy_prefix *pf = malloc(sizeof *pf + n + 16);
     if (!pf) rt_fatal("nvn: out of memory (queue order stream, %zu bytes)", n);
-    uint8_t *p = (uint8_t *)(pf + 1);
+    return (uint8_t *)(pf + 1) + 8;
+}
+
+uint64_t nvn_stream_commit(uint8_t *ops, size_t n) {
+    uint8_t *p = ops - 8;
+    copy_prefix *pf = (copy_prefix *)(void *)p - 1;
     put_hdr(p, OP_BEGIN, 8);
-    memcpy(p + 8, ops, n);
-    put_hdr(p + 8 + n, OP_END, 8);
+    put_hdr(ops + n, OP_END, 8);
     plat_mutex_lock(&copy_lock);
     *pf = (copy_prefix){0, n + 16, nsubmits, nsubmits, 1};
     zombie_add(pf);

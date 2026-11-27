@@ -95,7 +95,8 @@ static Arena *arena_new(VkCtx *c, uint64_t n) {
     if (type < 0 || req.alignment > PG || req.size > size) goto fail;
     VkImportMemoryFdInfoKHR im = {.sType = VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR,
                                   .handleType = VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT, .fd = a->s.dmabuf};
-    VkMemoryAllocateInfo ai = {.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, .pNext = &im, .allocationSize = size,
+    VkMemoryAllocateFlagsInfo fl;
+    VkMemoryAllocateInfo ai = {.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO, .pNext = vk_bda_chain(&im, &fl), .allocationSize = size,
                                .memoryTypeIndex = (uint32_t)type};
     why = "the driver refused the import";
     if (vkAllocateMemory(c->device, &ai, NULL, &a->mem) != VK_SUCCESS) goto fail;

@@ -17,6 +17,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __linux__
+#include <sys/resource.h>
+#endif
 #include <string.h>
 
 #include "cfg.h"
@@ -40,6 +43,44 @@ static int mesh_on(void) {
     static int on = -1;
     if (on < 0) on = (vk_ctx()->has_mesh || vk_mesh_cs_on()) && !(cfg_get("MKW_MESH") && !atoi(cfg_get("MKW_MESH")));
     return on;
+}
+
+// MKW_DRAW_SKIP_CEIL=1|ab (measurement, image wrong on purpose): MKW_DRAW_SKIP_PCT (72) % of the OP_DRAW/OP_DRAW_IDX,
+// spread evenly, are not recorded at all. The ceiling of translating the game's fixed recordings once and reusing
+// them (sim2-rcen2: 71-72 % of a 2-player race submit's draws come from recordings over 1 s old): if skipping their
+// translation outright does not shorten the frame, reusing it cannot.
+static int draw_skip_ceil(void) {
+    static int mode = -1, pct;
+    if (mode < 0) {
+        const char *p = cfg_get("MKW_DRAW_SKIP_PCT");
+        pct = p ? atoi(p) : 72;
+        mode = rt_knob("DRAW_SKIP_CEIL", "0");
+    }
+    if (!RT_KNOB_ON(mode)) return 0;
+    static _Thread_local uint32_t n;
+    return (int)(n++ * 37u % 100u) < pct;
+}
+
+// MKW_SPEC_CEIL=1|ab (measurement, only with MKW_GPU_SIM: the picture is wrong on purpose): the ceiling of translating
+// the big submission ahead of its submit (from an earlier frame's stream, while the game computes it). A submission
+// whose last one with as many command handles had over SPEC_BIG draws is not walked, translated nor chunked: only the
+// work bound to the submit's data runs (the mirror and the uniform snapshot, begin and end), and the simulated GPU is
+// handed that last one's draws. One in SPEC_EVERY is walked as always to keep the count. Not included, so the real
+// design costs more: recording the segments that changed again (~17 % of the draws, sim2-dump2) and comparing them,
+// the texture checks (~0.9 ms, sim2-sdata). If the frame does not come near 16.7 ms with this, the design cannot.
+#define SPEC_BIG 1000
+#define SPEC_EVERY 16
+#define SPEC_SLOTS 64
+static uint32_t spec_draws[SPEC_SLOTS], spec_seen[SPEC_SLOTS];
+static uint64_t spec_skipped, spec_all;
+static int spec_ceil(int n) {
+    static int mode = -1;
+    if (mode < 0) {
+        mode = rt_knob("SPEC_CEIL", "0");
+        if (mode && !vk_sim_on()) rt_fatal("vk: MKW_SPEC_CEIL needs MKW_GPU_SIM (it would submit empty command buffers)");
+    }
+    if (!RT_KNOB_ON(mode) || n <= 0 || n >= SPEC_SLOTS) return 0;
+    return spec_draws[n] > SPEC_BIG && ++spec_seen[n] % SPEC_EVERY;
 }
 
 #define WEAK __attribute__((weak))
@@ -586,6 +627,7 @@ int vk_exec_op(VkExec *ex, const op_hdr *h) {
         break;
     case OP_DRAW: case OP_DRAW_IDX:   // MKW_REUSE: from the cache when an earlier submission recorded the same draw
         vk_exec_frame.draws_seen++, drew = 1;
+        if (draw_skip_ceil()) break;
         if (ru_on > 0 && ru_draw(ex, h->op, a)) { op_hit = OPX_HIT; break; }
         if (ru_cap) op_hit = OPX_CAP;
         vk_exec_op_draw(ex, h->op, a);
@@ -620,6 +662,25 @@ int vk_exec_op(VkExec *ex, const op_hdr *h) {
 static FILE *op_dump;
 static uint64_t op_sub;   // submissions recorded
 
+// The ops walk hands to vk_exec_op (x_pos at the end of a serial walk), for MKW_PROBE: where in its submission an op is.
+static uint64_t count_ops(const op_hdr *h, int depth) {
+    uint64_t n = 0;
+    for (;;) {
+        if (h->size < sizeof *h || h->op >= OP_COUNT_) return n;
+        const void *a = nvn_op_payload(h);
+        switch (h->op) {
+        case OP_END: return n;
+        case OP_BEGIN: break;
+        case OP_JUMP: h = (const op_hdr *)(uintptr_t)((const p_jump *)a)->target; continue;
+        case OP_CALL:
+            if (depth < CALL_DEPTH) n += count_ops(nvn_op_first(((const p_jump *)a)->target), depth + 1);
+            break;
+        default: n++;
+        }
+        h = (const op_hdr *)((const uint8_t *)h + h->size);
+    }
+}
+
 static void walk(VkExec *ex, const op_hdr *h, int depth) {
     if (op_timing < 0) {
         op_timing = (rt_trace & RT_TRACE_DRAW) != 0;
@@ -627,8 +688,10 @@ static void walk(VkExec *ex, const op_hdr *h, int depth) {
         if (op_timing && f && *f && !(op_dump = fopen(f, "w"))) rt_log("vk_exec: MKW_OP_DUMP: cannot write %s", f);
     }
     for (;;) {
-        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_)
+        if (h->size < sizeof *h || (h->size & 7) || h->op >= OP_COUNT_) {
+            nvn_copy_explain(h);
             rt_fatal("vk: corrupt command record at %p: op %u size %u", (const void *)h, h->op, h->size);
+        }
         const void *a = nvn_op_payload(h);
         uint64_t c0 = op_timing ? plat_cycles() : 0;
         int drew = 0;
@@ -710,7 +773,38 @@ void vk_exec_present_note(uint64_t frame) {
     sublog_t0 = kern_now_ns();
 }
 
+// MKW_SUBMIT_DATA=1 (diagnosis, default off): for the submissions over SD_BIG draws, the replay thread's time split
+// into what depends on the data at the submit (the mirror and uniform snapshot at its start and end, the kernel time
+// of the thread: write-watch scans and page protection) and the rest (walking, translating, planning, waiting for the
+// chunks): how much a translation made ahead of the submit would still leave at it. Texture checks are in the
+// chunks line (precheck) and in make_fresh_snap's total (vk_tex_upload.c, vk_exec_sd_fresh_ns).
+#define SD_BIG 1000
+uint64_t vk_exec_sd_fresh_ns;   // make_fresh_snap's time on every thread, while MKW_SUBMIT_DATA is on
+int vk_exec_sd_on = -1;
+static uint64_t sd_n, sd_wall, sd_begin, sd_end, sd_sys, sd_fresh0;
+
+static uint64_t thread_sys_ns(void) {
+#ifdef __linux__
+    struct rusage u;
+    if (!getrusage(RUSAGE_THREAD, &u)) return (uint64_t)u.ru_stime.tv_sec * 1000000000ull + (uint64_t)u.ru_stime.tv_usec * 1000ull;
+#endif
+    return 0;
+}
+
+static void sd_log(void) {
+    double k = 1e6 * (double)sd_n;
+    uint64_t fr = __atomic_load_n(&vk_exec_sd_fresh_ns, __ATOMIC_RELAXED);
+    rt_log("perf: big submissions' replay (MKW_SUBMIT_DATA) over %llu: %.2f ms each on the replay thread; of it at the "
+           "data of the submit: start (mirror, uniform snapshot) %.2f, end (mirror back, snapshot end) %.2f, kernel time "
+           "%.2f; the rest (walk, translation, plan, chunk waits) %.2f; texture checks on all threads %.2f",
+           (unsigned long long)sd_n, (double)sd_wall / k, (double)sd_begin / k, (double)sd_end / k, (double)sd_sys / k,
+           (double)(sd_wall - sd_begin - sd_end - (sd_sys < sd_wall ? sd_sys : 0)) / k, (double)(fr - sd_fresh0) / k);
+    sd_n = sd_wall = sd_begin = sd_end = sd_sys = 0, sd_fresh0 = fr;
+}
+
 int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t fence) {
+    if (vk_exec_sd_on < 0) vk_exec_sd_on = cfg_get("MKW_SUBMIT_DATA") && atoi(cfg_get("MKW_SUBMIT_DATA")) > 0;
+    uint64_t sd_t0 = vk_exec_sd_on ? kern_now_ns() : 0, sd_s0 = vk_exec_sd_on ? thread_sys_ns() : 0, sd_b = 0, sd_e = 0;
     uint64_t sl0 = sublog_on ? kern_now_ns() : 0;
     uint64_t sld = vk_exec_frame.draws_seen;
     VkExec *ex = &X;
@@ -736,13 +830,18 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     uint64_t b0 = op_timing > 0 ? plat_cycles() : 0;
     if (n && rec_diff_on > 0) rec_diff_begin();
     if (n) ru_submission(ex);
+    if (sd_t0) sd_b = kern_now_ns();
     if (n) vk_mem_mirror_begin(), vk_usnap_begin(handles, n, fence);
+    if (sd_t0) sd_b = kern_now_ns() - sd_b;
     if (pt_on < 0) pt_on = vk_pt_on();
     if (pt_on > 0 && n) vk_pt_submit_begin(ex->cb);
     if (op_timing > 0) op_tsc[OPX_BEGIN] += plat_cycles() - b0, op_cnt[OPX_BEGIN]++;
     for (int i = 0; i < n; i++)
         if (!handles[i]) rt_fatal("vk: command handle %d of a submission is null", i);
-    int par = n ? vk_exec_par(ex, handles, n, op_timing > 0 || pt_on > 0) : 0;
+    int spec = n && spec_ceil(n);
+    if (n) spec_all++;
+    if (spec) spec_skipped++, vk_exec_frame.draws_seen += spec_draws[n];
+    int par = n && !spec ? vk_exec_par(ex, handles, n, op_timing > 0 || pt_on > 0) : spec ? 2 : 0;   // 2: MKW_SPEC_CEIL, not walked
     if (par == 1) part_start = ex->recorded;   // chunks submitted
     else if (!par)
         for (int i = 0; i < n; i++) walk(ex, nvn_op_first(handles[i]), 0);
@@ -751,7 +850,9 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
     x_cur = x_here_ex = NULL;
     if (ex->recorded) vk_exec_barrier(ex);   // later submissions see this one's writes
     if (pt_on > 0 && n) vk_pt_submit_end(ex->cb, fence), ex->recorded++;
+    if (sd_t0) sd_e = kern_now_ns();
     if (n) ex->recorded += vk_mem_mirror_end(ex->cb, fence), vk_usnap_end(fence);   // VRAM mirror bytes the GPU wrote go back to guest memory
+    if (sd_t0) sd_e = kern_now_ns() - sd_e;
     if (n && rec_diff_on > 0) rec_diff_end();
     views_release(ex);
     ex->cb = VK_NULL_HANDLE;
@@ -760,6 +861,22 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
         sublog[nsublog++] = (typeof(sublog[0])){(uint32_t)((sl0 - sublog_t0) / 1000), (uint32_t)((kern_now_ns() - sl0) / 1000),
                                                 (uint32_t)(vk_exec_frame.draws_seen - sld), plat_thread_id()};
     if (vk_sim_on()) vk_sim_draws((uint32_t)(vk_exec_frame.draws_seen - sld));
+    if (n > 0 && n < SPEC_SLOTS && !spec) spec_draws[n] = (uint32_t)(vk_exec_frame.draws_seen - sld);
+    if (spec_all >= 2400) {
+        rt_log("perf: MKW_SPEC_CEIL: %llu of %llu submissions not walked (only the submit's data work)",
+               (unsigned long long)spec_skipped, (unsigned long long)spec_all);
+        spec_skipped = spec_all = 0;
+    }
+    if (sd_t0 && vk_exec_frame.draws_seen - sld > SD_BIG) {
+        sd_n++, sd_wall += kern_now_ns() - sd_t0, sd_begin += sd_b, sd_end += sd_e, sd_sys += thread_sys_ns() - sd_s0;
+        if (sd_n == 240) sd_log();
+    }
+    if (n && seqwatch_probe()) {
+        uint64_t ops = 0;
+        for (int i = 0; i < n; i++) ops += count_ops(nvn_op_first(handles[i]), 0);
+        rt_log("vk: probe replayed fence %llu: %llu ops, %llu parts so far", (unsigned long long)fence,
+               (unsigned long long)ops, (unsigned long long)n_parts);
+    }
     if (n) n_subs++;
     if ((rt_trace & RT_TRACE_PERF) && n_subs >= 240 && dc_mode > 0) {
         uint64_t rd, sk, ah, bl;

@@ -232,7 +232,7 @@ int rt_knob(const char *name, const char *def) {
     snprintf(key, sizeof key, "MKW_%s", name);
     const char *e = cfg_get(key);
     if (!e || !*e) e = def;
-    return !strcmp(e, "ab") ? 2 : strcmp(e, "0") != 0;
+    return !strcmp(e, "ab") ? 2 : !strcmp(e, "ba") ? 3 : strcmp(e, "0") != 0;
 }
 
 // MKW_ONE_PER_CORE=1: the process keeps the first logical processor of each physical core, so busy threads (the

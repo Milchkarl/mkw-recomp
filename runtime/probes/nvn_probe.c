@@ -28,6 +28,7 @@
 #include "nvn_procs.inc"
 #undef NVN_PROC
 void nvnp_nvnCommandBufferDrawMeshTasks(Cpu *c);   // NVN2 (nvn2_procs.inc)
+void nvnp_nvnCommandBufferPushGraphicsConstants(Cpu *c);   // NVN2
 
 typedef struct { const char *name; void (*fn)(Cpu *); } ProcRow;
 static const ProcRow procs[] = {
@@ -462,6 +463,7 @@ static uint64_t record_all(void) {
     REC(OP_CLEAR_BUF, CALL(nvnCommandBufferClearBuffer, U(c), 0xc200, 0x40, 0xdeadbeef));
     REC(OP_CLEAR_BUF, CALL(nvnCommandBufferReportValue, U(c), 0x1234, 0xc300));
     REC(OP_DRAW_MESH, CALL(nvnCommandBufferDrawMeshTasks, U(c), 3, 5));
+    REC(OP_PUSH_CONST, CALL(nvnCommandBufferPushGraphicsConstants, U(c), 4, 0x10, 8, U(ub_data)));
     static const int thresholds[4] = {1, 2, 3, 4};
     CALL(nvnCommandBufferSetColorReductionEnable, U(c), 1);   // hints: nothing recorded
     CALL(nvnCommandBufferSetColorReductionThresholds, U(c), 0, U(thresholds));
@@ -696,6 +698,12 @@ static void parse_all(uint64_t h) {
         case OP_DRAW_MESH: {
             const p_draw_mesh *p = a;
             CHECK(p->first == 3 && p->count == 5, "DRAW_MESH payload {%d, %d}", p->first, p->count);
+            break;
+        }
+        case OP_PUSH_CONST: {
+            const p_push_const *p = a;
+            CHECK(p->stage == 4 && p->offset == 0x10 && p->size == 8 && p->data[0] == 1 && p->data[7] == 8,
+                  "PUSH_CONST payload {stage %d, offset %#x, size %d}", p->stage, p->offset, p->size);
             break;
         }
         default: CHECK(0, "unexpected op %s", nvn_op_name(o->op)); break;

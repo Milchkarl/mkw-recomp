@@ -16,7 +16,9 @@
 #define EV_MAX 400
 static PlatMutex ev_lock = PLAT_MUTEX_INIT;
 static struct { int kind; uint64_t frame, addr, w, done, pc, lr[4]; uint8_t b[16]; } ev[64];
-static int nev, ev_logged[3];   // logged so far by kind, EV_MAX / 3 each: the write-backs filled it alone in tdry1
+// Logged so far by kind, EV_MAX / 3 each: the write-backs filled it alone in tdry1. The skipped waits count again from
+// each 600-frame line: the menus used them all before a race (sim2-ahead-free, 26/11/2026).
+static int nev, ev_logged[3];
 static int64_t ev_cnt[3];   // since the last log line: dry waits, fills from a running writer, write-backs likewise
 static const char *const ev_name[3] = {"wait skipped", "fill while its writer runs", "write-back while its writer runs"};
 
@@ -97,5 +99,8 @@ int mem_early_ev_counts(char *b, int n) {
     int k = snprintf(b, (size_t)n, "%s %lld, %s %lld, %s %lld", ev_name[0], (long long)ev_cnt[0], ev_name[1],
                      (long long)ev_cnt[1], ev_name[2], (long long)ev_cnt[2]);
     memset(ev_cnt, 0, sizeof ev_cnt);
+    plat_mutex_lock(&ev_lock);
+    ev_logged[0] = 0;
+    plat_mutex_unlock(&ev_lock);
     return k;
 }

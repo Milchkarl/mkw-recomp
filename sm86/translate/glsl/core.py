@@ -33,6 +33,7 @@ from glsl.head import (
     task_head,
     task_head_cs,
 )
+from glsl import bindless
 from glsl.mem import MemOps
 from glsl.tex import TexOps
 from glsl.thread import ThreadOps
@@ -41,6 +42,8 @@ from glsl.thread import ThreadOps
 # variants. Off by default: on the Radeon 660M the variants left the GPU time as it was (sp-ab2, 01/11/2026) and the
 # constants make the SPIR-V 43 % larger.
 SPEC_ON = os.environ.get("SM86_SPEC", "0") == "1"
+# SM86_BINDLESS=1: constant banks and storage buffers through a per-draw table of buffer addresses (glsl/bindless.py)
+BINDLESS_ON = int(os.environ.get("SM86_BINDLESS", "0") or 0)   # 2: textures by index too
 
 
 class Builder(AluOps, MemOps, TexOps, ThreadOps):
@@ -543,4 +546,7 @@ def translate(
         prog = [entry, *main, *body, "    default: return;", "    }", "    }", "}"]
     if head_cs is not None:
         b.reflection["cs_glsl"] = "\n".join([*head_cs, *prog, tail_cs])
-    return "\n".join([*head, *prog, tail_task]), b.reflection
+    src = "\n".join([*head, *prog, tail_task])
+    if BINDLESS_ON and head_cs is None:
+        src = bindless.apply(src, b.reflection, stage, BINDLESS_ON)
+    return src, b.reflection

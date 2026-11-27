@@ -44,6 +44,7 @@ typedef struct {
     uint64_t original;   // observers: the guest definition rt_original calls
     uint64_t calls;
     int blocking;        // runs with the virtual core given up (hostfn_blocking)
+    int slow;            // hostfn_entry takes the long way: blocking, or its first call still to trace
     uint64_t ns_render, ns_other, n_render;   // MKW_HOST_TIME: time inside, on the presenting thread and elsewhere
 } Slot;
 static Slot slots[MAX_HOSTFN];
@@ -113,6 +114,7 @@ uint64_t hostfn_register(const char *name, GuestFn fn) {
     uint64_t a = slot_addr(nslots);
     if (a >= RT_RET_HOST) rt_fatal("hostfn_register: host-function window full");
     slots[nslots] = (Slot){.name = name, .fn = fn, .blocking = !strncmp(name, "_ZN2nn2fs", 9)};
+    slots[nslots].slow = slots[nslots].blocking;
     rt_register_host(a, hostfn_entry);
     nslots++;
     return a;
@@ -214,10 +216,8 @@ void hostfn_time_window(uint64_t frame) {
                order[i]->ns_other * 1e3 / span, (unsigned long long)order[i]->calls, order[i]->name);
 }
 
-static void hostfn_entry(Cpu *c) {
-    uint64_t i = (c->pc - RT_HOSTFN_BASE) >> 4;
-    if (__builtin_expect((c->pc & 15) || i >= (uint64_t)nslots, 0)) bad_entry(c);
-    Slot *s = &slots[i];
+// The long way: MKW_HOST_TIME, MKW_TRACE=host (the first call of each function) and the blocking functions.
+__attribute__((noinline)) static void hostfn_entry_slow(Cpu *c, Slot *s) {
     if (__builtin_expect(host_time, 0)) {
         if (host_time < 0) {
             const char *e = cfg_get("MKW_HOST_TIME");
@@ -238,7 +238,39 @@ static void hostfn_entry(Cpu *c) {
         hostfn_blocking(c, s->fn);
         return;
     }
-    if (__builtin_expect(kern_host_track && c->thread, 0)) {
+    if (kern_host_track && c->thread) {
+        hostfn_tracked(c, s->fn);
+        return;
+    }
+    s->fn(c);
+}
+
+// 1.3 million calls a second in a 2-player race, most from the two threads that record the draws: the common call
+// reads its slot, counts itself without a lock (the count is a statistic: a lost one does not matter, and the
+// locked add was 12 % of this function) and goes on. entry_slow: MKW_HOST_TIME or MKW_TRACE=host is on, the fast way is
+// not plainly on, or none of it is known yet. MKW_HOSTFN_FAST (default 1; 0 the long way for every call, "ab").
+static int entry_slow = 1;
+
+static void hostfn_entry(Cpu *c) {
+    uint64_t i = (c->pc - RT_HOSTFN_BASE) >> 4;
+    if (__builtin_expect((c->pc & 15) || i >= (uint64_t)nslots, 0)) bad_entry(c);
+    Slot *s = &slots[i];
+    if (__builtin_expect(entry_slow | s->slow, 0)) {
+        if (host_time < 0) {
+            const char *e = cfg_get("MKW_HOST_TIME");
+            host_time = e && *e && *e != '0';
+        }
+        static int fast = -1;
+        if (fast < 0) fast = rt_knob("HOSTFN_FAST", "1");
+        int diag = host_time || (rt_trace & RT_TRACE_HOSTCALL);
+        entry_slow = diag || fast != 1;
+        if (diag || s->slow || !RT_KNOB_ON(fast)) {
+            hostfn_entry_slow(c, s);
+            return;
+        }
+    }
+    s->calls++;
+    if (kern_host_track && c->thread) {
         hostfn_tracked(c, s->fn);
         return;
     }

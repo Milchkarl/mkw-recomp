@@ -87,6 +87,7 @@ typedef struct Pipe {
 typedef struct {
     uint32_t n;
     VkShaderStageFlags pc_stages;      // stages with the MESH_PC_BYTES push constants of task/mesh as compute, 0 none
+    int bl;                            // a stage is bindless (gfx_shader_bindless): its row address in the push constants
     VkDescriptorSetLayoutBinding b[MAX_BINDINGS];
     VkPipeBinding pb[MAX_BINDINGS];
 } Bindings;

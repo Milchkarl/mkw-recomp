@@ -279,6 +279,23 @@ static int ubo_ptr_res(const GfxShaderRes *r) {
     return r->cbuf_slot >= 3 && r->cbuf_slot - 3 < 18;
 }
 
+// MKW_EARLY_SUBMASK (nvn_subw.c): the storage buffers stage st's shader s writes, as ssbo_info binds them: bits 0-15
+// c0 storage slots, 16-31 compute uniform slots read as storage, NVN_PROGW_OTHER one whose address is in a user block.
+// A written one at another place is bound to a zero buffer and writes nothing.
+uint64_t vk_exec_ssbo_wbits(const GfxShader *s, int st) {
+    const GfxShaderRes *res;
+    int n = gfx_shader_resources(s, GFX_RES_SSBO, &res);
+    uint64_t bits = 0;
+    for (int i = 0; i < n; i++) {
+        const GfxShaderRes *r = &res[i];
+        if (!(r->flags & 1)) continue;
+        int ubo, slot = ssbo_slot(r, st, &ubo);
+        if (slot >= 0 && slot < 16) bits |= 1ull << (slot + (ubo ? 16 : 0));
+        else if (ubo_ptr_res(r)) bits |= NVN_PROGW_OTHER;
+    }
+    return bits;
+}
+
 static VkDescriptorBufferInfo ssbo_info(VkExec *ex, int st, const GfxShaderRes *r, int written) {
     if (!__atomic_load_n(&LIM.ubo_max, __ATOMIC_ACQUIRE)) limits_init();
     uint64_t max = LIM.sbo_max, align = LIM.sbo_align;
@@ -840,7 +857,8 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
     if (info->n_bindings > MAX_BINDINGS) rt_fatal("vk: %u descriptor bindings exceed the replay's %d", info->n_bindings, MAX_BINDINGS);
     bind_stats(info);
     int gfx = info->bind_point == VK_PIPELINE_BIND_POINT_GRAPHICS;
-    int skip = gfx ? bind_skip_on() : 0, same = 0, was_valid = B.res_valid;
+    // MKW_BINDLESS: the rows are written with the descriptors, so the shortcuts that keep or patch the last ones are off
+    int skip = gfx && !info->bl ? bind_skip_on() : 0, same = 0, was_valid = B.res_valid;
     if (skip) {
         same = bind_sig(ex, info);
         if (!same && bind_stats_on() && RS.why >= 0) BS.miss[RS.why]++;
@@ -972,6 +990,7 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
         }
         at += cnt;
     }
+    if (info->bl) vk_exec_bl_rows(ex, info, d);
     // Under the validation layer, a new graphics layout binds set 1 before set 0 is pushed or bound. The layer (SDK
     // 1.4.363, PipelineLayoutCompatDef::operator==) takes any two INDEPENDENT_SETS layouts as compatible, so
     // vkCmdPushDescriptorSetKHR keeps the push set it made for an earlier layout and drops writes to bindings that

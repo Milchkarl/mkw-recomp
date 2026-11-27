@@ -20,6 +20,7 @@
 #include "cfg.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "prof.h"
 #include "vk.h"
 #include "vk_gpu_sim.h"
 #include "vk_sync_ts.h"
@@ -608,6 +609,7 @@ uint64_t vk_sync_submit(const uint64_t *handles, int n) {
     CmdSlot *s = take_slot(c, fence);
     VkCommandBufferBeginInfo bi = {.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
                                    .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT};
+    cpuctr_tick(CPUCTR_REPLAY_OUT);   // MKW_CPU_COUNTERS: the replay thread outside its recordings
     uint64_t t0 = perf_begin();
     vkBeginCommandBuffer(s->cb, &bi);
     if (vk_guard_on()) vk_guard_cb_begin(s->cb);
@@ -621,6 +623,8 @@ uint64_t vk_sync_submit(const uint64_t *handles, int n) {
     else vk_ts_drop();
     vkEndCommandBuffer(s->cb);
     perf_replay(t0);
+    cpuctr_tick(CPUCTR_REPLAY);
+    if (t0) cpuctr_add(CPUCTR_REPLAY, CPUCTR_WALL, kern_now_ns() - t0);
     if (ss) q1 = kern_now_ns(), ss_ns[SS_RECORD] += q1 - q0, q0 = q1, ss_ns[SS_RECORD_CPU] += thread_cpu_ns() - c0;
     // After the recording: the uploads it asked for (and every earlier one) precede it in queue order, behind the
     // sparse binds it made (the uploads may copy into the levels they bind).

@@ -247,6 +247,7 @@ void gfx_shader_reflect(GfxShader *s) {
     }
     reflect_spec(s);
     s->first_store = s->stage == GFX_STAGE_CS ? (int)json_int(js, js + strlen(js), "first_store", 0) : 0;
+    s->bindless = (int)json_int(js, js + strlen(js), "bindless", 0);
     s->int_inputs = (uint32_t)json_int(js, js + strlen(js), "int_inputs", 0);
     s->raw_outputs = (uint32_t)json_int(js, js + strlen(js), "raw_outputs", 0);
     reflect_spirv(s);

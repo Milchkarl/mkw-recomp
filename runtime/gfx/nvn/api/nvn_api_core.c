@@ -15,6 +15,7 @@
 #include "gfx.h"
 #include "host.h"
 #include "nvn_api.h"
+#include "prof.h"
 #include "nvn_pool_index.h"
 #include "platform/platform.h"
 #include "version.h"
@@ -558,6 +559,8 @@ NVN_API(nvnQueueFenceSync) {
     sync_t *s = arg_p(c, 1);
     s->fenced = 1;
     s->fence = nvn_fence_last();
+    if (seqwatch_probe())   // MKW_PROBE: which queue the game fences (the early reads' writers)
+        rt_log("nvn: probe fence sync %p on queue %p at fence %llu", (void *)s, arg_p(c, 0), (unsigned long long)s->fence);
 }
 // NVNsyncWaitResult nvnSyncWait(const NVNsync *s, uint64_t timeout_ns): a sync never fenced reports a timeout at once;
 // a fenced one is released only after the back end completed that fence value
@@ -648,16 +651,40 @@ static int fence_early(const GfxBackend *b) {
     return on;
 }
 
+// MKW_FENCE_AHEAD (a measurement, default 0; "ab"; with MKW_FENCE_EARLY on): the wait for a frame's fence ends once the
+// frame before it is recorded, so the game builds a frame while the replay records the one before (their sum becomes
+// their maximum). The game rewrites in place what the frame before read (~47 KiB a frame in a 2-player race, srf3):
+// only sound with the copy at the submit (MKW_SHADOW_SUBMIT=1), and not yet for what the recording reads elsewhere.
+static uint64_t fence_ahead(uint64_t fence) {
+    static int mode = -1;
+    if (mode < 0) {
+        mode = rt_knob("FENCE_AHEAD", "0");
+        if (mode) rt_log("nvn: a frame's fence wait ends once the frame before is recorded%s (MKW_FENCE_AHEAD)",
+                         mode == 2 ? " in the B blocks" : "");
+    }
+    if (!RT_KNOB_ON(mode)) return fence;
+    uint64_t best = 0;
+    for (int i = 0; i < 4; i++) {
+        uint64_t p = __atomic_load_n(&present_fence[i], __ATOMIC_RELAXED);
+        if (p < fence && p > best) best = p;
+    }
+    return best ? best : fence;   // before the first presents (the boot's loaders), as without it
+}
+
 NVN_API(nvnSyncWait) {
     const sync_t *s = arg_p(c, 0);
     uint64_t timeout = arg_x(c, 1);
     if (!s->fenced) { ret_x(c, NVN_SYNC_WAIT_RESULT_TIMEOUT_EXPIRED); return; }
     const GfxBackend *b = gfx_backend();
+    if (seqwatch_probe())   // MKW_PROBE: the game's fence waits, against the early-read waits' writers
+        rt_log("nvn: probe sync wait %p for fence %llu (GPU at %llu)", (const void *)s, (unsigned long long)s->fence,
+               (unsigned long long)b->fence_done());
     if (fence_early(b) && b->fence_done() < s->fence) {
         int ok;
         {
             NVN_BLOCKING();
-            ok = b->fence_wait_issued(s->fence, timeout);
+            uint64_t until = fence_ahead(s->fence);
+            ok = b->fence_wait_issued(until, timeout);
         }
         if (ok) {
             uint64_t prev = __atomic_load_n(&mem_early_rel, __ATOMIC_RELAXED);
@@ -826,6 +853,7 @@ static uint64_t early_done(void) { return gfx_backend()->fence_done(); }   // MK
 // MKW_EARLY_READ: what this submit's GPU work writes, watched from now with its fence; under the submit's lock, as the
 // list nvn_submit_prepare filled.
 static void early_watch_submit(uint64_t f) {
+    nvn_subw_commit(f);   // MKW_EARLY_SUBMASK
     if (!nvn_sub_ndst) return;
     mem_early_set_done(early_done, gfx_backend()->fence_wait, gfx_backend()->fence_queued);
     for (int i = 0; i < nvn_sub_ndst; i++) mem_early_watch(nvn_sub_dst[i].addr, nvn_sub_dst[i].size, f, nvn_sub_dst[i].kind);
@@ -841,6 +869,7 @@ NVN_API(nvnQueueSubmitCommands) {
     const uint64_t *h = arg_p(c, 2);
     if (n < 0 || (n && !h)) rt_fatal("nvn: QueueSubmitCommands with %d handles at %p", n, (const void *)h);
     NVN_BLOCKING();
+    cpuctr_tick(CPUCTR_GAME);   // MKW_CPU_COUNTERS: the game's thread since its last submission
     q->submits++;
     uint64_t f;
     int held = 0;
@@ -897,6 +926,9 @@ NVN_API(nvnQueueSubmitCommands) {
                                            (unsigned long long)__atomic_load_n(&gfx_counters.frames, __ATOMIC_RELAXED),
                                            last ? "on" : "off");
     ev_note_submit(f);
+    if (seqwatch_probe())   // MKW_PROBE: each submit's fence and queue, against the early-read waits' writers
+        rt_log("nvn: probe submit fence %llu on queue %p, %d handles (first %p)%s at %.3f ms", (unsigned long long)f,
+               (void *)q, n, n ? (void *)(uintptr_t)h[0] : NULL, held ? ", held" : "", (double)plat_now_ns() / 1e6);
     // (not a held one: the console's GPU stops at its wait too, until the other queue's submit; that one waits for both)
     if (catchup && RT_KNOB_ON(catchup) && gfx_replay_async() && !held && (!only_reports || nvn_sub_sp_reports))
         gfx_backend()->fence_wait(f, 500000000ull);

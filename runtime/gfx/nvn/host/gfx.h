@@ -124,6 +124,10 @@ int gfx_shader_mesh_kind(const GfxShader *s);             // GFX_MESH_*, from th
 // Task/mesh as compute: the program's compute form, NULL if none; and whether s is one.
 const GfxShader *gfx_shader_cs_variant(const GfxShader *s);
 int gfx_shader_cs_of_mesh(const GfxShader *s);
+// A program translated with SM86_BINDLESS (sm86/translate/glsl/bindless.py): its constant banks and storage buffers
+// are read through the per-draw row the replay writes (vk_exec_bl.c, MKW_BINDLESS), the row's address in the push
+// constants.
+int gfx_shader_bindless(const GfxShader *s);
 const GfxShader *gfx_shader_mesh_cs_vs(void);              // its draw's vertex shader (17 vec4 attributes), NULL if missing
 int gfx_shader_is_mesh_cs_vs(const GfxShader *s);
 #define MESH_CS_VWORDS 68                                  // words a vertex: position and 16 generics (head.py MESH_VWORDS)

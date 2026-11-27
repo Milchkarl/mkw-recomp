@@ -236,6 +236,9 @@ void mem_copy_out(void *dst, uint64_t a, uint64_t n);                    // memc
 void mem_early_log(uint64_t frame);                                       // every frame; a line every 600
 void mem_early_gpu_wrote(uint64_t a, uint64_t n, uint64_t fence);         // the replay: submission fence writes [a, a+n)
 void mem_early_invalidate(uint64_t a, uint64_t n);                        // the game reads [a, a+n) of a cached pool next
+int mem_early_sub_mode(void);                                             // MKW_EARLY_SUBMASK: 0 off, 1 on, 2 B blocks
+void mem_early_sub_wrote(const uint64_t *r, int n, uint64_t fence);      // MKW_EARLY_SUBMASK: all that fence writes,
+                                                                          // n (addr, size) pairs known at its submit
 void mem_trap_stats(uint64_t *now, uint64_t *trapped_pages, uint64_t *access_fills, uint64_t *other_fills);
                                                            // pages trapped now; trapped and filled since the last call
 void mem_kernel_free(void *p, uint64_t size);              // TLR/TLS reuse after thread exit
@@ -340,12 +343,13 @@ void frame_logic_hz_reread(void);                          // probes: the next f
 // In-launch A/B measurement: MKW_AB=<seconds> splits the world clock (frame_step_world_us) into blocks of that much
 // game time in the order A B B A (repeated; B A A B with MKW_AB_INVERT=1); rt_ab() is 1 in the B blocks, 0 in A
 // blocks, before the world clock and without MKW_AB. rt_knob(name, def) reads the switch MKW_<name> once per call
-// (def when unset): 0 off, 2 for "ab" (on in the B blocks only), 1 for anything else;
+// (def when unset): 0 off, 2 for "ab" (on in the B blocks only), 3 for "ba" (on in the A blocks only: a switch that is
+// on by default turned off in B, beside others turned on there), 1 for anything else;
 // callers keep it and test it with RT_KNOB_ON. The perf line counts the B frames of its window (tools/ab_summary.py
 // compares the windows that are wholly A or wholly B).
 int rt_ab(void);
 int rt_knob(const char *name, const char *def);
-#define RT_KNOB_ON(mode) ((mode) == 2 ? rt_ab() : (mode))
+#define RT_KNOB_ON(mode) ((mode) == 2 ? rt_ab() : (mode) == 3 ? !rt_ab() : (mode))
 extern volatile uint64_t nvn_timestamp_last; // nvn_ext.c: the counter timestamp the game read last (ticks)
 void frame_step_present(uint64_t display_ns, int interval); // nvnQueuePresentTexture: the frame's display time and
                                                            // present interval (vsync ticks of MKW_LOGIC_HZ)

@@ -88,7 +88,9 @@ def common_env(env: dict[str, str], run: Run) -> None:
     default(env, "MKW_FLIGHT", "1")
     default(env, "MKW_FLIGHT_SPIKE_MS", "0")
     default(env, "MKW_FLIGHT_DIR", str(ROOT / f"scratchpad/flight-{run.name}"))
-    default(env, "MKW_TRACE", "gfx,present")
+    # MKW_TRACE= (set, empty) runs without the trace, as a player does: gfx,present writes ~380,000 log lines in a
+    # 2-player race, under the log's lock, from the threads that record the draws (26/11/2026)
+    default(env, "MKW_TRACE", "gfx,present", if_empty=False)
     # Our window opens behind, without the focus; the game is told it has it (it pauses otherwise).
     default(env, "MKW_BACKGROUND_WINDOW", "1")
     default(env, "MKW_ASSUME_FOCUS", "1")
@@ -115,7 +117,26 @@ def avail_mb() -> int:
     return kb // 1024
 
 
-def refusals(run: Run, binary: Path, env: dict[str, str]) -> list[str]:
+MAX_BUSY = 2.0   # cores: a hypothesis (26/11/2026), no run was lost below it yet; "busy" in NAME.json is the data
+
+
+def cpu_ticks(text: str) -> tuple[int, int]:
+    """(busy, total) clock ticks of the first line of /proc/stat (every CPU summed)."""
+    v = [int(x) for x in text.split("\n", 1)[0].split()[1:]]
+    idle = v[3] + (v[4] if len(v) > 4 else 0)   # idle and iowait
+    return sum(v) - idle, sum(v)
+
+
+def busy_cores(seconds: float = 1.0) -> float:
+    """Cores the machine's other work keeps busy, sampled for `seconds` before the game starts."""
+    stat = Path("/proc/stat")
+    b0, t0 = cpu_ticks(stat.read_text())
+    time.sleep(seconds)
+    b1, t1 = cpu_ticks(stat.read_text())
+    return round((b1 - b0) / max(t1 - t0, 1) * (os.cpu_count() or 1), 1)
+
+
+def refusals(run: Run, binary: Path, env: dict[str, str], measure: bool = False) -> list[str]:
     out = []
     # 07/11/2026: rules alone did not stop 59 runs against 81 replays; a run says what it expects and concludes.
     if env.get("CLAUDECODE") and not env.get("MKW_RUN_WHY"):
@@ -148,6 +169,22 @@ def refusals(run: Run, binary: Path, env: dict[str, str]) -> list[str]:
             time.sleep(10)
         if mb < floor:
             out.append(f"only {mb} MB available (with the GPU page pool), below {floor}: WAIT_MEM=<min> waits")
+    if not out and measure:
+        # A run that measures, on a machine other work loads, measures that work: an in-run A/B went at 50 ms a frame
+        # instead of 24, ±14 ms, with other jobs on five cores (sim2-hfab, 26/11/2026). MAX_BUSY=0 lifts it.
+        limit = float(env.get("MAX_BUSY") or MAX_BUSY)
+        end = time.monotonic() + float(env.get("WAIT_LOAD") or 0) * 60
+        said = False
+        while (busy := busy_cores()) > limit > 0 and time.monotonic() < end:
+            if not said:
+                print(f"run: {run.name} waits for the CPU: {busy} cores busy with other work, at most {limit}, up to "
+                      f"{env['WAIT_LOAD']} min", flush=True)
+                said = True
+            time.sleep(10)
+        env["RUN_BUSY_BEFORE"] = str(busy)
+        if busy > limit > 0:
+            out.append(f"{busy} cores busy with other work (ps -eo pcpu,args --sort=-pcpu), over {limit}: "
+                       "WAIT_LOAD=<min> waits; MAX_BUSY=<cores> moves the limit, 0 lifts it")
     return out
 
 
@@ -177,9 +214,10 @@ def make_plan(name: str, kind: str, seconds: int | None, env: dict[str, str] | N
     default(env, "WORLD_SECS", str(int(race_secs) + 30))
     if seconds is None:   # the race runs at ~0.5x on the 660M (mem5, 24/11/2026: killed in its first race at 240)
         seconds = {"live": 900, "plain": 120}.get(kind) or max(240, int(env["WORLD_SECS"]) * 2 + 60)
-    if env.get("MKW_AB"):
+    if env.get("MKW_AB") or env.get("MKW_GPU_SIM") or env.get("MKW_CRIT"):
         # An A/B compares frame times: with `auto` the game changes its present interval as the blocks go by and the
-        # pacer holds the faster ones (wsim2-both, 26/11/2026: 218 changes a minute, A blocks 84 % in pacing).
+        # pacer holds the faster ones (wsim2-both, 26/11/2026: 218 changes a minute, A blocks 84 % in pacing). The same
+        # for the other runs that measure waits (sim2-ahead-keep: 60 % of the frame in pacing at 20 fps under `auto`).
         default(env, "MKW_FPS", "60")
     target = env.get("MKW_AB_TARGET")
     return Plan(run, kind, seconds, env, binary, perf=env.get("RUN_PERF", "1") != "0" and kind != "live",
@@ -228,6 +266,7 @@ def prepare(plan: Plan) -> dict:
         plan.say("run: from mkw.ini, not set by the run: " + ", ".join(f"{k}={v}" for k, v in ini.items()))
     return {"name": run.name, "kind": plan.kind, "why": why, "binary": report.binary(plan.binary),
             "env": report.mkw_env(plan.env), "ini": ini, "seconds": plan.seconds,
+            "busy": float(plan.env.get("RUN_BUSY_BEFORE") or -1),   # cores busy with other work before the start
             "started": time.strftime("%F %T", time.localtime(now)), "started_unix": now}
 
 
@@ -235,14 +274,15 @@ def command(plan: Plan) -> list[str]:
     run = plan.run
     game = ["timeout", "-s", "KILL", str(plan.seconds), str(plan.binary), "--seconds", plan.env["WORLD_SECS"]]
     if plan.perf and shutil.which("perf"):
-        game = ["perf", "record", *plan.env.get("PERF_ARGS", "").split(), "-F", "499",
+        # CLOCK_MONOTONIC, as the host_ms column of MKW_FRAMES: the profile splits by A/B block (tools/run/perf_ab.py)
+        game = ["perf", "record", "-k", "CLOCK_MONOTONIC", *plan.env.get("PERF_ARGS", "").split(), "-F", "499",
                 "-o", str(ROOT / f"scratchpad/{run.name}.perf"), "--", *game]
     return [str(ROOT / "tools/run/job.sh"), "run", run.name, *game]
 
 
 def race(plan: Plan) -> dict:
     run, say = plan.run, plan.say
-    no = refusals(run, plan.binary, plan.env)
+    no = refusals(run, plan.binary, plan.env, measure=True)
     if no:
         run.dir.mkdir(parents=True, exist_ok=True)
         meta = {"name": run.name, "kind": plan.kind, "why": plan.env.get("MKW_RUN_WHY"), "refused": no}

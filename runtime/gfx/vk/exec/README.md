@@ -13,6 +13,7 @@ and dispatches, descriptors, and their parallel recording.
 | `vk_exec_passhz.c`, `vk_passhz.h` | `MKW_PASS_HAZARDS` (default 0; `1`, `ab`, `census`): no full barrier before a pass or an image clear independent of what came since the last one; a draw that samples what was rendered since, or stores anywhere, ends the pass and begins it behind the barrier |
 | `vk_exec_xbind.c` | `MKW_BIND_XF=check\|use` (a measurement for the draw cache): a draw's descriptors kept across frames by their inputs; `check` counts hits, `use` gives the ceiling of the saving |
 | `vk_exec_bind.c` | Descriptor sets of each draw or dispatch, with their memos and skipping of repeats (`MKW_BIND_SKIP`) |
+| `vk_exec_bl.c` | `MKW_BINDLESS`: per-draw rows of buffer addresses for the programs translated with `SM86_BINDLESS`, their push constants, and the device-address usage of the buffers they read |
 | `vk_exec_cb.c` | About the command buffer being recorded: transient memory, descriptor pools and ranges the GPU writes, and fixed state, vertex buffers and feedback barriers |
 | `vk_exec_written.c` | `MKW_REPLAY_PAR_WSHARE`: the ranges the GPU writes in a submission recorded in chunks, each reported pending and written back by one thread only |
 | `vk_exec_view.c` | Stand-ins for what is not bound (zeros, 1x1 image, sampler) and image views of textures (`view_lock`; after `tex_lock` → `slots_lock` when those are held) |

@@ -105,6 +105,9 @@ GPL ones and from those without a license, only ideas.
 | [Hookshot](https://git.notrexed.dev/Hookshot/Hookshot) (a598b9f, 08/11/2026) | GPL-3.0 | A Switch 2 Ocarina of Time recomp (Windows and Linux), **a fork of another, unpublished MKW recomp** whose `nx2/`, `host/` and `gpu/vk/` it carries whole: races at 45-55 fps on an RTX 4060 Ti. Its MKW is another version (build id `d00e4f39…`, SDK 21.4.0; ours `9e244438…`, 1.0.0). Ideas only |
 | [0xD0GF00D/DocumentSASS](https://github.com/0xD0GF00D/DocumentSASS), [reoLantern/nvsass-disassembler](https://github.com/reoLantern/nvsass-disassembler) ([arXiv 2609.18662](https://arxiv.org/abs/2609.18662)) | MIT | The SASS encoding specification taken from `nvdisasm` itself (sm_80/sm_86/sm_89): fields per instruction and a decoder validated against nvdisasm on 3.78 M instructions. The base of the SM86 decoder (`sm86/decode`); `intercept.c`, `funnel.py`, `parse_sidl.py` and `sidl_*.py` copied unchanged into `sm86/spec`, which builds the spec on the player's machine. Needs CUDA 12.8's `nvdisasm` |
 | [cloudcores/CuAssembler](https://github.com/cloudcores/CuAssembler) | MIT | An SM86 SASS assembler that learns the encoding from nvdisasm/binary pairs |
+| [Ghidra](https://github.com/NationalSecurityAgency/ghidra) 12.2 with [pyghidra](https://pypi.org/project/pyghidra/) | Apache-2.0 | Used as a tool, nothing copied: `tools/analisis/bin/decomp.py` decompiles single functions of `main` and `sdk` headless |
+| [open-ead/agl](https://github.com/open-ead/agl), [open-ead/sead](https://github.com/open-ead/sead), [open-ead/nnheaders](https://github.com/open-ead/nnheaders), [MonsterDruide1/OdysseyDecomp](https://github.com/MonsterDruide1/OdysseyDecomp), [zeldaret/botw](https://github.com/zeldaret/botw) (27/11/2026) | None | Switch 1 decompilations of Nintendo's libraries. MKW links agl (`agl::utl::DynamicShaderStorageBlockAllocator`, `agl::lyr::Renderer` strings), but none of them has bodies for `agl::lyr`, `agl::utl` or `agl::cull` (only symbol names such as `agl::cull::OcclusionQuery`, `NVNMgr::waitDrawDone`). Nothing taken |
+| [decompile/fefw](https://code.vexcited.com/decompile/fefw) (ef52067, 27/11/2026) | None | A Switch 2 decompilation (Fire Emblem Fortune's Weave), non-matching, checked with objdiff. Its `include/graphics/nvn_procedures.inc` lists 735 NVN2 procs, the same set as ours. No loader or Ghidra scripts in the repo and no CPU readback of GPU data. Nothing taken |
 | [AnyPS5 #6528](https://github.com/boykopovar/AnyPS5/issues/6528) (PR #9356) | GPL-2.0 | Only the idea, for task/mesh as compute: without `VK_EXT_mesh_shader`, the mesh shader is compiled as a compute shader that writes vertices and triangles (the extra ones degenerate) to buffers, drawn by index with a generated vertex shader. Measured there: 15 of 20 games on a Radeon 680M without mesh shaders |
 | [Dolphin, hybrid ubershader mode](https://dolphin-emu.org/blog/2017/07/30/ubershaders/) ([PR #5702](https://github.com/dolphin-emu/dolphin/pull/5702)) | GPL-2.0+ | Only the idea, for specialized shaders: draw with the generic shader while the specialized variant compiles in the background, and switch to it when ready |
 | [Mesa environment variables](https://docs.mesa3d.org/envvars.html) | MIT (docs) | RADV RGP capture: `MESA_VK_TRACE=rgp`, `MESA_VK_TRACE_TRIGGER`, `MESA_VK_TRACE_FRAME` |
@@ -121,7 +124,8 @@ GPL ones and from those without a license, only ideas.
 | `ryujinx` | a61a426 | `src/Ryujinx.Graphics.{Shader,Gpu,Texture,Vulkan}` |
 | `nvsass-disassembler` | 28f9064 | `DocumentSASS/`, `parse_sidl.py`, `sass_decode.py` |
 
-No public NVN2 documentation, decompilation, symbol map or exefs patches of MKW were found (30/10/2026).
+No public NVN2 documentation, decompilation, symbol map or exefs patches of MKW were found (30/10/2026; searched
+again 27/11/2026: Switch 2 decompilations exist for other games, see the table).
 
 ## NVN2 against NVN1 (measured)
 

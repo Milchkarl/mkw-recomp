@@ -203,6 +203,7 @@ static inline void bind_pipeline(VkExec *ex, VkPipelineBindPoint bp, VkPipeline 
 }
 
 uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off);
+void vk_exec_bl_rows(VkExec *ex, const VkPipeInfo *info, const VkDescSlot *d);   // vk_exec_bl.c, MKW_BINDLESS
 void note_written(VkExec *ex, uint64_t addr, uint64_t size);
 // vk_exec_written.c: one owner per GPU-written range among the threads recording a submission's chunks
 void vk_exec_wshare_set(uint64_t fence);                                  // the submission shared, 0: none
@@ -223,6 +224,7 @@ int vk_exec_res_numeric(uint64_t h, const GfxShaderRes *r, int storage);
 // vk_exec_draw.c
 int find_stage(const prog_t *p, int nvn_stage, const uint8_t **ctl, const uint8_t **code, uint32_t *len);
 const GfxShader *shader_for(VkExec *ex, int st, int *present);
+uint64_t vk_exec_ssbo_wbits(const GfxShader *s, int st);   // vk_exec_bind.c: MKW_EARLY_SUBMASK, what s writes
 void spec_census(VkExec *ex, const GfxShader *s, int st);
 int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh);
 // vk_exec_ubuf.c

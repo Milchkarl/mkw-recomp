@@ -648,6 +648,7 @@ void upload_again(Tex *e) {
 // after it, during this replay) keeps its write-watch bit and is caught by the next submission's snapshot.
 void make_fresh_snap(Tex *e) {
     if (!e->pub.mirrored || e->pub.gpu_owned) return;
+    uint64_t sd0 = vk_exec_sd_on > 0 ? kern_now_ns() : 0;   // MKW_SUBMIT_DATA
     uint32_t now;
     n_checks++;
     int ch = vk_mem_changed_snap(e->pub.addr, e->t.L.size, e->uploaded ? e->wgen : 0, submit_epoch, &now);
@@ -658,7 +659,7 @@ void make_fresh_snap(Tex *e) {
         return;
     }
     e->last_ch = ch;
-    if (ch < 0 && e->t.mem && same_storage(e)) return;   // not tracked: the hash decides
-    if (ch) upload(e);
+    if (!(ch < 0 && e->t.mem && same_storage(e)) && ch) upload(e);   // not tracked: the hash decides
+    if (sd0) __atomic_fetch_add(&vk_exec_sd_fresh_ns, kern_now_ns() - sd0, __ATOMIC_RELAXED);
 }
 

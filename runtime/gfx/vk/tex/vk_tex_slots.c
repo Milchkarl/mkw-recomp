@@ -18,6 +18,8 @@
 
 // ---------------------------------------------------------------- descriptor slots
 // Slot tables under slots_lock alone: the game registers while the replay may hold tex_lock for uploads/evicts.
+uint64_t vk_tex_reg_all, vk_tex_reg_same;   // under slots_lock; read unlocked by a diagnosis
+
 void vk_texture_register(int id, const tex_t *t, const view_t *v) {
     if (id < 0 || id >= (1 << 20)) rt_fatal("vk: texture slot %d out of range", id);
     lock_slots();
@@ -39,6 +41,10 @@ void vk_texture_register(int id, const tex_t *t, const view_t *v) {
     }
     __atomic_store_n(&schk[id], 0, __ATOMIC_RELEASE);
     TexSlot *s = &tslots[id];
+    // MKW_REC_CENSUS=seq (nvn_rec_seq.c): registrations that repeat what the slot already holds
+    vk_tex_reg_all++;
+    if (s->used && !memcmp(&s->t, t, sizeof *t) && s->has_view == (v != NULL) && (!v || !memcmp(&s->v, v, sizeof *v)))
+        vk_tex_reg_same++;
     s->t = *t;
     s->used = 1;
     s->ce = NULL;
