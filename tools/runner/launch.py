@@ -274,7 +274,8 @@ def command(plan: Plan) -> list[str]:
     run = plan.run
     game = ["timeout", "-s", "KILL", str(plan.seconds), str(plan.binary), "--seconds", plan.env["WORLD_SECS"]]
     if plan.perf and shutil.which("perf"):
-        game = ["perf", "record", *plan.env.get("PERF_ARGS", "").split(), "-F", "499",
+        # CLOCK_MONOTONIC, as the host_ms column of MKW_FRAMES: the profile splits by A/B block (tools/run/perf_ab.py)
+        game = ["perf", "record", "-k", "CLOCK_MONOTONIC", *plan.env.get("PERF_ARGS", "").split(), "-F", "499",
                 "-o", str(ROOT / f"scratchpad/{run.name}.perf"), "--", *game]
     return [str(ROOT / "tools/run/job.sh"), "run", run.name, *game]
 

@@ -94,7 +94,7 @@ def extra_metrics(paths: list[Path]) -> list[str]:
     rep_kcyc, …). Their "ms" are the column's units over 1000 (CPU ms, millions of cycles or instructions)."""
     with paths[0].open(newline="") as f:
         head = next(csv.reader(f, delimiter="\t"), [])
-    std = {"frame", "world_ms", "ab", *(f"{m}_us" for m in METRICS)}
+    std = {"frame", "world_ms", "host_ms", "ab", *(f"{m}_us" for m in METRICS)}
     return [c.removesuffix("_us") if c.endswith("_us") else c for c in head if c not in std]
 
 

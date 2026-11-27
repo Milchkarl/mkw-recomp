@@ -140,6 +140,7 @@ static struct {
     int qleft;            // the submission's OP_QUEUE ops the walk has not reached: cuts kept for them
     uint64_t n_pipe;      // submissions whose first chunk was handed out before the walk ended
     int head_draws;       // MKW_REPLAY_PAR_HEAD
+    int head_ab;          // MKW_REPLAY_PAR_HEAD=ab[:N]: N (256) draws in the A blocks, no head in the B blocks
     int head_now;         // the walk is still in the serial head (the replay thread records each op)
     int head_at;          // the walk's draws where the head ended (chunk 0 starts there); -1: no head ended
     uint64_t n_head, head_ndraws, head_ns;   // heads ended, their draws and time
@@ -637,7 +638,10 @@ static void setup(void) {
     // MKW_REPLAY_PAR_PIPE (default 1; "ab"; 0: the walk in full first, as before 16/11/2026): each chunk handed out
     // to the threads, and sent when ready, as soon as the walk is past its end (publish).
     P.pipe = rt_knob("REPLAY_PAR_PIPE", "1");
-    e = cfg_get("MKW_REPLAY_PAR_HEAD");   // draws of the serial head (with PIPE and threads); 0: none
+    // draws of the serial head (with PIPE and threads); 0: none; "ab[:N]": N in the A blocks, none in the B blocks
+    e = cfg_get("MKW_REPLAY_PAR_HEAD");
+    P.head_ab = e && !strncmp(e, "ab", 2);
+    if (P.head_ab) e = e[2] == ':' ? e + 3 : NULL;
     P.head_draws = e ? atoi(e) : 256;
     e = cfg_get("MKW_REPLAY_PAR_THREADS");   // threads besides the replay thread
     uint32_t cpus = plat_cpu_count();
@@ -759,7 +763,7 @@ int vk_exec_par(VkExec *ex, const uint64_t *handles, int n, int diag) {
     // MKW_REPLAY_PAR_PIPE: chunks handed out from the walk (publish) once prescan rules out an op it could not leave;
     // the diagnoses that pick the chunks' order need them all first
     P.pipe_now = RT_KNOB_ON(P.pipe) && !P.reverse && !P.norder;
-    P.head_now = P.pipe_now && P.threads && P.head_draws > 0, P.head_at = -1;
+    P.head_now = P.pipe_now && P.threads && P.head_draws > 0 && !(P.head_ab && rt_ab()), P.head_at = -1;
     if (P.pipe_now && !P.head_now) {
         int nupd, ncond, nq;
         P.ntid = P.pre_from = 0;

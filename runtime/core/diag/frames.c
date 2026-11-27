@@ -4,11 +4,14 @@
 // standard error of B - A 1.3 ms, 18 of them past two). Rows give the blocks of MKW_AB whole, their first frames
 // droppable. Buffered and flushed every 60 frames: a killed run loses at most that, and the render thread pays a
 // formatted write into memory per frame and one small write() per second or so.
+// host_ms: CLOCK_MONOTONIC at the row (plat_now_ns), the clock tools/runner records perf with (-k CLOCK_MONOTONIC), so
+// a run's profile splits by A/B block (tools/run/perf_ab.py).
 #include <stdio.h>
 
 #include "cfg.h"
 #include "host.h"
 #include "prof.h"
+#include "platform/platform.h"
 
 static FILE *out;
 static const char *const cls[CPUCTR_N] = {"rep", "rout", "chk", "cout", "game"};
@@ -26,7 +29,7 @@ static int frames_open(void) {
         return -1;
     }
     setvbuf(out, NULL, _IOFBF, 1 << 16);
-    fputs("frame\tworld_ms\tab\tinterval_us\treplay_us\tpipe_us\ttex_us\tfence_us\tpace_us", out);
+    fputs("frame\tworld_ms\thost_ms\tab\tinterval_us\treplay_us\tpipe_us\ttex_us\tfence_us\tpace_us", out);
     // MKW_CPU_COUNTERS: per class of thread, CPU µs, thousands of cycles and of instructions, cache misses, run queue
     // µs, the spans measured (wall µs, waits µs)
     if (cpuctr_on())
@@ -41,8 +44,8 @@ void frames_row(uint64_t frame, uint64_t interval_ns, const uint64_t wait_ns[PER
     if (!state) state = frames_open();
     if (state < 0 || !interval_ns) return;   // the first present has no interval
     int64_t world = frame_step_world_us();
-    fprintf(out, "%llu\t%.1f\t%d\t%llu\t%llu\t%llu\t%llu\t%llu\t%llu", (unsigned long long)frame,
-            world < 0 ? -1.0 : world / 1e3, rt_ab(), (unsigned long long)(interval_ns / 1000),
+    fprintf(out, "%llu\t%.1f\t%.3f\t%d\t%llu\t%llu\t%llu\t%llu\t%llu\t%llu", (unsigned long long)frame,
+            world < 0 ? -1.0 : world / 1e3, (double)plat_now_ns() / 1e6, rt_ab(), (unsigned long long)(interval_ns / 1000),
             (unsigned long long)(replay_ns / 1000), (unsigned long long)(wait_ns[PERF_PIPE] / 1000),
             (unsigned long long)((wait_ns[PERF_TEX] + wait_ns[PERF_ASTC]) / 1000),
             (unsigned long long)((wait_ns[PERF_FENCE] + wait_ns[PERF_DRAIN]) / 1000),
