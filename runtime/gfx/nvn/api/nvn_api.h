@@ -129,6 +129,18 @@ extern uint32_t nvn_sub_sp_reports, nvn_sub_reports, nvn_sub_events, nvn_sub_wai
 typedef struct { uint64_t addr, size; int kind; } NvnEarlyDst;   // MKW_EARLY_READ: a submit's GPU write destinations
 extern NvnEarlyDst nvn_sub_dst[NVN_EARLY_MAX];
 extern int nvn_sub_ndst;
+// MKW_EARLY_SUBMASK (nvn_subw.c): the ranges a submit's GPU work writes, known at the submit. The walk: begin, every
+// op (resolve_deferred), commit with the submit's fence. The back end tells per program serial which NVN stages it
+// has and, per stage, the storage buffers its shader writes: bits 0-15 c0 storage slots, 16-31 the compute stage's
+// uniform slots read as storage, NVN_PROGW_OTHER an address read elsewhere (a user uniform block).
+#define NVN_PROGW_OTHER (1ull << 32)
+extern uint32_t nvn_subw_align;   // vk_caps.c: storage buffers bind from their address rounded down to it (0: exact)
+int nvn_subw_on(void);
+void nvn_subw_begin(void);
+void nvn_subw_op(uint32_t op, const uint8_t *payload);
+void nvn_subw_commit(uint64_t fence);
+void nvn_progw_present(uint64_t serial, uint32_t stages);
+void nvn_progw_stage(uint64_t serial, int stage, uint64_t bits);
 extern volatile uint32_t *nvn_sub_event_val[64];
 // The submission's event ops (OP_SIGNAL_EVENT and OP_WAIT_EVENT) in op order, found by resolve_deferred's walk at
 // submit, so nvn_qorder.c follows the events without walking every op again; -1 when there were more than fit.

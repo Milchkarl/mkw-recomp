@@ -279,6 +279,23 @@ static int ubo_ptr_res(const GfxShaderRes *r) {
     return r->cbuf_slot >= 3 && r->cbuf_slot - 3 < 18;
 }
 
+// MKW_EARLY_SUBMASK (nvn_subw.c): the storage buffers stage st's shader s writes, as ssbo_info binds them: bits 0-15
+// c0 storage slots, 16-31 compute uniform slots read as storage, NVN_PROGW_OTHER one whose address is in a user block.
+// A written one at another place is bound to a zero buffer and writes nothing.
+uint64_t vk_exec_ssbo_wbits(const GfxShader *s, int st) {
+    const GfxShaderRes *res;
+    int n = gfx_shader_resources(s, GFX_RES_SSBO, &res);
+    uint64_t bits = 0;
+    for (int i = 0; i < n; i++) {
+        const GfxShaderRes *r = &res[i];
+        if (!(r->flags & 1)) continue;
+        int ubo, slot = ssbo_slot(r, st, &ubo);
+        if (slot >= 0 && slot < 16) bits |= 1ull << (slot + (ubo ? 16 : 0));
+        else if (ubo_ptr_res(r)) bits |= NVN_PROGW_OTHER;
+    }
+    return bits;
+}
+
 static VkDescriptorBufferInfo ssbo_info(VkExec *ex, int st, const GfxShaderRes *r, int written) {
     if (!__atomic_load_n(&LIM.ubo_max, __ATOMIC_ACQUIRE)) limits_init();
     uint64_t max = LIM.sbo_max, align = LIM.sbo_align;

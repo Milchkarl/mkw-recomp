@@ -236,6 +236,9 @@ void mem_copy_out(void *dst, uint64_t a, uint64_t n);                    // memc
 void mem_early_log(uint64_t frame);                                       // every frame; a line every 600
 void mem_early_gpu_wrote(uint64_t a, uint64_t n, uint64_t fence);         // the replay: submission fence writes [a, a+n)
 void mem_early_invalidate(uint64_t a, uint64_t n);                        // the game reads [a, a+n) of a cached pool next
+int mem_early_sub_mode(void);                                             // MKW_EARLY_SUBMASK: 0 off, 1 on, 2 B blocks
+void mem_early_sub_wrote(const uint64_t *r, int n, uint64_t fence);      // MKW_EARLY_SUBMASK: all that fence writes,
+                                                                          // n (addr, size) pairs known at its submit
 void mem_trap_stats(uint64_t *now, uint64_t *trapped_pages, uint64_t *access_fills, uint64_t *other_fills);
                                                            // pages trapped now; trapped and filled since the last call
 void mem_kernel_free(void *p, uint64_t size);              // TLR/TLS reuse after thread exit

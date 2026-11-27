@@ -848,6 +848,7 @@ static uint64_t early_done(void) { return gfx_backend()->fence_done(); }   // MK
 // MKW_EARLY_READ: what this submit's GPU work writes, watched from now with its fence; under the submit's lock, as the
 // list nvn_submit_prepare filled.
 static void early_watch_submit(uint64_t f) {
+    nvn_subw_commit(f);   // MKW_EARLY_SUBMASK
     if (!nvn_sub_ndst) return;
     mem_early_set_done(early_done, gfx_backend()->fence_wait, gfx_backend()->fence_queued);
     for (int i = 0; i < nvn_sub_ndst; i++) mem_early_watch(nvn_sub_dst[i].addr, nvn_sub_dst[i].size, f, nvn_sub_dst[i].kind);

@@ -223,6 +223,7 @@ int vk_exec_res_numeric(uint64_t h, const GfxShaderRes *r, int storage);
 // vk_exec_draw.c
 int find_stage(const prog_t *p, int nvn_stage, const uint8_t **ctl, const uint8_t **code, uint32_t *len);
 const GfxShader *shader_for(VkExec *ex, int st, int *present);
+uint64_t vk_exec_ssbo_wbits(const GfxShader *s, int st);   // vk_exec_bind.c: MKW_EARLY_SUBMASK, what s writes
 void spec_census(VkExec *ex, const GfxShader *s, int st);
 int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh);
 // vk_exec_ubuf.c

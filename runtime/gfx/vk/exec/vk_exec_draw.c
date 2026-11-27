@@ -120,6 +120,9 @@ int find_stage(const prog_t *p, int nvn_stage, const uint8_t **ctl, const uint8_
             int st = nvn2_program_stage(c, data);
             if (st >= 0 && st < 8 && m->idx[st] < 0) m->idx[st] = (int8_t)i, m->len[st] = nvn2_program_length(c, data);
         }
+        uint32_t present = 0;
+        for (int s = 0; s < 8; s++) present |= (uint32_t)(m->idx[s] >= 0) << s;
+        nvn_progw_present(p->serial, present);   // MKW_EARLY_SUBMASK (nvn_subw.c)
     }
     int i = m->idx[nvn_stage];
     if (i < 0) return 0;
@@ -171,6 +174,7 @@ static const GfxShader *cached_shader(VkExec *ex, int st, const uint8_t *ctl, co
         }
     }
     const GfxShader *s = gfx_shader_get(ctl, code, &a);
+    if (serial) nvn_progw_stage(serial, st, s ? vk_exec_ssbo_wbits(s, st) : 0);   // MKW_EARLY_SUBMASK (nvn_subw.c)
     if (!s) warn_once(W_SHADER, "a stage %d shader of program %llu has no prepared SPIR-V: draws with it are skipped", st,
                       (unsigned long long)serial);
     // in front, the least recently used way drops out. A program without prepared SPIR-V is kept too (s NULL): each of

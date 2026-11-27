@@ -652,6 +652,7 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
                      h.op, h.size);
         if (h.op == OP_END) return nd;
         if (early_watch) early_op(h.op, p + 8);
+        nvn_subw_op(h.op, p + 8);   // MKW_EARLY_SUBMASK
         if (h.op == OP_JUMP) {
             memcpy(&p, p + 8, 8);
             continue;
@@ -713,6 +714,7 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
 void nvn_submit_prepare(const uint64_t *handles, int n) {
     nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
+    nvn_subw_begin();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     for (int i = 0; i < n; i++) copy_touch(handles[i], now, "QueueSubmitCommands");
     uint64_t r0 = def_reads, c0 = def_changed;
@@ -726,6 +728,7 @@ void nvn_submit_prepare(const uint64_t *handles, int n) {
 void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
     nvn_sub_sp_reports = nvn_sub_reports = nvn_sub_events = nvn_sub_waits = 0, nvn_sub_nevop = 0;
     nvn_sub_ndst = 0, early_watch = mem_early_on();
+    nvn_subw_begin();
     uint64_t now = __atomic_add_fetch(&nsubmits, 1, __ATOMIC_RELAXED);
     uint64_t replayed = gfx_replayed_submits();
     plat_mutex_lock(&copy_lock);

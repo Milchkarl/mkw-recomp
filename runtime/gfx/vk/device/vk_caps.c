@@ -22,6 +22,7 @@
 #include "cfg.h"
 #include "gfx.h"
 #include "host.h"
+#include "nvn_api.h"
 #include "vk.h"
 #include "vk_tex_gfx9.h"
 
@@ -91,6 +92,7 @@ void vk_caps_init(VkCtx *c) {
     uint32_t real_align = (uint32_t)l->minStorageBufferOffsetAlignment, a = env_u32("MKW_VK_SSBO_ALIGN", 0);
     if (a && !(a & (a - 1)) && a > real_align) l->minStorageBufferOffsetAlignment = a;
     vk_caps.sbuf_align = l->minStorageBufferOffsetAlignment > 4 ? (uint32_t)l->minStorageBufferOffsetAlignment : 0;
+    nvn_subw_align = vk_caps.sbuf_align;   // MKW_EARLY_SUBMASK: the writes a submit knows, bound as ssbo_info binds them
 
     uint32_t want = env_u32("MKW_VK_SUBGROUP", 32);
     int pin = f13.subgroupSizeControl && cfg_bool("MKW_VK_SUBGROUP_PIN") && p13.minSubgroupSize <= want &&

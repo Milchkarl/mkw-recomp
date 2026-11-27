@@ -24,6 +24,7 @@ extern uint64_t mem_early_frame;                                // the frame mem
 void mem_early_ev_note(int kind, uint64_t addr, uint64_t w, uint64_t done, uint64_t pc);   // MKW_EARLY_READ_DRY
 void mem_early_ev_log(void);                                    // every frame
 int mem_early_ev_counts(char *b, int n);                        // the 600-frame line's counts, then reset
+int mem_early_sub_bits(uint64_t p, uint64_t w, uint64_t *bits);   // memory_early_sub.c: fence w's pieces of page p
 void mem_early_wait(uint64_t fence);   // frz_lock held: a's page gets its protection back; access:
                                                          // a fault at a (the byte touched)
 #endif
