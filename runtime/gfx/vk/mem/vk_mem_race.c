@@ -21,8 +21,19 @@ typedef struct { const PoolRec *r; uint64_t lo, hi, fence, frame; } RNote;
 
 int race_on = -1;
 static PlatMutex race_lock = PLAT_MUTEX_INIT;
-static RNote *notes;   // race_lock
+static RNote *notes;   // race_lock: MKW_SHADOW_RACE=frame's notes, all pools
 static int nnotes, cnotes;
+// The other modes keep each pool's notes in its bucket (by PoolRec address), in the order they were noted, and drop
+// the finished ones from the front: one list of every pool, walked and compacted whole at each copy, grew with the game
+// ahead and its loops were most of race_check's 20-38 % of the replay's samples (sim2-erdry2, sim2-erdry3, 27/11/2026).
+#define NBUCKET 256
+static struct { RNote *v; int n, c, head; } bucket[NBUCKET];   // race_lock
+static int live_notes(void) {
+    int s = 0;
+    for (int i = 0; i < NBUCKET; i++) s += bucket[i].n - bucket[i].head;
+    return s;
+}
+static int bucket_of(const PoolRec *r) { return (int)(((uintptr_t)r >> 4) * 0x9E3779B97F4A7C15ull >> 56); }
 static uint64_t r_hits, r_bytes, r_lines;   // race_lock: since the last log, and lines written
 static uint8_t *tmp;
 static uint64_t ctmp;
@@ -79,13 +90,19 @@ void race_note(const PoolRec *r, uint64_t lo, uint64_t hi) {
     uint64_t f = vk_exec_recording_fence();
     if (!f || hi <= lo) return;
     plat_mutex_lock(&race_lock);
-    for (int i = nnotes - 1; i >= 0 && i >= nnotes - 8; i--)
-        if (notes[i].fence == f && notes[i].lo <= lo && notes[i].hi >= hi) {
+    RNote **v = &notes;
+    int *n = &nnotes, *c = &cnotes, first = 0;
+    if (race_on != 3) {
+        int b = bucket_of(r);
+        v = &bucket[b].v, n = &bucket[b].n, c = &bucket[b].c, first = bucket[b].head;
+    }
+    for (int i = *n - 1; i >= first && i >= *n - 8; i--)
+        if ((*v)[i].r == r && (*v)[i].fence == f && (*v)[i].lo <= lo && (*v)[i].hi >= hi) {
             plat_mutex_unlock(&race_lock);
             return;
         }
-    if (nnotes == cnotes) vk_mem_grow((void **)&notes, &cnotes, sizeof *notes);
-    notes[nnotes++] = (RNote){r, lo, hi, f, vk_exec_presented};
+    if (*n == *c) vk_mem_grow((void **)v, c, sizeof **v);
+    (*v)[(*n)++] = (RNote){r, lo, hi, f, vk_exec_presented};
     f_noted += hi - lo;
     plat_mutex_unlock(&race_lock);
 }
@@ -151,18 +168,34 @@ uint64_t race_check(const PoolRec *r, uint64_t a, uint64_t b, uint64_t sync, con
         plat_mutex_unlock(&race_lock);
         return 0;
     }
-    int k = 0;
-    for (int i = 0; i < nnotes; i++)
-        if (notes[i].fence > done) notes[k++] = notes[i];   // the finished ones go
-    nnotes = k;
-    for (int i = 0; i < nnotes; i++) {
-        const RNote *n = &notes[i];
-        if (n->r != r || n->fence >= sync || n->lo >= b || n->hi <= a) continue;
+    __typeof__(bucket[0]) *bk = &bucket[bucket_of(r)];
+    while (bk->head < bk->n && bk->v[bk->head].fence <= done) bk->head++;   // the finished ones go
+    if (bk->head == bk->n) bk->head = bk->n = 0;
+    else if (bk->head > 64 && bk->head * 2 > bk->n) {   // noted out of order (chunk threads): a done one may linger
+        memmove(bk->v, bk->v + bk->head, (size_t)(bk->n - bk->head) * sizeof *bk->v);
+        bk->n -= bk->head, bk->head = 0;
+    }
+    for (int i = bk->head; i < bk->n; i++) {
+        const RNote *n = &bk->v[i];
+        if (n->r != r || n->fence <= done || n->fence >= sync || n->lo >= b || n->hi <= a) continue;
+        // The guard (race_on 2) only needs the newest fence whose range changes, so an older note is skipped and the
+        // bytes are compared with memcmp: counting them byte by byte under shadow_lock was 30-38 % of the replay's
+        // samples with the game ahead, which holds more notes (sim2-erdry2, 27/11/2026). Its log line counts the
+        // copies then, not the bytes (0).
+        if (race_on == 2 && n->fence <= wait) continue;
         uint64_t lo = n->lo > a ? n->lo : a, hi = n->hi < b ? n->hi : b, len = hi - lo;
+        const uint8_t *s = r->smap + (lo - r->import_lo);
+        if (race_on == 2 && old) {
+            if (memcmp(old + (lo - a), s, len)) r_hits++, wait = n->fence;
+            continue;
+        }
         if (len > ctmp && !(tmp = realloc(tmp, ctmp = len))) rt_fatal("vk: out of memory (MKW_SHADOW_RACE)");
         if (old) memcpy(tmp, old + (lo - a), len);
         else mem_copy_out(tmp, lo, len);
-        const uint8_t *s = r->smap + (lo - r->import_lo);
+        if (race_on == 2) {
+            if (memcmp(tmp, s, len)) r_hits++, wait = n->fence;
+            continue;
+        }
         uint64_t diff = 0, first = UINT64_MAX, last = 0;
         for (uint64_t x = 0; x < len; x++)
             if (tmp[x] != s[x]) diff++, last = x, first = first == UINT64_MAX ? x : first;
@@ -214,7 +247,7 @@ void race_log(uint64_t frame) {
     }
     rt_log("mem: shadow race at frame %llu: %llu copies over ranges a running submission reads, %llu bytes changed; "
            "%d ranges noted; %llu copies waited for it, %.1f ms", (unsigned long long)frame, (unsigned long long)r_hits,
-           (unsigned long long)r_bytes, nnotes, (unsigned long long)r_waits, r_wait_ns / 1e6);
+           (unsigned long long)r_bytes, live_notes(), (unsigned long long)r_waits, r_wait_ns / 1e6);
     r_hits = r_bytes = r_waits = r_wait_ns = 0;
     plat_mutex_unlock(&race_lock);
 }
