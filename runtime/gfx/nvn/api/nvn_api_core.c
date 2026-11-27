@@ -559,6 +559,8 @@ NVN_API(nvnQueueFenceSync) {
     sync_t *s = arg_p(c, 1);
     s->fenced = 1;
     s->fence = nvn_fence_last();
+    if (seqwatch_probe())   // MKW_PROBE: which queue the game fences (pantalla-partida: the early reads' writers)
+        rt_log("nvn: probe fence sync %p on queue %p at fence %llu", (void *)s, arg_p(c, 0), (unsigned long long)s->fence);
 }
 // NVNsyncWaitResult nvnSyncWait(const NVNsync *s, uint64_t timeout_ns): a sync never fenced reports a timeout at once;
 // a fenced one is released only after the back end completed that fence value
@@ -674,6 +676,9 @@ NVN_API(nvnSyncWait) {
     uint64_t timeout = arg_x(c, 1);
     if (!s->fenced) { ret_x(c, NVN_SYNC_WAIT_RESULT_TIMEOUT_EXPIRED); return; }
     const GfxBackend *b = gfx_backend();
+    if (seqwatch_probe())   // MKW_PROBE: the game's fence waits, against the early-read waits' writers
+        rt_log("nvn: probe sync wait %p for fence %llu (GPU at %llu)", (const void *)s, (unsigned long long)s->fence,
+               (unsigned long long)b->fence_done());
     if (fence_early(b) && b->fence_done() < s->fence) {
         int ok;
         {
@@ -921,6 +926,8 @@ NVN_API(nvnQueueSubmitCommands) {
                                            (unsigned long long)__atomic_load_n(&gfx_counters.frames, __ATOMIC_RELAXED),
                                            last ? "on" : "off");
     ev_note_submit(f);
+    if (seqwatch_probe())   // MKW_PROBE: each submit's fence and queue, against the early-read waits' writers
+        rt_log("nvn: probe submit fence %llu on queue %p, %d handles%s", (unsigned long long)f, (void *)q, n, held ? ", held" : "");
     // (not a held one: the console's GPU stops at its wait too, until the other queue's submit; that one waits for both)
     if (catchup && RT_KNOB_ON(catchup) && gfx_replay_async() && !held && (!only_reports || nvn_sub_sp_reports))
         gfx_backend()->fence_wait(f, 500000000ull);

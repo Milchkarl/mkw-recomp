@@ -136,7 +136,8 @@ void mem_early_wait(uint64_t fence) {
     }
     __atomic_add_fetch(&waits, 1, __ATOMIC_RELAXED);
     __atomic_add_fetch(&wait_ns, (int64_t)ns, __ATOMIC_RELAXED);
-    if (ns > 1000000 && __atomic_fetch_add(&nwait_logged, 1, __ATOMIC_RELAXED) < 60)   // the close criterion: 1 ms
+    // the close criterion: 1 ms; every wait inside a MKW_PROBE window
+    if ((ns > 1000000 && __atomic_fetch_add(&nwait_logged, 1, __ATOMIC_RELAXED) < 60) || seqwatch_probe())
         rt_log("mem: early-read wait %.1f ms at frame %llu: page %#llx for fence %llu (GPU at %llu, its newest writer %llu), "
                "by exe+%#llx", (double)ns / 1e6, (unsigned long long)wq.frame, (unsigned long long)wq.page,
                (unsigned long long)fence, (unsigned long long)wq.done, (unsigned long long)wq.last,
