@@ -42,6 +42,22 @@ static int mesh_on(void) {
     return on;
 }
 
+// MKW_DRAW_SKIP_CEIL=1|ab (measurement, image wrong on purpose): MKW_DRAW_SKIP_PCT (72) % of the OP_DRAW/OP_DRAW_IDX,
+// spread evenly, are not recorded at all. The ceiling of translating the game's fixed recordings once and reusing
+// them (sim2-rcen2: 71-72 % of a 2-player race submit's draws come from recordings over 1 s old): if skipping their
+// translation outright does not shorten the frame, reusing it cannot.
+static int draw_skip_ceil(void) {
+    static int mode = -1, pct;
+    if (mode < 0) {
+        const char *p = cfg_get("MKW_DRAW_SKIP_PCT");
+        pct = p ? atoi(p) : 72;
+        mode = rt_knob("DRAW_SKIP_CEIL", "0");
+    }
+    if (!RT_KNOB_ON(mode)) return 0;
+    static _Thread_local uint32_t n;
+    return (int)(n++ * 37u % 100u) < pct;
+}
+
 #define WEAK __attribute__((weak))
 #define CALL_DEPTH VK_EXEC_CALL_DEPTH
 
@@ -586,6 +602,7 @@ int vk_exec_op(VkExec *ex, const op_hdr *h) {
         break;
     case OP_DRAW: case OP_DRAW_IDX:   // MKW_REUSE: from the cache when an earlier submission recorded the same draw
         vk_exec_frame.draws_seen++, drew = 1;
+        if (draw_skip_ceil()) break;
         if (ru_on > 0 && ru_draw(ex, h->op, a)) { op_hit = OPX_HIT; break; }
         if (ru_cap) op_hit = OPX_CAP;
         vk_exec_op_draw(ex, h->op, a);
