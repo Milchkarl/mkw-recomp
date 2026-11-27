@@ -744,7 +744,7 @@ static void acquire_wait(const win_t *w, int idx) {
     if (acq_mode < 0) {
         acq_mode = rt_knob("ACQUIRE_GPU", "1");
         rt_log("nvn: an acquired image waits for the GPU to finish the frame that replaced it %s (MKW_ACQUIRE_GPU)",
-               acq_mode == 2 ? "in the B blocks" : acq_mode ? "on" : "off");
+               acq_mode == 2 ? "in the B blocks" : acq_mode == 3 ? "in the A blocks" : acq_mode ? "on" : "off");
     }
     if (!RT_KNOB_ON(acq_mode)) return;
     plat_mutex_lock(&rel_lock);

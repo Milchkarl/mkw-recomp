@@ -340,12 +340,13 @@ void frame_logic_hz_reread(void);                          // probes: the next f
 // In-launch A/B measurement: MKW_AB=<seconds> splits the world clock (frame_step_world_us) into blocks of that much
 // game time in the order A B B A (repeated; B A A B with MKW_AB_INVERT=1); rt_ab() is 1 in the B blocks, 0 in A
 // blocks, before the world clock and without MKW_AB. rt_knob(name, def) reads the switch MKW_<name> once per call
-// (def when unset): 0 off, 2 for "ab" (on in the B blocks only), 1 for anything else;
+// (def when unset): 0 off, 2 for "ab" (on in the B blocks only), 3 for "ba" (on in the A blocks only: a switch that is
+// on by default turned off in B, beside others turned on there), 1 for anything else;
 // callers keep it and test it with RT_KNOB_ON. The perf line counts the B frames of its window (tools/ab_summary.py
 // compares the windows that are wholly A or wholly B).
 int rt_ab(void);
 int rt_knob(const char *name, const char *def);
-#define RT_KNOB_ON(mode) ((mode) == 2 ? rt_ab() : (mode))
+#define RT_KNOB_ON(mode) ((mode) == 2 ? rt_ab() : (mode) == 3 ? !rt_ab() : (mode))
 extern volatile uint64_t nvn_timestamp_last; // nvn_ext.c: the counter timestamp the game read last (ticks)
 void frame_step_present(uint64_t display_ns, int interval); // nvnQueuePresentTexture: the frame's display time and
                                                            // present interval (vsync ticks of MKW_LOGIC_HZ)
