@@ -664,6 +664,7 @@ static int resolve_deferred(const uint8_t *p, int depth) {   // returns the defe
         if (h.op == OP_END) return nd;
         if (early_watch) early_op(h.op, p + 8);
         nvn_subw_op(h.op, p + 8);   // MKW_EARLY_SUBMASK
+        nvn_rs_op(p);               // MKW_REC_CENSUS=seq
         if (h.op == OP_JUMP) {
             memcpy(&p, p + 8, 8);
             continue;
@@ -730,6 +731,7 @@ void nvn_submit_prepare(const uint64_t *handles, int n) {
     for (int i = 0; i < n; i++) copy_touch(handles[i], now, "QueueSubmitCommands");
     uint64_t r0 = def_reads, c0 = def_changed;
     for (int i = 0; i < n; i++) resolve_deferred((const uint8_t *)(uintptr_t)handles[i], 0);
+    nvn_rs_end();
     nvn_rc_def(def_reads - r0, def_changed - c0);
     nvn_rc_submit(handles, n);
     nvn_rf_submit();
@@ -775,6 +777,7 @@ void nvn_submit_prepare_async(const uint64_t *handles, uint64_t *out, int n) {
         int nd = resolve_deferred((const uint8_t *)(uintptr_t)out[i], 0);
         if (out[i] == handles[i]) ((copy_prefix *)(uintptr_t)out[i] - 1)->deferred = nd ? 2 : 1;
     }
+    nvn_rs_end();
     nvn_rc_def(def_reads - r0, def_changed - c0);
     if (now % 7200 == 0)
         rt_log("nvn: asynchronous replay at submit %llu: %llu recording clones so far, %u copies waiting for the replay",

@@ -26,5 +26,7 @@ void nvn_rc_submit(const uint64_t *handles, int n);
 int nvn_rf_on(void);                 // nvn_rec_fixed.c: MKW_REC_CENSUS=fixed, what the recordings called again hold
 void nvn_rf_call(uint64_t handle);   // a recording called (inlined) into another
 void nvn_rf_submit(void);            // every submit: the census line every 1500
+void nvn_rs_op(const uint8_t *p);    // nvn_rec_seq.c: MKW_REC_CENSUS=seq, each op of a submit as resolve_deferred walks it
+void nvn_rs_end(void);               // the submit's walk done: compared with the previous big submit
 void cmd_copy_view(view_t *dst, uint8_t *has, const NVNtextureView *v);
 const tex_t *cmd_tex_pin(const NVNtexture *nt);
