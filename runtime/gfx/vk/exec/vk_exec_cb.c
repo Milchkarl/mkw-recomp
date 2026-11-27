@@ -158,7 +158,8 @@ static void wslot_put(CbRes *r, int i) {
 }
 
 // MKW_TRACE_WPAGE=<hex> (diagnosis): each GPU write (a written storage buffer's binding, a copy, a clear, a counter)
-// covering that guest page, with the program and the submission, the first 64: which shader writes what the game
+// covering that guest page, with the program, the submission and the op's position in it, the first 64 (in the
+// MKW_PROBE window if set): which shader writes what the game
 // reads early (ht2: page 0x2a9bdc000, read by main+0x56b520 every ~68 frames, a 6-13 ms wait each). An address off
 // the page start: only the writes covering that byte (the page's every-frame writers would use the 64 up).
 void wpage_note(const VkExec *ex, uint64_t addr, uint64_t size, const char *what) {
@@ -171,12 +172,14 @@ void wpage_note(const VkExec *ex, uint64_t addr, uint64_t size, const char *what
     }
     if (!page || addr >= page + 0x1000 || addr + size <= page) return;
     if ((at & 0xfff) && (at < addr || at >= addr + size)) return;
+    if (cfg_get("MKW_PROBE") && !seqwatch_probe()) return;   // with a probe window, only its writes
     if (__atomic_fetch_add(&n, 1, __ATOMIC_RELAXED) >= 64) return;
     const prog_t *p = ex->prog;
+    // op: the op's position in its submission (where in the frame's work the GPU writes it)
     rt_log("vk: written page %#llx: %s %#llx+%#llx by program %llu (stage 0 code %#llx, %u stages), submission %llu, "
-           "frame %llu", (unsigned long long)page, what, (unsigned long long)addr, (unsigned long long)size,
+           "frame %llu, op %llu", (unsigned long long)page, what, (unsigned long long)addr, (unsigned long long)size,
            p ? (unsigned long long)p->serial : 0ull, p ? (unsigned long long)p->sd[0].data : 0ull, p ? p->nstage : 0u,
-           (unsigned long long)ex->fence, (unsigned long long)vk_exec_presented);
+           (unsigned long long)ex->fence, (unsigned long long)vk_exec_presented, (unsigned long long)vk_exec_op_pos());
 }
 
 void note_written(VkExec *ex, uint64_t addr, uint64_t size) {

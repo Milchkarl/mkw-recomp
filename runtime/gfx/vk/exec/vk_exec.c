@@ -637,6 +637,25 @@ int vk_exec_op(VkExec *ex, const op_hdr *h) {
 static FILE *op_dump;
 static uint64_t op_sub;   // submissions recorded
 
+// The ops walk hands to vk_exec_op (x_pos at the end of a serial walk), for MKW_PROBE: where in its submission an op is.
+static uint64_t count_ops(const op_hdr *h, int depth) {
+    uint64_t n = 0;
+    for (;;) {
+        if (h->size < sizeof *h || h->op >= OP_COUNT_) return n;
+        const void *a = nvn_op_payload(h);
+        switch (h->op) {
+        case OP_END: return n;
+        case OP_BEGIN: break;
+        case OP_JUMP: h = (const op_hdr *)(uintptr_t)((const p_jump *)a)->target; continue;
+        case OP_CALL:
+            if (depth < CALL_DEPTH) n += count_ops(nvn_op_first(((const p_jump *)a)->target), depth + 1);
+            break;
+        default: n++;
+        }
+        h = (const op_hdr *)((const uint8_t *)h + h->size);
+    }
+}
+
 static void walk(VkExec *ex, const op_hdr *h, int depth) {
     if (op_timing < 0) {
         op_timing = (rt_trace & RT_TRACE_DRAW) != 0;
@@ -779,6 +798,12 @@ int vk_exec_record(VkCommandBuffer cb, const uint64_t *handles, int n, uint64_t 
         sublog[nsublog++] = (typeof(sublog[0])){(uint32_t)((sl0 - sublog_t0) / 1000), (uint32_t)((kern_now_ns() - sl0) / 1000),
                                                 (uint32_t)(vk_exec_frame.draws_seen - sld), plat_thread_id()};
     if (vk_sim_on()) vk_sim_draws((uint32_t)(vk_exec_frame.draws_seen - sld));
+    if (n && seqwatch_probe()) {
+        uint64_t ops = 0;
+        for (int i = 0; i < n; i++) ops += count_ops(nvn_op_first(handles[i]), 0);
+        rt_log("vk: probe replayed fence %llu: %llu ops, %llu parts so far", (unsigned long long)fence,
+               (unsigned long long)ops, (unsigned long long)n_parts);
+    }
     if (n) n_subs++;
     if ((rt_trace & RT_TRACE_PERF) && n_subs >= 240 && dc_mode > 0) {
         uint64_t rd, sk, ah, bl;
