@@ -555,6 +555,7 @@ VkSampler vk_sampler_by_id_locked(int id);
 // for an empty slot.
 VkSampler vk_sampler_point_by_id_locked(int id);
 uint32_t vk_texture_slots_gen(void);
+extern uint64_t vk_tex_reg_all, vk_tex_reg_same;   // texture registrations, and those repeating the slot (diagnosis)
 int vk_texture_checked(int id, uint32_t ep);   // unlocked: slot id's check in submit ep still stands (vk_tex_slots.c)
 // What vk_texture_by_id(id) returns can change only when this does: the slot is registered again, or a texture entry at
 // its storage address is created, dropped, released or taken back into use. Unlocked; read it before the lookup it
