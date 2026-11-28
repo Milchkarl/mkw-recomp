@@ -24,13 +24,14 @@ Limits: waits for a virtual core and for host locks count as work; the CPU the r
 modelled (the replay took +4.9 ms with the game ahead, sim2-ahead35dry); a change that makes the game take another
 path (another wait, another submit) is not either: the chains are the measured ones.
 
-Usage: uv run tools/run/framesim.py TRACE [--replay-scale K] [--free-over N] [--gpu-ms MS] [--overlap]
+Usage: uv run tools/run/framesim.py TRACE [--batch FILE] [--replay-scale K] [--free-over N] [--gpu-ms MS] [--overlap]
                                          [--no-wait 0,2,3,4] [--skip N]
 """
 
 from __future__ import annotations
 
 import argparse
+import bisect
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -175,6 +176,7 @@ def simulate(tr: Trace, o: Opts) -> dict[int, int]:
             state["r_prev"] = end
             state["next"] = i + 1
 
+    queued_sorted = [it.queued for it in items]   # items are in queue order
     events = sorted((ev[0], tid, i) for tid, ch in tr.chains.items() for i, ev in enumerate(ch))
     last_meas: dict[int, int] = {}
     last_new: dict[int, int] = {}
@@ -187,9 +189,7 @@ def simulate(tr: Trace, o: Opts) -> dict[int, int]:
             start_new = last_new[tid]
             w = wakes.get(a)
             if b and w:
-                k = len(w) - 1
-                while k >= 0 and w[k][0] > t:
-                    k -= 1
+                k = bisect.bisect_right(w, (t, float("inf"))) - 1
                 # the wake latency as measured (the waker's signal to the waiter running again)
                 new = max(start_new, w[k][1] + max(0, t - w[k][0])) if k >= 0 else start_new + (t - wait_meas.get(tid, t))
             else:
@@ -209,7 +209,7 @@ def simulate(tr: Trace, o: Opts) -> dict[int, int]:
                 replay_until(lambda a=a: ("p", a) in done_new)
                 new = max(start_new, done_new.get(("p", a), start_new) + max(0, t - tr.rp.get(a, t)))
             elif b == 4:
-                n_before = sum(1 for it in items if it.queued < wait_meas.get(tid, t))
+                n_before = bisect.bisect_left(queued_sorted, wait_meas.get(tid, t))
                 replay_until(lambda n=n_before: state["next"] >= n)
                 new = max(start_new, state["r_prev"])
             else:   # a fence this trace does not place (a present's): as long as it was measured
@@ -245,31 +245,48 @@ def summary(xs: list[float]) -> str:
     return f"median {statistics.median(xs):.2f} ms, mean {statistics.fmean(xs):.2f} ({len(xs)} frames)"
 
 
-def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
-    ap.add_argument("trace")
+def variant_args(ap: argparse.ArgumentParser) -> None:
     ap.add_argument("--replay-scale", type=float, default=1.0)
     ap.add_argument("--free-over", type=int, help="the replay of submits with more draws than this costs nothing")
     ap.add_argument("--gpu-ms", type=float, help="simulated GPU ms per 1000 draws (default: the run's)")
     ap.add_argument("--overlap", action="store_true", help="the GPU may start when the replay starts a submit")
     ap.add_argument("--no-wait", default="", help="wait kinds that no longer wait (0, 2, 3, 4)")
+
+
+def opts(a: argparse.Namespace) -> Opts:
+    nw = frozenset(int(x) for x in a.no_wait.split(",") if x)
+    return Opts(a.replay_scale, a.free_over, a.gpu_ms, a.overlap, nw)
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
+    ap.add_argument("trace")
+    variant_args(ap)
     ap.add_argument("--skip", type=int, default=30, help="presents left out at the start")
+    ap.add_argument("--batch", help="a file with one variant's options per line, all on one read of the trace")
     a = ap.parse_args(argv)
     tr = read(a.trace)
     meas = intervals(measured_presents(tr), a.skip)
     base = intervals(simulate(tr, Opts()), a.skip)
-    nw = frozenset(int(x) for x in a.no_wait.split(",") if x)
-    o = Opts(a.replay_scale, a.free_over, a.gpu_ms, a.overlap, nw)
+    o = opts(a)
     print(f"measured  {summary(meas)}")
     if not (base and meas):
         print("model: no frames")
         return 1
     print(f"model     {summary(base)}  (its error on its own run: "
           f"{statistics.median(base) - statistics.median(meas):+.2f} ms median)")
-    if o != Opts():
-        var = intervals(simulate(tr, o), a.skip)
+    todo = [("", o)] if o != Opts() else []
+    if a.batch:
+        vp = argparse.ArgumentParser()
+        variant_args(vp)
+        for line in open(a.batch).read().splitlines():
+            if line.strip() and not line.startswith("#"):
+                todo.append((line.strip(), opts(vp.parse_args(line.split()))))
+    for label, v in todo:
+        var = intervals(simulate(tr, v), a.skip)
         if var:
-            print(f"variant   {summary(var)}  (variant - model {statistics.median(var) - statistics.median(base):+.2f} ms)")
+            print(f"variant   {summary(var)}  (variant - model {statistics.median(var) - statistics.median(base):+.2f} ms)"
+                  + (f"  [{label}]" if label else ""))
     print(f"GPU {tr.ms_per_k:.2f} ms per 1000 draws in the run; {len(tr.subs)} submits, {len(tr.rp)} presents")
     return 0
 
