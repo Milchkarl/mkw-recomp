@@ -188,6 +188,27 @@ static void field_census(void) {   // C.lock held
     KDB[i].pipe = kd_ex->pipe;
 }
 
+// Repeat census per key variant (every try): how many tries' key was never seen before in the run, for the key as is
+// and without each part of the starting state, so the part that changes every frame shows (seg5, 28/11/2026: 75 % of
+// keys first seen while recseq.py --keyed finds 82 % of draws in segments whose ops repeat).
+enum { KV_FULL, KV_NO_VBUF, KV_NO_VIEW, KV_NO_PIPE, KV_NO_PROG, KV_OPS, KV_N };
+static const char *const kv_name[KV_N] = {"as is", "without vbuf", "without pass and fixed", "without pipe",
+                                          "without prog", "ops only"};
+static uint64_t kv_seen[KV_N][65536], kv_first[KV_N], kv_tries;
+
+static void variant_census(void) {   // C.lock held
+    static const uint8_t drop[KV_N] = {0, 1u << KP_VBUF, (1u << KP_PASS) | (1u << KP_FIXED), 1u << KP_PIPE,
+                                       1u << KP_PROG, 0xff & ~(1u << KP_RT)};
+    kv_tries++;
+    for (int v = 0; v < KV_N; v++) {
+        uint64_t h = kd_ops * 0x9E3779B97F4A7C15ull;
+        for (int k = 0; k < KP_N; k++)
+            if (k != KP_RT && !(drop[v] >> k & 1)) h = (h ^ kd_part[k]) * 0x100000001B3ull;
+        uint64_t *s = &kv_seen[v][(h >> 20) & 65535];
+        if (*s != h) kv_first[v]++, *s = h;
+    }
+}
+
 static void key_miss(void) {   // C.lock held
     uint32_t i = (uint32_t)kd_ops & (KD_TAB - 1);
     if (KD[i].ops != kd_ops) {
@@ -337,8 +358,9 @@ int vk_exec_seg_begin(VkExec *ex, const op_hdr *const *ops, int nops, int ndraws
     SegEnt *e = C.tab[key & (SEG_TAB - 1)];
     int busy = 0;
     while (e && (e->key != key || e->fence > gpu || e->ndraws != ndraws)) busy |= e->key == key, e = e->next;
+    key_parts(ex, ops, nops);
+    variant_census();
     if (!e) {
-        key_parts(ex, ops, nops);
         if (busy) kd_busy++;
         else key_miss();
     }
@@ -540,4 +562,8 @@ void vk_exec_seg_log(void) {
     for (size_t k = 0; k < NPIPE; k++)
         if (fd_pipe_n[k]) o += snprintf(f + o, sizeof f - (size_t)o, " %s %llu", fd_pipe[k].name, (unsigned long long)fd_pipe_n[k]);
     rt_log("vk: MKW_SEG misses by field (fixed; pipe):%s", f);
+    o = 0;
+    for (int v = 0; v < KV_N; v++)
+        o += snprintf(f + o, sizeof f - (size_t)o, "%s %s %llu", v ? "," : "", kv_name[v], (unsigned long long)kv_first[v]);
+    rt_log("vk: MKW_SEG keys first seen, of %llu tries:%s", (unsigned long long)kv_tries, f);
 }
