@@ -216,14 +216,21 @@ static void field_census(void) {   // C.lock held, every try
 // Repeat census per key variant (every try): how many tries' key was never seen before in the run, for the key as is
 // and without each part of the starting state, so the part that changes every frame shows (seg5, 28/11/2026: 75 % of
 // keys first seen while recseq.py --keyed finds 82 % of draws in segments whose ops repeat).
-enum { KV_FULL, KV_NO_VBUF, KV_NO_VIEW, KV_NO_PIPE, KV_NO_PROG, KV_OPS, KV_N };
+// seg7 (28/11/2026): the viewports of the big submit are the same 26 every frame, so no part is new each frame by dynamic
+// resolution: each part is added alone to the ops to find which one is.
+enum { KV_FULL, KV_NO_VBUF, KV_NO_VIEW, KV_NO_PIPE, KV_NO_PROG, KV_OPS, KV_P_PASS, KV_P_FIXED, KV_P_PIPE, KV_P_PROG,
+       KV_P_VBUF, KV_P_REST, KV_N };
 static const char *const kv_name[KV_N] = {"as is", "without vbuf", "without pass and fixed", "without pipe",
-                                          "without prog", "ops only"};
+                                          "without prog", "ops only", "ops+pass", "ops+fixed", "ops+pipe", "ops+prog",
+                                          "ops+vbuf", "ops+rest"};
 static uint64_t kv_seen[KV_N][65536], kv_first[KV_N], kv_tries;
 
 static void variant_census(void) {   // C.lock held
+#define ONLY(k) (0xff & ~(1u << (k)))
     static const uint8_t drop[KV_N] = {0, 1u << KP_VBUF, (1u << KP_PASS) | (1u << KP_FIXED), 1u << KP_PIPE,
-                                       1u << KP_PROG, 0xff & ~(1u << KP_RT)};
+                                       1u << KP_PROG, 0xff, ONLY(KP_PASS), ONLY(KP_FIXED), ONLY(KP_PIPE),
+                                       ONLY(KP_PROG), ONLY(KP_VBUF), ONLY(KP_REST)};
+#undef ONLY
     kv_tries++;
     for (int v = 0; v < KV_N; v++) {
         uint64_t h = kd_ops * 0x9E3779B97F4A7C15ull;
@@ -579,7 +586,7 @@ void vk_exec_seg_log(void) {
     rt_log("vk: MKW_SEG misses: %llu with their key in use by the GPU, %llu with ops never seen, %llu with every part "
            "equal (evicted); parts that changed against the last segment of the same ops:%s",
            (unsigned long long)kd_busy, (unsigned long long)kd_new, (unsigned long long)kd_same, b);
-    char f[1024];
+    char f[2048];
     o = 0;
     for (size_t k = 0; k < NFIX; k++)
         if (fd_fixed_n[k]) o += snprintf(f + o, sizeof f - (size_t)o, " %s %llu", fd_fixed[k].name, (unsigned long long)fd_fixed_n[k]);
