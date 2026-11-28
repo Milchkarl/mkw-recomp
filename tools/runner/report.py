@@ -19,6 +19,7 @@ import logread
 from paths import ROOT, Run
 
 import abstat
+import expect
 
 
 def git(*args: str) -> str:
@@ -75,7 +76,16 @@ def ab(path: Path, env: dict[str, str]) -> dict | None:
                 for k, x in v.__dict__.items()}
 
     # "metric" is the one that decides (and stops the run); "by_metric" has every column's verdict
-    return {"metric": metric, **rounded(every[metric]), "by_metric": {m: rounded(v) for m, v in every.items()}}
+    out = {"metric": metric, **rounded(every[metric]), "by_metric": {m: rounded(v) for m, v in every.items()}}
+    # The prediction written before the run (expect.py), scored with the always-valid interval: hit, miss or open
+    e = expect.parse(env.get("MKW_RUN_WHY"))
+    if e:
+        diffs = abstat.pair_diffs(abstat.blocks(abstat.read_rows(path), 5, metric))
+        d = expect.decided(e, diffs)
+        out["expect"] = {"range_ms": [e.lo, e.hi], "judge": d[0] if d else "open",
+                         "text": f"expect={e.text()}: " + (f"{d[0]} (B - A {d[1]:+.2f} ±{d[2]:.2f}, always-valid 95 %)"
+                                                           if d else f"open after {len(diffs)} pairs")}
+    return out
 
 
 def write(run: Run, meta: dict, *, outcome: str | None = None, rc: int | None = None,
@@ -122,6 +132,8 @@ def lines(doc: dict) -> list[str]:
     if doc.get("ab"):
         ab_doc = doc["ab"]
         out.append(f"  A/B ({ab_doc.get('metric', 'interval')}): {ab_doc['text']}")
+        if ab_doc.get("expect"):
+            out.append(f"  {ab_doc['expect']['text']}")
         for m, v in ab_doc.get("by_metric", {}).items():
             if m != ab_doc.get("metric") and v.get("half_ms"):
                 out.append(f"    {m}: {v['text']}")
