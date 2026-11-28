@@ -59,9 +59,16 @@ int add_stage(Bindings *B, const GfxShader *s, uint32_t off) {
                            : mk == GFX_MESH_TASK ? VK_SHADER_STAGE_TASK_BIT_EXT
                            : mk == GFX_MESH_MESH ? VK_SHADER_STAGE_MESH_BIT_EXT : stage_bit(stage);
     if (gfx_shader_cs_of_mesh(s)) B->pc_stages |= VK_SHADER_STAGE_COMPUTE_BIT;
-    if (gfx_shader_bindless(s))   // one range for both graphics stages: the GPL libraries' layouts stay compatible
-        B->bl = 1, B->pc_stages |= stage == GFX_STAGE_CS ? VK_SHADER_STAGE_COMPUTE_BIT
-                                                         : VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    // A test of MKW_BINDLESS over classic programs passes by replaying them (27/11/2026: a translation pass that lost
+    // SM86_BINDLESS gave "identical images" that tested nothing): said once, with the program's stage.
+    if (vk_bindless_on() && !gfx_shader_bindless(s) && mk == GFX_MESH_NONE && !gfx_shader_cs_of_mesh(s))
+        LOG_ONCE("vk_pipeline: MKW_BINDLESS with a classic %s program: MKW_SPIRV is not a SM86_BINDLESS pass",
+                 stage == GFX_STAGE_VS ? "vertex" : stage == GFX_STAGE_FS ? "fragment" : "compute");
+    if (gfx_shader_bindless(s)) {   // one range for both graphics stages: the GPL libraries' layouts stay compatible
+        if (gfx_shader_bindless(s) > B->bl) B->bl = gfx_shader_bindless(s);
+        B->pc_stages |= stage == GFX_STAGE_CS ? VK_SHADER_STAGE_COMPUTE_BIT
+                                              : VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    }
     if (!B->n) {
         B->b[0] = (VkDescriptorSetLayoutBinding){0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
         B->pb[0] = (VkPipeBinding){0, (uint8_t)stage, VK_PIPE_SUPPORT, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
@@ -101,10 +108,14 @@ static int module_binding_missing(const GfxShader *s, const VkDescriptorSetLayou
     }
     uint64_t words = 0;
     const uint32_t *w = gfx_shader_spirv(s, &words);
+    uint32_t glob[16];
+    int ng = w ? gfx_spirv_global_ids(w, words, glob, 16) : 0;
     for (uint64_t i = 5; w && i < words;) {
         uint32_t op = w[i] & 0xffff, len = w[i] >> 16;
         if (!len || i + len > words) break;
-        if (op == SPV_OP_DECORATE && len >= 4 && w[i + 2] == SPV_DEC_BINDING) {
+        int own = 1;
+        for (int k = 0; k < ng; k++) own &= glob[k] != w[i + 1];
+        if (op == SPV_OP_DECORATE && len >= 4 && w[i + 2] == SPV_DEC_BINDING && own) {
             uint32_t want = w[i + 3] + (w[i + 3] >= 1 ? off : 0), j = 0;
             while (j < n && b[j].binding != want) j++;
             if (j == n) return (int)w[i + 3];
@@ -206,11 +217,11 @@ Layout *layout_get(Bindings *B) {
     if (total < 0) return NULL;
     Layout **head = &layouts[h % LAYOUT_BUCKETS];
     for (Layout *l = *head; l; l = l->next)
-        if (l->hash == h && l->n == B->n && l->pc_stages == B->pc_stages && !memcmp(l->b, B->b, B->n * sizeof *B->b))
+        if (l->hash == h && l->n == B->n && l->pc_stages == B->pc_stages && l->bl == B->bl && !memcmp(l->b, B->b, B->n * sizeof *B->b))
             return l;
     Layout *l = calloc(1, sizeof *l + B->n * sizeof *B->b);
     if (!l) return NULL;
-    l->hash = h, l->n = B->n, l->pc_stages = B->pc_stages;
+    l->hash = h, l->n = B->n, l->pc_stages = B->pc_stages, l->bl = B->bl;
     memcpy(l->b, B->b, B->n * sizeof *B->b);
     l->push = !P.draw_cache && total <= (int64_t)P.max_push;
     VkDescriptorSetLayoutCreateInfo si = {.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
@@ -221,9 +232,11 @@ Layout *layout_get(Bindings *B) {
         return NULL;
     }
     VkPushConstantRange pc = {B->pc_stages, 0, MESH_PC_BYTES};
-    VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO, .setLayoutCount = 1,
-                                     .pSetLayouts = &l->set, .pushConstantRangeCount = B->pc_stages ? 1 : 0,
-                                     .pPushConstantRanges = &pc};
+    VkDescriptorSetLayout sets3[3] = {l->set, VK_NULL_HANDLE, VK_NULL_HANDLE};
+    if (B->bl >= 2) sets3[2] = vk_bl_set_layout(&sets3[1]);   // SM86_BINDLESS=2: the global texture set at 2
+    VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+                                     .setLayoutCount = B->bl >= 2 ? 3 : 1, .pSetLayouts = sets3,
+                                     .pushConstantRangeCount = B->pc_stages ? 1 : 0, .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->layout) != VK_SUCCESS) {
         vkDestroyDescriptorSetLayout(P.device, l->set, NULL);
         free(l);
@@ -246,8 +259,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
     uint32_t nb = ubo_count(B), nf = ubo_count(F);
     dyn_ubos(B, nf), dyn_ubos(F, nb);
     VkShaderStageFlags pcs = B->pc_stages | F->pc_stages;
+    int bl = B->bl > F->bl ? B->bl : F->bl;
+    B->bl = bl;   // the pipeline's (vk_pipeline.c pipe_add reads B), also when the layout is found below
     uint64_t h = pipe_fnv(FNV0, "indep", 5);
     h = pipe_fnv(h, &pcs, sizeof pcs);
+    h = pipe_fnv(h, &bl, sizeof bl);
     int64_t tv = bindings_sort(B, &h);
     h = pipe_fnv(h, "|", 1);
     int64_t tf = bindings_sort(F, &h);
@@ -259,11 +275,12 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
     B->n = n;
     Layout **head = &layouts[h % LAYOUT_BUCKETS];
     for (Layout *l = *head; l; l = l->next)
-        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && l->pc_stages == pcs && !memcmp(l->b, B->b, n * sizeof *B->b))
+        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && l->pc_stages == pcs && l->bl == bl &&
+            !memcmp(l->b, B->b, n * sizeof *B->b))
             return l;
     Layout *l = calloc(1, sizeof *l + n * sizeof *B->b);
     if (!l) return NULL;
-    l->hash = h, l->n = n, l->n0 = n0, l->pc_stages = pcs;
+    l->hash = h, l->n = n, l->n0 = n0, l->pc_stages = pcs, l->bl = bl;
     memcpy(l->b, B->b, n * sizeof *B->b);
     l->push = !P.draw_cache && P.push_stage == GFX_STAGE_VS && tv <= (int64_t)P.max_push;
     l->push1 = !P.draw_cache && P.push_stage == GFX_STAGE_FS && F->n && tf <= (int64_t)P.max_push;
@@ -282,10 +299,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
         free(l);
         return NULL;
     }
-    VkDescriptorSetLayout sets[2] = {l->set, l->set1};
+    VkDescriptorSetLayout sets[3] = {l->set, l->set1, VK_NULL_HANDLE}, unused;
+    if (bl >= 2) sets[2] = vk_bl_set_layout(&unused);   // SM86_BINDLESS=2: the global texture set at 2
     VkPushConstantRange pc = {pcs, 0, MESH_PC_BYTES};
     VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
-                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = 2,
+                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = bl >= 2 ? 3 : 2,
                                      .pSetLayouts = sets, .pushConstantRangeCount = pcs ? 1 : 0,
                                      .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->layout) != VK_SUCCESS) {

@@ -129,17 +129,15 @@ def apply(src: str, refl: dict, stage: str, level: int = 1) -> str:
         helpers += tex
         if tex:
             helpers.insert(2, "#extension GL_EXT_nonuniform_qualifier : require")  # unsized arrays of textures
-    ext = 3 if level >= 2 and helpers[2].startswith("#extension") else 2
+    # All the helpers right after the #version/#extension/#define lines, before any code: a helper placed at the first
+    # line that names a bank or buffer landed inside the body of gfind (global_search), 9 programs of the first pass
+    # ("'buffer' : not allowed in nested scope"). They name no classic binding, so only what follows is rewritten.
     at = next((k for k, ln in enumerate(kept) if not ln.startswith("#")), len(kept))
-    # helpers after the #version/#extension/#define lines and before the first declaration that may use them
-    head = kept[:at] + helpers[:ext] + kept[at:]
-    first_use = next(
-        (k for k, ln in enumerate(head) if re.search(r"\b(cb\d+w?_at|cb\d+|sb[0-9a-f]+|t\d+_\d+)\b", ln)), len(head)
-    )
-    head = head[:first_use] + helpers[ext:] + head[first_use:]
+    head = kept[:at] + helpers + kept[at:]
+    first_use = at + len(helpers)
     refl["bindless"] = level
     if level >= 2:  # the runtime fills a texture's row entry instead of its descriptor
         for t in refl["textures"]:
-            t["flags"] = t.get("flags", 0) | 8
+            t["flags"] = t.get("flags", 0) | 0x80
     return "\n".join([*(_rewrite_body(ln) if k >= first_use else ln for k, ln in enumerate(head)),
                       _rewrite_body("\n".join(lines[head_end:]))])  # fmt: skip

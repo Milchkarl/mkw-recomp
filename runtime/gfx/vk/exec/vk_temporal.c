@@ -839,6 +839,7 @@ typedef struct { VkImage img; VmaAllocation mem; VkImageView view; } OwnGone;
 static void own_free(void *arg) {   // completion thread
     OwnGone *g = arg;
     const VkCtx *c = vk_ctx();
+    vk_bl_view_gone(g->view);   // MKW_BINDLESS: its index in the global set (vk_tmp_sampled hands it to draws)
     if (c) vkDestroyImageView(c->device, g->view, NULL), vmaDestroyImage(c->vma, g->img, g->mem);
     free(g);
 }

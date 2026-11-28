@@ -11,10 +11,14 @@ uint32_t *spirv_rebind(const uint32_t *w, uint64_t n, uint32_t off) {
     uint32_t *o = malloc(n * 4);
     if (!o) return NULL;
     memcpy(o, w, n * 4);
+    uint32_t glob[16];   // the global set's variables keep their bindings (SM86_BINDLESS=2)
+    int ng = gfx_spirv_global_ids(w, n, glob, 16);
     for (uint64_t i = 5; i < n;) {
         uint32_t op = o[i] & 0xffff, len = o[i] >> 16;
         if (!len || i + len > n) break;
-        if (op == SPV_OP_DECORATE && len >= 4 && o[i + 2] == SPV_DEC_BINDING && o[i + 3] >= 1) o[i + 3] += off;
+        int own = 1;
+        for (int k = 0; k < ng; k++) own &= glob[k] != o[i + 1];
+        if (op == SPV_OP_DECORATE && len >= 4 && o[i + 2] == SPV_DEC_BINDING && o[i + 3] >= 1 && own) o[i + 3] += off;
         i += len;
     }
     return o;
@@ -28,7 +32,7 @@ uint32_t *spirv_set(const uint32_t *w, uint64_t n, uint32_t set) {
     for (uint64_t i = 5; i < n;) {
         uint32_t op = o[i] & 0xffff, len = o[i] >> 16;
         if (!len || i + len > n) break;
-        if (op == SPV_OP_DECORATE && len >= 4 && o[i + 2] == SPV_DEC_DESCRIPTOR_SET) o[i + 3] = set;
+        if (op == SPV_OP_DECORATE && len >= 4 && o[i + 2] == SPV_DEC_DESCRIPTOR_SET && o[i + 3] != GFX_SPV_GLOBAL_SET) o[i + 3] = set;
         i += len;
     }
     return o;

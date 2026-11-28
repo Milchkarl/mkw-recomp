@@ -97,7 +97,8 @@ typedef struct {
                                 // 0x200 multisample, 0x400 shadow
     uint8_t format;             // IMG: declared format as a GfxShaderAnswers.img_format code, 0 unknown
     uint8_t flags;              // SSBO: 1 written; UBO: 2 the bank's word view, bound as a storage buffer (cbNw);
-                                // TEX/IMG: Ryujinx TextureUsageFlags (4 image store, 8 coherent)
+                                // TEX/IMG: Ryujinx TextureUsageFlags (4 image store, 8 coherent); TEX 0x80: read by index
+                                // from the global set (SM86_BINDLESS=2, vk_exec_bl.c)
     int8_t cbuf_slot;           // TEX/IMG: constant buffer of the handle (-1: bound texture buffer); SSBO: of its address
     uint16_t handle;            // TEX/IMG: raw handle (word offset; separate: texture | sampler << 14); SSBO: address offset
     uint16_t count;             // descriptors (array length)
@@ -128,6 +129,10 @@ int gfx_shader_cs_of_mesh(const GfxShader *s);
 // are read through the per-draw row the replay writes (vk_exec_bl.c, MKW_BINDLESS), the row's address in the push
 // constants.
 int gfx_shader_bindless(const GfxShader *s);
+// The ids of the module's variables in the global set (DescriptorSet 2: SM86_BINDLESS=2's arrays of views and samplers),
+// at most cap; their Binding numbers belong to that set, not to the shader's own bindings (set 0 or 1).
+#define GFX_SPV_GLOBAL_SET 2
+int gfx_spirv_global_ids(const uint32_t *w, uint64_t n, uint32_t *ids, int cap);
 const GfxShader *gfx_shader_mesh_cs_vs(void);              // its draw's vertex shader (17 vec4 attributes), NULL if missing
 int gfx_shader_is_mesh_cs_vs(const GfxShader *s);
 #define MESH_CS_VWORDS 68                                  // words a vertex: position and 16 generics (head.py MESH_VWORDS)

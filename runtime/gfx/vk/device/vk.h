@@ -779,6 +779,10 @@ int vk_bindless_on(void);
 VkBufferUsageFlags vk_bda_usage(void);
 const void *vk_bda_chain(const void *next, VkMemoryAllocateFlagsInfo *f);
 VkDeviceAddress vk_buf_addr(VkBuffer b);
+// SM86_BINDLESS=2: the global texture set's layout (and an empty one for set 1 of single-set layouts); a view's index
+// freed once the GPU is done (vk_exec_image_gone).
+VkDescriptorSetLayout vk_bl_set_layout(VkDescriptorSetLayout *empty);
+void vk_bl_view_gone(VkImageView view);
 // One descriptor of the packed array a descriptor update template reads (VkPipeInfo.tpl), 24 bytes for every type; the
 // bytes a type leaves unused are zero, so equal descriptors compare equal byte for byte.
 typedef union { VkDescriptorImageInfo image; VkDescriptorBufferInfo buffer; VkBufferView view; uint64_t w[3]; } VkDescSlot;

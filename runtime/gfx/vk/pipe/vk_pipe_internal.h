@@ -58,6 +58,7 @@ typedef struct Layout {
     VkPipelineLayout layout;
     int push;
     VkShaderStageFlags pc_stages;      // Bindings.pc_stages
+    int bl;                            // Bindings.bl: 2 with the global texture set at set 2
     uint32_t n;
     VkDescriptorSetLayout set1;        // independent layouts: the fragment set (set 1); VK_NULL_HANDLE otherwise
     int push1;                         // set 1 is a push-descriptor set
