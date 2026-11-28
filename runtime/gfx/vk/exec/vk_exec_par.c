@@ -550,6 +550,7 @@ static void chunk_record(int k, int t, int again) {
     while (ops-- && settle(&p, P.handles, P.n)) {
         const op_hdr *h = p.h;
         p.h = nvn_op_next(h);
+        if (is_draw(h->op)) vk_exec_sec_draw(ex);   // MKW_SEC_DRAWS (vk_exec_sec.c)
         if (h->op != OP_QUEUE) vk_exec_op(ex, h);   // the walk made the switch (plan): it ends this chunk
     }
     vk_exec_chunk_end(ex);
@@ -821,6 +822,7 @@ int vk_exec_par(VkExec *ex, const uint64_t *handles, int n, int diag) {
 }
 
 void vk_exec_par_log(void) {
+    vk_exec_sec_log();   // MKW_SEC_DRAWS (vk_exec_sec.c)
     uint64_t frames = __atomic_load_n(&gfx_counters.frames, __ATOMIC_RELAXED), nf = frames - P.w_frames0;
     if (!nf && P.n_par) nf = 1;   // mkw --replay's closing line: its presents may not count as frames
     P.w_frames0 = frames;

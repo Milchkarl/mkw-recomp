@@ -295,10 +295,13 @@ void vk_exec_pass_begin(VkExec *ex) {
                           .pColorAttachments = ca,
                           .pDepthAttachment = ex->pass_depth ? &da : NULL,
                           .pStencilAttachment = ex->pass_stencil ? &sa : NULL};
+    int sec = vk_exec_sec_wanted();   // MKW_SEC_DRAWS (vk_exec_sec.c)
+    if (sec) ri.flags = VK_RENDERING_CONTENTS_SECONDARY_COMMAND_BUFFERS_BIT;
     if (pt_on > 0) vk_pt_mark(ex->cb, (uint32_t)ex->pass_w << 16 | (ex->pass_h & 0xffff));
     ex->pass_crumb = vk_crumb_begin(ex->cb, VK_CRUMB_PASS, ex->pass_w, ex->pass_h, ex->pass_layers, ex->pass_ncolor,
                                     ex->pass_color, ex->pass_depth ? ex->pass_depth : ex->pass_stencil);
     vkCmdBeginRendering(ex->cb, &ri);
+    if (sec) vk_exec_sec_open(ex);
     if (vk_dump_armed) vk_dump_pass_begin(ex);
     vk_exec_frame.passes++;
     ex->recorded++;
@@ -313,6 +316,7 @@ void vk_exec_pass_end(VkExec *ex) {
     if (!ex->in_pass) return;
     vk_exec_oq_pass_end(ex);
     if (vk_dump_armed) vk_dump_pass_close(ex);
+    vk_exec_sec_close(ex);
     vkCmdEndRendering(ex->cb);
     vk_crumb_end(ex->cb, VK_CRUMB_PASS, ex->pass_crumb);
     ex->pass_crumb = 0;
@@ -736,10 +740,12 @@ void vk_exec_chunk_begin(VkExec *ex, const VkImage *seen_depth, int nseen) {
     x_cur = ex;
     vk_exec_draw_thread();
     vk_exec_draw_new_cb();
+    vk_exec_sec_chunk(1);
 }
 
 void vk_exec_chunk_end(VkExec *ex) {
     vk_exec_pass_end(ex);
+    vk_exec_sec_chunk(0);
     if (ex->recorded) vk_exec_barrier(ex);
     views_release(ex);
     free(ex->views);

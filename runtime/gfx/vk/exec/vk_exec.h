@@ -233,6 +233,13 @@ int vk_exec_state_op(VkExec *ex, uint32_t op, const void *a);
 void vk_exec_chunk_begin(VkExec *ex, const VkImage *seen_depth, int nseen);
 void vk_exec_op_pos_set(uint64_t pos);   // a chunk's thread: the position before its first op
 void vk_exec_chunk_end(VkExec *ex);
+// MKW_SEC_DRAWS (vk_exec_sec.c): a chunk's passes recorded in secondaries of N draws (a measurement)
+void vk_exec_sec_chunk(int on);
+int vk_exec_sec_wanted(void);
+void vk_exec_sec_open(VkExec *ex);
+void vk_exec_sec_draw(VkExec *ex);
+void vk_exec_sec_close(VkExec *ex);
+void vk_exec_sec_log(void);
 // The game's queues' replay states within one submission (OP_QUEUE, nvn_qorder.c): vk_exec_queue_swap saves ex as
 // the state of t->cur and loads that of queue id: 2; a queue first seen goes on from ex: 1; 0 when id is current.
 // The serial replay ends the pass and puts a full barrier first (vk_exec.c queue_switch); the chunks' walk swaps its own

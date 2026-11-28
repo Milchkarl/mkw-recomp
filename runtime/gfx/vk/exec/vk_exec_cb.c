@@ -100,6 +100,19 @@ CbRes *cb_res_new(VkExec *ex) {
     return cur;
 }
 
+// MKW_SCRATCH_MEM=host|wc|dev (a measurement, default host): where the transient buffers go. host: cached system memory
+// (VMA's choice for HOST_ACCESS_RANDOM); wc: write-combined system memory; dev: device-local host-visible memory (the
+// carve-out of an APU, the BAR of a discrete GPU). The replay only writes them (memcpy), so wc and dev cost the CPU
+// nothing more; the GPU reads uniform blocks, c0 and the bindless rows from them on every draw (bl-scr).
+static int scratch_mem(void) {
+    static int m = -1;
+    if (m < 0) {
+        const char *e = cfg_get("MKW_SCRATCH_MEM");
+        m = e && !strcmp(e, "wc") ? 1 : e && !strcmp(e, "dev") ? 2 : 0;
+    }
+    return m;
+}
+
 uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
     CbRes *r = cb_res(ex);
     size = (size + 255) & ~255ull;
@@ -126,8 +139,11 @@ uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
                                  .usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
                                           VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT |
                                           VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | vk_bda_usage()};
-        VmaAllocationCreateInfo ai = {.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
-                                      .flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};
+        int sm = scratch_mem();
+        VmaAllocationCreateInfo ai = {.usage = sm == 2 ? VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE : VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                                      .flags = (sm ? VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT
+                                                   : VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT) |
+                                               VMA_ALLOCATION_CREATE_MAPPED_BIT};
         VmaAllocationInfo info;
         VkResult res = vmaCreateBuffer(vk_ctx()->vma, &bi, &ai, &c->buf, &c->alloc, &info);
         if (res != VK_SUCCESS) {   // new.log, 09/11/2026: a 4 MiB chunk ended a capture replay at MKW_GPU_MEM_LIMIT=2048
@@ -135,6 +151,13 @@ uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
             res = vmaCreateBuffer(vk_ctx()->vma, &bi, &ai, &c->buf, &c->alloc, &info);
         }
         if (res != VK_SUCCESS) rt_fatal("vk: transient buffer of %llu bytes failed (%d)", (unsigned long long)n, (int)res);
+        static int logged;
+        if (!__atomic_exchange_n(&logged, 1, __ATOMIC_RELAXED)) {
+            VkMemoryPropertyFlags f = 0;
+            vmaGetMemoryTypeProperties(vk_ctx()->vma, info.memoryType, &f);
+            rt_log("vk: transient buffers in memory type %u (flags %#x, MKW_SCRATCH_MEM=%s)", info.memoryType, (unsigned)f,
+                   sm == 2 ? "dev" : sm ? "wc" : "host");
+        }
         c->map = info.pMappedData, c->size = n, c->used = 0;
         r->nchunks++;
     }

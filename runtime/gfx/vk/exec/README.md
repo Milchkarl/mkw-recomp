@@ -22,6 +22,7 @@ and dispatches, descriptors, and their parallel recording.
 | `vk_exec_dcache.c` | `MKW_DRAW_CACHE`: descriptor sets kept across frames by their contents, with dynamic-offset UBOs; and the probe that measured its hit rate (`MKW_DRAW_CACHE_PROBE`) |
 | `vk_exec_reuse.c`, `vk_reuse.h` | `MKW_REUSE=1\|check\|ab` (with `MKW_DRAW_CACHE=1`): a draw equal to one of an earlier submit (program, order, fixed state and its inputs) takes its stored packets instead of being redone; `check` redoes them too and compares |
 | `vk_exec_xfer.c` | Copies, texture clears, events, counters and conditional rendering |
+| `vk_exec_sec.c` | `MKW_SEC_DRAWS=N` (a measurement; `MKW_SEC_AB=1` in the B blocks only): the passes of each chunk recorded in secondary command buffers of N draws, each from nothing bound, to measure what reusable stretches of draws cost the GPU |
 | `vk_exec_par.c` | `MKW_REPLAY_PAR`: a submit recorded in chunks on several threads after a light walk that tracks the state (`MKW_REPLAY_WALK` measures it) |
 | `vk_mesh_cs.c` | Task/mesh as compute without mesh shaders: VRAM buffers per submit, compaction pipeline and whether a draw takes that path (`MKW_MESH_COMPUTE`) |
 | `vk_ind_read.c` | Diagnostics `MKW_IND_READ` (indirect arguments the GPU used, copied at the end of each pass) and `MKW_IND_BARRIER` (their barriers without copies) |
