@@ -611,6 +611,7 @@ uint64_t vk_sync_submit(const uint64_t *handles, int n) {
                                    .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT};
     cpuctr_tick(CPUCTR_REPLAY_OUT);   // MKW_CPU_COUNTERS: the replay thread outside its recordings
     uint64_t t0 = perf_begin();
+    simtrace("rb", fence, (uint64_t)n, 0);   // MKW_SIMTRACE: the replay starts recording this submit
     vkBeginCommandBuffer(s->cb, &bi);
     if (vk_guard_on()) vk_guard_cb_begin(s->cb);
     vk_ts_begin(s->cb);
@@ -623,6 +624,7 @@ uint64_t vk_sync_submit(const uint64_t *handles, int n) {
     else vk_ts_drop();
     vkEndCommandBuffer(s->cb);
     perf_replay(t0);
+    simtrace("re", fence, (uint64_t)recorded, 0);
     cpuctr_tick(CPUCTR_REPLAY);
     if (t0) cpuctr_add(CPUCTR_REPLAY, CPUCTR_WALL, kern_now_ns() - t0);
     if (ss) q1 = kern_now_ns(), ss_ns[SS_RECORD] += q1 - q0, q0 = q1, ss_ns[SS_RECORD_CPU] += thread_cpu_ns() - c0;
@@ -728,7 +730,9 @@ static int fence_wait_impl(uint64_t value, uint64_t timeout_ns);
 int vk_sync_fence_wait(uint64_t value, uint64_t timeout_ns) {
     uint64_t p0 = perf_begin();
     int64_t w0 = vk_tl_on() > 0 && vk_sync_fence_done() < value ? (int64_t)plat_now_ns() : 0;
+    simtrace("wb", value, 0, 0);   // MKW_SIMTRACE: 0, a wait for the GPU to reach value (any thread)
     int ok = fence_wait_impl(value, timeout_ns);
+    simtrace("we", value, 0, 0);
     if (w0) vk_tl_wait(value, w0, (int64_t)plat_now_ns());
     perf_end(PERF_FENCE, p0);
     perf_gpu_wait(p0);
@@ -802,6 +806,7 @@ uint64_t vk_sync_issued(void) { return __atomic_load_n(&issued, __ATOMIC_ACQUIRE
 // cv_work). A value the replay will never record (beyond what was handed out) is never reached.
 int vk_sync_issued_wait(uint64_t value, uint64_t timeout_ns) {
     vk_sync_start();
+    simtrace("wb", value, 2, 0);   // MKW_SIMTRACE: 2, a wait for the replay to issue value (MKW_FENCE_EARLY)
     plat_mutex_lock(&st_lock);
     uint64_t t0 = kern_now_ns();
     while (issued < value && value <= reserved) {
@@ -811,6 +816,7 @@ int vk_sync_issued_wait(uint64_t value, uint64_t timeout_ns) {
     }
     int ok = issued >= value;
     plat_mutex_unlock(&st_lock);
+    simtrace("we", value, 2, 0);
     return ok;
 }
 
