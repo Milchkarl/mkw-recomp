@@ -35,6 +35,7 @@ int vk_bindless_on(void) {
         int want = e && atoi(e) > 0;
         if (want && !vk_ctx()->has_buffer_device_address)
             rt_fatal("vk: MKW_BINDLESS needs bufferDeviceAddress, which this device lacks");
+        if (want && vk_pipeline_draw_cache()) rt_fatal("vk: MKW_BINDLESS and MKW_DRAW_CACHE do not combine");
         if (want) rt_log("vk: bindless rows (MKW_BINDLESS): banks and storage buffers by address");
         bl_on = want;
     }

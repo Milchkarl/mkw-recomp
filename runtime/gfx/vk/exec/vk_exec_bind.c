@@ -898,6 +898,8 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
         lo[s] = i0, hi[s] = i1, i0 = i1;
         if (i1 > lo[s] && !info->tpl[s]) need_w = 1;
     }
+    if (need_w && info->bl)   // the rows are not in the layout: only a template skips them (vk_pipe_layout.c make_tpl)
+        rt_fatal("vk: MKW_BINDLESS needs descriptor update templates (a set of a bindless pipeline has none)");
     uint32_t nd = 0;
     for (uint32_t i = 0; i < info->n_bindings; i++) {
         const VkPipeBinding *b = &info->bindings[i];

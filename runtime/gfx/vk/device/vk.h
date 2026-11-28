@@ -752,6 +752,8 @@ typedef struct {
     VkShaderStageFlags stages;
     const GfxShaderRes *res;               // the stage's reflection entry; NULL for the support buffer
     uint8_t set;                           // descriptor set: 0, or 1 for the fragment stage with independent layouts
+    uint8_t row;                           // SM86_BINDLESS: read through the per-draw row, so not a descriptor of the
+                                           // layout; the replay still resolves it into its slot of the packed array
 } VkPipeBinding;
 typedef struct {
     VkPipeline pipeline;                   // VK_NULL_HANDLE when creation failed
