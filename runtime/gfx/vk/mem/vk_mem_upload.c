@@ -258,8 +258,6 @@ static void *staging(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc, int
 }
 
 void *vk_staging(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc) { return staging(size, buf, alloc, 1); }
-void *vk_staging_try(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc) { return staging(size, buf, alloc, 0); }
-
 void *vk_staging_try(VkDeviceSize size, VkBuffer *buf, VmaAllocation *alloc) {
     VkCtx *c = vk_ctx();
     VkBufferCreateInfo bi = {.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO, .size = size ? size : 16,
