@@ -12,7 +12,13 @@ exactly, or in shape when the fields named in `--data` (addresses and handles th
 of having them recorded) are left out. A segment of `--seg` draws is clean when all its ops are the same: a recorded
 Vulkan command buffer cannot be patched, so a dirty segment is recorded again.
 
-Usage: uv run tools/run/recseq.py DUMP [--base 1,2,3] [--seg 64,384] [--data ubo,ssbo,tex,vbuf,ibuf,rt]
+--keyed: what a cache of recorded segments finds, not an op-by-op alignment. Each submit is cut into segments (after
+each op in --struct's set, and before a draw once the segment holds --seg draws, or with --cdc before a draw whose shape
+hash is 0 modulo --seg once it holds a quarter of that, at most four times that: cuts set by content, which an added or
+dropped draw shifts only locally); a segment is found when the same op shapes, in order, made a segment of one of the
+--base frames before. A recorded Vulkan secondary is reused whole, so this is what step b of pantalla-partida reaches.
+
+Usage: uv run tools/run/recseq.py DUMP [--base 1,2,3] [--seg 64,384] [--data ubo,ssbo,tex,vbuf,ibuf,rt] [--keyed [--cdc]]
 """
 
 import argparse
@@ -154,13 +160,68 @@ def segments(
     return n, clean, dclean
 
 
+def keyed_segments(cur: Sub, seg: int, draw_ops: set[int], block: frozenset[int], cdc: bool) -> list[tuple[int, int]]:
+    """(shape hash of the segment's ops, its draws) per segment of cur, cut as --keyed says."""
+    out: list[tuple[int, int]] = []
+    h, draws, nops = 0, 0, 0
+    lo, hi = max(1, seg // 4), seg * 4
+
+    def close() -> None:
+        nonlocal h, draws, nops
+        if nops:
+            out.append((h, draws))
+        h, draws, nops = 0, 0, 0
+
+    for op, sh in zip(cur.ops, cur.shape):
+        if op in block:
+            close()
+            continue
+        if (
+            op in draw_ops
+            and draws
+            and ((not cdc and draws == seg) or (cdc and (draws >= hi or (draws >= lo and sh % seg == 0))))
+        ):
+            close()
+        h = hash((h, sh))
+        nops += 1
+        draws += op in draw_ops
+    close()
+    return out
+
+
+def keyed(
+    subs: list[Sub], bases: list[int], segs: list[int], draw_ops: set[int], block: frozenset[int], cdc: bool
+) -> None:
+    for g in segs:
+        cut = [keyed_segments(s, g, draw_ops, block, cdc) for s in subs]
+        for k in bases:
+            draws = found = nseg = fseg = 0
+            for i in range(k, len(subs)):
+                seen = {h for j in range(i - k, i) for h, _ in cut[j]}
+                for h, d in cut[i]:
+                    draws += d
+                    nseg += 1
+                    if h in seen:
+                        found += d
+                        fseg += 1
+            mode = "by content" if cdc else "every"
+            print(
+                f"  segments cut {mode} {g} draws, found in the {k} frame(s) before: {100 * found / max(1, draws):.1f} % "
+                f"of draws ({fseg} of {nseg} segments, {draws / max(1, nseg):.1f} draws each)"
+            )
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("dump")
     ap.add_argument("--base", default="1,2,3", help="frames back to compare with")
     ap.add_argument("--seg", default="64,384", help="segment sizes in draws")
     ap.add_argument("--data", default="ubo,ssbo,tex", help=f"fields left out in shape, of {','.join(DATA)}")
-    ap.add_argument("--struct", action="store_true", help=f"segments end at {','.join(sorted(STRUCT))} (reusable secondaries)")
+    ap.add_argument(
+        "--struct", action="store_true", help=f"segments end at {','.join(sorted(STRUCT))} (reusable secondaries)"
+    )
+    ap.add_argument("--keyed", action="store_true", help="segments found whole in a cache of earlier frames' segments")
+    ap.add_argument("--cdc", action="store_true", help="with --keyed: cuts set by the draws' content")
     args = ap.parse_args()
     data = [d for d in args.data.split(",") if d]
     names, subs = read(args.dump, data)
@@ -169,6 +230,10 @@ def main() -> None:
     print(
         f"{len(subs)} big submits, {sum(len(s.ops) for s in subs) / max(1, len(subs)):.0f} ops each; shape leaves out {data}"
     )
+    if args.keyed:
+        bases = [int(x) for x in args.base.split(",")]
+        keyed(subs, bases, [int(x) for x in args.seg.split(",")], draw_ops, block, args.cdc)
+        return
     for k in (int(x) for x in args.base.split(",")):
         pairs = [(subs[i], subs[i - k]) for i in range(k, len(subs))]
         if not pairs:
