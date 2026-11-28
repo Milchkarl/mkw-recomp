@@ -5,125 +5,39 @@ Paths are relative to the repo root. Details of a folder live in its own `README
 
 ```mermaid
 flowchart TB
-  subgraph OFF["OFFLINE: Set up, once per game version (tools/prepare/prepare.py, started by the launcher)"]
-    direction TB
-    DUMP["Game dump: exefs + romfs, a .nup or a .nx"] --> CHECK["check: version from the build id of main, RomFS complete"]
-    CHECK --> COPY["exefs / romfs copied or linked into the game folder"]
-    COPY --> GEN["generate (recomp/): AArch64 of main, subsdk0, sdk lifted to one C function per guest function"]
-    GEN --> COMP["compile: C to mkwgame.so / mkwgame.dll"]
-    COPY --> EXTR["shaders, extract: BNSH / bfsha stages from romfs and the NSOs"]
-    EXTR --> TRANS["shaders, translate (sm86/): Ampere SASS to GLSL to SPIR-V, one program per key"]
-    TRANS --> PACK["spirv/ + shaders.pack + pipeline-pairs.bin"]
-    PACK --> WARM["warm: mkw --prewarm builds the driver pipeline cache"]
+  subgraph S1["1. OFFLINE, once per game version: Set up"]
+    direction LR
+    A1["Game dump"] --> A2["Lift the code: AArch64 to C"] --> A3["Compile to mkwgame.so"]
+    A1 --> A4["Translate the shaders: Ampere to SPIR-V"] --> A5["spirv/ + shaders.pack"]
   end
 
-  subgraph BOOT["BOOT: mkw --play (runtime/core/boot)"]
-    direction TB
-    MAIN["main: launcher or game? address space claimed at the guest addresses"] --> RTB["rt_boot: load mods and plugins, load the modules with relocations, bind imports"]
-    RTB --> OVR["imports resolved: host override by name, else the game's own code"]
-    OVR --> START["nn::init::Start runs on a guest thread"]
+  subgraph S2["2. BOOT, every launch"]
+    direction LR
+    B1["Claim the guest address space"] --> B2["Load modules and mods"] --> B3["Bind imports: host override, else game code"] --> B4["Run nn::init::Start"]
   end
 
-  COMP --> RTB
-  PACK --> RTB
-
-  subgraph GUEST["GUEST SIDE: the game as native code (runtime/cpu, core/kernel, sdk, audio, input)"]
-    direction TB
-    GAME["Game code: generated C functions, direct calls, rt_dispatch for indirect ones"]
-    KERN["Kernel: one host thread per guest thread, 6 virtual cores, SVCs, memory regions with write watch"]
-    SDK["nn:: replacements: fs, hid, audio renderer, time, os"]
-    AUD["Audio: audren mixes, SDL3 output"]
-    INP["Input: SDL3 pads, keyboard, gyro"]
-    FS["Filesystem: RomFS from loose files, .nup or .nx; saves"]
-    GAME <--> KERN
-    GAME <--> SDK
-    SDK --> AUD
-    INP --> SDK
-    SDK --> FS
+  subgraph S3["3. GUEST: the game, as native code"]
+    direction LR
+    C1["Game code, generated C"] <--> C2["Kernel: threads, cores, memory"]
+    C1 <--> C3["SDK replacements: fs, hid, audio, time"]
   end
 
-  START --> GAME
-
-  subgraph FRONT["NVN FRONT END, on the game thread (runtime/gfx/nvn)"]
-    direction TB
-    NVNAPI["nvn* calls from the game: hostfn table, nvn_proc_address"]
-    OBJ["Objects kept inside the game's own objects: pools, textures, samplers, programs, syncs"]
-    REC["Command buffers: each nvnCommandBuffer* appends an op to a host op log"]
-    ENDREC["EndRecording: flat copy of the op log"]
-    SUBMIT["nvnQueueSubmitCommands: resolve deferred handles, order the two queues, enqueue"]
-    PRES["nvnQueuePresentTexture: pacer picks the slot, enqueue"]
-    NVNAPI --> OBJ
-    NVNAPI --> REC --> ENDREC --> SUBMIT
-    NVNAPI --> PRES
+  subgraph S4["4. NVN FRONT END, on the game thread"]
+    direction LR
+    D1["nvn calls"] --> D2["Record ops into a host op log"] --> D3["Submit: resolve handles, order queues, enqueue"]
   end
 
-  GAME -- "NVN calls" --> NVNAPI
-  GAME -. "SyncWait, fences: blocks until replay and GPU" .- SUBMIT
-
-  subgraph BACK["VULKAN BACK END (runtime/gfx/vk)"]
-    direction TB
-    RQ["Replay queue: one item per submit or present, each with its timeline value"]
-    subgraph REPLAY["Thread vk replay: replay of one submission"]
-      direction TB
-      WALK["Walk the op log: passes, barriers, clears, binds, draws, dispatches, copies"]
-      PAR["MKW_REPLAY_PAR: chunks of draws recorded on vk chunks threads, sent in order"]
-      BIND["Descriptors: uniform snapshots, push descriptors or bindless rows"]
-      PIPE["Pipeline lookup per draw: GPL libraries, fast link, optimized one built in the background"]
-      WALK --> PAR
-      WALK --> BIND
-      WALK --> PIPE
-    end
-    MEM["Memory: pools as Vulkan buffers, shadow of guest memory, VRAM mirror, uploads"]
-    TEX["Textures: deswizzle, ASTC or BC7, views, sparse, eviction"]
-    WB["Write-back: what the GPU wrote returns to guest memory when the fence passes"]
-    SUBTHR["vk submit: vkQueueSubmit2 of each part of a submission"]
-    REC2["vk recorder: ordered vkCmd* calls"]
-    COMPL["vk completion: waits the timeline semaphore, runs CPU effects, raises done"]
-    PRESTHR["vk present: frame generation, blit, FSR1, HDR, vkQueuePresentKHR at the screen time"]
-    RQ --> WALK
-    PAR --> REC2 --> SUBTHR
-    BIND --> MEM
-    WALK --> TEX
-    SUBTHR --> GPU[("GPU")]
-    GPU --> COMPL --> WB
-    WB --> MEM
-    RQ --> PRESTHR --> SCREEN["Screen"]
+  subgraph S5["5. VULKAN BACK END, on its own threads"]
+    direction LR
+    E1["Replay queue"] --> E2["Replay: op log to Vulkan"] --> E3["Send to the GPU in parts"] --> GPU[("GPU")] --> E4["Completion: write-back, fence done (the game waits on it)"]
+    E1 --> E5["Present: blit, frame generation"] --> SCREEN["Screen"]
   end
 
-  SUBMIT --> RQ
-  PRES --> RQ
-  COMPL -. "fence done" .-> SUBMIT
-
-  subgraph SHD["SHADERS AT RUN TIME (runtime/gfx/nvn/host)"]
-    direction TB
-    KEY["Program key: hash of control + code"] --> LOAD["Load spirv/KEY.spv and .res.json or shaders.pack"]
-    LOAD --> REFL["Reflect resources, integer variants, RenoDX tone mapper"]
-  end
-
-  PIPE --> KEY
-  REFL --> PIPE
-  TRANS -.-> LOAD
-  PACK -.-> LOAD
-
-  subgraph CAPT["CAPTURE AND REPLAY WITHOUT THE GAME (runtime/gfx/cap)"]
-    direction TB
-    CAPREC["MKW_CAPTURE=1: records memory, pools, submits, presents as a zstd stream"] --> CAPFILE[("build/cap/NAME")]
-    CAPFILE --> CAPPLAY["mkw --replay DIR: same calls into the back end, one PNG per present"]
-  end
-
-  SUBMIT -. "wrapped by cap_wrap" .-> CAPREC
-  CAPPLAY --> RQ
-
-  subgraph PERF["PACING AND DIAGNOSTICS"]
-    direction TB
-    CLOCK["Game clock: presents counted in 60 Hz ticks, MKW_FPS, fps_auto, frame_jit"]
-    DIAG["Flight recorder, perf, per-present rows, MKW_GPU_SIM simulated GPU"]
-  end
-
-  PRES -.-> CLOCK
-  CLOCK -.-> GAME
-  COMPL -.-> DIAG
+  S1 --> S2 --> S3 --> S4 --> S5
 ```
+
+Side parts, drawn separately below: shaders at run time (section 6), capture and replay without the game (section 7),
+diagnostics (section 8).
 
 ## How to read it
 
@@ -176,6 +90,15 @@ not by emulating service calls; the service IPC SVCs are fatal on purpose.
 
 ## 3. Guest side
 
+```mermaid
+flowchart LR
+  G["Generated C: f_addr(Cpu*)"] -- "direct call" --> G
+  G -- "indirect call" --> D["rt_dispatch: flat table"] --> G
+  G -- "svc" --> K["Kernel: host thread per guest thread, 6 virtual cores"]
+  G -- "nn:: symbol" --> O["Host override"] --> X["fs, hid, audio renderer, time"]
+  G -- "nvn symbol" --> N["NVN front end"]
+```
+
 - **Calls** (`runtime/cpu/dispatch.c`): a direct call is a plain C call to `f_<addr>`. An indirect call goes through
   `rt_dispatch`, a flat table with one entry per guest instruction slot. The `Cpu` struct holds registers; memory
   accesses are raw pointers.
@@ -193,6 +116,15 @@ not by emulating service calls; the service IPC SVCs are fatal on purpose.
   the acquire so the frame starts late.
 
 ## 4. NVN front end (game thread)
+
+```mermaid
+flowchart LR
+  A["nvnDeviceGetProcAddress"] --> B["nvn* call on the game thread"]
+  B --> C["Objects: pool, texture, sampler, program"]
+  B --> D["Command buffer: append op"] --> E["EndRecording: flat copy"] --> F["QueueSubmitCommands"]
+  F --> G["resolve deferred handles"] --> H["order the two queues"] --> I["enqueue, return a fence"]
+  B --> P["QueuePresentTexture: pick slot, enqueue"]
+```
 
 `runtime/gfx/nvn/`. The game looks up `nvn*` functions through `nvnDeviceGetProcAddress`; the table
 (`nvn/procs/nvn_procs.inc`) is registered as host overrides and answered by `bsearch`. NVN2-only entries are in
@@ -229,6 +161,15 @@ happens on other threads.
 | `vk present`, `vk flip` | frame generation, blit, `vkQueuePresentKHR` held until the screen time |
 | `vk shadow`, `vk wb par` | shadow copies and write-back in parallel |
 | `pipe worker`, `pipe prewarm`, `pipe lib` | pipeline builds |
+
+```mermaid
+flowchart LR
+  Q["Replay queue"] --> R["vk replay: walk the op log"]
+  R --> C["chunks of draws, vk chunks threads"]
+  R --> RC["vk recorder: vkCmd* in order"]
+  C --> RC --> S["vk submit: parts"] --> G[("GPU")] --> W["vk completion: CPU effects, write-back, done"]
+  Q --> PR["vk present: blit, vkQueuePresentKHR"]
+```
 
 **Replaying a submission.** `vk_exec_record` walks the op log (jumps and calls followed) and turns each op into Vulkan:
 render passes (`vkCmdBeginRendering`), barriers, clears, binds, draws, dispatches, copies, events, counters and
@@ -270,12 +211,22 @@ after the CPU effects ran, which is what the game's fence waits see).
 
 ## 6. Shaders at run time
 
+```mermaid
+flowchart LR
+  A["Draw needs a program"] --> B["key = hash of control + code"] --> C["spirv/KEY.spv or shaders.pack"] --> D["reflect, integer variants, tone mapper"] --> E["pipeline"]
+```
+
 The replay asks `gfx_shader_get(control, code)`. The key is the same hash the translator used. `prepared_get` looks in
 memory, then loads `spirv/<key>.spv` and `.res.json`, or `shaders.pack`; then it reflects the resources and applies the
 integer variants and the RenoDX tone mapper. An unknown program is logged (`no prepared SPIR-V`) and the draws that use
 it are skipped, not fatal; the miss is cached.
 
 ## 7. Capture and replay without the game
+
+```mermaid
+flowchart LR
+  A["MKW_CAPTURE=1: wraps the back end"] --> B[("build/cap/NAME")] --> C["mkw --replay DIR"] --> D["same calls into the back end"] --> E["one PNG per present"]
+```
 
 `MKW_CAPTURE=1` wraps the back end from boot (`runtime/gfx/cap/`) and records a zstd stream of records (memory pages,
 pool init, mappings, texture and sampler registrations, submits, presents, finishes). `mkw --replay DIR` restores the
