@@ -34,6 +34,13 @@ DATA = {
     "rt": {"SET_RT": [(8, 64)]},  # p_set_rt {i32 n; tex_t *color[8]; ...}: the color targets' pointers
 }
 DRAWS = {"DRAW", "DRAW_IDX", "DRAW_IDX_IND", "DRAW_MESH", "DISPATCH", "DISPATCH_IND"}
+# Ops that open or close a pass, order the GPU or move data: not recordable inside a secondary command buffer that is
+# reused (exec/vk_exec.c pass_begin/pass_end, vk_exec_xfer.c).
+STRUCT = {
+    "SET_RT", "CLEAR_COLOR", "CLEAR_DS", "CLEAR_TEX", "CLEAR_BUF", "COPY_B2B", "COPY_B2T", "COPY_T2B", "COPY_T2T",
+    "UPDATE_UB", "BARRIER", "SIGNAL_EVENT", "WAIT_EVENT", "REPORT_COUNTER", "RESET_COUNTER", "RENDER_COND",
+    "RENDER_ENABLE", "QUEUE", "CALL", "JUMP", "BEGIN", "END", "DISPATCH", "DISPATCH_IND", "DRAW_MESH",
+}  # fmt: skip
 
 
 @dataclass
@@ -123,19 +130,25 @@ def same(cur: Sub, base: Sub) -> list[int]:
     return s
 
 
-def segments(cur: Sub, s: list[int], seg: int, draw_ops: set[int], ok: set[int]) -> tuple[int, int, int]:
-    """(segments, clean segments, draws in clean segments) for segments of seg draws."""
+def segments(
+    cur: Sub, s: list[int], seg: int, draw_ops: set[int], ok: set[int], block: frozenset[int] = frozenset()
+) -> tuple[int, int, int]:
+    """(segments, clean segments, draws in clean segments) for segments of seg draws. An op in block (a pass, barrier,
+    copy or event: nothing a secondary command buffer inside a pass can hold) ends the segment and is in none."""
     n = clean = dclean = 0
     dirty = draws = 0
     for i in range(len(cur.ops) + 1):
-        if i == len(cur.ops) or (cur.ops[i] in draw_ops and draws == seg):
-            n += 1
-            if not dirty:
-                clean += 1
-                dclean += draws
+        if i == len(cur.ops) or cur.ops[i] in block or (cur.ops[i] in draw_ops and draws == seg):
+            if draws or i == len(cur.ops):
+                n += 1
+                if not dirty:
+                    clean += 1
+                    dclean += draws
             dirty = draws = 0
             if i == len(cur.ops):
                 break
+            if cur.ops[i] in block:
+                continue
         dirty |= s[i] not in ok
         draws += cur.ops[i] in draw_ops
     return n, clean, dclean
@@ -147,10 +160,12 @@ def main() -> None:
     ap.add_argument("--base", default="1,2,3", help="frames back to compare with")
     ap.add_argument("--seg", default="64,384", help="segment sizes in draws")
     ap.add_argument("--data", default="ubo,ssbo,tex", help=f"fields left out in shape, of {','.join(DATA)}")
+    ap.add_argument("--struct", action="store_true", help=f"segments end at {','.join(sorted(STRUCT))} (reusable secondaries)")
     args = ap.parse_args()
     data = [d for d in args.data.split(",") if d]
     names, subs = read(args.dump, data)
     draw_ops = {i for i, n in enumerate(names) if n in DRAWS}
+    block = frozenset(i for i, n in enumerate(names) if n in STRUCT) if args.struct else frozenset()
     print(
         f"{len(subs)} big submits, {sum(len(s.ops) for s in subs) / max(1, len(subs)):.0f} ops each; shape leaves out {data}"
     )
@@ -179,8 +194,8 @@ def main() -> None:
                 gap += s[i] < 0
                 dgap += d and s[i] < 0
             for g, v in seg.items():
-                n, c, dc = segments(cur, s, g, draw_ops, {1})
-                _, c2, dc2 = segments(cur, s, g, draw_ops, {1, 2})
+                n, c, dc = segments(cur, s, g, draw_ops, {1}, block)
+                _, c2, dc2 = segments(cur, s, g, draw_ops, {1, 2}, block)
                 v[0] += n
                 v[1] += c
                 v[2] += dc
