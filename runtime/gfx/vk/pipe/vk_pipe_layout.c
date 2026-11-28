@@ -59,9 +59,16 @@ int add_stage(Bindings *B, const GfxShader *s, uint32_t off) {
                            : mk == GFX_MESH_TASK ? VK_SHADER_STAGE_TASK_BIT_EXT
                            : mk == GFX_MESH_MESH ? VK_SHADER_STAGE_MESH_BIT_EXT : stage_bit(stage);
     if (gfx_shader_cs_of_mesh(s)) B->pc_stages |= VK_SHADER_STAGE_COMPUTE_BIT;
-    if (gfx_shader_bindless(s))   // one range for both graphics stages: the GPL libraries' layouts stay compatible
-        B->bl = 1, B->pc_stages |= stage == GFX_STAGE_CS ? VK_SHADER_STAGE_COMPUTE_BIT
-                                                         : VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    // A test of MKW_BINDLESS over classic programs passes by replaying them (27/11/2026: a translation pass that lost
+    // SM86_BINDLESS gave "identical images" that tested nothing): said once, with the program's stage.
+    if (vk_bindless_on() && !gfx_shader_bindless(s) && mk == GFX_MESH_NONE && !gfx_shader_cs_of_mesh(s))
+        LOG_ONCE("vk_pipeline: MKW_BINDLESS with a classic %s program: MKW_SPIRV is not a SM86_BINDLESS pass",
+                 stage == GFX_STAGE_VS ? "vertex" : stage == GFX_STAGE_FS ? "fragment" : "compute");
+    if (gfx_shader_bindless(s)) {   // one range for both graphics stages: the GPL libraries' layouts stay compatible
+        if (gfx_shader_bindless(s) > B->bl) B->bl = gfx_shader_bindless(s);
+        B->pc_stages |= stage == GFX_STAGE_CS ? VK_SHADER_STAGE_COMPUTE_BIT
+                                              : VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
+    }
     if (!B->n) {
         B->b[0] = (VkDescriptorSetLayoutBinding){0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
         B->pb[0] = (VkPipeBinding){0, (uint8_t)stage, VK_PIPE_SUPPORT, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, 0, NULL};
@@ -79,6 +86,9 @@ int add_stage(Bindings *B, const GfxShader *s, uint32_t off) {
             B->b[B->n] = (VkDescriptorSetLayoutBinding){binding, t, count, bit, NULL};
             uint8_t tag = mk == GFX_MESH_TASK ? VK_PIPE_STAGE_NVN | 6 : mk == GFX_MESH_MESH ? VK_PIPE_STAGE_NVN | 7 : (uint8_t)stage;
             B->pb[B->n] = (VkPipeBinding){(uint16_t)binding, tag, (uint8_t)k, t, (uint16_t)count, bit, &r[i]};
+            // the bank and buffer bindings of a bindless program, and its textures at level 2, are rows, not descriptors
+            B->pb[B->n].row = gfx_shader_bindless(s) && (k == GFX_RES_UBO || k == GFX_RES_SSBO ||
+                                                         (k == GFX_RES_TEX && gfx_shader_bindless(s) >= 2 && (r[i].flags & 0x80)));
             B->n++;
         }
     }
@@ -101,10 +111,14 @@ static int module_binding_missing(const GfxShader *s, const VkDescriptorSetLayou
     }
     uint64_t words = 0;
     const uint32_t *w = gfx_shader_spirv(s, &words);
+    uint32_t glob[16];
+    int ng = w ? gfx_spirv_global_ids(w, words, glob, 16) : 0;
     for (uint64_t i = 5; w && i < words;) {
         uint32_t op = w[i] & 0xffff, len = w[i] >> 16;
         if (!len || i + len > words) break;
-        if (op == SPV_OP_DECORATE && len >= 4 && w[i + 2] == SPV_DEC_BINDING) {
+        int own = 1;
+        for (int k = 0; k < ng; k++) own &= glob[k] != w[i + 1];
+        if (op == SPV_OP_DECORATE && len >= 4 && w[i + 2] == SPV_DEC_BINDING && own) {
             uint32_t want = w[i + 3] + (w[i + 3] >= 1 ? off : 0), j = 0;
             while (j < n && b[j].binding != want) j++;
             if (j == n) return (int)w[i + 3];
@@ -132,19 +146,25 @@ int layout_covers(const VkPipeState *s, const Layout *l, uint32_t fs_off, char *
 // layouts hold the compute stage only). VK_NULL_HANDLE when templates are off, for an empty set, for a push set
 // without vkCmdPushDescriptorSetWithTemplateKHR or when creation fails: the replay then writes the set with write
 // structs.
-static VkDescriptorUpdateTemplate make_tpl(const VkDescriptorSetLayoutBinding *b, uint32_t n, VkDescriptorSetLayout sl,
-                                           int push, VkPipelineLayout pl, uint32_t set) {
-    if (!P.tpl || !n || (push && !P.tpl_push)) return VK_NULL_HANDLE;
+// row[i] marks the bindings that are not descriptors of the set (VkPipeBinding.row): they keep their slot in the packed
+// array (off advances) but get no entry.
+static VkDescriptorUpdateTemplate make_tpl(const VkDescriptorSetLayoutBinding *b, const uint8_t *row, uint32_t n,
+                                           VkDescriptorSetLayout sl, int push, VkPipelineLayout pl, uint32_t set) {
+    if (!P.tpl || (push && !P.tpl_push)) return VK_NULL_HANDLE;
     VkDescriptorUpdateTemplateEntry e[MAX_BINDINGS];
     size_t off = 0;
+    uint32_t ne = 0;
     VkShaderStageFlags stages = 0;
     for (uint32_t i = 0; i < n; i++) {
-        e[i] = (VkDescriptorUpdateTemplateEntry){b[i].binding, 0, b[i].descriptorCount, b[i].descriptorType, off, sizeof(VkDescSlot)};
+        if (!row[i]) {
+            e[ne++] = (VkDescriptorUpdateTemplateEntry){b[i].binding, 0, b[i].descriptorCount, b[i].descriptorType, off, sizeof(VkDescSlot)};
+            stages |= b[i].stageFlags;
+        }
         off += sizeof(VkDescSlot) * b[i].descriptorCount;
-        stages |= b[i].stageFlags;
     }
+    if (!ne) return VK_NULL_HANDLE;
     VkDescriptorUpdateTemplateCreateInfo ci = {
-        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO, .descriptorUpdateEntryCount = n,
+        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO, .descriptorUpdateEntryCount = ne,
         .pDescriptorUpdateEntries = e,
         .templateType = push ? VK_DESCRIPTOR_UPDATE_TEMPLATE_TYPE_PUSH_DESCRIPTORS_KHR : VK_DESCRIPTOR_UPDATE_TEMPLATE_TYPE_DESCRIPTOR_SET,
         .descriptorSetLayout = sl,
@@ -169,11 +189,19 @@ static int64_t bindings_sort(Bindings *B, uint64_t *h) {
     int64_t total = 0;
     for (uint32_t i = 0; i < B->n; i++) {
         if (i && B->b[i].binding == B->b[i - 1].binding) return -1;
-        uint32_t k[4] = {B->b[i].binding, B->b[i].descriptorType, B->b[i].descriptorCount, B->b[i].stageFlags};
+        uint32_t k[5] = {B->b[i].binding, B->b[i].descriptorType, B->b[i].descriptorCount, B->b[i].stageFlags, B->pb[i].row};
         *h = pipe_fnv(*h, k, sizeof k);
-        total += B->b[i].descriptorCount;
+        if (!B->pb[i].row) total += B->b[i].descriptorCount;   // rows are no descriptors (push limit)
     }
     return total;
+}
+
+// The bindings of b[0..n) that are descriptors of the set (not rows: VkPipeBinding.row) into out; their count.
+static uint32_t keep_bindings(const VkDescriptorSetLayoutBinding *b, const uint8_t *row, uint32_t n, VkDescriptorSetLayoutBinding *out) {
+    uint32_t ne = 0;
+    for (uint32_t i = 0; i < n; i++)
+        if (!row[i]) out[ne++] = b[i];
+    return ne;
 }
 
 // MKW_DRAW_CACHE: a layout's uniform buffers become dynamic when the pipeline layout holds no more than the device
@@ -205,31 +233,38 @@ Layout *layout_get(Bindings *B) {
     int64_t total = bindings_sort(B, &h);
     if (total < 0) return NULL;
     Layout **head = &layouts[h % LAYOUT_BUCKETS];
+    uint8_t rw[MAX_BINDINGS] = {0};
+    for (uint32_t i = 0; i < B->n; i++) rw[i] = B->pb[i].row;
     for (Layout *l = *head; l; l = l->next)
-        if (l->hash == h && l->n == B->n && l->pc_stages == B->pc_stages && !memcmp(l->b, B->b, B->n * sizeof *B->b))
+        if (l->hash == h && l->n == B->n && l->pc_stages == B->pc_stages && l->bl == B->bl && !memcmp(l->b, B->b, B->n * sizeof *B->b) &&
+            !memcmp(l->row, rw, B->n))
             return l;
     Layout *l = calloc(1, sizeof *l + B->n * sizeof *B->b);
     if (!l) return NULL;
-    l->hash = h, l->n = B->n, l->pc_stages = B->pc_stages;
+    l->hash = h, l->n = B->n, l->pc_stages = B->pc_stages, l->bl = B->bl;
     memcpy(l->b, B->b, B->n * sizeof *B->b);
+    memcpy(l->row, rw, B->n);
     l->push = !P.draw_cache && total <= (int64_t)P.max_push;
+    VkDescriptorSetLayoutBinding lb[MAX_BINDINGS];
     VkDescriptorSetLayoutCreateInfo si = {.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
                                           .flags = l->push ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR : 0,
-                                          .bindingCount = l->n, .pBindings = l->b};
+                                          .bindingCount = keep_bindings(l->b, l->row, l->n, lb), .pBindings = lb};
     if (vkCreateDescriptorSetLayout(P.device, &si, NULL, &l->set) != VK_SUCCESS) {
         free(l);
         return NULL;
     }
     VkPushConstantRange pc = {B->pc_stages, 0, MESH_PC_BYTES};
-    VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO, .setLayoutCount = 1,
-                                     .pSetLayouts = &l->set, .pushConstantRangeCount = B->pc_stages ? 1 : 0,
-                                     .pPushConstantRanges = &pc};
+    VkDescriptorSetLayout sets3[3] = {l->set, VK_NULL_HANDLE, VK_NULL_HANDLE};
+    if (B->bl >= 2) sets3[2] = vk_bl_set_layout(&sets3[1]);   // SM86_BINDLESS=2: the global texture set at 2
+    VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+                                     .setLayoutCount = B->bl >= 2 ? 3 : 1, .pSetLayouts = sets3,
+                                     .pushConstantRangeCount = B->pc_stages ? 1 : 0, .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->layout) != VK_SUCCESS) {
         vkDestroyDescriptorSetLayout(P.device, l->set, NULL);
         free(l);
         return NULL;
     }
-    l->tpl[0] = make_tpl(l->b, l->n, l->set, l->push, l->layout, 0);
+    l->tpl[0] = make_tpl(l->b, l->row, l->n, l->set, l->push, l->layout, 0);
     l->next = *head;
     *head = l;
     P.stats.layouts++;
@@ -246,8 +281,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
     uint32_t nb = ubo_count(B), nf = ubo_count(F);
     dyn_ubos(B, nf), dyn_ubos(F, nb);
     VkShaderStageFlags pcs = B->pc_stages | F->pc_stages;
+    int bl = B->bl > F->bl ? B->bl : F->bl;
+    B->bl = bl;   // the pipeline's (vk_pipeline.c pipe_add reads B), also when the layout is found below
     uint64_t h = pipe_fnv(FNV0, "indep", 5);
     h = pipe_fnv(h, &pcs, sizeof pcs);
+    h = pipe_fnv(h, &bl, sizeof bl);
     int64_t tv = bindings_sort(B, &h);
     h = pipe_fnv(h, "|", 1);
     int64_t tf = bindings_sort(F, &h);
@@ -258,21 +296,26 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
     for (uint32_t i = n0; i < n; i++) B->pb[i].set = 1;
     B->n = n;
     Layout **head = &layouts[h % LAYOUT_BUCKETS];
+    uint8_t rw[MAX_BINDINGS] = {0};
+    for (uint32_t i = 0; i < n; i++) rw[i] = B->pb[i].row;
     for (Layout *l = *head; l; l = l->next)
-        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && l->pc_stages == pcs && !memcmp(l->b, B->b, n * sizeof *B->b))
+        if (l->hash == h && l->set1 && l->n == n && l->n0 == n0 && l->pc_stages == pcs && l->bl == bl &&
+            !memcmp(l->b, B->b, n * sizeof *B->b) && !memcmp(l->row, rw, n))
             return l;
     Layout *l = calloc(1, sizeof *l + n * sizeof *B->b);
     if (!l) return NULL;
-    l->hash = h, l->n = n, l->n0 = n0, l->pc_stages = pcs;
+    l->hash = h, l->n = n, l->n0 = n0, l->pc_stages = pcs, l->bl = bl;
     memcpy(l->b, B->b, n * sizeof *B->b);
+    memcpy(l->row, rw, n);
     l->push = !P.draw_cache && P.push_stage == GFX_STAGE_VS && tv <= (int64_t)P.max_push;
     l->push1 = !P.draw_cache && P.push_stage == GFX_STAGE_FS && F->n && tf <= (int64_t)P.max_push;
+    VkDescriptorSetLayoutBinding lb0[MAX_BINDINGS], lb1[MAX_BINDINGS];
     VkDescriptorSetLayoutCreateInfo s0 = {.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
                                           .flags = l->push ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR : 0,
-                                          .bindingCount = n0, .pBindings = l->b};
+                                          .bindingCount = keep_bindings(l->b, l->row, n0, lb0), .pBindings = lb0};
     VkDescriptorSetLayoutCreateInfo s1 = {.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
                                           .flags = l->push1 ? VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR : 0,
-                                          .bindingCount = n - n0, .pBindings = l->b + n0};
+                                          .bindingCount = keep_bindings(l->b + n0, l->row + n0, n - n0, lb1), .pBindings = lb1};
     if (vkCreateDescriptorSetLayout(P.device, &s0, NULL, &l->set) != VK_SUCCESS) {
         free(l);
         return NULL;
@@ -282,10 +325,11 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
         free(l);
         return NULL;
     }
-    VkDescriptorSetLayout sets[2] = {l->set, l->set1};
+    VkDescriptorSetLayout sets[3] = {l->set, l->set1, VK_NULL_HANDLE}, unused;
+    if (bl >= 2) sets[2] = vk_bl_set_layout(&unused);   // SM86_BINDLESS=2: the global texture set at 2
     VkPushConstantRange pc = {pcs, 0, MESH_PC_BYTES};
     VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
-                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = 2,
+                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = bl >= 2 ? 3 : 2,
                                      .pSetLayouts = sets, .pushConstantRangeCount = pcs ? 1 : 0,
                                      .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->layout) != VK_SUCCESS) {
@@ -294,8 +338,8 @@ Layout *layout_pair(Bindings *B, Bindings *F) {
         free(l);
         return NULL;
     }
-    l->tpl[0] = make_tpl(l->b, n0, l->set, l->push, l->layout, 0);
-    l->tpl[1] = make_tpl(l->b + n0, n - n0, l->set1, l->push1, l->layout, 1);
+    l->tpl[0] = make_tpl(l->b, l->row, n0, l->set, l->push, l->layout, 0);
+    l->tpl[1] = make_tpl(l->b + n0, l->row + n0, n - n0, l->set1, l->push1, l->layout, 1);
     l->next = *head;
     *head = l;
     P.stats.layouts++;

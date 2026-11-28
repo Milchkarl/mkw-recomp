@@ -19,6 +19,7 @@ import ctl, report
 from paths import ROOT, Run
 
 import abstat
+import expect
 
 MIN_AVAIL = 8500   # MB: below it the system OOM killed runs and the desktop (integrated GPU, 07/11/2026)
 
@@ -143,6 +144,15 @@ def refusals(run: Run, binary: Path, env: dict[str, str], measure: bool = False)
         caps = " ".join(sorted(p.name for p in (ROOT / "build/cap").glob("*"))) or "none"
         out.append('a run needs MKW_RUN_WHY="what I expect to see; what I conclude from each result". A back-end '
                    f"change is checked on a capture in seconds: tools/test/replay.sh build/cap/<name> ({caps})")
+    if env.get("CLAUDECODE") and env.get("MKW_AB"):
+        # 28/11/2026: 34 of 114 split-screen measurements were A/Bs that showed nothing. An A/B says the number it
+        # expects (tools/runner/expect.py), is refused when it cannot tell that number from zero, and stops once decided.
+        e = expect.parse(env.get("MKW_RUN_WHY"))
+        if e is None:
+            out.append("an A/B needs expect=LO..HI in MKW_RUN_WHY (B - A, ms per frame, on MKW_AB_METRIC): the number "
+                       "it expects and, in the why, what each side of it concludes")
+        elif no := expect.too_fine(e, float(env["MKW_AB_TARGET"]) if env.get("MKW_AB_TARGET") else None):
+            out.append(no)
     if not is_runtime(binary):
         return out
     if binary.resolve() == (ROOT / "build/mkw").resolve():
@@ -234,11 +244,21 @@ def ab_stop(plan: Plan, done: threading.Event, every: float = 5.0) -> None:
     replay, a wait: abstat.METRICS); MKW_SEQ_EXIT stays the limit."""
     metric = plan.env.get("MKW_AB_METRIC") or "interval"
     least = int(plan.env.get("MKW_AB_MIN_PAIRS") or STOP_MIN_PAIRS)
+    e = expect.parse(plan.env.get("MKW_RUN_WHY"))
     while not done.wait(every):
         if not plan.run.frames.exists():
             continue
         v, _ = abstat.analyse([plan.run.frames], plan.settle, plan.target_ms, metric)
-        if v.half_ms is not None and plan.target_ms is not None and v.half_ms <= plan.target_ms and v.pairs >= least:
+        diffs = abstat.pair_diffs(abstat.blocks(abstat.read_rows(plan.run.frames), plan.settle, metric))
+        if e and len(diffs) >= least and (d := expect.decided(e, diffs)):
+            plan.stop_note.append(f"expect={e.text()} decided on {metric}: {d[0]} at {len(diffs)} pairs"
+                                  f" (B - A {d[1]:+.2f} ±{d[2]:.2f}, always-valid 95 %)")
+            try:
+                ctl.send(plan.run, ["exit"], timeout=5)
+            except ctl.NotRunning:
+                pass
+            return
+        if v.half_ms is not None and plan.target_ms and v.half_ms <= plan.target_ms and v.pairs >= least:
             plan.stop_note.append(f"MKW_AB_TARGET {plan.target_ms} ms on {metric} reached at {v.pairs} pairs"
                                   f" (±{v.half_ms:.2f})")
             try:
@@ -297,7 +317,7 @@ def race(plan: Plan) -> dict:
     done = threading.Event()
     every = float(plan.env.get("MKW_AB_CHECK_S") or 5)
     stopper = threading.Thread(target=ab_stop, args=(plan, done, every), daemon=True)
-    if plan.target_ms and plan.env.get("MKW_AB"):
+    if plan.env.get("MKW_AB") and (plan.target_ms or expect.parse(plan.env.get("MKW_RUN_WHY"))):
         stopper.start()
     t0 = time.monotonic()
     prev = sig.signal(sig.SIGTERM, _raise_terminated)

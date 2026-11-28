@@ -46,10 +46,12 @@ double ms_since(uint64_t t0) { return (double)(pipe_qpc() - t0) / 1e6; }
 
 VkPipelineLayout half_layout(Layout *l, int h) {
     if (l->half[h]) return l->half[h];
-    VkDescriptorSetLayout sets[2] = {h ? VK_NULL_HANDLE : l->set, h ? l->set1 : VK_NULL_HANDLE};
+    VkDescriptorSetLayout sets[3] = {h ? VK_NULL_HANDLE : l->set, h ? l->set1 : VK_NULL_HANDLE, VK_NULL_HANDLE}, unused;
+    if (l->bl >= 2) sets[2] = vk_bl_set_layout(&unused);   // as the whole layout's (layout_pair)
     VkPushConstantRange pc = {l->pc_stages, 0, MESH_PC_BYTES};   // as the whole layout's (layout_pair)
     VkPipelineLayoutCreateInfo pi = {.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
-                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT, .setLayoutCount = 2,
+                                     .flags = VK_PIPELINE_LAYOUT_CREATE_INDEPENDENT_SETS_BIT_EXT,
+                                     .setLayoutCount = l->bl >= 2 ? 3 : 2,
                                      .pSetLayouts = sets, .pushConstantRangeCount = l->pc_stages ? 1 : 0,
                                      .pPushConstantRanges = &pc};
     if (vkCreatePipelineLayout(P.device, &pi, NULL, &l->half[h]) != VK_SUCCESS) l->half[h] = VK_NULL_HANDLE;

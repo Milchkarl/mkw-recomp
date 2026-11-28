@@ -577,7 +577,7 @@ uint32_t gfx_shader_outputs(const GfxShader *s, GfxShaderIo io[32]) {
 int gfx_shader_mesh_kind(const GfxShader *s) { return s ? s->mesh_kind : GFX_MESH_NONE; }
 
 int gfx_shader_cs_of_mesh(const GfxShader *s) { return s && s->cs_of_mesh; }
-int gfx_shader_bindless(const GfxShader *s) { return s && s->bindless; }
+int gfx_shader_bindless(const GfxShader *s) { return s ? s->bindless : 0; }   // the level, 1 or 2: not a bool
 
 // The vertex shader of task/mesh as compute: a prepared shader under a fixed key that no program has
 // (tools/shaders/translate.py write_mesh_cs_vs, sm86 head.py MESH_CS_VS_KEY), so pipeline key records name it too.

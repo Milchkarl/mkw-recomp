@@ -58,12 +58,14 @@ typedef struct Layout {
     VkPipelineLayout layout;
     int push;
     VkShaderStageFlags pc_stages;      // Bindings.pc_stages
+    int bl;                            // Bindings.bl: 2 with the global texture set at set 2
     uint32_t n;
     VkDescriptorSetLayout set1;        // independent layouts: the fragment set (set 1); VK_NULL_HANDLE otherwise
     int push1;                         // set 1 is a push-descriptor set
     uint32_t n0;                       // independent layouts: b[0..n0) are set 0, the rest set 1
     VkPipelineLayout half[2];          // GPL libraries: {set 0, null}, {null, set 1} (made on first use)
     VkDescriptorUpdateTemplate tpl[2]; // per set (make_tpl); VK_NULL_HANDLE: written with write structs
+    uint8_t row[MAX_BINDINGS];         // VkPipeBinding.row of b[i]: in the replay's packed descriptors, not in the layout
     VkDescriptorSetLayoutBinding b[];
 } Layout;
 

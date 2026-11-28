@@ -15,14 +15,25 @@
 #include "vk_temporal.h"
 #include "vk.h"
 #include "vk_draw_internal.h"
+#include "vk_seg.h"
 #include "vk_exec.h"
 #include "vk_reuse.h"
 #include "platform/platform.h"
 
 static int prepare_draw(VkExec *ex, int prim, int32_t count, int restart) { return prepare_draw_ex(ex, prim, count, restart, 0); }
 
+// A bind op's effect, as vk_exec_op_draw has it (MKW_SEG's hits apply theirs so): 0 when op is not one.
+int vk_exec_seg_bind(VkExec *ex, uint32_t op, const void *payload) {
+    if (!vk_exec_bind_state(ex, op, payload)) return 0;
+    if (op == OP_BIND_PROGRAM || op == OP_BIND_UBO || op == OP_BIND_SSBO || op == OP_BIND_TEX || op == OP_BIND_IMG ||
+        op == OP_PUSH_CONST)
+        bind_gen++;
+    return 1;
+}
+
 static void bind_index(VkExec *ex, const void *data, uint64_t bytes, VkIndexType type) {
     if (ru_cap) ru_note_bad(RUB_SCRATCH_INDEX);   // indices made at record time into this command buffer's scratch
+    if (seg_cap) seg_bad(SEGB_INDEX);
     VkBuffer b;
     VkDeviceSize o;
     memcpy(scratch(ex, bytes, &b, &o), data, bytes);
@@ -123,7 +134,9 @@ static void op_draw_idx(VkExec *ex, const p_draw_idx *d) {
     } else if (sp.offset % isize[d->itype]) {
         return warn_once(W_INDEX, "index buffer %#llx is not aligned to its index size: draw skipped", (unsigned long long)d->ibuf);
     } else {
+        VkMemSpan o = sp;
         VK_MEM_USE(sp);
+        if (seg_cap) seg_cap_span(d->ibuf, &o, sp.buffer);   // MKW_SEG: the index buffer its secondary binds
         vkCmdBindIndexBuffer(ex->cb, sp.buffer, sp.offset, d->itype == NVN_INDEX_TYPE_UNSIGNED_SHORT ? VK_INDEX_TYPE_UINT16 : VK_INDEX_TYPE_UINT32);
         ex->recorded++;
         vk_mem_count(sp.cls, VK_MUSE_IB, bytes);
@@ -622,12 +635,7 @@ void vk_exec_op_draw(VkExec *ex, uint32_t op, const void *payload) {
         else op_draw_mesh(ex, payload);
         return;
     }
-    if (vk_exec_bind_state(ex, op, payload)) {
-        if (op == OP_BIND_PROGRAM || op == OP_BIND_UBO || op == OP_BIND_SSBO || op == OP_BIND_TEX || op == OP_BIND_IMG ||
-            op == OP_PUSH_CONST)
-            bind_gen++;
-        return;
-    }
+    if (vk_exec_seg_bind(ex, op, payload)) return;
     // a draw that samples the upscaler's picture after the HUD went over it (the game's last pass) is recorded once
     // more into the picture without the HUD, for frame generation (vk_temporal.c)
     int draw = op == OP_DRAW || op == OP_DRAW_IDX || op == OP_DRAW_IDX_IND;

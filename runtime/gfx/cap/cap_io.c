@@ -68,7 +68,12 @@ struct CapIn {
     uint8_t *src, *dst;
     size_t src_cap, src_n, src_pos, dst_cap, dst_n, dst_pos;
     uint64_t left;   // payload bytes of the current record not read yet
+    // A record up to WHOLE_MAX is read whole before it is handed out, so a capture cut inside its last record (the run
+    // ended mid-capture: race2pl, 28/11/2026, 82 of 120 frames) ends the replay there instead of failing it.
+    uint8_t *rec;
+    size_t rec_cap, rec_pos, rec_n;
 };
+#define WHOLE_MAX ((size_t)64 << 20)
 
 CapIn *cap_in_open(const char *path) {
     CapIn *in = calloc(1, sizeof *in);
@@ -108,24 +113,41 @@ static size_t pull(CapIn *in, void *p, size_t n) {
 }
 
 int cap_in_next(CapIn *in, CapHdr *h) {
+    if (in->rec_n) in->left = 0;   // the rest of a whole record is in rec, not in the stream
     while (in->left) {   // skip what the caller left of the previous record
         uint8_t tmp[4096];
         size_t k = in->left < sizeof tmp ? in->left : sizeof tmp;
         if (pull(in, tmp, k) != k) rt_fatal("cap: capture ends inside a record");
         in->left -= k;
     }
+    in->rec_n = in->rec_pos = 0;
     if (pull(in, h, sizeof *h) != sizeof *h || h->type == CAP_END) return 0;
     in->left = h->size;
+    if (h->size && h->size <= WHOLE_MAX) {
+        if (h->size > in->rec_cap) {
+            free(in->rec);
+            if (!(in->rec = malloc(h->size))) rt_fatal("cap: out of memory (record of %llu bytes)", (unsigned long long)h->size);
+            in->rec_cap = h->size;
+        }
+        if (pull(in, in->rec, h->size) != h->size) {
+            rt_log("cap: the capture ends inside its last record (type %u): the replay stops there", (unsigned)h->type);
+            in->left = 0;
+            return 0;
+        }
+        in->rec_n = h->size;
+    }
     return 1;
 }
 
 void cap_in_read(CapIn *in, void *p, size_t n) {
-    if (n > in->left || pull(in, p, n) != n) rt_fatal("cap: short record (%zu bytes wanted)", n);
+    if (n > in->left) rt_fatal("cap: short record (%zu bytes wanted)", n);
+    if (in->rec_n) memcpy(p, in->rec + in->rec_pos, n), in->rec_pos += n;
+    else if (pull(in, p, n) != n) rt_fatal("cap: short record (%zu bytes wanted)", n);
     in->left -= n;
 }
 
 void cap_in_close(CapIn *in) {
     fclose(in->f);
     ZSTD_freeDCtx(in->z);
-    free(in->src), free(in->dst), free(in);
+    free(in->src), free(in->dst), free(in->rec), free(in);
 }

@@ -15,6 +15,7 @@
 #include "tex.h"
 #include "vk.h"
 #include "vk_draw_internal.h"
+#include "vk_seg.h"
 #include "vk_exec.h"
 #include "vk_temporal.h"
 #include "vk_reuse.h"
@@ -449,7 +450,8 @@ static VkDescriptorBufferInfo support_info(VkExec *ex) {
         if (!B.sup_valid || memcmp(tmp, B.support, SUPPORT_BYTES)) {   // a new buffer only when the contents changed
             VkBuffer sb;
             VkDeviceSize so;
-            memcpy(scratch(ex, SUPPORT_BYTES, &sb, &so), tmp, SUPPORT_BYTES);
+            if (!seg_cap || !seg_support(tmp, SUPPORT_BYTES, &sb, &so))   // MKW_SEG: a secondary outlives scratch
+                memcpy(scratch(ex, SUPPORT_BYTES, &sb, &so), tmp, SUPPORT_BYTES);
             memcpy(B.support, tmp, SUPPORT_BYTES);
             B.sup_buf = sb, B.sup_off = so, B.sup_valid = 1;
         }
@@ -848,6 +850,65 @@ static int ubo_rebind(VkExec *ex, const VkPipeInfo *info) {
     return 1;
 }
 
+// The descriptors of binding b into o, its count of slots at nd of the packed array (bind_resources; MKW_SEG's rows).
+// Returns their kind: 0 buffer, 1 image, 2 texel buffer view.
+static int fill_binding(VkExec *ex, const VkPipeBinding *b, VkDescSlot *o, uint32_t nd, uint64_t xkey, uint8_t *xkeep,
+                        const VkDescSlot *xuse, int need_w, VkBufferView *bv) {
+    const GfxShaderRes *r = b->res;
+    uint32_t cnt = b->count ? b->count : 1;
+    int st = nvn_stage_of(b->stage), kind = 0;
+    if (xkey) memset(xkeep + nd, 0, cnt);
+    if (b->kind == VK_PIPE_SUPPORT) {
+        o->buffer = support_info(ex);
+        if (ru_cap) ru_note_desc(nd, RUK_SUP, 0, 0);
+        BR_MARK(BR_C0);
+    } else if (b->kind == GFX_RES_UBO) {
+        for (uint32_t k = 0; k < cnt; k++) {
+            o[k].buffer = ubo_info(ex, st, r->slot + (int)k);
+            if (ru_cap) ru_note_desc(nd + k, ubo_kind, st, r->slot + (int)k - 3);
+            BR_MARK(r->slot + (int)k < 3 ? BR_C0 : BR_UBO);
+        }
+    } else if (b->kind == GFX_RES_SSBO) {
+        if (xuse) memcpy(o, xuse + nd, sizeof *o * cnt);
+        else
+            for (uint32_t k = 0; k < cnt; k++) o[k].buffer = ssbo_info(ex, st, r, r->flags & 1);
+        if (xkey) memset(xkeep + nd, 1, cnt);
+        BR_MARK(BR_SSBO);
+    } else if (b->kind == GFX_RES_TEX || b->kind == GFX_RES_IMG) {
+        int img = b->kind == GFX_RES_IMG;
+        if (b->type == VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER || b->type == VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER) {
+            kind = 2;
+            for (uint32_t k = 0; k < cnt; k++) {   // buffer textures are not replayed yet
+                o[k].w[0] = 0, o[k].w[1] = 0, o[k].w[2] = 0;
+                o[k].view = Z.zview;
+                if (need_w) bv[nd + k] = Z.zview;
+            }
+        } else if (xuse) {
+            kind = 1;
+            memcpy(o, xuse + nd, sizeof *o * cnt);
+            memset(xkeep + nd, 1, cnt);
+        } else {
+            kind = 1;
+            if (xkey) memset(xkeep + nd, 1, cnt);
+            int locked = 0;   // tex_info takes the texture lock for the lookups that need it
+            for (uint32_t k = 0; k < cnt; k++) {
+                int slot = r->slot + (int)k;
+                uint64_t h = 0;
+                if (img) h = slot >= 0 && slot < 32 ? ex->img[st][slot] : 0;
+                else h = slot >= 0 && slot < 128 ? ex->tex[st][slot] : 0;
+                tex_info(ex, r, h, img, r->separate, &o[k].image, &locked);
+                if (ru_cap && !img && slot >= 0 && slot < 128) ru_note_slot(0, st, slot);   // others read 0
+                o[k].w[2] = (uint32_t)o[k].image.imageLayout;   // zero the tail padding
+            }
+            if (locked) vk_texture_unlock();
+        }
+        BR_MARK(BR_TEX);
+    } else {
+        rt_fatal("vk: binding %u has an unknown kind %d", (unsigned)b->binding, (int)b->kind);
+    }
+    return kind;
+}
+
 void bind_resources(VkExec *ex, const VkPipeInfo *info) {
     br_on = (rt_trace & RT_TRACE_DRAW) != 0;
     if (br_on) br_t = plat_cycles();
@@ -898,64 +959,16 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
         lo[s] = i0, hi[s] = i1, i0 = i1;
         if (i1 > lo[s] && !info->tpl[s]) need_w = 1;
     }
+    if (need_w && info->bl)   // the rows are not in the layout: only a template skips them (vk_pipe_layout.c make_tpl)
+        rt_fatal("vk: MKW_BINDLESS needs descriptor update templates (a set of a bindless pipeline has none)");
     uint32_t nd = 0;
     for (uint32_t i = 0; i < info->n_bindings; i++) {
         const VkPipeBinding *b = &info->bindings[i];
-        const GfxShaderRes *r = b->res;
         uint32_t cnt = b->count ? b->count : 1;
         if (nd + cnt > MAX_DESC) rt_fatal("vk: %u descriptors exceed the replay's %d", nd + cnt, MAX_DESC);
         if (n_sets == 2 && i == lo[1]) d0[1] = nd;
         VkDescSlot *o = &d[nd];
-        int st = nvn_stage_of(b->stage), kind = 0;   // kind: 0 buffer, 1 image, 2 texel buffer view
-        if (xkey) memset(xkeep + nd, 0, cnt);
-        if (b->kind == VK_PIPE_SUPPORT) {
-            o->buffer = support_info(ex);
-            if (ru_cap) ru_note_desc(nd, RUK_SUP, 0, 0);
-            BR_MARK(BR_C0);
-        } else if (b->kind == GFX_RES_UBO) {
-            for (uint32_t k = 0; k < cnt; k++) {
-                o[k].buffer = ubo_info(ex, st, r->slot + (int)k);
-                if (ru_cap) ru_note_desc(nd + k, ubo_kind, st, r->slot + (int)k - 3);
-                BR_MARK(r->slot + (int)k < 3 ? BR_C0 : BR_UBO);
-            }
-        } else if (b->kind == GFX_RES_SSBO) {
-            if (xuse) memcpy(o, xuse + nd, sizeof *o * cnt);
-            else
-                for (uint32_t k = 0; k < cnt; k++) o[k].buffer = ssbo_info(ex, st, r, r->flags & 1);
-            if (xkey) memset(xkeep + nd, 1, cnt);
-            BR_MARK(BR_SSBO);
-        } else if (b->kind == GFX_RES_TEX || b->kind == GFX_RES_IMG) {
-            int img = b->kind == GFX_RES_IMG;
-            if (b->type == VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER || b->type == VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER) {
-                kind = 2;
-                for (uint32_t k = 0; k < cnt; k++) {   // buffer textures are not replayed yet
-                    o[k].w[0] = 0, o[k].w[1] = 0, o[k].w[2] = 0;
-                    o[k].view = Z.zview;
-                    if (need_w) bv[nd + k] = Z.zview;
-                }
-            } else if (xuse) {
-                kind = 1;
-                memcpy(o, xuse + nd, sizeof *o * cnt);
-                memset(xkeep + nd, 1, cnt);
-            } else {
-                kind = 1;
-                if (xkey) memset(xkeep + nd, 1, cnt);
-                int locked = 0;   // tex_info takes the texture lock for the lookups that need it
-                for (uint32_t k = 0; k < cnt; k++) {
-                    int slot = r->slot + (int)k;
-                    uint64_t h = 0;
-                    if (img) h = slot >= 0 && slot < 32 ? ex->img[st][slot] : 0;
-                    else h = slot >= 0 && slot < 128 ? ex->tex[st][slot] : 0;
-                    tex_info(ex, r, h, img, r->separate, &o[k].image, &locked);
-                    if (ru_cap && !img && slot >= 0 && slot < 128) ru_note_slot(0, st, slot);   // others read 0
-                    o[k].w[2] = (uint32_t)o[k].image.imageLayout;   // zero the tail padding
-                }
-                if (locked) vk_texture_unlock();
-            }
-            BR_MARK(BR_TEX);
-        } else {
-            rt_fatal("vk: binding %u has an unknown kind %d", (unsigned)b->binding, (int)b->kind);
-        }
+        int kind = fill_binding(ex, b, o, nd, xkey, xkeep, xuse, need_w, bv);   // 0 buffer, 1 image, 2 texel buffer view
         if (need_w) {
             w[i] = (VkWriteDescriptorSet){.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                                           .dstBinding = b->binding, .descriptorCount = cnt, .descriptorType = b->type};
@@ -966,6 +979,15 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
         nd += cnt;
     }
     if (n_sets == 2 && lo[1] == info->n_bindings) d0[1] = nd;   // set 1 empty: set 0 runs to the end (run42: its size was 0)
+    if (seg_cap) {   // MKW_SEG: a secondary kept across submissions holds only descriptors that stay valid
+        if (!info->bl) seg_bad(SEGB_CLASSIC);
+        for (uint32_t i = 0; i < info->n_bindings; i++) {
+            const VkPipeBinding *b = &info->bindings[i];
+            if (!b->row && b->kind != VK_PIPE_SUPPORT && b->type != VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER &&
+                b->type != VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER)
+                seg_bad(SEGB_DESC);
+        }
+    }
     // A null handle where the descriptor type needs one makes the driver read through NULL (RADV 26.2 inside
     // vkCmdPushDescriptorSetWithTemplateKHR, run39/run40): stop with the binding instead.
     for (uint32_t i = 0, at = 0; i < info->n_bindings; i++) {
@@ -1097,6 +1119,26 @@ void bind_resources(VkExec *ex, const VkPipeInfo *info) {
     }
     BR_MARK(BR_SETS);
     ex->recorded++;
+}
+
+// MKW_SEG: a hit's draw resolves what its rows hold, as bind_resources would, into dst[stage] (span[stage] rows each, as
+// when the segment was captured); the descriptors themselves were recorded. 0: the rows came out another size.
+int vk_exec_seg_rows(VkExec *ex, const VkPipeInfo *info, uint8_t *dst[2], const uint8_t span[2]) {
+    VkDescSlot *d = BRA.d;
+    uint32_t nd = 0;
+    for (uint32_t i = 0; i < info->n_bindings; i++) {
+        const VkPipeBinding *b = &info->bindings[i];
+        uint32_t cnt = b->count ? b->count : 1;
+        if (b->kind != VK_PIPE_SUPPORT) fill_binding(ex, b, &d[nd], nd, 0, NULL, NULL, 0, NULL);
+        nd += cnt;
+    }
+    uint32_t e[2][64][4], n[2];
+    vk_exec_bl_entries(info, d, e, n);
+    for (int s = 0; s < 2; s++) {
+        if (n[s] != span[s]) return 0;
+        memcpy(dst[s], e[s], 16u * n[s]);
+    }
+    return 1;
 }
 
 struct BindTls {

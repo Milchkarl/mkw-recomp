@@ -437,6 +437,7 @@ void vk_exec_image_gone(VkImage image) {
     for (ViewNode *n = nvn_hm_del(&views_by_image, &image), *next; n; n = next) {
         next = n->next;
         nvn_hm_del(&view_of, &n->k);
+        vk_bl_view_gone(n->view);   // MKW_BINDLESS: its index in the global set, once the GPU is done
         vk_defer_view(n->view);
         free(n);
     }

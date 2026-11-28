@@ -15,6 +15,7 @@
 #include "cfg.h"
 #include "kernel_int.h"
 #include "platform/platform.h"
+#include "prof.h"
 
 const char *const s_name[S_N] = {"off", "run", "core", "host", "sleep", "sync", "cv", "lock", "addr"};
 PlatMutex G = PLAT_MUTEX_INIT;
@@ -86,6 +87,7 @@ void wake_in(RtThread **list, RtThread *t, uint32_t res) {
     t->waker = tcur ? tcur->handle : 0;
     if (rt_trace & RT_TRACE_SCHED) t->wake_at = kern_now_ns();
     if (g_crit_on) crit_add(CRIT_WAKE, t->handle, t->waker, 0, 0, t->wake_at);
+    simtrace("gwk", t->handle, t->waker, 0);   // MKW_SIMTRACE: the waker's thread wakes guest thread a
     plat_cond_signal(&t->cv);
 }
 
@@ -119,6 +121,7 @@ static uint32_t wait_woken(RtThread *t, int64_t ns, PlatMutex *m, RtThread **lis
     uint64_t now = kern_now_ns();
     int forever = ns < 0 || (uint64_t)ns > UINT64_MAX - now;
     uint64_t deadline = forever ? 0 : now + (uint64_t)ns;
+    if (!t->woke) simtrace("gwb", t->handle, 0, 0);   // MKW_SIMTRACE: guest thread a blocks on a guest object
     while (!t->woke) {
         if (forever) {
             plat_cond_wait(&t->cv, m);
@@ -128,6 +131,7 @@ static uint32_t wait_woken(RtThread *t, int64_t ns, PlatMutex *m, RtThread **lis
         if (now >= deadline) {
             wait_unlink(list, t);
             t->wkind = W_NONE;
+            simtrace("gwe", t->handle, 0, 1);   // MKW_SIMTRACE: c=1, the wait timed out
             return R_TIMEOUT;
         }
         if (g_wait_ns < 0) g_wait_ns = rt_knob("WAIT_NS", "0");
@@ -135,6 +139,7 @@ static uint32_t wait_woken(RtThread *t, int64_t ns, PlatMutex *m, RtThread **lis
         if (!RT_KNOB_ON(g_wait_ns)) left = (left + 999999) / 1000000 * 1000000;
         plat_cond_wait_ns(&t->cv, m, left);
     }
+    simtrace("gwe", t->handle, t->waker, 0);   // MKW_SIMTRACE: woken by guest thread b (after a gwk for a)
     if (t->wake_at) {
         uint64_t d = kern_now_ns() - t->wake_at;
         t->lw_ns += d;

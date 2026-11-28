@@ -44,7 +44,7 @@ def test_textures() -> None:
     refl = {k: list(v) for k, v in REFL.items()}
     refl["textures"] = [{"binding": 4, "type": 0x500 | 3, "cbuf_slot": 2, "handle": 8, "flags": 0}]
     out = bindless.apply(src, refl, "vs", 2)
-    assert refl["bindless"] == 2 and refl["textures"][0]["flags"] & 8
+    assert refl["bindless"] == 2 and refl["textures"][0]["flags"] & 0x80
     assert "uniform sampler2DArrayShadow t2_8" not in out
     assert "layout(set = 2, binding = 1) uniform texture2DArray BLT2DArray[];" in out
     assert (

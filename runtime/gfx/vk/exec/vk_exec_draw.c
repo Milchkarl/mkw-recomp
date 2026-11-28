@@ -30,6 +30,7 @@
 #include "vk_exec.h"
 #include "vk_passhz.h"
 #include "vk_reuse.h"
+#include "vk_seg.h"
 #include "platform/platform.h"
 
 #define ONESHOT_WAIT_MS 30000u   // prepare_draw: how long a one-shot draw waits for its pipeline before it is skipped
@@ -520,28 +521,8 @@ static int pipe_memo_on(void) {
     return PM.on;
 }
 
-// Pass, shaders, pipeline, fixed state and resources for a draw. 0: the draw is skipped.
-// mesh: a DrawMeshTasks draw, whose stages are the task (NVN 6, optional) and mesh (7) programs instead of the vertex
-// shader; VkPipeState.vs holds the first of them and .mesh the mesh program behind a task program.
-
-static _Thread_local uint64_t pd_t;
-_Thread_local uint64_t pd_tsc[PD_N], pd_n;
-#define PD_MARK(i) do { if (pd_on) { uint64_t t_ = plat_cycles(); pd_tsc[i] += t_ - pd_t; pd_t = t_; } } while (0)
-
-int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh) {
-    pd_on = (rt_trace & RT_TRACE_DRAW) != 0;
-    if (pd_on) pd_t = plat_cycles(), pd_n++;
-    if (ex->render_disabled) {
-        if (vk_cond_trace > 0) {
-            int has_vs;
-            const GfxShader *vs = shader_for(ex, NVN_STAGE_VS, &has_vs);
-            const uint8_t *k = vs ? gfx_shader_input_id(vs) : NULL;
-            vk_cond_trace--;
-            rt_log("cond: f%llu skipped draw vs %02x%02x%02x%02x", (unsigned long long)vk_exec_presented, k ? k[0] : 0,
-                   k ? k[1] : 0, k ? k[2] : 0, k ? k[3] : 0);
-        }
-        return vk_exec_frame.skip[VK_SKIP_OFF]++, 0;
-    }
+// The shadow map census of each draw (the MKW_SHADOW_DRAWS comment below); 1: the draw is skipped.
+static int shadow_note(VkExec *ex) {
     // MKW_SHADOW_DRAWS (default 1; auto, 0: none, "ab"): draws into the cascaded shadow map (D16, 3
     // layers, no colour target) skipped, which its clear leaves empty: no shadows. mp4_pdraws (Steam Deck, 4 players):
     // 22 % of the ~11,000 draws of a frame went there, 17 % with 2. "auto": skipped when the previous frame drew the
@@ -607,8 +588,32 @@ int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh) 
         if (k == sh_nmaps && sh_nmaps < 8) sh_maps[sh_nmaps++] = ex->rt.depth;
     }
     sh_was = is_shadow;
-    if (is_shadow && shadow_mode != 1 && !(shadow_mode == 2 && rt_ab()) && !(shadow_mode == 3 && !sh_many))
+    return is_shadow && shadow_mode != 1 && !(shadow_mode == 2 && rt_ab()) && !(shadow_mode == 3 && !sh_many);
+}
+
+// Pass, shaders, pipeline, fixed state and resources for a draw. 0: the draw is skipped.
+// mesh: a DrawMeshTasks draw, whose stages are the task (NVN 6, optional) and mesh (7) programs instead of the vertex
+// shader; VkPipeState.vs holds the first of them and .mesh the mesh program behind a task program.
+
+static _Thread_local uint64_t pd_t;
+_Thread_local uint64_t pd_tsc[PD_N], pd_n;
+#define PD_MARK(i) do { if (pd_on) { uint64_t t_ = plat_cycles(); pd_tsc[i] += t_ - pd_t; pd_t = t_; } } while (0)
+
+int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh) {
+    pd_on = (rt_trace & RT_TRACE_DRAW) != 0;
+    if (pd_on) pd_t = plat_cycles(), pd_n++;
+    if (ex->render_disabled) {
+        if (vk_cond_trace > 0) {
+            int has_vs;
+            const GfxShader *vs = shader_for(ex, NVN_STAGE_VS, &has_vs);
+            const uint8_t *k = vs ? gfx_shader_input_id(vs) : NULL;
+            vk_cond_trace--;
+            rt_log("cond: f%llu skipped draw vs %02x%02x%02x%02x", (unsigned long long)vk_exec_presented, k ? k[0] : 0,
+                   k ? k[1] : 0, k ? k[2] : 0, k ? k[3] : 0);
+        }
         return vk_exec_frame.skip[VK_SKIP_OFF]++, 0;
+    }
+    if (shadow_note(ex)) return vk_exec_frame.skip[VK_SKIP_OFF]++, 0;
     cb_res(ex);
     dummies_init();
     if (ex->pass_noatt) {   // no attachment: the pass covers this draw's viewport or scissor, reopened when it needs more
@@ -757,7 +762,37 @@ int prepare_draw_ex(VkExec *ex, int prim, int32_t count, int restart, int mesh) 
     vk_exec_oq_draw(ex);
     if (vk_pt_enabled() && vk_pt_draw_mode()) vk_pt_draw(ex->cb, s.vs, s.fs);
     if (vk_spec_census_on()) spec_census(ex, vs, NVN_STAGE_VS), spec_census(ex, fs, NVN_STAGE_FS);
+    if (seg_cap) seg_cap_draw(ex, info, p, vs, has_fs ? fs : NULL, fbl, feedback_wmask(ex, &s));   // MKW_SEG
     PD_MARK(PD_VB);
+    return 1;
+}
+
+// MKW_SEG (vk_exec_seg.c): what prepare_draw_ex and op_draw / op_draw_idx do for a draw of a segment replayed from its
+// secondary, which recorded everything else: the census and memos the draw feeds, the feedback state, its rows.
+int vk_exec_seg_fill(VkExec *ex, const SegDraw *d, uint32_t op, const void *payload, uint8_t *rows) {
+    if (op == OP_DRAW) {
+        const p_draw *p = payload;
+        c0_binst = (uint32_t)p->base_instance;
+        if (p->count <= 0) return 0;
+    } else {
+        const p_draw_idx *p = payload;
+        c0_binst = (uint32_t)p->base_instance;
+        if (p->count <= 0 || p->itype < 0 || p->itype > 2) return 0;
+    }
+    if (ex->render_disabled || !ex->in_pass || shadow_note(ex)) return 0;
+    if (__atomic_load_n(&d->info->pipeline, __ATOMIC_ACQUIRE) != d->pipe) return 0;
+    if (!vk_tmp_draw(ex, d->vs, d->fs)) return 0;
+    int mode = vk_ctx()->feedback;
+    if (mode != VK_FEEDBACK_OFF && d->fs) {   // feedback_prepare without its pass restart: a barrier or restart undoes
+        uint32_t m = feedback_scan(ex, d->fs);
+        if ((m & ex->fb_dirty) || (mode == VK_FEEDBACK_LAYOUT ? m & ex->fbl_mask : 0) != d->fbl) return 0;
+    }
+    uint8_t *dst[2] = {rows + 16u * d->row[0], rows + 16u * d->row[1]};
+    vk_tmp_hl_seen(VK_NULL_HANDLE);   // as vk_exec_op_draw before a draw; one sampling the HUD-less source undoes
+    if (!vk_exec_seg_rows(ex, d->info, dst, d->span) || vk_tmp_hl_pending()) return 0;
+    recent_note(d->vs, d->fs);
+    vk_exec_frame.draws++;
+    if (mode != VK_FEEDBACK_OFF) ex->fb_dirty |= d->wmask;
     return 1;
 }
 

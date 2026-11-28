@@ -701,7 +701,7 @@ static void replay_main(void *arg) {
         // Only presents count: a release counted as one let the frame bound (vk_be_present) pass while the replay was
         // still a frame or more behind (a frame queues up to a few hundred releases).
         if (it.kind == RI_SUBMIT) r_submit_done = done_no;
-        else if (it.kind == RI_PRESENT) r_presents_done++;
+        else if (it.kind == RI_PRESENT) r_presents_done++, simtrace("rp", r_presents_done, 0, 0);   // MKW_SIMTRACE
         r_busy = 0;
         plat_cond_broadcast(&rcv);
     }
@@ -768,7 +768,9 @@ static void replay_drain(int why) {
     if (rq_n || r_busy) {
         uint64_t p0 = perf_begin();
         int away = core_away_unlocked();
+        simtrace("wb", r_presents_queued, 4, (uint64_t)why);   // MKW_SIMTRACE: 4, a drain (everything queued replayed)
         while (rq_n || r_busy) plat_cond_wait(&rcv, &rl);
+        simtrace("we", r_presents_queued, 4, (uint64_t)why);
         wait_counted(why, p0);
         core_back_unlocked(&away);
     }
@@ -832,7 +834,9 @@ static void vk_be_present(const tex_t *t, const int crop[4], uint64_t at_ns) {
     dr_calls[DR_FRAME]++, dr_tcalls[DR_FRAME]++;
     if (r_presents_done < r_presents_queued) {
         uint64_t p0 = perf_begin();
+        simtrace("wb", r_presents_queued, 3, 0);   // MKW_SIMTRACE: 3, the frame bound (the replay handled present a)
         while (r_presents_done < r_presents_queued) plat_cond_wait(&rcv, &rl);
+        simtrace("we", r_presents_queued, 3, 0);
         wait_counted(DR_FRAME, p0);
     }
     r_presents_queued++;

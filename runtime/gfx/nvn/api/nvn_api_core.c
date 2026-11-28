@@ -890,12 +890,14 @@ NVN_API(nvnQueueSubmitCommands) {
             f = gfx_backend()->submit(hs, n);
         }
         early_watch_submit(f);
+        simtrace("sub", f, (uint64_t)n, (uint64_t)held);   // MKW_SIMTRACE: in queue order, under the submit lock
         plat_mutex_unlock(&submit_lock);
         if (hs != local) free(hs);
     } else {
         nvn_submit_prepare(h, n);
         f = gfx_backend()->submit(h, n);
         early_watch_submit(f);
+        simtrace("sub", f, (uint64_t)n, 0);
     }
     // MKW_SUBMIT_CATCHUP (default 1, 0 when MKW_EARLY_READ waits: Linux; "ab"): the submit returns once its replay and GPU work are done, as on the console,
     // where the GPU runs a submit right after it and what it writes (timestamps the game decides what to draw with,

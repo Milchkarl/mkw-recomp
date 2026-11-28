@@ -140,6 +140,23 @@ enum { OP_EXECUTION_MODE = 16, OP_TYPE_INT = 21, OP_TYPE_FLOAT = 22, OP_TYPE_VEC
 
 // Interface Locations, Binding decorations and the compute workgroup size from the module. Ids beyond 2^20 are ignored
 // (Ryujinx modules stay far below).
+int gfx_spirv_global_ids(const uint32_t *w, uint64_t n, uint32_t *ids, int cap) {
+    int k = 0;
+    for (uint64_t i = 5; i < n;) {
+        uint32_t op = w[i] & 0xffff, len = w[i] >> 16;
+        if (!len || i + len > n) break;
+        if (op == OP_DECORATE && len >= 4 && w[i + 2] == 34 && w[i + 3] == GFX_SPV_GLOBAL_SET && k < cap) ids[k++] = w[i + 1];   // 34: DescriptorSet
+        i += len;
+    }
+    return k;
+}
+
+static int is_global(const uint32_t *g, int ng, uint32_t id) {
+    for (int k = 0; k < ng; k++)
+        if (g[k] == id) return 1;
+    return 0;
+}
+
 static void reflect_spirv(GfxShader *s) {
     const uint32_t *w = s->spirv;
     uint64_t n = s->words;
@@ -152,6 +169,8 @@ static void reflect_spirv(GfxShader *s) {
     uint8_t *packed = calloc(bound, 1), *ttype = calloc(bound, 1), *tcomps = calloc(bound, 1);
     uint32_t *pointee = calloc(bound, sizeof *pointee);
     int big = 0;   // a binding of 64 or more: the mask cannot hold it
+    uint32_t glob[16];
+    int nglob = gfx_spirv_global_ids(w, n, glob, 16);
     if (!loc || !packed || !ttype || !tcomps || !pointee) goto out;
     for (uint64_t i = 5; i < n;) {
         uint32_t op = w[i] & 0xffff, len = w[i] >> 16;
@@ -161,8 +180,10 @@ static void reflect_spirv(GfxShader *s) {
         if (op == OP_EXECUTION_MODE && len >= 6 && a[1] == EM_LOCAL_SIZE) {
             s->local[0] = a[2], s->local[1] = a[3], s->local[2] = a[4];
         } else if (op == OP_DECORATE && len >= 4 && a[1] == DEC_BINDING) {   // what vk_pipe_layout.c checks layouts by
-            if (a[2] < 64) s->binding_mask |= 1ull << a[2];
-            else big = 1;
+            if (!is_global(glob, nglob, id)) {   // the global set's bindings are not the shader's own
+                if (a[2] < 64) s->binding_mask |= 1ull << a[2];
+                else big = 1;
+            }
         } else if (op == OP_DECORATE && len >= 4 && id < bound) {
             if (a[1] == DEC_LOCATION) loc[id] = (int32_t)a[2] + 1;
             else if (a[1] == DEC_COMPONENT) packed[id] = 1;

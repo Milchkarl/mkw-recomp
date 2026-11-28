@@ -16,6 +16,7 @@
 
 #include "cfg.h"
 #include "host.h"
+#include "prof.h"
 #include "platform/platform.h"
 #include "vk_gpu_sim.h"
 
@@ -60,6 +61,9 @@ void vk_sim_issue(uint64_t value) {
     uint64_t end = start + cost;
     if (end < now) end = now;
     due[value % RING] = last_due = end;
+    // MKW_SIMTRACE: the simulated GPU's run of this submission (kern_now_ns is plat_now_ns) and its draws and cost
+    simtrace("gpu", value, start, end);
+    simtrace("gpd", value, pend_draws, cost);
     if (pend_draws) {
         if (!st_since) st_since = now;
         st_busy_ns += cost, st_draws += pend_draws;

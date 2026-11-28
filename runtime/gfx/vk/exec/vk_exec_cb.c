@@ -17,6 +17,7 @@
 #include "vk_temporal.h"
 #include "vk.h"
 #include "vk_draw_internal.h"
+#include "vk_seg.h"
 #include "vk_exec.h"
 #include "platform/platform.h"
 
@@ -100,6 +101,19 @@ CbRes *cb_res_new(VkExec *ex) {
     return cur;
 }
 
+// MKW_SCRATCH_MEM=host|wc|dev (a measurement, default host): where the transient buffers go. host: cached system memory
+// (VMA's choice for HOST_ACCESS_RANDOM); wc: write-combined system memory; dev: device-local host-visible memory (the
+// carve-out of an APU, the BAR of a discrete GPU). The replay only writes them (memcpy), so wc and dev cost the CPU
+// nothing more; the GPU reads uniform blocks, c0 and the bindless rows from them on every draw (bl-scr).
+static int scratch_mem(void) {
+    static int m = -1;
+    if (m < 0) {
+        const char *e = cfg_get("MKW_SCRATCH_MEM");
+        m = e && !strcmp(e, "wc") ? 1 : e && !strcmp(e, "dev") ? 2 : 0;
+    }
+    return m;
+}
+
 uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
     CbRes *r = cb_res(ex);
     size = (size + 255) & ~255ull;
@@ -126,8 +140,11 @@ uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
                                  .usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
                                           VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT |
                                           VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | vk_bda_usage()};
-        VmaAllocationCreateInfo ai = {.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
-                                      .flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT};
+        int sm = scratch_mem();
+        VmaAllocationCreateInfo ai = {.usage = sm == 2 ? VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE : VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                                      .flags = (sm ? VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT
+                                                   : VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT) |
+                                               VMA_ALLOCATION_CREATE_MAPPED_BIT};
         VmaAllocationInfo info;
         VkResult res = vmaCreateBuffer(vk_ctx()->vma, &bi, &ai, &c->buf, &c->alloc, &info);
         if (res != VK_SUCCESS) {   // new.log, 09/11/2026: a 4 MiB chunk ended a capture replay at MKW_GPU_MEM_LIMIT=2048
@@ -135,6 +152,13 @@ uint8_t *scratch(VkExec *ex, uint64_t size, VkBuffer *buf, VkDeviceSize *off) {
             res = vmaCreateBuffer(vk_ctx()->vma, &bi, &ai, &c->buf, &c->alloc, &info);
         }
         if (res != VK_SUCCESS) rt_fatal("vk: transient buffer of %llu bytes failed (%d)", (unsigned long long)n, (int)res);
+        static int logged;
+        if (!__atomic_exchange_n(&logged, 1, __ATOMIC_RELAXED)) {
+            VkMemoryPropertyFlags f = 0;
+            vmaGetMemoryTypeProperties(vk_ctx()->vma, info.memoryType, &f);
+            rt_log("vk: transient buffers in memory type %u (flags %#x, MKW_SCRATCH_MEM=%s)", info.memoryType, (unsigned)f,
+                   sm == 2 ? "dev" : sm ? "wc" : "host");
+        }
         c->map = info.pMappedData, c->size = n, c->used = 0;
         r->nchunks++;
     }
@@ -322,7 +346,13 @@ void bind_vertex_buffers(VkExec *ex, uint32_t streams) {
         }
         VkMemSpan sp;
         if (!r->address || !vk_mem_resolve(r->address, 1, &sp)) continue;
+        VkBuffer ob = sp.buffer;
         VK_MEM_USE(sp);
+        if (seg_cap) {   // MKW_SEG: the buffer the segment's secondary binds
+            VkMemSpan o = sp;
+            o.buffer = ob;
+            seg_cap_span(r->address, &o, sp.buffer);
+        }
         uint64_t n = r->size && r->size < sp.avail ? r->size : sp.avail;
         vb[b] = sp.buffer, vo[b] = sp.offset, vsz[b] = n, vcls[b] = sp.cls, vpool[b] = sp.pool;
     }
@@ -356,6 +386,7 @@ void feedback_barrier(VkExec *ex) {
                            .dstAccessMask = VK_ACCESS_2_SHADER_SAMPLED_READ_BIT};
     VkDependencyInfo di = {.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO, .dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT,
                            .memoryBarrierCount = 1, .pMemoryBarriers = &mb};
+    if (seg_cap) seg_bad(SEGB_FEEDBACK);   // MKW_SEG: no barrier in a secondary of a segment
     vkCmdPipelineBarrier2(ex->cb, &di);
     ex->recorded++;
     ex->fb_dirty = 0;
@@ -366,7 +397,12 @@ void feedback_barrier(VkExec *ex) {
 // depth writes or the stencil test on.
 void feedback_written(VkExec *ex, const VkPipeState *s) {
     if (vk_ctx()->feedback == VK_FEEDBACK_OFF) return;
-    if (ex->depth.image && !(ex->fb_dirty & 0x100) && ((s->ds.dt && s->ds.dw) || s->ds.st)) ex->fb_dirty |= 0x100;
+    ex->fb_dirty |= feedback_wmask(ex, s);
+}
+
+uint32_t feedback_wmask(const VkExec *ex, const VkPipeState *s) {
+    uint32_t m = ex->depth.image && ((s->ds.dt && s->ds.dw) || s->ds.st) ? 0x100 : 0;
     for (uint32_t i = 0; i < ex->pass_ncolor; i++)
-        if (ex->color[i].image && !(ex->fb_dirty >> i & 1) && vk_pipeline_target_wmask(s, (int)i)) ex->fb_dirty |= 1u << i;
+        if (ex->color[i].image && vk_pipeline_target_wmask(s, (int)i)) m |= 1u << i;
+    return m;
 }
