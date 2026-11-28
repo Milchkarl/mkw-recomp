@@ -461,6 +461,8 @@ int vk_mem_virt_phys(uint64_t addr, uint64_t *phys) {
     return *phys != 0;
 }
 
+uint64_t vk_mem_pool_gen(void) { return __atomic_load_n(&pool_gen, __ATOMIC_ACQUIRE); }   // MKW_SEG (vk_seg.h)
+
 uint64_t vk_mem_gen(void) {
     return __atomic_load_n(&pool_gen, __ATOMIC_ACQUIRE) + __atomic_load_n(&mirror_gen, __ATOMIC_ACQUIRE);
 }

@@ -5,6 +5,8 @@
 // again. A pass recorded so begins with VK_RENDERING_CONTENTS_SECONDARY_COMMAND_BUFFERS_BIT and holds only secondaries:
 // one is open from the pass's beginning to its end, cut before a draw once it holds N and no occlusion query is open.
 // The secondaries come from a pool of the thread and go back to it when the submission's fence passes.
+// MKW_SEG (vk_exec_seg.c) records its passes so too, cut only around its segments (vk_exec_sec_switch).
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -12,6 +14,8 @@
 #include "host.h"
 #include "vk.h"
 #include "vk_exec.h"
+#include "vk_draw_internal.h"
+#include "vk_seg.h"
 
 typedef struct { VkCommandBuffer cb; uint64_t fence; } SecSlot;
 
@@ -22,11 +26,13 @@ static _Thread_local struct {
     int chunk;                  // this thread records a chunk now
     int on;                     // the open pass is recorded in secondaries
     int draws;                  // draws in the open secondary
+    int rec0;                   // ex->recorded when it was begun: a secondary that recorded nothing is not executed
     VkCommandBuffer prim, sec;  // the chunk's primary and the open secondary
     VkCommandPool pool;
     SecSlot *slot;
     int nslot, cslot;
     VkCommandBufferInheritanceRenderingInfo ri;
+    VkCommandBufferInheritanceInfo ii;
     VkFormat color[8];
 } S;
 
@@ -36,6 +42,7 @@ static int sec_mode(void) {
         int n = e && *e ? atoi(e) : 0;
         sec_ab = ab && *ab && strcmp(ab, "0");
         if (n > 0) rt_log("vk: MKW_SEC_DRAWS: chunk passes in secondaries of %d draws%s", n, sec_ab ? " in the B blocks" : "");
+        else if (vk_exec_seg_mode()) n = INT_MAX;   // MKW_SEG: cut only around segments
         __atomic_store_n(&sec_n, n > 0 ? n : 0, __ATOMIC_RELAXED);
     }
     return sec_n;
@@ -69,13 +76,13 @@ static VkCommandBuffer sec_begin(const VkExec *ex) {
         if (vkAllocateCommandBuffers(c->device, &ai, &s->cb) != VK_SUCCESS) rt_fatal("vk: MKW_SEC_DRAWS command buffer");
     }
     s->fence = ex->fence;
-    VkCommandBufferInheritanceInfo ii = {.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO, .pNext = &S.ri};
     VkCommandBufferBeginInfo bi = {.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
                                    .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT |
                                             VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT,
-                                   .pInheritanceInfo = &ii};
+                                   .pInheritanceInfo = &S.ii};
     vkBeginCommandBuffer(s->cb, &bi);
     __atomic_add_fetch(&n_sec, 1, __ATOMIC_RELAXED);
+    S.rec0 = ex->recorded;
     return s->cb;
 }
 
@@ -87,6 +94,7 @@ void vk_exec_sec_open(VkExec *ex) {
         .pColorAttachmentFormats = S.color, .depthAttachmentFormat = ex->pass_depth,
         .stencilAttachmentFormat = ex->pass_stencil,
         .rasterizationSamples = ex->pass_samples ? (VkSampleCountFlagBits)ex->pass_samples : VK_SAMPLE_COUNT_1_BIT};
+    S.ii = (VkCommandBufferInheritanceInfo){.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO, .pNext = &S.ri};
     S.on = 1, S.draws = 0, S.prim = ex->cb;
     ex->cb = S.sec = sec_begin(ex);
     ex->dirty = VK_EXEC_DIRTY_ALL;
@@ -95,8 +103,9 @@ void vk_exec_sec_open(VkExec *ex) {
 }
 
 static void sec_flush(VkExec *ex) {
+    if (!S.sec) return;   // MKW_SEG: the primary records (a hit's vkCmdExecuteCommands)
     vkEndCommandBuffer(S.sec);
-    vkCmdExecuteCommands(S.prim, 1, &S.sec);
+    if (ex->recorded != S.rec0) vkCmdExecuteCommands(S.prim, 1, &S.sec);
     ex->cb = S.prim, S.sec = VK_NULL_HANDLE;
 }
 
@@ -116,6 +125,28 @@ void vk_exec_sec_close(VkExec *ex) {
     if (!S.on) return;
     sec_flush(ex);
     S.on = 0;
+    ex->dirty = VK_EXEC_DIRTY_ALL;
+    vk_exec_draw_forget();
+}
+
+int vk_exec_sec_active(void) { return S.on; }
+
+const VkCommandBufferInheritanceInfo *vk_exec_sec_inherit(void) { return &S.ii; }
+
+int vk_exec_sec_in(VkCommandBuffer cb) { return S.on && S.sec == cb; }
+
+void vk_exec_sec_switch(VkExec *ex, VkCommandBuffer next) {
+    sec_flush(ex);
+    if (next) ex->cb = S.sec = next, S.rec0 = ex->recorded, S.draws = 0;
+    ex->dirty = VK_EXEC_DIRTY_ALL;
+    vk_exec_draw_forget();
+}
+
+void vk_exec_sec_resume(VkExec *ex) {
+    if (!S.on) return;
+    sec_flush(ex);
+    ex->cb = S.sec = sec_begin(ex);
+    S.draws = 0;
     ex->dirty = VK_EXEC_DIRTY_ALL;
     vk_exec_draw_forget();
 }

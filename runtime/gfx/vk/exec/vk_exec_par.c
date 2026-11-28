@@ -45,7 +45,10 @@
 #include "vk.h"
 #include "vk_exec.h"
 #include "vk_temporal.h"
+#include "vk_seg.h"
 #include "platform/platform.h"
+#define XXH_INLINE_ALL
+#include <xxhash.h>
 
 #define MAX_CHUNKS VK_SPLIT_EXTRA
 #define MAX_THREADS 16
@@ -523,6 +526,36 @@ static VkCommandBuffer chunk_cb(int t, uint64_t fence) {
     return s->cb;
 }
 
+// MKW_SEG: segments are cut by content, as recseq.py --keyed --cdc: before an anchor draw (its payload's hash is 0
+// modulo SEG_ANCHOR) once SEG_MIN_CUT draws are in, or at SEG_DRAWS. Cut by count from a chunk's first draw they moved
+// with every chunk boundary and their ops were never seen again (race2pl, 28/11/2026: 7 % hits, 8459 of 13924 misses
+// with ops never seen; by content sim2-keyed found 91.1 %).
+#define SEG_ANCHOR 8
+#define SEG_MIN_CUT 2
+static int seg_anchor(const op_hdr *h) {
+    return (XXH3_64bits(nvn_op_payload(h), h->size - sizeof *h) & (SEG_ANCHOR - 1)) == 0;
+}
+
+// The segment that begins at the draw at p (vk_seg.h): its draws and the state and bind ops between them, within the
+// chunk's left ops, ending at its last draw. Its op count (0: fewer than SEG_MIN_DRAWS draws), its draws in *ndraws and
+// the position after it in *end.
+static int seg_gather(Pos p, uint64_t left, const op_hdr **ops, int *ndraws, Pos *end) {
+    int n = 0, draws = 0, nlast = 0;
+    while (left-- && n < SEG_OPS && settle(&p, P.handles, P.n)) {
+        const op_hdr *h = p.h;
+        if (!vk_exec_seg_op(h->op)) break;
+        if ((h->op == OP_DRAW || h->op == OP_DRAW_IDX) && draws >= SEG_MIN_CUT && seg_anchor(h)) break;
+        ops[n++] = h;
+        p.h = nvn_op_next(h);
+        if (h->op == OP_DRAW || h->op == OP_DRAW_IDX) {
+            nlast = n, *end = p;
+            if (++draws == SEG_DRAWS) break;
+        }
+    }
+    *ndraws = draws;
+    return draws >= SEG_MIN_DRAWS ? nlast : 0;
+}
+
 static void chunk_record(int k, int t, int again) {
     Chunk *c = &P.ch[k];
     VkExec *ex = c->ex;
@@ -547,8 +580,32 @@ static void chunk_record(int k, int t, int again) {
     uint64_t d0 = vk_usnap_thread_drops();
     uint64_t ops = last ? UINT64_MAX : P.ch[k + 1].op0 - c->op0;   // up to the next chunk's first op
     Pos p = c->pos;
+    int seg = vk_exec_seg_mode(), seg_wait = 0;   // MKW_SEG: ops left of a stretch found not to be a segment
+    const op_hdr *seg_next = NULL;                // MKW_SEG: where the last segment ended: the next one may begin there
     while (ops-- && settle(&p, P.handles, P.n)) {
         const op_hdr *h = p.h;
+        if (seg_wait) {
+            seg_wait--;
+        } else if (seg && (h->op == OP_DRAW || h->op == OP_DRAW_IDX) && ex->in_pass && (h == seg_next || seg_anchor(h))) {
+            const op_hdr *sops[SEG_OPS];
+            int nd = 0;
+            Pos end = p;
+            int n = seg_gather(p, ops + 1, sops, &nd, &end);
+            int r = n ? vk_exec_seg_begin(ex, sops, n, nd) : SEG_NO;
+            if (r == SEG_CAP) {
+                for (int i = 0; i < n; i++) {
+                    if (is_draw(sops[i]->op)) vk_exec_sec_draw(ex);
+                    vk_exec_op(ex, sops[i]);
+                }
+                vk_exec_seg_end(ex);
+            }
+            if (n) seg_next = end.h;
+            if (r != SEG_NO) {
+                p = end, ops -= (uint64_t)n - 1;
+                continue;
+            }
+            seg_wait = n ? n - 1 : 0;
+        }
         p.h = nvn_op_next(h);
         if (is_draw(h->op)) vk_exec_sec_draw(ex);   // MKW_SEC_DRAWS (vk_exec_sec.c)
         if (h->op != OP_QUEUE) vk_exec_op(ex, h);   // the walk made the switch (plan): it ends this chunk
@@ -823,6 +880,7 @@ int vk_exec_par(VkExec *ex, const uint64_t *handles, int n, int diag) {
 
 void vk_exec_par_log(void) {
     vk_exec_sec_log();   // MKW_SEC_DRAWS (vk_exec_sec.c)
+    vk_exec_seg_log();   // MKW_SEG (vk_exec_seg.c)
     uint64_t frames = __atomic_load_n(&gfx_counters.frames, __ATOMIC_RELAXED), nf = frames - P.w_frames0;
     if (!nf && P.n_par) nf = 1;   // mkw --replay's closing line: its presents may not count as frames
     P.w_frames0 = frames;

@@ -37,6 +37,7 @@
 #include "vk_passhz.h"
 #include "vk_rec_diff.h"
 #include "vk_reuse.h"
+#include "vk_seg.h"
 // Task/mesh draws (VK_EXT_mesh_shader): drawn by default since mesh1 (01/11/2026: 40 s of race without a hang; with
 // them the grid's racers show and the cars stop flickering, live23/24). MKW_MESH=0 counts them without drawing.
 static int mesh_on(void) {
@@ -314,6 +315,7 @@ static _Thread_local int split_ending;
 
 void vk_exec_pass_end(VkExec *ex) {
     if (!ex->in_pass) return;
+    if (seg_cap) seg_bad(SEGB_PASS);   // MKW_SEG: a segment's secondary lies inside one pass
     vk_exec_oq_pass_end(ex);
     if (vk_dump_armed) vk_dump_pass_close(ex);
     vk_exec_sec_close(ex);

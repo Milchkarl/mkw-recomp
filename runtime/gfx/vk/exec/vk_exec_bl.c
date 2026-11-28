@@ -23,6 +23,7 @@
 #include "vk.h"
 #include "vk_exec.h"
 #include "vk_draw_internal.h"
+#include "vk_seg.h"
 
 #define LOG_ONCE(...) do { static volatile int32_t once_; if (!plat_xchg32(&once_, 1)) rt_log(__VA_ARGS__); } while (0)
 #define BL_ROW_MAX 64   // entries per stage: bindings go up to MAX_BINDINGS
@@ -85,10 +86,9 @@ static VkDeviceAddress dummy_addr(void) {
 void vk_bl_tex_entry(uint16_t t, const VkDescriptorImageInfo *ii, uint32_t e[4]);
 VkDescriptorSet vk_bl_set(void);
 
-void vk_exec_bl_rows(VkExec *ex, const VkPipeInfo *info, const VkDescSlot *d) {
-    if (!vk_bindless_on()) rt_fatal("vk: a bindless program (SM86_BINDLESS) without MKW_BINDLESS=1");
-    uint32_t e[2][BL_ROW_MAX][4];
-    uint32_t span[2] = {0, 0};
+// The rows of the descriptors d of a bindless pipeline: span[s] rows of 16 bytes for stage s (0 vertex, 1 fragment).
+void vk_exec_bl_entries(const VkPipeInfo *info, const VkDescSlot *d, uint32_t e[2][BL_ROW_MAX][4], uint32_t span[2]) {
+    span[0] = span[1] = 0;
     for (uint32_t i = 0, at = 0; i < info->n_bindings; i++) {
         const VkPipeBinding *b = &info->bindings[i];
         uint32_t cnt = b->count ? b->count : 1;
@@ -119,9 +119,21 @@ void vk_exec_bl_rows(VkExec *ex, const VkPipeInfo *info, const VkDescSlot *d) {
         }
         at += cnt;
     }
+}
+
+void vk_exec_bl_rows(VkExec *ex, const VkPipeInfo *info, const VkDescSlot *d) {
+    if (!vk_bindless_on()) rt_fatal("vk: a bindless program (SM86_BINDLESS) without MKW_BINDLESS=1");
+    uint32_t e[2][BL_ROW_MAX][4];
+    uint32_t span[2];
+    vk_exec_bl_entries(info, d, e, span);
     struct { VkDeviceAddress row[2], dummy; } pc = {{0, 0}, dummy_addr()};
     for (int s = 0; s < 2; s++) {
         if (!span[s]) continue;
+        uint8_t *at = seg_cap ? seg_cap_rows(s, 16u * span[s], &pc.row[s]) : NULL;   // MKW_SEG: the segment's own rows
+        if (at) {
+            memcpy(at, e[s], 16ull * span[s]);
+            continue;
+        }
         VkBuffer buf;
         VkDeviceSize off;
         memcpy(scratch(ex, 16ull * span[s], &buf, &off), e[s], 16ull * span[s]);

@@ -17,6 +17,7 @@
 #include "vk_temporal.h"
 #include "vk.h"
 #include "vk_draw_internal.h"
+#include "vk_seg.h"
 #include "vk_exec.h"
 #include "platform/platform.h"
 
@@ -345,7 +346,13 @@ void bind_vertex_buffers(VkExec *ex, uint32_t streams) {
         }
         VkMemSpan sp;
         if (!r->address || !vk_mem_resolve(r->address, 1, &sp)) continue;
+        VkBuffer ob = sp.buffer;
         VK_MEM_USE(sp);
+        if (seg_cap) {   // MKW_SEG: the buffer the segment's secondary binds
+            VkMemSpan o = sp;
+            o.buffer = ob;
+            seg_cap_span(r->address, &o, sp.buffer);
+        }
         uint64_t n = r->size && r->size < sp.avail ? r->size : sp.avail;
         vb[b] = sp.buffer, vo[b] = sp.offset, vsz[b] = n, vcls[b] = sp.cls, vpool[b] = sp.pool;
     }
@@ -379,6 +386,7 @@ void feedback_barrier(VkExec *ex) {
                            .dstAccessMask = VK_ACCESS_2_SHADER_SAMPLED_READ_BIT};
     VkDependencyInfo di = {.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO, .dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT,
                            .memoryBarrierCount = 1, .pMemoryBarriers = &mb};
+    if (seg_cap) seg_bad(SEGB_FEEDBACK);   // MKW_SEG: no barrier in a secondary of a segment
     vkCmdPipelineBarrier2(ex->cb, &di);
     ex->recorded++;
     ex->fb_dirty = 0;
@@ -389,7 +397,12 @@ void feedback_barrier(VkExec *ex) {
 // depth writes or the stencil test on.
 void feedback_written(VkExec *ex, const VkPipeState *s) {
     if (vk_ctx()->feedback == VK_FEEDBACK_OFF) return;
-    if (ex->depth.image && !(ex->fb_dirty & 0x100) && ((s->ds.dt && s->ds.dw) || s->ds.st)) ex->fb_dirty |= 0x100;
+    ex->fb_dirty |= feedback_wmask(ex, s);
+}
+
+uint32_t feedback_wmask(const VkExec *ex, const VkPipeState *s) {
+    uint32_t m = ex->depth.image && ((s->ds.dt && s->ds.dw) || s->ds.st) ? 0x100 : 0;
     for (uint32_t i = 0; i < ex->pass_ncolor; i++)
-        if (ex->color[i].image && !(ex->fb_dirty >> i & 1) && vk_pipeline_target_wmask(s, (int)i)) ex->fb_dirty |= 1u << i;
+        if (ex->color[i].image && vk_pipeline_target_wmask(s, (int)i)) m |= 1u << i;
+    return m;
 }

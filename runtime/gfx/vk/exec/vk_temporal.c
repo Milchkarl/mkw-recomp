@@ -59,6 +59,7 @@
 #include "vk_exec.h"
 #include "vk_rec.h"
 #include "vk_temporal.h"
+#include "vk_seg.h"
 
 // ---------------------------------------------------------------- settings
 
@@ -693,6 +694,7 @@ int vk_tmp_draw(VkExec *ex, const GfxShader *vs, const GfxShader *fs) {
                    (unsigned long long)ex->ubo[0][3].size, (unsigned long long)ex->ubo[0][4].size, jit);
         }
     }
+    if (jit && seg_cap) seg_bad(SEGB_TEMPORAL);   // MKW_SEG: the jitter changes every frame
     if (jit != T.draw_jit) T.draw_jit = jit, ex->dirty |= VK_EXEC_DIRTY_VIEWPORT;
     if (jit) T.jit_draws++;
     // the SMAA blend is followed also with the upscaler off: the game's own upscale after it draws black in this port
@@ -701,6 +703,7 @@ int vk_tmp_draw(VkExec *ex, const GfxShader *vs, const GfxShader *fs) {
     int smaa = smaa_pass(fs);
     if (smaa) trace_hash("fs-smaa", prog_key(fs), ex);
     if (smaa != 3) return 1;
+    if (seg_cap) seg_bad(SEGB_TEMPORAL);   // MKW_SEG: the blend may record the upscaler
     // The SMAA blend: its tex slot 0 is the tonemapped scene. With the screen at the scene's size (native) it writes
     // the screen target, and the upscaler takes its place; else the upscale dispatch comes after it.
     Img pre;
@@ -1063,6 +1066,8 @@ void vk_tmp_sampled(VkImage *image, VkImageView *view) {
 // after it was turned off or remade at another size (a destroyed view). Neither image is kept, and a hit on the screen
 // target looks it up again. (Read without a lock as vk_tmp_sampled is: the recording thread sets RT.)
 int vk_tmp_memo_skip(VkImage image) { return image && (image == RT.src || image == R.big.img); }
+
+int vk_tmp_hl_pending(void) { return hl_saw; }   // MKW_SEG (vk_seg.h)
 
 void vk_tmp_hl_seen(VkImage image) {   // VK_NULL_HANDLE: a draw starts
     if (!image) hl_saw = 0;
