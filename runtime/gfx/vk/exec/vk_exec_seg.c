@@ -166,26 +166,51 @@ static const FieldDef fd_pipe[] = {
     FD(VkPipeState, ds), FD(VkPipeState, vattr), FD(VkPipeState, vstream), FD(VkPipeState, mesh)};
 #define NFIX (sizeof fd_fixed / sizeof *fd_fixed)
 #define NPIPE (sizeof fd_pipe / sizeof *fd_pipe)
-#define KDB_TAB 16384
-static struct { uint64_t ops; uint8_t fixed[offsetof(VkExec, pipe) - offsetof(VkExec, vp)]; VkPipeState pipe; } KDB[KDB_TAB];
-static uint64_t fd_fixed_n[NFIX], fd_pipe_n[NPIPE];
+// Each try against the most alike of the last KDB_WAYS starting states of the same ops (the last one alone is often
+// the other player's view): exact repeats, and the fields that still differ from the most alike.
+#define KDB_TAB 8192
+#define KDB_WAYS 4
+#define FIX_BYTES (offsetof(VkExec, pipe) - offsetof(VkExec, vp))
+#define PASS_BYTES (offsetof(VkExec, vp) - offsetof(VkExec, pass_w))
+typedef struct { uint8_t pass[PASS_BYTES], fixed[FIX_BYTES]; VkPipeState pipe; NVNbufferRange vbuf[16]; } KdState;
+static struct { uint64_t ops[KDB_WAYS]; KdState st[KDB_WAYS]; int next; } KDB[KDB_TAB];
+static uint64_t fd_fixed_n[NFIX], fd_pipe_n[NPIPE], fd_pass_n, fd_vbuf_n, fd_exact, fd_alike, fd_tries;
 
-static void field_census(void) {   // C.lock held
-    uint32_t i = (uint32_t)(kd_ops >> 16) & (KDB_TAB - 1);
-    const uint8_t *fx = (const uint8_t *)&kd_ex->vp;
-    if (KDB[i].ops == kd_ops) {
-        for (size_t k = 0; k < NFIX; k++) {
-            size_t o = fd_fixed[k].off - offsetof(VkExec, vp);
-            if (memcmp(KDB[i].fixed + o, fx + o, fd_fixed[k].size)) fd_fixed_n[k]++;
-        }
-        for (size_t k = 0; k < NPIPE; k++)
-            if (memcmp((const uint8_t *)&KDB[i].pipe + fd_pipe[k].off, (const uint8_t *)&kd_ex->pipe + fd_pipe[k].off,
-                       fd_pipe[k].size))
-                fd_pipe_n[k]++;
+static int state_diff(const KdState *a, const KdState *b, int count) {
+    int n = 0;
+    for (size_t k = 0; k < NFIX; k++) {
+        size_t o = fd_fixed[k].off - offsetof(VkExec, vp);
+        if (memcmp(a->fixed + o, b->fixed + o, fd_fixed[k].size)) n++, fd_fixed_n[k] += (uint64_t)count;
     }
-    KDB[i].ops = kd_ops;
-    memcpy(KDB[i].fixed, fx, sizeof KDB[i].fixed);
-    KDB[i].pipe = kd_ex->pipe;
+    for (size_t k = 0; k < NPIPE; k++)
+        if (memcmp((const uint8_t *)&a->pipe + fd_pipe[k].off, (const uint8_t *)&b->pipe + fd_pipe[k].off, fd_pipe[k].size))
+            n++, fd_pipe_n[k] += (uint64_t)count;
+    if (memcmp(a->pass, b->pass, sizeof a->pass)) n++, fd_pass_n += (uint64_t)count;
+    if (memcmp(a->vbuf, b->vbuf, sizeof a->vbuf)) n++, fd_vbuf_n += (uint64_t)count;
+    return n;
+}
+
+static void field_census(void) {   // C.lock held, every try
+    uint32_t i = (uint32_t)(kd_ops >> 16) & (KDB_TAB - 1);
+    KdState cur;
+    memcpy(cur.pass, &kd_ex->pass_w, sizeof cur.pass);
+    memcpy(cur.fixed, &kd_ex->vp, sizeof cur.fixed);
+    cur.pipe = kd_ex->pipe;
+    memcpy(cur.vbuf, kd_ex->vbuf, sizeof cur.vbuf);
+    fd_tries++;
+    int best = -1, bn = 1 << 30;
+    for (int w = 0; w < KDB_WAYS; w++)
+        if (KDB[i].ops[w] == kd_ops) {
+            int n = state_diff(&KDB[i].st[w], &cur, 0);
+            if (n < bn) bn = n, best = w;
+        }
+    if (best >= 0 && bn == 0) fd_exact++;
+    else if (best >= 0) fd_alike++, state_diff(&KDB[i].st[best], &cur, 1);
+    if (best < 0 || bn) {
+        int w = KDB[i].next;
+        KDB[i].next = (w + 1) % KDB_WAYS;
+        KDB[i].ops[w] = kd_ops, KDB[i].st[w] = cur;
+    }
 }
 
 // Repeat census per key variant (every try): how many tries' key was never seen before in the run, for the key as is
@@ -219,7 +244,6 @@ static void key_miss(void) {   // C.lock held
             if (KD[i].part[k] != kd_part[k]) kd_diff[k]++, any = 1;
         if (!any) kd_same++;
     }
-    field_census();
     KD[i].ops = kd_ops;
     memcpy(KD[i].part, kd_part, sizeof kd_part);
 }
@@ -360,6 +384,7 @@ int vk_exec_seg_begin(VkExec *ex, const op_hdr *const *ops, int nops, int ndraws
     while (e && (e->key != key || e->fence > gpu || e->ndraws != ndraws)) busy |= e->key == key, e = e->next;
     key_parts(ex, ops, nops);
     variant_census();
+    field_census();
     if (!e) {
         if (busy) kd_busy++;
         else key_miss();
@@ -561,7 +586,10 @@ void vk_exec_seg_log(void) {
     o += snprintf(f + o, sizeof f - (size_t)o, ";");
     for (size_t k = 0; k < NPIPE; k++)
         if (fd_pipe_n[k]) o += snprintf(f + o, sizeof f - (size_t)o, " %s %llu", fd_pipe[k].name, (unsigned long long)fd_pipe_n[k]);
-    rt_log("vk: MKW_SEG misses by field (fixed; pipe):%s", f);
+    rt_log("vk: MKW_SEG starting states, of %llu tries: %llu exact repeats of one of the last %d with the same ops, %llu "
+           "alike; fields differing from the most alike (pass %llu, vbuf %llu; fixed; pipe):%s",
+           (unsigned long long)fd_tries, (unsigned long long)fd_exact, KDB_WAYS, (unsigned long long)fd_alike,
+           (unsigned long long)fd_pass_n, (unsigned long long)fd_vbuf_n, f);
     o = 0;
     for (int v = 0; v < KV_N; v++)
         o += snprintf(f + o, sizeof f - (size_t)o, "%s %s %llu", v ? "," : "", kv_name[v], (unsigned long long)kv_first[v]);
