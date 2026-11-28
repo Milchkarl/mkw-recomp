@@ -18,6 +18,7 @@
   <b><a href="https://discord.gg/8uYBkjQkEg">Discord</a></b> ·
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="ARCHITECTURE.md">Architecture</a> ·
   <a href="docs/project/research.md#sources">Sources</a> ·
   <a href="docs/project/roadmap.md">Roadmap</a> ·
   <a href="docs/project/performance.md">Performance</a> ·
@@ -197,7 +198,7 @@ Everything generated goes to `build/`, never to git.
 | `.github/` | CI, issue and pull request templates |
 
 At the root: `pyproject.toml` and `uv.lock` (the tools' Python environment), `.gitignore`, `.gitattributes`
-(merge=union for the lists every PR appends to), `LICENSE`, `CONTRIBUTING.md`, `CHANGELOG.md`, `AGENTS.md` (guide for
+(merge=union for the lists every PR appends to), `LICENSE`, `CONTRIBUTING.md`, `ARCHITECTURE.md` (the whole process in one diagram), `CHANGELOG.md`, `AGENTS.md` (guide for
 coding agents) and `Makefile`.
 
 ## Design decisions (30/10/2026)
